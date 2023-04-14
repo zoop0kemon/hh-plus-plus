@@ -1,4 +1,4 @@
-/* global event_girls, server_now_ts */
+/* global event_girls, event_data, server_now_ts */
 import { lsKeys } from '../common/Constants'
 import Helpers from '../common/Helpers'
 
@@ -16,8 +16,8 @@ class EventVillainsCollector {
     }
 
     static clean() {
-        const eventEndTime = Helpers.lsGetRaw(lsKeys.EVENT_TIME) || 0
-        const mythicEventEndTime = Helpers.lsGetRaw(lsKeys.MYTHIC_EVENT_TIME) || 0
+        const eventEndTime = parseInt(Helpers.lsGetRaw(lsKeys.EVENT_TIME)) || 0
+        const mythicEventEndTime = parseInt(Helpers.lsGetRaw(lsKeys.MYTHIC_EVENT_TIME)) || 0
 
         const now = server_now_ts
         if (now > eventEndTime) {
@@ -32,8 +32,7 @@ class EventVillainsCollector {
     }
 
     static collectFromEvent(eventTimeKey, eventVillainsKey) {
-        const eventRemainingTime = parseInt($('#contains_all #events .nc-panel-header .nc-pull-right .timer').attr('data-time-stamp'))
-        const eventEndTime = server_now_ts + eventRemainingTime
+        const eventEndTime = server_now_ts + event_data.seconds_until_event_end
         Helpers.lsSetRaw(eventTimeKey, eventEndTime)
 
         const eventTrolls = []

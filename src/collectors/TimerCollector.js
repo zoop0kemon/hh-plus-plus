@@ -74,13 +74,20 @@ class TimerCollector {
         saveTimes(times)
     }
     static collectRealtimePachinkoUpdateFromAjax() {
-        Helpers.onAjaxResponse(/action=play/, (response) => {
+        Helpers.onAjaxResponse(/action=play/, (response, opt) => {
             if (response.success) {
-                const times = loadTimes()
-                
-                times.gp = Math.round(new Date().getTime()/1000) + (24*60*60)
+                const searchParams = new URLSearchParams(opt.data)
+                const {pachinkoDef} = window
+                const type = pachinkoDef.find(o => o.id == searchParams.get('what').slice(-1)).type
+                const games = searchParams.get('how_many')
 
-                saveTimes(times)
+                if (type == 'great' && games == 1 && response.next_game) {
+                    const times = loadTimes()
+                    
+                    times.gp = Math.round(new Date().getTime()/1000) + response.next_game
+
+                    saveTimes(times)
+                }
             }
         })
     }

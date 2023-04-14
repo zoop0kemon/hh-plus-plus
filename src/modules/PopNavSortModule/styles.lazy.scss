@@ -40,3 +40,17 @@
         height: 17px;
     }
 }
+
+#pop .pop_central_part {
+    .pop_remaining, .hh_bar {
+        float: right;
+    }
+
+    .hh_bar {
+        margin-right: 6px;
+    }
+
+    button[rel=pop_finish] {
+        float: left;
+    }
+}
