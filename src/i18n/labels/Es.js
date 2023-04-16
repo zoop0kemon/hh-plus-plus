@@ -128,11 +128,12 @@ export const stConfig = {
     dailyGoals: 'Remodelación de objetivos diarios',
     bbProgress: 'Mejor barra de progreso de recompensas de Boss Bang',
     compactLossScreen: 'Pantalla de derrota compacta',
-    seasonalEventTweaks: 'Optimierungen für Saisonales Event',
+    seasonalEventTweaks: 'Ajustes de Eventos de Temporada',
     compactHaremFilters: 'Filtros de harén compactos',
     expandedMarketInventory: 'Ampliación del inventario de mercado',
     compactResourceSummary: 'Inventario de recursos compacto',
     hideClaimAllButton: 'Ocultar el botón "Reclamar todo" en la pantalla de recompensas de temporada',
+    dpEventTweaks: 'Ajustes de eventos de DP',
 }
 
 export const villain = {

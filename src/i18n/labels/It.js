@@ -138,6 +138,7 @@ export const stConfig = {
     expandedMarketInventory: 'Inventario del mercato allargato',
     compactResourceSummary: 'Inventario compatto delle risorse',
     hideClaimAllButton: 'Nascondere il bottone "Richiedi tutto" nella stagione',
+    dpEventTweaks: 'Modifiche per la Doppia Penetrazione',
 }
 
 export const villain = {

@@ -5,6 +5,15 @@
         display: none;
     }
 
+    #dp-content 
+        .left-container
+        .tiers-container
+        .player-progression-container
+        .tiers-progression
+        & {
+        display: none;
+    }
+
     .seasonal-event-panel
         .seasonal-event-container
         .tabs-section
@@ -22,4 +31,8 @@
     .rewards_seasons_row &.rewards_pair {
         display: none;
     }
+}
+
+.no-transition {
+    transition: none!important;
 }

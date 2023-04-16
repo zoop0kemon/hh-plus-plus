@@ -128,6 +128,7 @@ export const stConfig = {
     expandedMarketInventory: 'Expanded Market inventory',
     compactResourceSummary: 'Compact resource summary',
     hideClaimAllButton: 'Hide "Claim All" button on Season rewards screen',
+    dpEventTweaks: 'DP Event tweaks',
 }
 
 export const villain = {

@@ -78,6 +78,7 @@ export const config = {
     upgradeQuickNav: 'Navigation rapide sur la page d\'amélioration',
     leaderboardClubmateIndicators: 'Surligner les coéquipiers  dans les classements',
     leaderboardProfilePopups: 'Liens vers les profils de joueurs dans les classements',
+    dpEventTweaks: 'Modifications pour la Double Pénétration',
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',

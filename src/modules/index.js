@@ -77,3 +77,4 @@ export {default as CompactHaremFiltersStyleTweak} from './CompactHaremFiltersSty
 export {default as ExpandedMarketInventoryStyleTweak} from './ExpandedMarketInventoryStyleTweak'
 export {default as CompactResourceSummaryStyleTweak} from './CompactResourceSummaryStyleTweak'
 export {default as HideClaimAllButtonStyleTweak} from './HideClaimAllButtonStyleTweak'
+export {default as DPEventStyleTweak} from './DPEventStyleTweak'

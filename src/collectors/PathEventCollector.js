@@ -9,7 +9,7 @@ const LSKEYS = {
 class PathEventCollector {
     static collect() {
 
-        Helpers.defer(() => {
+        Helpers.doWhenSelectorAvailable('.potions-paths-timer', () => {
             if (Helpers.isCurrentPage('path-of-valor')) {
                 PathEventCollector.collectEndTime('pov')
             }

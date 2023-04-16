@@ -112,6 +112,7 @@ export const stConfig = {
     expandedMarketInventory: 'Erweitertes Marktinventar',
     compactResourceSummary: 'Kompaktes Ressourcen-Inventar',
     hideClaimAllButton: '"Alles beanspruchen"-Button in der Saison verbergen',
+    dpEventTweaks: 'DP-Event Anpassungen',
 }
 
 export const villain = {
