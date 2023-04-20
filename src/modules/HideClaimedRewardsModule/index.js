@@ -375,7 +375,6 @@ class HideClaimedRewardsModule extends CoreModule {
             let newLength
             const $progressBar = $('.seasonal-progress-bar .seasonal-progress-bar-current')
             const styleAttr = $progressBar.attr('style')
-            console.log(styleAttr)
 
             const assertHidden = () => {
                 $groupsToHide = $('.seasonal-tier:not(.unclaimed):has(.claimed-slot)')

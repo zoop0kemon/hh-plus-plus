@@ -130,7 +130,12 @@ class ResourceBarsModule extends CoreModule {
                 if (Hero.energies[type].amount >= Hero.energies[type].max_regen_amount)
                     text = `<span class="orange">${GT.design.Full}</span>`
                 else {
-                    const fullIn = Hero.c[type].getTotalRemainingTime()
+                    let fullIn = Hero.c[type].getTotalRemainingTime()
+                    // temp fix due to the game using the wrong max
+                    const regen_rate = Hero.energies[type].seconds_per_point
+                    if (fullIn > Hero.energies[type].max_regen_amount * regen_rate) {
+                        fullIn -= regen_rate * (Hero.energies[type].max_amount - Hero.energies[type].max_regen_amount)
+                    }
                     const now = Math.round(new Date().getTime() / 1000)
                     const fullAt = now + fullIn
                     const formattedDate = `<span class="orange">${new Date(fullAt * 1000).toLocaleTimeString(I18n.getLang(), { hour: '2-digit', minute: '2-digit' })}</span>`
