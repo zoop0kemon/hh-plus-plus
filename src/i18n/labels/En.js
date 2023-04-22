@@ -4,31 +4,36 @@ const gameConfigs = {
         girl: 'girl',
         Girl: 'Girl',
         haremettes: 'haremettes',
-        flower: 'flower'
+        flower: 'flower',
+        waifu: 'Waifu'
     },
     GH: {
         girl: 'guy',
         Girl: 'Guy',
         haremettes: 'harem guys',
-        flower: 'lollipop'
+        flower: 'lollipop',
+        waifu: 'Boyfriend'
     },
     CxH: {
         girl: 'girl',
         Girl: 'Girl',
         haremettes: 'haremettes',
-        flower: 'jewel'
+        flower: 'jewel',
+        waifu: 'Waifu'
     },
     PSH: {
         girl: 'girl',
         Girl: 'Girl',
         haremettes: 'haremettes',
-        flower: 'beer'
+        flower: 'beer',
+        waifu: 'Waifu'
     },
     HoH: {
         girl: 'girl',
         Girl: 'Girl',
         haremettes: 'haremettes',
-        flower: 'flower'
+        flower: 'flower',
+        waifu: 'Waifu'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -83,6 +88,7 @@ export const config = {
     upgradeQuickNav: 'Upgrade page quick navigation',
     leaderboardClubmateIndicators: 'Highlight clubmates on leaderboards',
     leaderboardProfilePopups: 'Links to player profiles from leaderboards',
+    improvedWaifu: `Improved ${gameConfig.waifu}`
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
@@ -129,6 +135,7 @@ export const stConfig = {
     compactResourceSummary: 'Compact resource summary',
     hideClaimAllButton: 'Hide "Claim All" button on Season rewards screen',
     dpEventTweaks: 'DP Event tweaks',
+    compactDailyMissions: 'Compact daily missions',
 }
 
 export const villain = {
@@ -355,8 +362,6 @@ export const contestSummary = {
     contestsWarning: 'Contests expire after 21 days!'
 }
 
-
-
 export const blessingSpreadsheetLink = {
     name: `Open ${Helpers.isGH() ? 'Bella' : 'zoopokemon'}'s blessing data spreadsheet`
 }
@@ -368,4 +373,19 @@ export const haremTeamsFilter = {
 
 export const leaderboardClubmateIndicators = {
     clubmate: 'Clubmate',
+}
+
+export const improvedWaifu = {
+    warningMaxGrade: `Improved ${gameConfig.waifu} WARNING: Missing max grade info, please visit the harem page.`,
+    warningUnlockedGrade: `Improved ${gameConfig.waifu} WARNING: Missing unlocked grade info, please visit the harem page.`,
+    editPose: 'Edit Pose',
+    resetPose: 'Reset Pose',
+    savePose: 'Save Pose',
+    favGirl: `Favorite ${gameConfig.Girl}`,
+    unfavGirl: `Unfavorite ${gameConfig.Girl}`,
+    modeAll: `Mode: All ${gameConfig.Girl}s`,
+    modeFav: `Mode: Favorite ${gameConfig.Girl}s`,
+    randomWaifu: `Randomize ${gameConfig.waifu}`,
+    cycleWaifu: `Cycle ${gameConfig.waifu}`,
+    cyclePause: 'Pause Cycle',
 }

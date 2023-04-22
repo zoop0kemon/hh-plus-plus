@@ -98,6 +98,7 @@ class GirlDictionaryCollector {
                 rarity,
                 grade,
                 pose,
+                graded,
             }
             if (name) {
                 upsert(girlId, girlData)

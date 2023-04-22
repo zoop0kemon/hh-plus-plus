@@ -1,0 +1,93 @@
+#homepage {
+    .hide {
+        display: none!important;
+    }
+
+    .info-container {
+        z-index: 1;
+
+        #blog_button {
+            display: none;
+        }
+
+        .promo_discount {
+            display: none;
+        }
+    }
+
+    .waifu-container {
+        z-index: 1;
+        margin-top: 0px;
+        left: 15px;
+    }
+
+    .waifu-buttons-container {
+        z-index: 2;
+        width: 70px;
+
+        .diamond-bar {
+            right: 90px;
+            width: 240px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .girls-name {
+            position: absolute;
+            bottom: 26px;
+            line-height: 18px;
+            text-align: center;
+            text-shadow: 2px 2px 5px black;
+
+            a {
+                color: white;
+                text-decoration: none;
+            }
+
+            img {
+                width: 16px;
+                height: 16px;
+                margin-left: 5px;
+                margin-bottom: 2px;
+                filter: drop-shadow(2px 2px 3px black);
+            }
+        }
+
+        .round_blue_button {
+            width: 32px;
+            height: 32px;
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+
+            &.save-pose img {
+                height: 15px;
+            }
+        }
+
+        .waifu-edit {
+            position: absolute;
+            bottom: 36px;
+            display: grid;
+            gap: 5px;
+        }
+
+        .waifu-right {
+            position: absolute;
+            left: 38px;
+            bottom: 0px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
+        }
+    }
+}
+
+#waifu-page {
+    .fav-girl img {
+        width: 20px;
+        height: 20px;
+    }
+}

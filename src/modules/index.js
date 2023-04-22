@@ -33,6 +33,7 @@ export {default as HaremTeamsFilterModule} from './HaremTeamsFilterModule'
 export {default as UpgradeQuickNavModule} from './UpgradeQuickNavModule'
 export {default as LeaderboardClubmateIndicatorsModule} from './LeaderboardClubmateIndicatorsModule'
 export {default as LeaderboardProfilePopupsModule} from './LeaderboardProfilePopupsModule'
+export {default as ImprovedWaifuModule} from './ImprovedWaifuModule'
 
 export {default as HomeScreenRightSideRearrangeStyleTweak} from './HomeScreenRightSideRearrangeStyleTweak'
 export {default as ContestNotifsStyleTweak} from './ContestNotifsStyleTweak'
@@ -78,3 +79,4 @@ export {default as ExpandedMarketInventoryStyleTweak} from './ExpandedMarketInve
 export {default as CompactResourceSummaryStyleTweak} from './CompactResourceSummaryStyleTweak'
 export {default as HideClaimAllButtonStyleTweak} from './HideClaimAllButtonStyleTweak'
 export {default as DPEventStyleTweak} from './DPEventStyleTweak'
+export {default as CompactDailyMissionsStyleTweak} from './CompactDailyMissionsStyleTweak'

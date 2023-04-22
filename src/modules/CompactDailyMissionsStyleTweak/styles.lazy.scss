@@ -1,0 +1,157 @@
+#missions>div {
+    #missions_counter .missions-counter-rewards {
+        display: none;
+    }
+
+    .missions_wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 4px;
+        align-content: start;
+
+        .mission_object {
+            height: 104px;
+            margin-bottom: 0px;
+
+            .mission_image {
+                margin-top: 15px;
+                margin-left: 2px;
+                margin-right: 0px;
+                width: 80px;
+                height: 80px;
+                border: 2px solid #fff;
+            }
+
+            .mission_details {
+                width: 150px;
+                padding: 4px 6px;
+                overflow-y: unset;
+
+                h1 {
+                    position: absolute;
+                    top: -3px;
+                    left: 5%;
+                    width: 90%;
+                    text-align: center;
+                    font-size: 13px!important;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                p {
+                    font-size: 10px;
+                    margin-top: 12px;
+                    line-height: 10px;
+                    height: 82px;
+                    overflow-y: auto;
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+
+            &.legendary .mission_details h1:hover {
+                top: -7px;
+                text-overflow: clip;
+                overflow: visable;
+                white-space: unset;
+                background-color: rgba(8, 8, 8, 0.75);
+                padding: 0px 6px;
+                border-radius: 4px;
+                border-width: 4px;
+                border-style: solid;
+                border-color: rgba(204, 204, 204, 0.25);
+            }
+
+            .mission_reward {
+                width: auto;
+                height: 50%;
+                padding-left: 0px;
+                padding-top: 15px;
+
+                .reward_wrap .slot {
+                    margin-right: 4px;
+                }
+            }
+
+            .mission_button {
+                font-size: 12px;
+                height: 42%;
+                position: absolute;
+                right: 3px;
+                bottom: 4px;
+
+                .duration {
+                    top: 2px;
+                    left: 0px;
+                    overflow-x: hidden;
+                }
+
+                & > button[rel=mission_start] {
+                    height: 60%;
+                }
+
+                button {
+                    margin-top: 0px;
+                    position: initial;
+                }
+
+                .hh_bar {
+                    top: 2px;
+                    left: 2px;
+
+                    .backbar {
+                        top: 10px;
+                        width: 90px;
+                    }
+
+                    .text {
+                        top: 0px;
+                        width: 100%;
+                        letter-spacing: 0px;
+                        font-size: 0px;
+                        text-align: center;
+
+                        &>span {
+                            font-size: 11px;
+                        }
+                    }
+                }
+
+                & > button[rel=finish] {
+                    position: relative;
+                    display: block;
+                    padding: 0px 0px;
+                    width: 90px;
+                    height: 25px;
+                    top: 22px;
+                    left: 2px;
+                    line-height: 12px;
+                    font-size: 9px;
+
+                    [class*="_icn"] {
+                        width: 12px;
+                        height: 12px;
+                    }
+
+                    .price {
+                        line-height: inherit;
+                        margin-top: -2px;
+                        font-size: 10px;
+                    }
+                }
+
+                & > button[rel=claim] {
+                    width: 86px;
+                    height: 36px;
+                    margin-top: 6px;
+                    padding: 8px 5px;
+                    line-height: 10px;
+                }
+            }
+        }
+    }
+}

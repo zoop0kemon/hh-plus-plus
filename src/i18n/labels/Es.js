@@ -7,6 +7,7 @@ const gameConfigs = {
         lachica: 'la chica',
         laschicas: 'las chicas',
         flower: 'flores',
+        waifu: 'Waifu'
     },
     GH: {
         chica: 'chico',
@@ -14,6 +15,7 @@ const gameConfigs = {
         lachica: 'el chico',
         laschicas: 'los chicos',
         flower: 'piruletas',
+        waifu: 'Novio'
     },
     CxH: {
         chica: 'chica',
@@ -21,6 +23,7 @@ const gameConfigs = {
         lachica: 'la chica',
         laschicas: 'las chicas',
         flower: 'joyas',
+        waifu: 'Waifu'
     },
     PSH: {
         chica: 'chica',
@@ -28,6 +31,7 @@ const gameConfigs = {
         lachica: 'la chica',
         laschicas: 'las chicas',
         flower: 'cervezas',
+        waifu: 'Waifu'
     },
     HoH: {
         chica: 'chica',
@@ -35,6 +39,7 @@ const gameConfigs = {
         lachica: 'la chica',
         laschicas: 'las chicas',
         flower: 'flores',
+        waifu: 'Waifu'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -88,6 +93,7 @@ export const config = {
     upgradeQuickNav: 'Navegación rápida en la página de actualización',
     leaderboardClubmateIndicators: 'Destacar a los compañeros de club en las tablas de clasificación',
     leaderboardProfilePopups: 'Enlaces a perfiles de jugadores desde tablas de clasificación',
+    improvedWaifu: `${gameConfig.waifu} mejorada`,
 }
 export const stConfig = {
     missionsBackground: 'Cambiar el fondo de las misiones',
@@ -134,6 +140,7 @@ export const stConfig = {
     compactResourceSummary: 'Inventario de recursos compacto',
     hideClaimAllButton: 'Ocultar el botón "Reclamar todo" en la pantalla de recompensas de temporada',
     dpEventTweaks: 'Ajustes de eventos de DP',
+    compactDailyMissions: 'Misiones diarias compactas',
 }
 
 export const villain = {
@@ -321,4 +328,17 @@ export const haremTeamsFilter = {
 
 export const leaderboardClubmateIndicators = {
     clubmate: 'Compañero de club',
+}
+
+export const improvedWaifu = {
+    editPose: 'Editar Pose',
+    resetPose: 'Restablecer Pose',
+    savePose: 'Guardar Pose',
+    favGirl: `Favorita ${gameConfig.lachica}`,
+    unfavGirl: `Desfavorita ${gameConfig.lachica}`,
+    modeAll: `Modo: Todas ${gameConfig.laschicas}`,
+    modeFav: `Modo: Favorita ${gameConfig.laschicas}`,
+    randomWaifu: `Aleatorizar ${gameConfig.waifu}`,
+    cycleWaifu: `Rotar ${gameConfig.waifu}`,
+    cyclePause: 'Pausar rotación',
 }

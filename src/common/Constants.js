@@ -75,4 +75,5 @@ export const lsKeys = {
     PATH_TIME_POV:              lsKey('PathTimePoV'),
     PATH_TIME_POG:              lsKey('PathTimePoG'),
     HAREM_FILTER_IDS:           lsKey('HaremFilterIDs'),
+    WAIFU_INFO:                 lsKey('WaifuInfo'),
 }

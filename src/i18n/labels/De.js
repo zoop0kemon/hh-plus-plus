@@ -67,6 +67,7 @@ export const config = {
     upgradeQuickNav: 'Schnellnavigation auf der Upgrade-Seite',
     leaderboardClubmateIndicators: 'Club-Mitglieder auf Ranglisten hervorheben',
     leaderboardProfilePopups: 'Links zu Spielerprofilen in den Ranglisten',
+    improvedWaifu: `Verbesserte${Helpers.isGH()? 'r Boyfriend' : ' Waifu'}`
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',
@@ -113,6 +114,7 @@ export const stConfig = {
     compactResourceSummary: 'Kompaktes Ressourcen-Inventar',
     hideClaimAllButton: '"Alles beanspruchen"-Button in der Saison verbergen',
     dpEventTweaks: 'DP-Event Anpassungen',
+    compactDailyMissions: 'Kompakte tägliche Missionen',
 }
 
 export const villain = {
@@ -298,4 +300,17 @@ export const haremTeamsFilter = {
 
 export const leaderboardClubmateIndicators = {
     clubmate: 'Club-Mitglieder',
+}
+
+export const improvedWaifu = {
+    editPose: 'Pose bearbeiten',
+    resetPose: 'Pose zurücksetzen',
+    savePose: 'Pose speichern',
+    favGirl: `${Helpers.isGH() ? 'Kerl' : 'Mädchen'} favorisieren`,
+    unfavGirl: `${Helpers.isGH() ? 'Kerl' : 'Mädchen'} entfavorisieren`,
+    modeAll: `Modus: Alle ${Helpers.isGH() ? 'Kerle' : 'Mädchen'}`,
+    modeFav: `Modus: Lieblings-${Helpers.isGH() ? 'Kerle' : 'Mädchen'}`,
+    randomWaifu: `Zufällige${Helpers.isGH() ? 'r Boyfriend' : ' Waifu'}`,
+    cycleWaifu: `${Helpers.isGH() ? 'Boyfriend' : 'Waifu'} durchwechseln`,
+    cyclePause: 'Durchwechseln pausieren',
 }

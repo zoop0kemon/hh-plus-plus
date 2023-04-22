@@ -4,27 +4,32 @@ const gameConfigs = {
     HH: {
         fille: 'fille',
         delafille: 'de la fille',
-        fleurs: 'fleurs'
+        fleurs: 'fleurs',
+        waifu: 'waifu'
     },
     GH: {
         fille: 'mec',
         delafille: 'du mec',
-        fleurs: 'sucettes'
+        fleurs: 'sucettes',
+        waifu: 'boyfriend'
     },
     CxH: {
         fille: 'fille',
         delafille: 'de la fille',
-        fleurs: 'bijoux'
+        fleurs: 'bijoux',
+        waifu: 'waifu'
     },
     PSH: {
         fille: 'fille',
         delafille: 'de la fille',
-        fleurs: 'bières'
+        fleurs: 'bières',
+        waifu: 'waifu'
     },
     HoH: {
         fille: 'fille',
         delafille: 'de la fille',
-        fleurs: 'fleurs'
+        fleurs: 'fleurs',
+        waifu: 'waifu'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -78,7 +83,7 @@ export const config = {
     upgradeQuickNav: 'Navigation rapide sur la page d\'amélioration',
     leaderboardClubmateIndicators: 'Surligner les coéquipiers  dans les classements',
     leaderboardProfilePopups: 'Liens vers les profils de joueurs dans les classements',
-    dpEventTweaks: 'Modifications pour la Double Pénétration',
+    improvedWaifu: `Paramètres avancés pour ${gameConfig.waifu}`,
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',
@@ -124,6 +129,8 @@ export const stConfig = {
     expandedMarketInventory: 'Inventaire du marché élargi',
     compactResourceSummary: 'Inventaire de ressources compact',
     hideClaimAllButton: 'Cacher le bouton "Tout réclamer" pour les récompenses de saison',
+    dpEventTweaks: 'Modifications pour la Double Pénétration',
+    compactDailyMissions: 'Missions quotidiennes compactes',
 }
 
 export const villain = {
@@ -329,4 +336,17 @@ export const haremTeamsFilter = {
 
 export const leaderboardClubmateIndicators = {
     clubmate: 'Coéquipier',
+}
+
+export const improvedWaifu = {
+    editPose: 'Editer Pose',
+    resetPose: 'Réinitialiser Pose',
+    savePose: 'Sauvegarder Pose',
+    favGirl: `Sélectionner ${gameConfig.fille}`,
+    unfavGirl: `Désélectionner ${gameConfig.fille}`,
+    modeAll: `Mode: Totalité des ${gameConfig.fille}s`,
+    modeFav: `Mode: Sélection de ${gameConfig.fille}s`,
+    randomWaifu: `${gameConfig.waifu} aléatoire`,
+    cycleWaifu: `Cycle de ${gameConfig.waifu}`,
+    cyclePause: 'Arrêter défilement',
 }
