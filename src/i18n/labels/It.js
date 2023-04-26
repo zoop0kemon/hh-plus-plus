@@ -93,7 +93,7 @@ export const config = {
     upgradeQuickNav: 'Navigazione rapida sulla pagina di aggiornamento',
     leaderboardClubmateIndicators: 'Evidenziare i soci del club nelle classifiche',
     leaderboardProfilePopups: 'Link ai profili dei giocatori nelle classifiche',
-    improvedWaifu: `Improved${Helpers.isGH()? 'r fidanzato' : ' Waifu'}`
+    improvedWaifu: `${Helpers.isGH()? 'Fidanzato migliorato' : 'Waifu migliorata'}`
 }
 export const stConfig = {
     missionsBackground: 'Cambiare lo sfondo delle missioni',
@@ -333,13 +333,13 @@ export const leaderboardClubmateIndicators = {
 
 export const improvedWaifu = {
     editPose: 'Modifica posa',
-    resetPose: 'Azzeramento della posa',
+    resetPose: 'Ripristina posa',
     savePose: 'Salva posa',
-    favGirl: `${Helpers.isGH() ? 'ragazzo' : 'ragazza'} favorisce`,
-    unfavGirl: `${Helpers.isGH() ? 'ragazzo' : 'ragazza'} sfavorire`,
-    modeAll: `Modalità: Tutti ${Helpers.isGH() ? 'Ragazzi' : 'Ragazze'}`,
-    modeFav: `Modalità: Preferiti ${Helpers.isGH() ? 'Ragazzi' : 'Ragazze'}`,
-    randomWaifu: `random${Helpers.isGH() ? 'fidanzato' : 'Waifu'}`,
-    cycleWaifu: `${Helpers.isGH() ? 'fidanzato' : 'Waifu'} cicli attraverso`,
+    favGirl: `Favorisc${Helpers.isGH() ? 'i ragazzo' : 'a ragazza'}`,
+    unfavGirl: `Sfavorisci ${Helpers.isGH() ? 'ragazzo' : 'ragazza'}`,
+    modeAll: `Modo: Tutt${Helpers.isGH() ? 'i ragazzi' : 'e ragazze'}`,
+    modeFav: `Modo: Preferite ${Helpers.isGH() ? 'ragazzi' : 'ragazze'}`,
+    randomWaifu: `${Helpers.isGH() ? 'Fidanzato' : 'Waifu'} casuale`,
+    cycleWaifu: `Cicli ${Helpers.isGH() ? 'fidanzato' : 'waifu'}`,
     cyclePause: 'Pausa ciclo',
 }

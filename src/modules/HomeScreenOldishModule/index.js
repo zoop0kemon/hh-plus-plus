@@ -44,7 +44,10 @@ class HomeScreenOldishModule extends CoreModule {
 
         let $clubs = $('.quest-container:has([rel=clubs])')
         if (!$clubs.length) {
-            $clubs = $('.feature-locked:has([rel=club])')
+            $clubs = $('[rel=clubs]')
+            if (!$clubs.length) {
+                $clubs = $('.feature-locked:has([rel=club])')
+            }
         }
         $clubs.addClass('position-clubs')
 

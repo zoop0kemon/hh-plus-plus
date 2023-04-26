@@ -6,7 +6,7 @@ import styles from './styles.lazy.scss'
 
 const MODULE_KEY = 'rewardShards'
 
-const ID_FROM_URL_REGEX = /(?<id>[0-9]+)\/ico[0-9]-[0-9]+x.[a-z]+(\?v=[0-9]+)?$/i
+const ID_FROM_URL_REGEX = /(?<id>[0-9]+)\/ico[0-9](-[0-9]+x)?.[a-z]+(\?v=[0-9]+)?$/i
 
 const extractIdFromUrl = (url) => {
     const matches = url.match(ID_FROM_URL_REGEX)
