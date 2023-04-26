@@ -323,6 +323,7 @@ export const villainBreadcrumbs = {
     whenangelscum: 'Quand les anges montent au septième ciel',
     suckramento: 'Bienvenue à Fiakramento',
     fiskyfresno: 'Des folies à Fresno',
+    milftown: 'Cité MILF',
 }
 
 export const blessingSpreadsheetLink = {

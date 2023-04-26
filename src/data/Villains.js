@@ -671,14 +671,27 @@ export default {
             }]
         },
         {
+            key: 'jordankingsley',
             world: 10,
+            girls: {
+                1: ['943667167', '383702874', '169356639'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'fire',
+                amount: 20,
+            }]
+        },
+        {
+            world: 11,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'fire',
+                element: 'nature',
                 amount: 20,
             }]
         },

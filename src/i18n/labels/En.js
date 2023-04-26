@@ -174,6 +174,7 @@ export const villain = {
     alyssareece: 'Alyssa Reece',
     kellykline: 'Kelly Kline',
     jamiebrooks: 'Jamie Brooks',
+    jordankingsley: 'Jordan Kingsley',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -216,6 +217,7 @@ export const villainBreadcrumbs = {
     whenangelscum: 'When Angels Cum',
     suckramento: 'Welcome to Suckramento',
     fiskyfresno: 'Frisky in Fresno',
+    milftown: 'Milftown',
 }
 
 export const market = {
