@@ -1,27 +1,5 @@
 [
     {
-        "name": "Safi",
-        "tier": "gold",
-        "flairs": [
-            {
-                "game": "HH",
-                "platform": ".com",
-                "id": "5248781"
-            }
-        ]
-    },
-    {
-        "name": "haven4ever",
-        "tier": "gold",
-        "flairs": [
-            {
-                "game": "GH",
-                "platform": ".com",
-                "id": "26313"
-            }
-        ]
-    },
-    {
         "name": "Darkyz",
         "tier": "silver",
         "flairs": [
@@ -43,22 +21,14 @@
         ]
     },
     {
-        "name": "bla",
+        "name": "sliqguy",
         "tier": "silver",
         "flairs": [
             {
                 "game": "HH",
                 "platform": "nutaku",
-                "id": "2269930"
+                "id": "977263"
             }
         ]
-    },
-    {
-        "name": "Z-Wave",
-        "tier": "bronze"
-    },
-    {
-        "name": "Khole",
-        "tier": "bronze"
     }
 ]
