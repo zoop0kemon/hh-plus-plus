@@ -220,6 +220,10 @@ body > div > header {
                     z-index: 1;
                 }
             }
+
+            .dummy-timer-target {
+                display: none !important;
+            }
         }
     }
 

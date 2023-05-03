@@ -1,4 +1,4 @@
-/* global Hero, HHTimers, GT, server_now_ts, format_time_short, HH_MAX_LEVEL */
+/* global Hero, HHTimers, createEnergyTimer, createBarTimer, createTimer, GT, server_now_ts, format_time_short, HH_MAX_LEVEL */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -186,14 +186,16 @@ class ResourceBarsModule extends CoreModule {
     }
 
     forceTimerInterval() {
-        HHTimers.thresholdSec = 24 * 60 * 60
-        HHTimers.thresholdTenSec = 36 * 30 * 60
+        if (typeof HHTimers !== 'undefined') {
+            HHTimers.thresholdSec = 24 * 60 * 60
+            HHTimers.thresholdTenSec = 36 * 30 * 60
 
-        const existingTimers = [...HHTimers.timersListMin, ...HHTimers.timersListTenSec]
-        HHTimers.timersListMin = []
-        HHTimers.timersListTenSec = []
+            const existingTimers = [...HHTimers.timersListMin, ...HHTimers.timersListTenSec]
+            HHTimers.timersListMin = []
+            HHTimers.timersListTenSec = []
 
-        HHTimers.timersListSec.push(...existingTimers)
+            HHTimers.timersListSec.push(...existingTimers)
+        }
     }
 
     addEnergyBarShortcut() {
@@ -243,41 +245,38 @@ class ResourceBarsModule extends CoreModule {
                     Hero.c = {}
                 }
 
-                let newTimer
-                const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
-                let existingOnDestroy
+                // let newTimer
+                // const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
+                // let existingOnDestroy
                 const selector = `.energy_counter[type="${type}"]`
-                const destroyExistingTimer = (existingTimer) => {
-                    existingOnDestroy = existingTimer.onDestroy
-                    existingTimer.onDestroy = () => { }
-                    existingTimer.destroy()
-                }
+                // const destroyExistingTimer = (existingTimer) => {
+                //     existingOnDestroy = existingTimer.onDestroy
+                //     existingTimer.onDestroy = () => { }
+                //     existingTimer.destroy()
+                // }
                 const addTimer = () => {
-                    newTimer = HHTimers.initEnergyTimer($(selector))
+                    Hero.c[type] = createEnergyTimer($(selector))
+                    Hero.c[type].startTimer()
 
-                    // nasty hack now that this is gone from jquery
-                    newTimer.$elm.selector = selector
-
-                    Hero.c[type] = newTimer
-                    if (existingOnDestroy) {
-                        Hero.c[type].onDestroy = existingOnDestroy
-                    }
+                    // if (existingOnDestroy) {
+                    //     Hero.c[type].onDestroy = existingOnDestroy
+                    // }
                 }
-                if (existingTimer) {
-                    destroyExistingTimer(existingTimer)
-                } else {
-                    setTimeout(() => {
-                        // Try and catch where the game tries to add another timer after we've already added ours.
-                        const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
-                        if (duplicateTimer) {
-                            destroyExistingTimer(duplicateTimer)
-                            if (existingOnDestroy) {
-                                newTimer.onDestroy = existingOnDestroy
-                                Hero.c[type] = newTimer
-                            }
-                        }
-                    }, 10)
-                }
+                // if (existingTimer) {
+                //     destroyExistingTimer(existingTimer)
+                // } else {
+                //     setTimeout(() => {
+                //         // Try and catch where the game tries to add another timer after we've already added ours.
+                //         const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
+                //         if (duplicateTimer) {
+                //             destroyExistingTimer(duplicateTimer)
+                //             if (existingOnDestroy) {
+                //                 newTimer.onDestroy = existingOnDestroy
+                //                 Hero.c[type] = newTimer
+                //             }
+                //         }
+                //     }, 10)
+                // }
                 addTimer()
 
 
@@ -335,11 +334,9 @@ class ResourceBarsModule extends CoreModule {
                     window.displayNotifications()
                 }
             }
-            const noop = () => { }
-            const dummyElm = { show: noop, hide: noop, selector: '' }
             const oldMobileCheck = window.is_mobile_size
             window.is_mobile_size = () => false
-            HHTimers.initBarTimer(popDuration, popEndIn, dummyElm, { barElm: $barHTML.find('.frontbar'), textElm: $barHTML.find('div.text>span') }, onComplete)
+            createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
             window.is_mobile_size = oldMobileCheck
         }
     }
@@ -416,7 +413,6 @@ class ResourceBarsModule extends CoreModule {
             `)
 
             if (useTimer) {
-                let timerId
                 const onComplete = () => {
                     $wrapper.find('.slot')
                         .attr('class', 'slot empty')
@@ -426,12 +422,13 @@ class ResourceBarsModule extends CoreModule {
                         .attr('id_item', '').removeAttr('id_item')
                     $wrapper.find('.progress').css('transform', 'rotate(0deg)')
                 }
-                const onUpdate = () => {
-                    if (!timerId) {
-                        return
-                    }
-                    const timer = HHTimers.timers[timerId]
-                    const remainingTime = timer.remainingTime
+                const onUpdate = (state) => {
+                    const remainingTime = state.time_remaining
+
+                    const $slot = $wrapper.find('.slot')
+                    let slot_data = JSON.parse($slot.attr('data-d'))
+                    slot_data.expiration = remainingTime
+                    $slot.attr('data-d', JSON.stringify(slot_data))
 
                     const percentage = remainingTime / max
                     const firstHalf = Math.min(percentage, 0.5) * 2
@@ -458,7 +455,7 @@ class ResourceBarsModule extends CoreModule {
                     $left.css('transform', `rotate(${180 * secondHalf}deg)`).attr('class', `progress ${colorClass}`)
                     $right.css('transform', `rotate(${180 * firstHalf}deg)`).attr('class', `progress ${colorClass}`)
                 }
-                timerId = HHTimers.initDecTimer($wrapper.find('.dummy-timer-target'), current, onComplete, onUpdate)
+                createTimer($wrapper.find('.dummy-timer-target'), current, {onComplete: onComplete, onUpdate: onUpdate}).startTimer()
             }
 
             return $wrapper

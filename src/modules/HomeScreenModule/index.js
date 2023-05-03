@@ -1,4 +1,4 @@
-/* global server_now_ts, HHTimers, GT */
+/* global server_now_ts, HHTimers, createPageTimers, createEnergyTimer, GT */
 
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
@@ -59,12 +59,9 @@ class HomeScreenModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            this.checkHomeScreenType()
-
             this.injectCSSVars()
             this.addTimers()
             this.addShortcuts()
-            this.fixMissionsTimer()
             this.forceActivitiesTab()
             this.manageSalaryTimers()
             this.addReplyTimer()
@@ -77,21 +74,13 @@ class HomeScreenModule extends CoreModule {
         this.hasRun = true
     }
 
-    checkHomeScreenType() {
-        this.newHomeScreen = !!$('.main-container').length
-    }
-
     injectCSSVars() {
         Sheet.registerVar('pantheon-icon', `url("${pantheonIcon}")`)
         Sheet.registerVar('champions-icon', `url("${Helpers.getCDNHost()}/design/menu/ic_champions.svg")`)
     }
 
     setNotification(type, notification) {
-        if (this.newHomeScreen) {
-            window.notificationData[type] = notification
-        } else {
-            window.notificationData[type].push(notification)
-        }
+        window.notificationData[type] = notification
         window.displayNotifications()
     }
 
@@ -126,25 +115,19 @@ class HomeScreenModule extends CoreModule {
     }
 
     makeLinkSelector(rel) {
-        if (this.newHomeScreen) {
-            return `[rel=${rel}] > .notif-position > span`
-        }
-        return `[rel=${rel}] > .position > span`
+        return `[rel=${rel}] > .notif-position > span`
     }
 
     attachTimer(rel, endAt) {
         if (!$(`[rel=${rel}] .additional-menu-data`).length) {
             const selector = this.makeLinkSelector(rel)
-            const onComplete = () => {
-                this.setNotification(rel, 'action')
-            }
-            const $container = $('<div class="script-timer-container"></div>')
-            const $elm = $('<div class="script-home-timer"></div>')
-            $container.append('<span class="timerClock_icn"></span>')
+
+            const $container = $('<div class="additional-menu-data"></div>')
+            const $elm = $(`<div class="timer-box visible-timer" rel="script-${rel}"></div>`)
             $container.append($elm)
 
             $(selector).append($container)
-            HHTimers.initDecTimer($elm, endAt - server_now_ts, onComplete)
+            createPageTimers([{dom_element: `script-${rel}`, time_remaining: endAt - server_now_ts}])
         }
     }
 
@@ -157,12 +140,8 @@ class HomeScreenModule extends CoreModule {
             const $clubShortcuts = $('<div class="script-home-shortcut-container"></div>')
             $clubShortcuts.append(shortcutHtml('club-champ', '/club-champion.html', this.label('clubChamp'), 'clubChampions_flat_icn'))
 
-            if (this.newHomeScreen) {
-                const $wrapper = $('<div class="quest-container"></div>')
-                $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
-            } else {
-                $('a[rel="clubs"] .position').prepend($clubShortcuts)
-            }
+            const $wrapper = $('<div class="quest-container"></div>')
+            $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
         }
 
         const { champs, pantheon } = AvailableFeatures
@@ -179,92 +158,8 @@ class HomeScreenModule extends CoreModule {
                 $godShortcuts.append(shortcutHtml('pantheon', '/pantheon.html', GT.design.pantheon, 'pantheon_flat_icn'))
             }
 
-            if (this.newHomeScreen) {
-                const $wrapper = $('<div class="quest-container"></div>')
-                $('a[rel="sex-god-path"]').wrap($wrapper).after($godShortcuts)
-            } else {
-                $('a[rel="sex-god-path"] .position').prepend($godShortcuts)
-            }
-        }
-    }
-
-    fixMissionsTimer() {
-        if (this.newHomeScreen) {
-            return
-        }
-
-        const { missions_datas } = window
-        if (!missions_datas) { return }
-
-        const { duration, remaining_time, next_missions } = missions_datas
-
-        const existingTimers = ['#home_missions_bar1', '#home_missions_bar2']
-        const findAndRemoveTimer = selector => {
-            const existingTimer = Object.values(HHTimers.timers).find(timer => timer.$elm && timer.$elm.selector === selector)
-
-            if (existingTimer) {
-                existingTimer.$elm.hide()
-                existingTimer.destroy()
-            }
-        }
-
-        existingTimers.forEach(findAndRemoveTimer)
-        new MutationObserver(() => {
-            existingTimers.forEach(findAndRemoveTimer)
-        }).observe(document.getElementById('homepage'), { childList: true })
-
-        const completedText = this.label('missionsReady')
-        let text = completedText
-        let useTimer = false
-        let barWidth = 100
-        let timerDuration = 1
-        let remaining = 0
-        let rewardOnComplete = true
-
-        if (remaining_time) {
-            text = this.label('completeIn')
-            useTimer = true
-            barWidth = 100 * (duration - remaining_time) / duration
-            timerDuration = duration
-            remaining = remaining_time
-        } else if (next_missions) {
-            text = this.label('newMissionsIn')
-            useTimer = true
-            const day = 24 * 60 * 60
-            barWidth = 100 * (day - next_missions) / day
-            timerDuration = day
-            remaining = next_missions
-            rewardOnComplete = false
-        }
-
-        const $newBar = $(`
-            <div id="home_missions_bar-script">
-                <div class="hh_bar finish_in_bar">
-                    <div class="backbar borderbar">
-                        <div class="frontbar ${useTimer ? 'pinkbar' : 'bluebar'}" style="width: ${barWidth}%"></div>
-                    </div>
-                    <div class="text">${text}<span></span></div>
-                </div>
-            </div>
-        `)
-
-        $('[rel=activities]').after($newBar)
-
-        if (useTimer) {
-            const onComplete = () => {
-                $newBar.find('.text').text(completedText)
-                $newBar.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
-                if (rewardOnComplete) {
-                    window.notificationData.activities.push('reward')
-                    window.displayNotifications()
-                }
-            }
-            const noop = () => { }
-            const dummyElm = { show: noop, hide: noop, selector: '' }
-            const oldMobileCheck = window.is_mobile_size
-            window.is_mobile_size = () => false
-            HHTimers.initBarTimer(timerDuration, remaining, dummyElm, { barElm: $newBar.find('.frontbar'), textElm: $newBar.find('div.text>span') }, onComplete)
-            window.is_mobile_size = oldMobileCheck
+            const $wrapper = $('<div class="quest-container"></div>')
+            $('a[rel="sex-god-path"]').wrap($wrapper).after($godShortcuts)
         }
     }
 
@@ -403,46 +298,43 @@ class HomeScreenModule extends CoreModule {
                 Hero.c = {}
             }
 
-            let newTimer
-            const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
-            let existingOnDestroy
+            // let newTimer
+            // const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
+            // let existingOnDestroy
             const selector = `.energy_counter[type="${type}"]`
-            const destroyExistingTimer = (existingTimer) => {
-                existingOnDestroy = existingTimer.onDestroy
-                existingTimer.onDestroy = () => { }
-                existingTimer.destroy()
-            }
+            // const destroyExistingTimer = (existingTimer) => {
+            //     existingOnDestroy = existingTimer.onDestroy
+            //     existingTimer.onDestroy = () => { }
+            //     existingTimer.destroy()
+            // }
             const addTimer = () => {
-                newTimer = HHTimers.initEnergyTimer($(selector))
+                Hero.c[type] = createEnergyTimer($(selector))
+                Hero.c[type].startTimer()
 
-                // nasty hack now that this is gone from jquery
-                newTimer.$elm.selector = selector
-
-                Hero.c[type] = newTimer
-                if (existingOnDestroy) {
-                    Hero.c[type].onDestroy = existingOnDestroy
-                }
+                // if (existingOnDestroy) {
+                //     Hero.c[type].onDestroy = existingOnDestroy
+                // }
             }
-            if (existingTimer) {
-                destroyExistingTimer(existingTimer)
-            } else {
-                setTimeout(() => {
-                    // Try and catch where the game tries to add another timer after we've already added ours.
-                    const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
-                    if (duplicateTimer) {
-                        destroyExistingTimer(duplicateTimer)
-                        if (existingOnDestroy) {
-                            newTimer.onDestroy = existingOnDestroy
-                            Hero.c[type] = newTimer
-                        }
-                    }
+            // if (existingTimer) {
+            //     destroyExistingTimer(existingTimer)
+            // } else {
+            //     setTimeout(() => {
+            //         // Try and catch where the game tries to add another timer after we've already added ours.
+            //         const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
+            //         if (duplicateTimer) {
+            //             destroyExistingTimer(duplicateTimer)
+            //             if (existingOnDestroy) {
+            //                 newTimer.onDestroy = existingOnDestroy
+            //                 Hero.c[type] = newTimer
+            //             }
+            //         }
 
-                    const simpleTimer = Object.values(HHTimers.timers).find(timer => timer instanceof window.HHSimpleTimer && timer.$elm.parents('.messenger-reply-timer').length)
-                    if (simpleTimer) {
-                        simpleTimer.destroy()
-                    }
-                }, 10)
-            }
+            //         const simpleTimer = Object.values(HHTimers.timers).find(timer => timer instanceof window.HHSimpleTimer && timer.$elm.parents('.messenger-reply-timer').length)
+            //         if (simpleTimer) {
+            //             simpleTimer.destroy()
+            //         }
+            //     }, 10)
+            // }
             addTimer()
         }
     }

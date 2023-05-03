@@ -162,30 +162,25 @@ class ChampionsModule extends CoreModule {
         // Add time since start
         const $timerFight = $('.club_champions_timer_fight')
         if ($timerFight.length) {
-            const {format_time_short} = window
+            const {format_time_short, createTimer} = window
 
             const durationString = `<span class="script-round-duration-time">${format_time_short(server_now_ts - start_time)}</span>`
-            const $dummyTimerTarget = $('<span class="dumy-timer-target" style="display:none!important;"></span>')
+            const $dummyTimerTarget = $('<div class="dummy-timer-target"></div>')
             $timerFight.append('<br/>').append(`<span class="script-round-duration">${this.label('clubChampDuration', {duration: durationString})}</span>`).append($dummyTimerTarget)
             const $durationEl = $timerFight.find('.script-round-duration')
             const $durationText = $durationEl.find('.script-round-duration-time')
 
-            const timerDuration = clubChampionsData.timers.championFight - server_now_ts
+            const timerDuration = clubChampionsData.timers.championFight
 
-            let timerId
+            const onUpdate = (state) => {
+                const remainingTime = state.time_remaining
 
-            const onUpdate = () => {
-                if (!timerId) {
-                    return
-                }
-                const timer = HHTimers.timers[timerId]
-                const remainingTime = timer.remainingTime
-
-                $durationText.text(format_time_short(clubChampionsData.timers.championFight - remainingTime - clubChampionsData.fight.start_time))
+                const newTime = (server_now_ts - start_time) + (60*60 - remainingTime)
+                $durationText.text(format_time_short(newTime))
             }
             const onComplete = ()=>{}
 
-            timerId = HHTimers.initDecTimer($dummyTimerTarget, timerDuration, onComplete, onUpdate)
+            createTimer($dummyTimerTarget, timerDuration, {onUpdate: onUpdate}).startTimer()
         }
 
         // Show challenge button instead of refill button while team resting
@@ -195,27 +190,27 @@ class ChampionsModule extends CoreModule {
         }
 
         // Fix team rest timer
-        if (timers.teamRest) {
-            const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.selector === '.team_rest_timer')
-            let teamRestTimer = getTeamRestTimer()
-            const fixTimer = () => {
-                teamRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
-                teamRestTimer.update()
-            }
-            if (teamRestTimer) {
-                fixTimer()
-            } else {
-                const observer = new MutationObserver(() => {
-                    teamRestTimer = getTeamRestTimer()
-                    if (teamRestTimer) {
-                        observer.disconnect()
-                        fixTimer()
-                    }
-                })
+        // if (timers.teamRest) {
+        //     const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.selector === '.team_rest_timer')
+        //     let teamRestTimer = getTeamRestTimer()
+        //     const fixTimer = () => {
+        //         teamRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
+        //         teamRestTimer.update()
+        //     }
+        //     if (teamRestTimer) {
+        //         fixTimer()
+        //     } else {
+        //         const observer = new MutationObserver(() => {
+        //             teamRestTimer = getTeamRestTimer()
+        //             if (teamRestTimer) {
+        //                 observer.disconnect()
+        //                 fixTimer()
+        //             }
+        //         })
 
-                observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
-            }
-        }
+        //         observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
+        //     }
+        // }
 
     }
 
@@ -225,27 +220,27 @@ class ChampionsModule extends CoreModule {
         const {timers} = clubChampionsData
 
         // Fix champ rest timer
-        if (timers.teamRest) {
-            const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.hasClass && $elm.hasClass('team_rest_timer'))
-            let championRestTimer = getTeamRestTimer()
-            const fixTimer = () => {
-                championRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
-                championRestTimer.update()
-            }
-            if (championRestTimer) {
-                fixTimer()
-            } else {
-                const observer = new MutationObserver(() => {
-                    championRestTimer = getTeamRestTimer()
-                    if (championRestTimer) {
-                        observer.disconnect()
-                        fixTimer()
-                    }
-                })
+        // if (timers.teamRest) {
+        //     const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.hasClass && $elm.hasClass('team_rest_timer'))
+        //     let championRestTimer = getTeamRestTimer()
+        //     const fixTimer = () => {
+        //         championRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
+        //         championRestTimer.update()
+        //     }
+        //     if (championRestTimer) {
+        //         fixTimer()
+        //     } else {
+        //         const observer = new MutationObserver(() => {
+        //             championRestTimer = getTeamRestTimer()
+        //             if (championRestTimer) {
+        //                 observer.disconnect()
+        //                 fixTimer()
+        //             }
+        //         })
 
-                observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
-            }
-        }
+        //         observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
+        //     }
+        // }
     }
 
     poseMatching ({poseMatching, fixPower}) {
