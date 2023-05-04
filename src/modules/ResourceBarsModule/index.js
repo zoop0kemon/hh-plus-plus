@@ -1,4 +1,4 @@
-/* global Hero, HHTimers, createEnergyTimer, createBarTimer, createTimer, GT, server_now_ts, format_time_short, HH_MAX_LEVEL */
+/* global Hero, createEnergyTimer, createBarTimer, createTimer, GT, server_now_ts, format_time_short, HH_MAX_LEVEL */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -67,7 +67,6 @@ class ResourceBarsModule extends CoreModule {
             this.injectCSSVars()
             this.betterXP()
             this.betterMoney()
-            this.forceTimerInterval()
             this.addEnergyBarShortcut()
             this.initTooltips()
             this.addAdditionalBars()
@@ -185,19 +184,6 @@ class ResourceBarsModule extends CoreModule {
 
     }
 
-    forceTimerInterval() {
-        if (typeof HHTimers !== 'undefined') {
-            HHTimers.thresholdSec = 24 * 60 * 60
-            HHTimers.thresholdTenSec = 36 * 30 * 60
-
-            const existingTimers = [...HHTimers.timersListMin, ...HHTimers.timersListTenSec]
-            HHTimers.timersListMin = []
-            HHTimers.timersListTenSec = []
-
-            HHTimers.timersListSec.push(...existingTimers)
-        }
-    }
-
     addEnergyBarShortcut() {
         let shortcutLink
 
@@ -245,43 +231,15 @@ class ResourceBarsModule extends CoreModule {
                     Hero.c = {}
                 }
 
-                // let newTimer
-                // const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
-                // let existingOnDestroy
                 const selector = `.energy_counter[type="${type}"]`
-                // const destroyExistingTimer = (existingTimer) => {
-                //     existingOnDestroy = existingTimer.onDestroy
-                //     existingTimer.onDestroy = () => { }
-                //     existingTimer.destroy()
-                // }
                 const addTimer = () => {
                     Hero.c[type] = createEnergyTimer($(selector))
                     Hero.c[type].startTimer()
-
-                    // if (existingOnDestroy) {
-                    //     Hero.c[type].onDestroy = existingOnDestroy
-                    // }
                 }
-                // if (existingTimer) {
-                //     destroyExistingTimer(existingTimer)
-                // } else {
-                //     setTimeout(() => {
-                //         // Try and catch where the game tries to add another timer after we've already added ours.
-                //         const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
-                //         if (duplicateTimer) {
-                //             destroyExistingTimer(duplicateTimer)
-                //             if (existingOnDestroy) {
-                //                 newTimer.onDestroy = existingOnDestroy
-                //                 Hero.c[type] = newTimer
-                //             }
-                //         }
-                //     }, 10)
-                // }
                 addTimer()
 
-
                 if (type === 'challenge' && !Helpers.isCurrentPage('tower-of-fame')) {
-                    window.hasMultipleLeagueBattles = false
+                    window.can_battle_in_leagues = false
                 }
             }
 
@@ -326,7 +284,9 @@ class ResourceBarsModule extends CoreModule {
         $('header .currency').before($barHTML)
 
         if (popEndIn > 0) {
-            const onComplete = () => {
+            const onComplete = (state) => {
+                state.$bar_parent_element.show()
+
                 $barHTML.find('.text').text(this.label('popsReady'))
                 $barHTML.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
                 if (window.notificationData && window.notificationData.activities) {
@@ -425,10 +385,17 @@ class ResourceBarsModule extends CoreModule {
                 const onUpdate = (state) => {
                     const remainingTime = state.time_remaining
 
+                    // Doesn't update after first viewing the tooltip...
                     const $slot = $wrapper.find('.slot')
                     let slot_data = JSON.parse($slot.attr('data-d'))
                     slot_data.expiration = remainingTime
                     $slot.attr('data-d', JSON.stringify(slot_data))
+
+                    // so, update the tooltip if being viewed
+                    const $booster_tooltip = $('.script-booster-status-item')
+                    if ($booster_tooltip.length && $wrapper.is(':hover')) {
+                        $booster_tooltip.find('.item-duration-time').text(format_time_short(remainingTime))
+                    }
 
                     const percentage = remainingTime / max
                     const firstHalf = Math.min(percentage, 0.5) * 2
@@ -481,6 +448,22 @@ class ResourceBarsModule extends CoreModule {
                 }
             }
 
+            if (useTimer) {
+                // Correct timer when viewing tooltip
+                $slot.on('mouseenter', () => {
+                    if (!$slot.hasClass('empty')) {
+                        const slot_data = JSON.parse($slot.attr('data-d'))
+
+                        // wait for tooltip to be made
+                        setTimeout(() => {
+                            const $booster_tooltip = $('.script-booster-status-item')
+                            if ($booster_tooltip.length) {
+                                $booster_tooltip.find('.item-duration-time').text(format_time_short(slot_data.expiration))
+                            }
+                        }, 1)
+                    }
+                })
+            }
             const $progressWrapper = buildProgressWrapper(current, max, useTimer)
             $progressWrapper.prepend($slot)
 

@@ -103,7 +103,6 @@ class ChampionsModule extends CoreModule {
         Helpers.defer(() => {
             if (Helpers.isCurrentPage('clubs')) {
                 this.addChampionInfoOnClubsPage()
-                this.fixChampRestTimer()
             }
             if (Helpers.isCurrentPage('champions/') || Helpers.isCurrentPage('club-champion')) {
                 this.poseMatching({poseMatching, fixPower})
@@ -117,10 +116,10 @@ class ChampionsModule extends CoreModule {
     }
 
     addChampionInfoOnClubsPage () {
-        const {clubChampionsData, membersList, server_now_ts, HHTimers} = window
+        const {clubChampionsData, membersList, server_now_ts} = window
         if (!clubChampionsData || !clubChampionsData.fight.active || !clubChampionsData.fight.participants.length) {return}
 
-        const {champion: {bar}, fight: {participants, start_time}, timers} = clubChampionsData
+        const {champion: {bar}, fight: {participants, start_time}, timers: {championFight}} = clubChampionsData
         const totalPositiveImpressionParticipants = participants.length //.filter(({challenge_impression_done}) => parseInt(challenge_impression_done) > 0).length
 
         const totalImpression = parseInt(bar.max)
@@ -170,17 +169,29 @@ class ChampionsModule extends CoreModule {
             const $durationEl = $timerFight.find('.script-round-duration')
             const $durationText = $durationEl.find('.script-round-duration-time')
 
-            const timerDuration = clubChampionsData.timers.championFight
+            const timerResetTime = (server_now_ts - start_time) <= 60 * 60 ? 60 * 60 : 24 * 60 * 60
+            let useResettingTimer = timerResetTime <= championFight
+            const timerDuration = useResettingTimer ? timerResetTime : championFight
+            let resetTimeDuration = 0
 
             const onUpdate = (state) => {
                 const remainingTime = state.time_remaining
 
-                const newTime = (server_now_ts - start_time) + (60*60 - remainingTime)
+                const newTime = (server_now_ts - start_time) + ((timerDuration - remainingTime) + resetTimeDuration)
                 $durationText.text(format_time_short(newTime))
             }
-            const onComplete = ()=>{}
+            const onComplete = () => {
+                // keep reseting timer to keep updating every second if needed
+                if (useResettingTimer) {
+                    resetTimeDuration += timerDuration
+                    useResettingTimer = timerResetTime + resetTimeDuration <= championFight
+                    const newTimerDuration = useResettingTimer ? timerResetTime : championFight - resetTimeDuration
+                    resetTimeDuration -= timerDuration - newTimerDuration // adjust to account for change in timer duration for last timer
+                    createTimer($dummyTimerTarget, newTimerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
+                }
+            }
 
-            createTimer($dummyTimerTarget, timerDuration, {onUpdate: onUpdate}).startTimer()
+            createTimer($dummyTimerTarget, timerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
         }
 
         // Show challenge button instead of refill button while team resting
@@ -188,59 +199,6 @@ class ChampionsModule extends CoreModule {
         if (!$('.btn_skip_champion_cooldown').length) {
             $('.challenge_container').show()
         }
-
-        // Fix team rest timer
-        // if (timers.teamRest) {
-        //     const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.selector === '.team_rest_timer')
-        //     let teamRestTimer = getTeamRestTimer()
-        //     const fixTimer = () => {
-        //         teamRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
-        //         teamRestTimer.update()
-        //     }
-        //     if (teamRestTimer) {
-        //         fixTimer()
-        //     } else {
-        //         const observer = new MutationObserver(() => {
-        //             teamRestTimer = getTeamRestTimer()
-        //             if (teamRestTimer) {
-        //                 observer.disconnect()
-        //                 fixTimer()
-        //             }
-        //         })
-
-        //         observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
-        //     }
-        // }
-
-    }
-
-    fixChampRestTimer () {
-        const {clubChampionsData, server_now_ts, HHTimers} = window
-        if (!clubChampionsData || !clubChampionsData.fight.active) {return}
-        const {timers} = clubChampionsData
-
-        // Fix champ rest timer
-        // if (timers.teamRest) {
-        //     const getTeamRestTimer = () => Object.values(HHTimers.timers).find(({$elm}) => $elm && $elm.hasClass && $elm.hasClass('team_rest_timer'))
-        //     let championRestTimer = getTeamRestTimer()
-        //     const fixTimer = () => {
-        //         championRestTimer.remainingTime = parseInt(timers.teamRest) - server_now_ts
-        //         championRestTimer.update()
-        //     }
-        //     if (championRestTimer) {
-        //         fixTimer()
-        //     } else {
-        //         const observer = new MutationObserver(() => {
-        //             championRestTimer = getTeamRestTimer()
-        //             if (championRestTimer) {
-        //                 observer.disconnect()
-        //                 fixTimer()
-        //             }
-        //         })
-
-        //         observer.observe($('.team_rest_timer .text > span')[0], {childList: true})
-        //     }
-        // }
     }
 
     poseMatching ({poseMatching, fixPower}) {

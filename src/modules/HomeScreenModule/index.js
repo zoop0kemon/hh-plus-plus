@@ -1,4 +1,4 @@
-/* global server_now_ts, HHTimers, createPageTimers, createEnergyTimer, GT */
+/* global server_now_ts, createPageTimers, createEnergyTimer, GT */
 
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
@@ -298,43 +298,11 @@ class HomeScreenModule extends CoreModule {
                 Hero.c = {}
             }
 
-            // let newTimer
-            // const existingTimer = Object.values(HHTimers.timers).find(timer => timer.type === type)
-            // let existingOnDestroy
             const selector = `.energy_counter[type="${type}"]`
-            // const destroyExistingTimer = (existingTimer) => {
-            //     existingOnDestroy = existingTimer.onDestroy
-            //     existingTimer.onDestroy = () => { }
-            //     existingTimer.destroy()
-            // }
             const addTimer = () => {
                 Hero.c[type] = createEnergyTimer($(selector))
                 Hero.c[type].startTimer()
-
-                // if (existingOnDestroy) {
-                //     Hero.c[type].onDestroy = existingOnDestroy
-                // }
             }
-            // if (existingTimer) {
-            //     destroyExistingTimer(existingTimer)
-            // } else {
-            //     setTimeout(() => {
-            //         // Try and catch where the game tries to add another timer after we've already added ours.
-            //         const duplicateTimer = Object.values(HHTimers.timers).find(({ type: ttype, $elm }) => ttype === type && $elm.selector !== selector)
-            //         if (duplicateTimer) {
-            //             destroyExistingTimer(duplicateTimer)
-            //             if (existingOnDestroy) {
-            //                 newTimer.onDestroy = existingOnDestroy
-            //                 Hero.c[type] = newTimer
-            //             }
-            //         }
-
-            //         const simpleTimer = Object.values(HHTimers.timers).find(timer => timer instanceof window.HHSimpleTimer && timer.$elm.parents('.messenger-reply-timer').length)
-            //         if (simpleTimer) {
-            //             simpleTimer.destroy()
-            //         }
-            //     }, 10)
-            // }
             addTimer()
         }
     }

@@ -69,43 +69,6 @@
     }
 
     .main-container .left-side-container {
-        a[rel="clubs"],
-        a[rel="sex-god-path"],
-        a[rel="pachinko"],
-        a[rel="shop"] {
-            .notif-position {
-                span {
-                    display: flex;
-                    flex-direction: column;
-
-                    p {
-                        margin-top: 0;
-                        margin-bottom: 0;
-                    }
-
-                    .script-timer-container {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: start;
-                        align-items: center;
-                        width: 100%;
-                        margin-top: -0.3125rem;
-
-                        .timerClock_icn {
-                            background-size: 1.8rem;
-                            margin-right: 0.4rem;
-                        }
-                    }
-
-                    .script-home-timer {
-                        color: #fff;
-                        text-decoration: none;
-                        font-size: 0.8125rem;
-                    }
-                }
-            }
-        }
-
         .script-home-shortcut-container,
         .script-league-pos {
             display: flex;
@@ -194,25 +157,6 @@
             height: 22px;
             width: 22px;
         }
-    }
-}
-
-#home_missions_bar-script {
-    position: absolute;
-    top: 395px;
-    left: 595px;
-    font-size: 11px;
-
-    .backbar {
-        top: 20px;
-        height: 7px;
-        width: 140px;
-        overflow: hidden;
-    }
-
-    .text {
-        top: 9px;
-        width: 150px;
     }
 }
 
