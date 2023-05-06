@@ -84,6 +84,7 @@ export const config = {
     leaderboardClubmateIndicators: 'Surligner les coéquipiers  dans les classements',
     leaderboardProfilePopups: 'Liens vers les profils de joueurs dans les classements',
     improvedWaifu: `Paramètres avancés pour ${gameConfig.waifu}`,
+    sortDailyMissions: 'Trier les missions par durée'
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',

@@ -47,7 +47,7 @@ class ImprovedWaifuModule extends CoreModule {
                             temp_id = ids[Math.floor(Math.random()*ids.length)]
                         }
                     }
-                    girl_id = temp_id
+                    girl_id = temp_id.toString()
                 }
                 if (waifuInfo.individual) {
                     girl_id = waifu.id_girl.toString()
@@ -62,12 +62,12 @@ class ImprovedWaifuModule extends CoreModule {
                 const girlDictionary = Helpers.getGirlDictionary()
                 let dictGirl = girlDictionary.get(girl_id)
                 if (!dictGirl) {
-                    console.log(this.label('warningMaxGrade'))
+                    console.log(this.label('warningMaxGrade', {id: girl_id}))
                     return
                 }
                 let unlocked_grade = dictGirl.graded
                 if (!(unlocked_grade>=0)) {
-                    console.log(this.label('warningUnlockedGrade'))
+                    console.log(this.label('warningUnlockedGrade', {id: girl_id}))
                     return
                 }
                 let max_grade = dictGirl.grade || unlocked_grade
@@ -83,6 +83,7 @@ class ImprovedWaifuModule extends CoreModule {
                             $('.waifu-container').eq(0).append(`<img src="${Helpers.getCDNHost()}/pictures/girls/${girl_id}/ava${selected_grade}.png" class="avatar ">`)
                             if (display) {
                                 $eye[0].children[0].src = `${Helpers.getCDNHost()}/quest/ic_eyeclosed.svg`
+                                $('#bg_all').addClass('blur-effect')
                             }
                         }
                         
@@ -95,8 +96,10 @@ class ImprovedWaifuModule extends CoreModule {
                             $('.waifu-right').eq(0).toggleClass('hide')
                             if (!display) {
                                 $eye[0].children[0].src = `${Helpers.getCDNHost()}/quest/ic_eyeclosed.svg`
+                                $('#bg_all').addClass('blur-effect')
                             } else {
                                 $eye[0].children[0].src = `${Helpers.getCDNHost()}/quest/ic_eyeopen.svg`
+                                $('#bg_all').removeClass('blur-effect')
                             }
                             display = !display
                             waifuInfo.display = display
@@ -178,6 +181,7 @@ class ImprovedWaifuModule extends CoreModule {
                         $('.waifu-edit').eq(0).toggleClass('hide')
                         $('.waifu-right').eq(0).toggleClass('hide')
                         $eye[0].children[0].src = `${Helpers.getCDNHost()}/quest/ic_eyeopen.svg`
+                        $('#bg_all').removeClass('blur-effect')
                     }
                 })
 
@@ -333,19 +337,19 @@ class ImprovedWaifuModule extends CoreModule {
                             temp_id = ids[Math.floor(Math.random()*ids.length)]
                         }
                     }
-                    girl_id = temp_id
+                    girl_id = temp_id.toString()
                     if (!waifuInfo.girls[girl_id]) {
                         waifuInfo.girls[girl_id] = {}
                     }
                     girlInfo = waifuInfo.girls[girl_id]
                     dictGirl = girlDictionary.get(girl_id)
                     if (!dictGirl) {
-                        console.log(this.label('warningMaxGrade'))
+                        console.log(this.label('warningMaxGrade', {id: girl_id}))
                         return
                     }
                     unlocked_grade = dictGirl.graded
                     if (!(unlocked_grade>=0)) {
-                        console.log(this.label('warningUnlockedGrade'))
+                        console.log(this.label('warningUnlockedGrade', {id: girl_id}))
                         return
                     }
                     max_grade = dictGirl.grade || unlocked_grade
@@ -433,7 +437,7 @@ class ImprovedWaifuModule extends CoreModule {
         }
         girlDictionary.forEach((girl, id) => {
             const {shards} = girl
-            if (shards === 100) {
+            if (shards === 100 && typeof id === 'string') {
                 ids.push(id)
             }
         })

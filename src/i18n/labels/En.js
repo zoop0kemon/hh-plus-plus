@@ -88,7 +88,8 @@ export const config = {
     upgradeQuickNav: 'Upgrade page quick navigation',
     leaderboardClubmateIndicators: 'Highlight clubmates on leaderboards',
     leaderboardProfilePopups: 'Links to player profiles from leaderboards',
-    improvedWaifu: `Improved ${gameConfig.waifu}`
+    improvedWaifu: `Improved ${gameConfig.waifu}`,
+    sortDailyMissions: 'Sort daily missions by duration'
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
@@ -378,8 +379,8 @@ export const leaderboardClubmateIndicators = {
 }
 
 export const improvedWaifu = {
-    warningMaxGrade: `Improved ${gameConfig.waifu} WARNING: Missing max grade info, please visit the harem page.`,
-    warningUnlockedGrade: `Improved ${gameConfig.waifu} WARNING: Missing unlocked grade info, please visit the harem page.`,
+    warningMaxGrade: `Improved ${gameConfig.waifu} WARNING: Missing max grade info for ID: {{id}}, please visit the harem page.`,
+    warningUnlockedGrade: `Improved ${gameConfig.waifu} WARNING: Missing unlocked grade info for ID: {{id}}, please visit the harem page.`,
     editPose: 'Edit Pose',
     resetPose: 'Reset Pose',
     savePose: 'Save Pose',

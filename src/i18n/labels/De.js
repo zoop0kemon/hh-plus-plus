@@ -67,7 +67,8 @@ export const config = {
     upgradeQuickNav: 'Schnellnavigation auf der Upgrade-Seite',
     leaderboardClubmateIndicators: 'Club-Mitglieder auf Ranglisten hervorheben',
     leaderboardProfilePopups: 'Links zu Spielerprofilen in den Ranglisten',
-    improvedWaifu: `Verbesserte${Helpers.isGH()? 'r Boyfriend' : ' Waifu'}`
+    improvedWaifu: `Verbesserte${Helpers.isGH()? 'r Boyfriend' : ' Waifu'}`,
+    sortDailyMissions: 'Tägliche Missionen nach Dauer sortieren'
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',
