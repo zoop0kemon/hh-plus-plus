@@ -9,7 +9,14 @@ class SortDailyMissionsModule extends CoreModule {
         super({
             baseKey: MODULE_KEY,
             label: I18n.getModuleLabel('config', MODULE_KEY),
-            default: true
+            default: true,
+            subSettings: [
+                {
+                    key: 'reverse',
+                    label: I18n.getModuleLabel('config', `${MODULE_KEY}_reverse`),
+                    default: false
+                }
+            ]
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
     }
@@ -18,14 +25,14 @@ class SortDailyMissionsModule extends CoreModule {
         return Helpers.isCurrentPage('activities')
     }
 
-    run () {
+    run ({reverse}) {
         if (this.hasRun || !this.shouldRun()) {return}
 
         Helpers.defer(() => {
             const missions = $('.mission_object:not(.legendary)').toArray().sort((a, b) => {
                 const aDuration = parseInt(JSON.parse($(a).attr('data-d')).duration)
                 const bDuration = parseInt(JSON.parse($(b).attr('data-d')).duration)
-                return aDuration - bDuration
+                return !reverse ? aDuration - bDuration : bDuration - aDuration
             })
             const $eventMissions = $('.mission_object.legendary')
 

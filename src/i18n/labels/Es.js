@@ -94,7 +94,8 @@ export const config = {
     leaderboardClubmateIndicators: 'Destacar a los compañeros de club en las tablas de clasificación',
     leaderboardProfilePopups: 'Enlaces a perfiles de jugadores desde tablas de clasificación',
     improvedWaifu: `${gameConfig.waifu} mejorada`,
-    sortDailyMissions: 'Ordena las misiones diarias por duración'
+    sortDailyMissions: 'Ordena las misiones diarias por duración',
+    sortDailyMissions_reverse: 'Orden inversa'
 }
 export const stConfig = {
     missionsBackground: 'Cambiar el fondo de las misiones',

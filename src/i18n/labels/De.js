@@ -68,7 +68,8 @@ export const config = {
     leaderboardClubmateIndicators: 'Club-Mitglieder auf Ranglisten hervorheben',
     leaderboardProfilePopups: 'Links zu Spielerprofilen in den Ranglisten',
     improvedWaifu: `Verbesserte${Helpers.isGH()? 'r Boyfriend' : ' Waifu'}`,
-    sortDailyMissions: 'Tägliche Missionen nach Dauer sortieren'
+    sortDailyMissions: 'Tägliche Missionen nach Dauer sortieren',
+    sortDailyMissions_reverse: 'Umgekehrte Reihenfolge'
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',

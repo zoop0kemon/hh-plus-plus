@@ -89,7 +89,8 @@ export const config = {
     leaderboardClubmateIndicators: 'Highlight clubmates on leaderboards',
     leaderboardProfilePopups: 'Links to player profiles from leaderboards',
     improvedWaifu: `Improved ${gameConfig.waifu}`,
-    sortDailyMissions: 'Sort daily missions by duration'
+    sortDailyMissions: 'Sort daily missions by duration',
+    sortDailyMissions_reverse: 'Reverse order'
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',

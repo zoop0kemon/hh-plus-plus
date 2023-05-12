@@ -56,7 +56,7 @@ export const config = {
     champions_fixPower: `Normaliser le pouvoir des ${gameConfig.fille}s pour comparaison`,
     homeScreen: 'Raccourcis & timers de l\'écran principal',
     homeScreen_leaguePos: 'Afficher le rang de Ligue actuel (ajoute de la charge réseau supplémentaire)',
-    resourceBars: 'Barres de ressorces / Indicateurs de boosters',
+    resourceBars: 'Barres de ressources / Indicateurs de boosters',
     popSort: 'Tri LdP et navigation rapide',
     seasonStats: 'Stats de la saison',
     pachinkoNames: 'Montrer les noms au Pachinko',
@@ -84,7 +84,8 @@ export const config = {
     leaderboardClubmateIndicators: 'Surligner les coéquipiers  dans les classements',
     leaderboardProfilePopups: 'Liens vers les profils de joueurs dans les classements',
     improvedWaifu: `Paramètres avancés pour ${gameConfig.waifu}`,
-    sortDailyMissions: 'Trier les missions par durée'
+    sortDailyMissions: 'Trier les missions par durée',
+    sortDailyMissions_reverse: 'Ordre inverse'
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',
