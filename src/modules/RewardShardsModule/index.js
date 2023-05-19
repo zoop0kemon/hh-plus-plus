@@ -154,7 +154,7 @@ class RewardShardsModule extends CoreModule {
     displayOnSeason() {
         const annotate = () => {
             const girlDictionary = Helpers.getGirlDictionary()
-            $('.arena-rewards-list .slot_girl_shards .girl_ico').each((i, el) => {
+            $('.rewards_list .slot_girl_shards .girl_ico').each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
                 if (!$img.length) { return }
@@ -173,28 +173,28 @@ class RewardShardsModule extends CoreModule {
                 $el.append(makeShardCount({ name, shards }))
 
                 // Fix layout widths
-                $el.parents('.arena-rewards-list').addClass('script-has-girl-reward')
+                $el.parents('.rewards_list').addClass('script-has-girl-reward')
             })
         }
 
-        if ($('.arena-rewards-list .slot_girl_shards .girl_ico').length) {
+        if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
             annotate()
-        } else if ($('.arena-rewards-list .slot_girl_shards').length) {
+        } else if ($('.rewards_list .slot_girl_shards').length) {
             const observer = new MutationObserver(() => {
-                if ($('.arena-rewards-list .slot_girl_shards .girl_ico').length) {
+                if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
                     annotate()
                     observer.disconnect()
                 }
             })
-            observer.observe($('.arena-rewards-list .slot_girl_shards')[0], { childList: true })
-        } else if ($('.arena-rewards-list .girls_reward [data-reward-display]').length) {
+            observer.observe($('.rewards_list .slot_girl_shards')[0], { childList: true })
+        } else if ($('.rewards_list .girls_reward [data-reward-display]').length) {
             const observer = new MutationObserver(() => {
-                if ($('.arena-rewards-list .slot_girl_shards .girl_ico').length) {
+                if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
                     annotate()
                     observer.disconnect()
                 }
             })
-            observer.observe($('.arena-rewards-list .girls_reward [data-reward-display]')[0], { childList: true })
+            observer.observe($('.rewards_list .girls_reward [data-reward-display]')[0], { childList: true })
         }
     }
 

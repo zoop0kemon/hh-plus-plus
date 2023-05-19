@@ -40,25 +40,25 @@
     position: relative;
 }
 
-#season-arena .season_arena_block.opponent .opponent_rewards {
-    .arena-rewards-list.script-has-girl-reward {
-        .slot {
-            width: 30px;
-            & > img {
-                height: auto;
-            }
-            &.slot_gems {
-                & > img {
-                    margin-left: 1px;
-                }
-            }
-            &.slot_season_affection_girl p:nth-child(2),
-            &.slot_season_xp_girl p:nth-child(2) {
-                font-size: 12px;
-            }
-        }
-    }
-}
+// #season-arena .player_team_block.opponent .opponent_rewards {
+//     .rewards_list.script-has-girl-reward {
+//         .slot {
+//             width: 30px;
+//             & > img {
+//                 height: auto;
+//             }
+//             &.slot_gems {
+//                 & > img {
+//                     margin-left: 1px;
+//                 }
+//             }
+//             &.slot_season_affection_girl p:nth-child(2),
+//             &.slot_season_xp_girl p:nth-child(2) {
+//                 font-size: 12px;
+//             }
+//         }
+//     }
+// }
 
 .player_team_block .opponent_rewards .rewards_list .slot .slot_girl_shards.slot {
     border-radius: unset!important;

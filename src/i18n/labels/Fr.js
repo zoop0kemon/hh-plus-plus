@@ -316,6 +316,7 @@ export const villainBreadcrumbs = {
     thespy: 'L’espion qui venait en moi',
     hornyknight: 'Le chevalier corné',
     suitdown: 'Sans costume',
+    manmeatofsteel: 'L\'Homme au morceau d\'acier',
 
     fukwell: 'Université de Belbaise',
     eurodick: 'Eurobite',

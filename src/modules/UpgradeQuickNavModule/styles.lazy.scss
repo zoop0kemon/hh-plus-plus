@@ -17,6 +17,10 @@
             filter: drop-shadow(0px 0px 4px white);
         }
 
+        &[resource="equipment"] {
+            bottom: -60px;
+        }
+
         img {
             width: 100%;
         }
@@ -24,8 +28,16 @@
 
     &-prev {
         left: -140px;
+
+        &[resource="equipment"] {
+            left : -40px;
+        }
     }
     &-next {
         right: -140px;
+
+        &[resource="equipment"] {
+            right : -40px;
+        }
     }
 }

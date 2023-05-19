@@ -168,6 +168,7 @@ export const villain = {
     jockstrap: 'The Mimic',
     cockatrice: 'Cockatrice',
     pomelo: 'Pomelo',
+    alexa: 'Alexa Sl’thor',
     asaakira: 'Headmistress Asa Akira',
     sammyjayne: 'Sammy Jayne',
     ivywinters: 'Ivy Winters',
@@ -210,6 +211,7 @@ export const villainBreadcrumbs = {
     thespy: 'The Spy Who Came Inside Me',
     hornyknight: 'The Horny Knight',
     suitdown: 'Suit Down',
+    manmeatofsteel: 'Man Meat of Steel',
 
     fukwell: 'Fukwell University',
     eurodick: 'Eurodick',

@@ -531,14 +531,27 @@ export default {
             }]
         },
         {
+            key: 'alexa',
             world: 9,
+            girls: {
+                1: ['148877065', '218927643', '340369336'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 20,
+            }]
+        },
+        {
+            world: 10,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'water',
+                element: 'fire',
                 amount: 20,
             }]
         },

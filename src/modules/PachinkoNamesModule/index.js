@@ -33,7 +33,7 @@ class PachinkoNamesModule extends CoreModule {
                 const rewardGirls = (content && content.rewards && content.rewards.girl_shards && content.rewards.girl_shards.plain_data) || []
                 const poolGirls = (content && content.girls_pool && content.girls_pool.girl_shards && content.girls_pool.girl_shards.plain_data) || []
                 const girlList = rewardGirls.map(({ id_girl }) => girlDictionary.get(`${id_girl}`))
-                const girlPool = poolGirls.map(({ id_girl }) => girlDictionary.get(`${id_girl}`))
+                const girlPool = poolGirls.map(({ id_girl }) => ({ ...girlDictionary.get(`${id_girl}`), id_girl }))
                 this.girlLists[type] = { girlList, girlPool }
             })
 
