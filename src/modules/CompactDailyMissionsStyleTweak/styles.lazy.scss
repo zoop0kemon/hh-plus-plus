@@ -8,6 +8,7 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 4px;
         align-content: start;
+        width: 100%;
 
         .mission_object {
             height: 104px;
@@ -71,9 +72,15 @@
                 height: 50%;
                 padding-left: 0px;
                 padding-top: 15px;
+                gap: 8px;
+                align-items: flex-start;
 
-                .reward_wrap .slot {
-                    margin-right: 4px;
+                .slot {
+                    margin: 0px !important;
+                }
+
+                .reward_wrap .slot:first-child {
+                    margin-right: 8px !important;
                 }
             }
 

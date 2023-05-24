@@ -7,7 +7,7 @@ import { lsKeys } from '../../common/Constants'
 
 const MODULE_KEY = 'upgradeQuickNav'
 
-const RESOURCE_TYPES = ['experience', 'affection', 'equipment']
+const RESOURCE_TYPES = ['experience', 'affection', 'equipment', 'teams']
 
 class UpgradeQuickNavModule extends CoreModule {
     constructor() {
@@ -19,7 +19,6 @@ class UpgradeQuickNavModule extends CoreModule {
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
 
         this.linkUrls = { prev: {}, next: {} }
-        this.linkSrcs = { prev: {}, next: {} }
     }
 
     shouldRun() {
@@ -89,13 +88,14 @@ class UpgradeQuickNavModule extends CoreModule {
                 this.$next.attr('href', this.linkUrls.next[tabContent])
                 this.$prev.attr('resource', tabContent)
                 this.$next.attr('resource', tabContent)
-                this.$prev.find('img').attr('src', this.linkSrcs.prev[tabContent])
-                this.$next.find('img').attr('src', this.linkSrcs.next[tabContent])
             }
             tabs.affection.callback = hook
             tabs.experience.callback = hook
             if (tabs.equipment) {
                 tabs.equipment.callback = hook
+            }
+            if (tabs.teams) {
+                tabs.teams.callback = hook
             }
 
             return ret
@@ -108,15 +108,12 @@ class UpgradeQuickNavModule extends CoreModule {
     buildAvatarHtml(id, { pose }, className) {
         RESOURCE_TYPES.forEach(type => {
             this.linkUrls[className][type] = `/girl/${id}?resource=${type}`
-            if (type == 'equipment') {
-                this.linkSrcs[className][type] = `${Helpers.getCDNHost()}/pictures/girls/${id}/ico${pose}-300x.webp`
-            } else {
-                this.linkSrcs[className][type] = `${Helpers.getCDNHost()}/pictures/girls/${id}/ava${pose}-1200x.webp`
-            }
         })
         const resource = this.getCurrentResource()
 
-        return Helpers.$(`<a class="script-quicknav-${className}" resource="${resource}" href="${this.linkUrls[className][resource]}"><img src="${this.linkSrcs[className][resource]}"/></a>`)
+        const ava = `<img class="quicknav-ava" girl-ava-src="${Helpers.getCDNHost()}/pictures/girls/${id}/ava${pose}.png"/>`
+        const ico = `<img class="quicknav-ico" girl-ico-src="${Helpers.getCDNHost()}/pictures/girls/${id}/ico${pose}.png"/>`
+        return Helpers.$(`<a class="script-quicknav-${className}" resource="${resource}" href="${this.linkUrls[className][resource]}">${ava}${ico}</a>`)
     }
 
     getCurrentResource() {

@@ -23,6 +23,21 @@
 
         img {
             width: 100%;
+
+            &.quicknav-ico {
+                display: none;
+            }
+        }
+
+        &[resource="equipment"] {
+            img {
+                &.quicknav-ico {
+                    display: unset;
+                }
+                &.quicknav-ava {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -32,12 +47,20 @@
         &[resource="equipment"] {
             left : -40px;
         }
+
+        &[resource="teams"] {
+            left : -100px;
+        }
     }
     &-next {
         right: -140px;
 
         &[resource="equipment"] {
             right : -40px;
+        }
+
+        &[resource="teams"] {
+            right : -100px;
         }
     }
 }
