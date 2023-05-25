@@ -95,9 +95,9 @@ class TimerCollector {
     static collectClubChampionTime () {
         const times = loadTimes()
 
-        const {championData, clubChampionsData} = window;
+        const {championData, club_champions_data} = window;
 
-        [championData, clubChampionsData].forEach(data => {
+        [championData, club_champions_data].forEach(data => {
             if (data && data.timers && (data.timers.teamRest || data.timers.championRest)) {
                 times.clubChamp = parseInt(data.timers.teamRest || data.timers.championRest)
             }

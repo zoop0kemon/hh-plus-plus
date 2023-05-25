@@ -116,10 +116,10 @@ class ChampionsModule extends CoreModule {
     }
 
     addChampionInfoOnClubsPage () {
-        const {clubChampionsData, membersList, server_now_ts} = window
-        if (!clubChampionsData || !clubChampionsData.fight.active || !clubChampionsData.fight.participants.length) {return}
+        const {club_champions_data, membersList, server_now_ts} = window
+        if (!club_champions_data || !club_champions_data.fight.active || !club_champions_data.fight.participants.length) {return}
 
-        const {champion: {bar}, fight: {participants, start_time}, timers: {championFight}} = clubChampionsData
+        const {champion: {bar}, fight: {participants, start_time}, timers: {championFight}} = club_champions_data
         const totalPositiveImpressionParticipants = participants.length //.filter(({challenge_impression_done}) => parseInt(challenge_impression_done) > 0).length
 
         const totalImpression = parseInt(bar.max)

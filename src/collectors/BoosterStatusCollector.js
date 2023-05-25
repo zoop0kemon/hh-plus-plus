@@ -177,13 +177,10 @@ class BoosterStatusCollector {
     }
 
     static collectFromMarket () {
-        const activeSlots = $('#equiped .booster .slot:not(.empty):not(.mythic)').map((i, el)=> $(el).data('d')).toArray()
-        const activeMythicSlots = $('#equiped .booster .slot:not(.empty).mythic').map((i, el)=> $(el).data('d')).toArray()
-
-        const {server_now_ts} = window
+        const {equipped_booster, server_now_ts} = window
         const boosterStatus = {
-            normal: activeSlots.map((data) => ({...data, endAt: server_now_ts + data.expiration})),
-            mythic: activeMythicSlots,
+            normal: equipped_booster.normal.map((data) => ({...data, endAt: server_now_ts + data.expiration})),
+            mythic: equipped_booster.mythic,
         }
 
         Helpers.lsSet(lsKeys.BOOSTER_STATUS, boosterStatus)

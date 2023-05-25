@@ -59,7 +59,7 @@ class RewardShardsModule extends CoreModule {
     displayOnPreBattle() {
         const girlDictionary = Helpers.getGirlDictionary()
 
-        const $girlsReward = $('.girls_reward')
+        const $girlsReward = $('.slot.girl_ico')
         if (!$girlsReward.length) { return }
 
         const annotate = ($girlsReward) => {
@@ -84,14 +84,14 @@ class RewardShardsModule extends CoreModule {
             })
         }
 
-        if ($('.slot_girl_shards .girl_ico').length) {
+        if ($('.slot.girl_ico .girl_ico').length) {
             annotate($girlsReward)
         } else {
             new MutationObserver(() => {
-                if ($('.slot_girl_shards .girl_ico').length) {
+                if ($('.slot.girl_ico .girl_ico').length) {
                     annotate($girlsReward)
                 }
-            }).observe($girlsReward.find('[data-reward-display]')[0], { childList: true })
+            }).observe($girlsReward[0], { childList: true })
         }
         new MutationObserver(() => {
             if ($('.rewards_tooltip .girl_ico').length) {
@@ -101,23 +101,23 @@ class RewardShardsModule extends CoreModule {
     }
 
     displayOnClubChampion() {
-        const { clubChampionsData } = window
-        if (!clubChampionsData || !clubChampionsData.reward.shards) { return }
+        const { club_champions_data } = window
+        if (!club_champions_data || !club_champions_data.reward.shards) { return }
         const annotate = () => {
-            const { previous_value: shards, name } = clubChampionsData.reward.shards[0]
-            $('.reward_wrap .girl-shards-slot').append(makeShardCount({ shards, name }))
+            const { previous_value: shards, name } = club_champions_data.reward.shards[0]
+            $('.girl-shards-reward-wrapper .slot_girl_shards').append(makeShardCount({ shards, name }))
         }
 
-        if ($('.reward_wrap .girl-shards-slot').length) {
+        if ($('.girl-shards-reward-wrapper .slot_girl_shards').length) {
             annotate()
         } else {
             const observer = new MutationObserver(() => {
-                if ($('.reward_wrap .girl-shards-slot').length) {
+                if ($('.girl-shards-reward-wrapper .slot_girl_shards').length) {
                     annotate()
                     observer.disconnect()
                 }
             })
-            observer.observe($('.reward_wrap')[0], { childList: true })
+            observer.observe($('.girl-shards-reward-wrapper')[0], { childList: true })
         }
     }
 
