@@ -50,6 +50,11 @@
 
         &[resource="teams"] {
             left : -100px;
+
+            &.no-teams {
+                left: -240px;
+                top: 60px;
+            }
         }
     }
     &-next {
@@ -61,6 +66,19 @@
 
         &[resource="teams"] {
             right : -100px;
+
+            &.no-teams {
+                right: -240px;
+                top: 60px;
+            }
         }
     }
+}
+
+.synergy-helper {
+    left: 15.5rem !important;
+}
+
+.equipment-left-controls {
+    z-index: 2;
 }

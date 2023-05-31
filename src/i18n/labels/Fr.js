@@ -85,7 +85,8 @@ export const config = {
     leaderboardProfilePopups: 'Liens vers les profils de joueurs dans les classements',
     improvedWaifu: `Paramètres avancés pour ${gameConfig.waifu}`,
     sortDailyMissions: 'Trier les missions par durée',
-    sortDailyMissions_reverse: 'Ordre inverse'
+    sortDailyMissions_reverse: 'Ordre inverse',
+    upgradeInfo: 'Infos sur la page d\'amélioration'
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',
@@ -133,6 +134,7 @@ export const stConfig = {
     hideClaimAllButton: 'Cacher le bouton "Tout réclamer" pour les récompenses de saison',
     dpEventTweaks: 'Modifications pour la Double Pénétration',
     compactDailyMissions: 'Missions quotidiennes compactes',
+    removeSlotBorder: 'Retirer la bordure blanche dans le marché'
 }
 
 export const villain = {

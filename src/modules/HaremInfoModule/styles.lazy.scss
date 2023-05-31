@@ -305,3 +305,20 @@
         background-size: contain;
     }
 }
+
+#harem_left .buttons_container {
+    justify-content: center;
+    gap: 1rem;
+
+    #collect_all_container {
+        min-width: 125px;
+        margin: unset;
+    }
+
+    #unequip_all_container {
+        min-width: unset;
+        width: 80px;
+        margin: unset;
+        line-height: 1.25;
+    }
+}

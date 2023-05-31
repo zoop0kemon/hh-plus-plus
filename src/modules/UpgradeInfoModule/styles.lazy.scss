@@ -1,0 +1,69 @@
+.girl-upper-info {
+    height: 2rem;
+    align-items: center;
+
+    ::before {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    &>:first-child {
+        margin-left: 10px !important;
+    }
+
+    :nth-child(2) {
+        margin-left: 0.7rem !important;
+    }
+
+    :last-child {
+        margin-left: unset !important;
+    }
+
+    .girl_pos {
+        margin-left: 0.2rem !important;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+}
+
+.girl-upper-stats {
+    position: absolute;
+    display: flex;
+    gap: 1rem;
+    text-align: center;
+    font-size: 14px;
+    z-index: 3;
+    text-shadow: 0px 0px 4px black;
+
+    ::before {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+.equipment_slot {
+    overflow: visible !important;
+}
+
+.slot {
+    .item_resonances {
+        position: absolute;
+        display: flex;
+        gap: 0.125rem;
+        left: 0rem;
+        top: -1rem;
+        z-index: 3;
+
+        img {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .matches {
+            filter: drop-shadow(0px 0px 3px #00ff06) drop-shadow(0px 0px 3px #00ff06) drop-shadow(0px 0px 3px #00ff06);
+        }
+    }
+}

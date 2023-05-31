@@ -43,8 +43,7 @@ class SeasonStatsCollector {
                 if (mojoReward) {
                     const seasonStats = Helpers.lsGet(lsKeys.SEASON_STATS) || {...DEFAULT_STATS}
 
-                    // <p>26</p>
-                    const mojoAmount = parseInt($(mojoReward.value).text(), 10)
+                    const mojoAmount = parseInt(mojoReward.value, 10)
 
                     seasonStats.fights += 1
                     if (mojoAmount > 0) {

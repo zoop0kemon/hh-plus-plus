@@ -95,7 +95,8 @@ export const config = {
     leaderboardProfilePopups: 'Link ai profili dei giocatori nelle classifiche',
     improvedWaifu: `${Helpers.isGH()? 'Fidanzato migliorato' : 'Waifu migliorata'}`,
     sortDailyMissions: 'Ordina le missioni giornaliere per durata',
-    sortDailyMissions_reverse: 'Ordine inverso'
+    sortDailyMissions_reverse: 'Ordine inverso',
+    upgradeInfo: 'Informazioni sulla pagina di miglioramento'
 }
 export const stConfig = {
     missionsBackground: 'Cambiare lo sfondo delle missioni',
@@ -143,6 +144,7 @@ export const stConfig = {
     hideClaimAllButton: 'Nascondere il bottone "Richiedi tutto" nella stagione',
     dpEventTweaks: 'Modifiche per la Doppia Penetrazione',
     compactDailyMissions: 'Missioni giornaliere compatte',
+    removeSlotBorder: 'Rimuovi il bordo bianco nel mercato'
 }
 
 export const villain = {

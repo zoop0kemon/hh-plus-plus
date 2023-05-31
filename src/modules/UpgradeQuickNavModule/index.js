@@ -72,35 +72,42 @@ class UpgradeQuickNavModule extends CoreModule {
 
         })
 
-        const initTabSystem_actual = window.initTabSystem
-        const tabSystemHook = (...args) => {
-            const ret = initTabSystem_actual(...args)
+        Helpers.doWhenSelectorAvailable('.tabs-switcher', () => {
+            const initTabSystem_actual = window.initTabSystem
+            const tabSystemHook = (...args) => {
+                const ret = initTabSystem_actual(...args)
 
-            const { tab_system_instances } = window
+                const { tab_system_instances } = window
 
-            const tabsInstance = tab_system_instances['girl-leveler-tabs']
-            const { tabs } = tabsInstance
+                const tabsInstance = tab_system_instances['girl-leveler-tabs']
+                const { tabs } = tabsInstance
 
-            const switchTab_actual = tabs.affection.callback
-            const hook = (tabContent) => {
-                switchTab_actual(tabContent)
-                this.$prev.attr('href', this.linkUrls.prev[tabContent])
-                this.$next.attr('href', this.linkUrls.next[tabContent])
-                this.$prev.attr('resource', tabContent)
-                this.$next.attr('resource', tabContent)
-            }
-            tabs.affection.callback = hook
-            tabs.experience.callback = hook
-            if (tabs.equipment) {
+                const switchTab_actual = tabs.affection.callback
+                const hook = (tabContent) => {
+                    switchTab_actual(tabContent)
+                    this.$prev.attr('href', this.linkUrls.prev[tabContent])
+                    this.$next.attr('href', this.linkUrls.next[tabContent])
+                    this.$prev.attr('resource', tabContent)
+                    this.$next.attr('resource', tabContent)
+                }
+                tabs.affection.callback = hook
+                tabs.experience.callback = hook
                 tabs.equipment.callback = hook
-            }
-            if (tabs.teams) {
                 tabs.teams.callback = hook
-            }
 
-            return ret
-        }
-        window.initTabSystem = tabSystemHook
+                return ret
+            }
+            window.initTabSystem = tabSystemHook
+        })
+
+        Helpers.onAjaxResponse(/action=get_teams_for_girl/, (response) => {
+            if (!response.success) {return}
+
+            if (!response.teams.length) {
+                this.$prev.addClass('no-teams')
+                this.$next.addClass('no-teams')
+            }
+        })
 
         this.hasRun = true
     }

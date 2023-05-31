@@ -60,6 +60,10 @@
 //     }
 // }
 
-.player_team_block .opponent_rewards .rewards_list .slot .slot_girl_shards.slot {
-    border-radius: unset!important;
+.rewards_tooltip .slot.girl_ico {
+    overflow: visible;
+}
+
+.player_team_block .opponent_rewards .rewards_list .slot .slot:has(.girl_ico) {
+    overflow: visible!important;
 }

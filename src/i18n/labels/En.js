@@ -90,7 +90,8 @@ export const config = {
     leaderboardProfilePopups: 'Links to player profiles from leaderboards',
     improvedWaifu: `Improved ${gameConfig.waifu}`,
     sortDailyMissions: 'Sort daily missions by duration',
-    sortDailyMissions_reverse: 'Reverse order'
+    sortDailyMissions_reverse: 'Reverse order',
+    upgradeInfo: `Upgrade page information`
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
@@ -138,6 +139,7 @@ export const stConfig = {
     hideClaimAllButton: 'Hide "Claim All" button on Season rewards screen',
     dpEventTweaks: 'DP Event tweaks',
     compactDailyMissions: 'Compact daily missions',
+    removeSlotBorder: 'Remove white slot border in Market'
 }
 
 export const villain = {

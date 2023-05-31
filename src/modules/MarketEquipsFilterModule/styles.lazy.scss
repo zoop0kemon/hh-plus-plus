@@ -4,7 +4,7 @@ label.equip_filter {
     width: 32px;
 
     #my-hero-equipement-tab-container & {
-        top: 92px;
+        top: 6rem;
     }
 
     #equipement-tab-container .right-container & {
@@ -34,7 +34,7 @@ label.equip_filter {
 
 .equip_filter_box {
     position: absolute;
-    width: 200px;
+    width: 5rem;
     height: -moz-fit-content;
     height: fit-content;
     z-index: 3;
@@ -43,15 +43,35 @@ label.equip_filter {
     box-shadow: rgba(255, 255, 255, 0.73) 0px 0px;
     padding: 5px;
     border: 1px solid rgb(255, 162, 62);
+    text-align: center;
+
+    hr {
+        margin-block: 0.25rem;
+        border: 1px solid rgb(255, 162, 62);
+    }
+    
+    &.resonance {
+        width: 6.5rem;
+    }
 
     #my-hero-equipement-tab-container & {
-        top: 92px;
-        left: 18px;
+        top: 4rem;
+        left: 8rem;
+
+        &.resonance {
+            top: 7rem;
+            left: 1rem;
+        }
     }
 
     #equipement-tab-container .right-container & {
-        top: 62px;
-        left: 380px;
+        top: 3rem;
+        left: 31.25rem;
+
+        &.resonance {
+            top: 6rem;
+            left: 24.25rem;
+        }
     }
 
     label {
@@ -76,46 +96,47 @@ label.equip_filter {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
-}
+    margin-bottom: 4px;
+    flex-direction: column;
+    
+    &:last-child {
+        margin-bottom: 0px;
+    }
 
-.grid-selector:last-child {
-    margin-bottom: 0px;
-}
+    input {
+        display: none;
+    }
 
-.grid-selector input {
-    display: none;
-}
+    .selector-options {
+        width: -moz-fit-content;
+        width: fit-content;
+        display: grid;
+        grid-gap: 2px;
 
-.grid-selector .selector-options {
-    width: -moz-fit-content;
-    width: fit-content;
-    display: grid;
-    grid-gap: 2px;
-}
+        img {
+            height: 24px;
+            width: 24px;
+            margin: 2px;
+        }
 
-.grid-selector .selector-options img {
-    height: 32px;
-    width: 32px;
-    margin: 2px;
-}
+        div {
+            height: 24px;
+            width: 24px;
+            margin: 4px;
+            border-radius: 5px;
+        }
+    }
 
-.grid-selector .selector-options div {
-    height: 28px;
-    width: 28px;
-    margin: 4px;
-    border-radius: 5px;
-}
+    .clear-selector {
+        width: -moz-fit-content;
+        width: fit-content;
+        margin-right: 5px;
 
-.grid-selector .clear-selector {
-    width: -moz-fit-content;
-    width: fit-content;
-    margin-right: 5px;
-}
-
-.grid-selector .clear-selector img {
-    height: 36px;
-    width: 36px;
+        img {
+            height: 24px;
+            width: 24px;
+        }
+    }
 }
 
 .slot .favourite-toggle {

@@ -69,7 +69,8 @@ export const config = {
     leaderboardProfilePopups: 'Links zu Spielerprofilen in den Ranglisten',
     improvedWaifu: `Verbesserte${Helpers.isGH()? 'r Boyfriend' : ' Waifu'}`,
     sortDailyMissions: 'Tägliche Missionen nach Dauer sortieren',
-    sortDailyMissions_reverse: 'Umgekehrte Reihenfolge'
+    sortDailyMissions_reverse: 'Umgekehrte Reihenfolge',
+    upgradeInfo: 'Informationen zur Verbesserungsseite'
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',
@@ -117,6 +118,7 @@ export const stConfig = {
     hideClaimAllButton: '"Alles beanspruchen"-Button in der Saison verbergen',
     dpEventTweaks: 'DP-Event Anpassungen',
     compactDailyMissions: 'Kompakte tägliche Missionen',
+    removeSlotBorder: 'Weißen Rahmen im Markt entfernen'
 }
 
 export const villain = {

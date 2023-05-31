@@ -21,7 +21,11 @@ class EquipManager {
             subtype: EquipHelpers.filterDefault,
             rarity: EquipHelpers.filterDefault,
             stats: EquipHelpers.filterDefault,
-            favourites: EquipHelpers.filterDefault
+            favourites: EquipHelpers.filterDefault,
+            resonance_class: EquipHelpers.filterDefault,
+            resonance_class_bonus: EquipHelpers.filterDefault,
+            resonance_theme: EquipHelpers.filterDefault,
+            resonance_theme_bonus: EquipHelpers.filterDefault
         }
     }
 
@@ -62,19 +66,19 @@ class EquipManager {
             this.annotateEquipsWithKeys()
             this.annotateEquipsWithFavourites()
             this.checkSelection()
+            this.setupHooks()
         } else {
             const observer = new MutationObserver(() => {
                 if (this.$content.children('div').length) {
                     this.annotateEquipsWithKeys()
                     this.annotateEquipsWithFavourites()
                     this.checkSelection()
+                    this.setupHooks()
                     observer.disconnect()
                 }
             })
             observer.observe(this.$container[0], { childList: true, subtree: true })
         }
-
-        this.setupHooks()
 
         if (!this.skipFilter) {
             this.attachFilterButtonAndPanel()
@@ -84,7 +88,7 @@ class EquipManager {
     setupHooks() {
         Helpers.onAjaxResponse(/action=market_equip_armor/, (response) => {
             const { unequipped_armor } = response
-            const equipped_armor = this.$content.find('.slot.selected').data('d')
+            const equipped_armor = $('#my-hero-equipement-tab-container .slot.selected').data('d')
 
             const idToRemove = EquipHelpers.makeEquipKey(equipped_armor)
             const idToAdd = EquipHelpers.makeEquipKey(unequipped_armor)
@@ -209,8 +213,9 @@ class EquipManager {
         })
 
         new MutationObserver(() => {
+            this.reconcileElements(this.name === 'upgrade')
             this.checkSelection()
-        }).observe(this.$content[0], { attributes: true, subtree: true, attributeFilter: ['class'] })
+        }).observe(this.$content[0], { subtree: true, attributes: true, attributeFilter: ['class'] })
 
         FavouritesManager.onUpdate(() => {
             this.updateVisibleIdsForFilter()
@@ -291,6 +296,9 @@ class EquipManager {
         let changed
         if (!key) {
             const data = $slot.data('d')
+            if (!data.id_member_armor) {
+                data.id_member_armor = data.id_item
+            }
             key = EquipHelpers.makeEquipKey(data)
             const favouriteKey = EquipHelpers.makeFavouriteKey(data)
             $slot.attr('data-equip-key', key)
