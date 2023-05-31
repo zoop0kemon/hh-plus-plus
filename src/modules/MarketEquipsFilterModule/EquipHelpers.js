@@ -7,6 +7,7 @@ class EquipHelpers {
         const {level, carac1_equip, carac2_equip, carac3_equip, endurance_equip, chance_equip, id_member_armor, item: {rarity, name_add}, skin: {identifier, subtype}, resonance_bonuses} = data
         const hasResonance = !(resonance_bonuses === undefined || !Object.keys(resonance_bonuses).length)
         let {class: {identifier: res_class, resonance: res_class_bonus}, theme: {identifier: res_theme, resonance: res_theme_bonus}} = hasResonance ? resonance_bonuses : {class: {}, theme: {}}
+        if (hasResonance && res_theme === null) {res_theme = 'balanced'}
         return {identifier, id_member_armor, subtype, rarity, name_add, level, carac1_equip, carac2_equip, carac3_equip, endurance_equip, chance_equip, res_class, res_class_bonus, res_theme, res_theme_bonus}
     }
 
