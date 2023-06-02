@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Hentai Heroes++ BDSM version
 // @description     Adding things here and there in the Hentai Heroes game. Also supports HHCore-based games such as GH and CxH.
-// @version         1.36.1
+// @version         1.36.2
 // @match           https://*.hentaiheroes.com/*
 // @match           https://nutaku.haremheroes.com/*
 // @match           https://*.gayharem.com/*
@@ -3486,7 +3486,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((module) => {
 
 "use strict";
-eval("module.exports = JSON.parse('[{\"name\":\"Darkyz\",\"tier\":\"silver\",\"flairs\":[{\"game\":\"HH\",\"platform\":\".com\",\"id\":\"124704\"},{\"game\":\"CxH\",\"platform\":\".com\",\"id\":\"29164\"},{\"game\":\"PSH\",\"platform\":\".com\",\"id\":\"1851\"}]},{\"name\":\"sliqguy\",\"tier\":\"silver\",\"flairs\":[{\"game\":\"HH\",\"platform\":\"nutaku\",\"id\":\"977263\"}]}]');\n\n//# sourceURL=webpack://hh-plus-plus/./src/data/patrons.json?");
+eval("module.exports = JSON.parse('[{\"name\":\"xnh0x\",\"tier\":\"gold\",\"flairs\":[{\"game\":\"HH\",\"platform\":\"nutaku\",\"id\":\"4443024\"}]},{\"name\":\"Darkyz\",\"tier\":\"silver\",\"flairs\":[{\"game\":\"HH\",\"platform\":\".com\",\"id\":\"124704\"},{\"game\":\"CxH\",\"platform\":\".com\",\"id\":\"29164\"},{\"game\":\"PSH\",\"platform\":\".com\",\"id\":\"1851\"}]},{\"name\":\"sliqguy\",\"tier\":\"silver\",\"flairs\":[{\"game\":\"HH\",\"platform\":\"nutaku\",\"id\":\"977263\"}]}]');\n\n//# sourceURL=webpack://hh-plus-plus/./src/data/patrons.json?");
 
 /***/ })
 
