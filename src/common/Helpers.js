@@ -189,23 +189,18 @@ class Helpers {
         return localStorage.removeItem(key)
     }
 
-    static getWikiLink (name, lang) {
+    static getWikiLink (name, id, lang) {
         name = name.replaceAll('/', '-')
+        name = name.replaceAll('’', '')
 
-        if (lang === 'fr') {
-            //for Wiki FR
-            name = name.replaceAll('’', '-')
-        } else {
-            name = name.replaceAll('’', '')
-        }
         let wikiLink
 
         if (Helpers.isGH()) {
             wikiLink = `https://harem-battle.club/wiki/Gay-Harem/GH:${name}`
-        } else if (lang === 'fr') {
-            wikiLink = `http://hentaiheroes.wikidot.com/${name}`
-        } else {
+        } else if (lang === 'en') {
             wikiLink = `https://harem-battle.club/wiki/Harem-Heroes/HH:${name}`
+        } else {
+            wikiLink = `http://hentaiheroes.go.yj.fr/?id=${id}`
         }
         return wikiLink
     }

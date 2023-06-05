@@ -32,7 +32,7 @@ class PachinkoNamesModule extends CoreModule {
             pachinkoDef.forEach(({ type, content }) => {
                 const rewardGirls = (content && content.rewards && content.rewards.girl_shards && content.rewards.girl_shards.plain_data) || []
                 const poolGirls = (content && content.girls_pool && content.girls_pool.girl_shards && content.girls_pool.girl_shards.plain_data) || []
-                const girlList = rewardGirls.map(({ id_girl }) => girlDictionary.get(`${id_girl}`))
+                const girlList = rewardGirls.map(({ id_girl }) => ({ ...girlDictionary.get(`${id_girl}`), id_girl }))
                 const girlPool = poolGirls.map(({ id_girl }) => ({ ...girlDictionary.get(`${id_girl}`), id_girl }))
                 this.girlLists[type] = { girlList, girlPool }
             })
@@ -71,7 +71,7 @@ class PachinkoNamesModule extends CoreModule {
                 <div class="scrollArea">
                     <div class="availableOnly">
                         ${girlList.length ? this.label('availableGirls') : ''}
-                        ${girlList.map(girl => girl ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name)}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">Unknown</span>').join(', ')}
+                        ${girlList.map(girl => girl ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">Unknown</span>').join(', ')}
                     </div>
                     <div class="fullPool">
                         ${girlPool.length ? this.label('poolGirls') : ''}

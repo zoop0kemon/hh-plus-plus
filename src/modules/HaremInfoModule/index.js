@@ -344,7 +344,7 @@ class HaremInfoModule extends CoreModule {
         }
 
         const girl = girlsDataList[girlId]
-        const wikiLink = Helpers.getWikiLink(girl.name, I18n.getLang())
+        const wikiLink = Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())
 
         if (!girl.own) {
             const $existingLink = $girl.find('.WikiLinkDialogbox > a')
