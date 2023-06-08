@@ -369,17 +369,18 @@ class HideClaimedRewardsModule extends CoreModule {
     seasonalEvent () {
         Helpers.doWhenSelectorAvailable('.seasonal-timer.timer', () => {
             let hidden = false
-            let $groupsToHide = $('.seasonal-tier:not(.unclaimed):has(.claimed-slot)')
+            let $groupsToHide = $('.seasonal-tier.claimed')
             let $groupsRemaining = $('.seasonal-tier.unclaimed')
             let claimedCount = $groupsToHide.length
             const widthPattern = /width: ?(?<existingLength>[0-9.a-z%]+);?/
+            const containerWidth = $('.seasonal-tier-container').width()
             let existingLengthStr
             let newLength
             const $progressBar = $('.seasonal-progress-bar .seasonal-progress-bar-current')
             const styleAttr = $progressBar.attr('style')
 
             const assertHidden = () => {
-                $groupsToHide = $('.seasonal-tier:not(.unclaimed):has(.claimed-slot)')
+                $groupsToHide = $('.seasonal-tier.claimed')
                 $groupsRemaining = $('.seasonal-tier.unclaimed')
                 claimedCount = $groupsToHide.length
                 if (claimedCount === 0) {
@@ -392,7 +393,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 if (styleAttr) {
                     setTimeout(() => {
                         if ($groupsRemaining.length) {
-                            newLength = $groupsRemaining.last().find('.tier-level')[0].offsetLeft
+                            newLength = containerWidth * ($groupsRemaining.length - 0.5)
                         } else {
                             newLength = 0
                         }
