@@ -52,7 +52,6 @@ export {default as BonusFlowersOverflowStyleTweak} from './BonusFlowersOverflowS
 export {default as BossBangProgressBarStyleTweak} from './BossBangProgressBarStyleTweak'
 export {default as ChampGirlOverlapStyleTweak} from './ChampGirlOverlapStyleTweak'
 export {default as ChampGirlPowerStyleTweak} from './ChampGirlPowerStyleTweak'
-export {default as ClubTableShadowStyleTweak} from './ClubTableShadowStyleTweak'
 export {default as ContestPointsWidthStyleTweak} from './ContestPointsWidthStyleTweak'
 export {default as EventGirlBordersStyleTweak} from './EventGirlBordersStyleTweak'
 export {default as EventGirlTicksStyleTweak} from './EventGirlTicksStyleTweak'

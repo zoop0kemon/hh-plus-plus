@@ -1,4 +1,4 @@
-/* global girlsDataList, event_girls, club_champions_data */
+/* global girlsDataList, event_girls, club_champion_data */
 import Helpers from '../common/Helpers'
 
 let girlDictionary
@@ -120,11 +120,11 @@ class GirlDictionaryCollector {
     }
 
     static collectFromClubChamp() {
-        if (!window.club_champions_data) {
+        if (!window.club_champion_data) {
             return
         }
 
-        const { shards: rewardShards } = club_champions_data.reward
+        const { shards: rewardShards } = club_champion_data.reward
 
         if (!rewardShards || !rewardShards.length) {
             return

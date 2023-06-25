@@ -101,24 +101,20 @@ class RewardShardsModule extends CoreModule {
     }
 
     displayOnClubChampion() {
-        const { club_champions_data } = window
-        if (!club_champions_data || !club_champions_data.reward.shards) { return }
+        const { club_champion_data } = window
+        if (!club_champion_data || !club_champion_data.reward.shards) { return }
         const annotate = () => {
-            const { previous_value: shards, name } = club_champions_data.reward.shards[0]
+            const { previous_value: shards, name } = club_champion_data.reward.shards[0]
             $('.girl-shards-reward-wrapper .slot_girl_shards').append(makeShardCount({ shards, name }))
         }
 
-        if ($('.girl-shards-reward-wrapper .slot_girl_shards').length) {
-            annotate()
-        } else {
-            const observer = new MutationObserver(() => {
-                if ($('.girl-shards-reward-wrapper .slot_girl_shards').length) {
-                    annotate()
-                    observer.disconnect()
-                }
+        Helpers.doWhenSelectorAvailable('.tabs-switcher#club-tabs', () => {
+            $('.tabs-switcher#club-tabs #club_champions_tab').on('click', () => {
+                Helpers.doWhenSelectorAvailable('.girl-shards-reward-wrapper .slot_girl_shards', () => {
+                    setTimeout(annotate, 10)
+                })
             })
-            observer.observe($('.girl-shards-reward-wrapper')[0], { childList: true })
-        }
+        })
     }
 
     displayOnPachinko() {

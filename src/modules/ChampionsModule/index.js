@@ -116,89 +116,117 @@ class ChampionsModule extends CoreModule {
     }
 
     addChampionInfoOnClubsPage () {
-        const {club_champions_data, membersList, server_now_ts} = window
-        if (!club_champions_data || !club_champions_data.fight.active || !club_champions_data.fight.participants.length) {return}
+        const {club_champion_data, members_list, server_now_ts} = window
+        if (!club_champion_data || !club_champion_data.fight.active) {return}
+        const {fight: {participants}} = club_champion_data
 
-        const {champion: {bar}, fight: {participants, start_time}, timers: {championFight}} = club_champions_data
-        const totalPositiveImpressionParticipants = participants.length //.filter(({challenge_impression_done}) => parseInt(challenge_impression_done) > 0).length
+        const clubMembersTab = () => {
+            // Mark members that haven't hit the champ
+            const participatingMembers = participants.map(({id_member})=>id_member)
+            const nonParticipatingMembers = members_list.filter(({id_member})=>!participatingMembers.includes(id_member))
 
-        const totalImpression = parseInt(bar.max)
+            const highlightNonParticipants = () => {
+                nonParticipatingMembers.forEach(({id_member}) => {
+                    $(`#members .avatar[id-member=${id_member}]`).parent().addClass('non-participant')
+                })
+            }
+            highlightNonParticipants()
+            new MutationObserver(highlightNonParticipants).observe(document.getElementById('members'), {childList: true, subtree: true})
+        }
+        const clubChampionsTab = () => {
+            const {champion: {bar}, fight: {start_time}, timers: {championFight}} = club_champion_data
+            const totalPositiveImpressionParticipants = participants.length //.filter(({challenge_impression_done}) => parseInt(challenge_impression_done) > 0).length
+            const totalImpression = parseInt(bar.max)
 
-        // Display impression and shard projections on the champ table
-        participants.forEach(({id_member, challenge_impression_done}) => {
-            const impression = parseInt(challenge_impression_done)
-            const percentage = impression / totalImpression
-            const shards = calculateCCShardProjection(percentage, totalPositiveImpressionParticipants)
+            // Display impression and shard projections on the champ table
+            Helpers.doWhenSelectorAvailable('.club-champion-members-challenges .data-list', () => {
+                const $members_challenges_table = $('.club-champion-members-challenges .data-list')
+                const addImpressionShards = () => {
+                    const {club_champion_participants: sorted_participants} = window
 
-            //
-            const $cellHTML = $(`
-                <div>${I18n.nThousand(impression)}</div>
-                <div>${I18n.nRounding(percentage * 100, 2, 0)}% / <span class="shard"></span> x ${shards}</div>
-            `)
+                    sorted_participants.forEach(({challenge_impression_done}, index) => {
+                        const impression = parseInt(challenge_impression_done)
+                        const percentage = impression / totalImpression
+                        const shards = calculateCCShardProjection(percentage, totalPositiveImpressionParticipants)
+        
+                        const $cellHTML = $(`
+                            <div>${I18n.nThousand(impression)}</div>
+                            <div>${I18n.nRounding(percentage * 100, 2, 0)}% / <span class="shard"></span> x ${shards}</div>
+                        `)
 
-            $(`#club_champions_body_table tbody [sorting_id=${id_member}] td.impression`).empty().append($cellHTML)
-        })
+                        $members_challenges_table.find('.data-row.body-row').eq(index).children().last().empty().append($cellHTML)
+                    })
+                }
 
-        // Show participant count
-        $('#club_champions_container').prepend(`<div class="script-participant-count">${this.label('participants', {participants: totalPositiveImpressionParticipants, members: membersList.length})}</div>`)
+                addImpressionShards()
+                const observer = new MutationObserver(() => {
+                    addImpressionShards()
+                })
+                observer.observe($members_challenges_table[0], {childList: true})
+            })
 
-        // Mark members that haven't hit the champ
-        const participatingMembers = participants.map(({id_member})=>id_member)
-        const nonParticipatingMembers = membersList.filter(({id_member})=>!participatingMembers.includes(id_member))
+            // Show participant count
+            $('.club-details-container #club_champions').prepend(`<div class="script-participant-count">${this.label('participants', {participants: totalPositiveImpressionParticipants, members: members_list.length})}</div>`)
 
-        const highlightNonParticipants = () => {
-            nonParticipatingMembers.forEach(({id_member}) => {
-                $(`#members [sorting_id=${id_member}]`).addClass('non-participant')
+            // Fix broken progress bar in non-english locales
+            Helpers.doWhenSelectorAvailable('.club_champions_bar', () => {
+                const $clubChampionsBar = $('.club_champions_bar')
+                $clubChampionsBar.attr('style', $clubChampionsBar.attr('style').replace(',','.'))
+            })
+
+            // Add time since start
+            Helpers.doWhenSelectorAvailable('.club_champions_timer_fight', () => {
+                const $timerFight = $('.club_champions_timer_fight')
+                if ($timerFight.length && !$('.script-round-duration-time').length) {
+                    const {format_time_short, createTimer} = window
+
+                    const durationString = `<span class="script-round-duration-time">${format_time_short(server_now_ts - start_time)}</span>`
+                    const $dummyTimerTarget = $('<div class="dummy-timer-target"></div>')
+                    $timerFight.append('<br/>').append(`<span class="script-round-duration">${this.label('clubChampDuration', {duration: durationString})}</span>`).append($dummyTimerTarget)
+                    const $durationEl = $timerFight.find('.script-round-duration')
+                    const $durationText = $durationEl.find('.script-round-duration-time')
+
+                    const timerResetTime = (server_now_ts - start_time) <= 60 * 60 ? 60 * 60 : 24 * 60 * 60
+                    let useResettingTimer = timerResetTime <= championFight
+                    const timerDuration = useResettingTimer ? timerResetTime : championFight
+                    let resetTimeDuration = 0
+
+                    const onUpdate = (state) => {
+                        const remainingTime = state.time_remaining
+
+                        const newTime = (server_now_ts - start_time) + ((timerDuration - remainingTime) + resetTimeDuration)
+                        $durationText.text(format_time_short(newTime))
+                    }
+                    const onComplete = () => {
+                        // keep reseting timer to keep updating every second if needed
+                        if (useResettingTimer) {
+                            resetTimeDuration += timerDuration
+                            useResettingTimer = timerResetTime + resetTimeDuration <= championFight
+                            const newTimerDuration = useResettingTimer ? timerResetTime : championFight - resetTimeDuration
+                            resetTimeDuration -= timerDuration - newTimerDuration // adjust to account for change in timer duration for last timer
+                            createTimer($dummyTimerTarget, newTimerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
+                        }
+                    }
+
+                    createTimer($dummyTimerTarget, timerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
+                }
+            })
+
+            // Show challenge button instead of refill button while team resting
+            Helpers.doWhenSelectorAvailable('.btn_skip_team_cooldown', () => {
+                $('.btn_skip_team_cooldown').hide()
+                if (!$('.btn_skip_champion_cooldown').length) {
+                    $('.challenge_container').show()
+                }
             })
         }
-        highlightNonParticipants()
-        new MutationObserver(highlightNonParticipants).observe(document.getElementById('members'), {childList: true, subtree: true})
 
-        // Fix broken progress bar in non-english locales
-        const $clubChampionsBar = $('.club_champions_bar')
-        $clubChampionsBar.attr('style', $clubChampionsBar.attr('style').replace(',','.'))
-
-        // Add time since start
-        const $timerFight = $('.club_champions_timer_fight')
-        if ($timerFight.length) {
-            const {format_time_short, createTimer} = window
-
-            const durationString = `<span class="script-round-duration-time">${format_time_short(server_now_ts - start_time)}</span>`
-            const $dummyTimerTarget = $('<div class="dummy-timer-target"></div>')
-            $timerFight.append('<br/>').append(`<span class="script-round-duration">${this.label('clubChampDuration', {duration: durationString})}</span>`).append($dummyTimerTarget)
-            const $durationEl = $timerFight.find('.script-round-duration')
-            const $durationText = $durationEl.find('.script-round-duration-time')
-
-            const timerResetTime = (server_now_ts - start_time) <= 60 * 60 ? 60 * 60 : 24 * 60 * 60
-            let useResettingTimer = timerResetTime <= championFight
-            const timerDuration = useResettingTimer ? timerResetTime : championFight
-            let resetTimeDuration = 0
-
-            const onUpdate = (state) => {
-                const remainingTime = state.time_remaining
-
-                const newTime = (server_now_ts - start_time) + ((timerDuration - remainingTime) + resetTimeDuration)
-                $durationText.text(format_time_short(newTime))
-            }
-            const onComplete = () => {
-                // keep reseting timer to keep updating every second if needed
-                if (useResettingTimer) {
-                    resetTimeDuration += timerDuration
-                    useResettingTimer = timerResetTime + resetTimeDuration <= championFight
-                    const newTimerDuration = useResettingTimer ? timerResetTime : championFight - resetTimeDuration
-                    resetTimeDuration -= timerDuration - newTimerDuration // adjust to account for change in timer duration for last timer
-                    createTimer($dummyTimerTarget, newTimerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
-                }
-            }
-
-            createTimer($dummyTimerTarget, timerDuration, {onUpdate: onUpdate, onComplete: onComplete}).startTimer()
-        }
-
-        // Show challenge button instead of refill button while team resting
-        $('.btn_skip_team_cooldown').hide()
-        if (!$('.btn_skip_champion_cooldown').length) {
-            $('.challenge_container').show()
-        }
+        Helpers.doWhenSelectorAvailable('.tabs-switcher#club-tabs', () => {
+            clubMembersTab()
+            $('.tabs-switcher#club-tabs #club_champions_tab').on('click', () => {
+                setTimeout(clubChampionsTab, 10)
+            })
+        })
     }
 
     poseMatching ({poseMatching, fixPower}) {

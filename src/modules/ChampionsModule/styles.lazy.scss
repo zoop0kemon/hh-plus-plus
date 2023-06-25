@@ -1,20 +1,43 @@
-#club_champions_body_table {
-    td.impression {
-        div {
-            line-height: 1.2;
-            font-size: 0.9rem;
+.club-champion-members-challenges .data-list {
+    .data-row {
+        .data-column:nth-child(1) {
+            width: 3rem;
         }
-        .shard {
-            height: 1rem;
-            width: 1rem;
-            display: inline-block;
-            background-size: 140%;
-            background-position: center;
+        .data-column:nth-child(2) {
+            width: 15rem;
+            justify-content: start;
+            gap: 0.5rem;
+        }
+        .data-column:nth-child(3) {
+            width: 5rem;
+        }
+        .data-column:nth-child(4) {
+            width: 9rem;
+        }
+
+        &.body-row {
+            text-align: center;
+
+            .data-column:nth-child(4) {
+                display: inline-block;
+
+                div {
+                    line-height: 1.2;
+                    font-size: 0.9rem;
+                }
+                .shard {
+                    height: 1rem;
+                    width: 1rem;
+                    display: inline-block;
+                    background-size: 140%;
+                    background-position: center;
+                }
+            }
         }
     }
 }
 
-#club_champions_container {
+.club-details-container #club_champions {
     .script-participant-count {
         display: block;
         position: absolute;
@@ -23,7 +46,7 @@
     }
 }
 
-#members .non-participant td {
+#members .non-participant {
     color: #ffa07a;
 }
 

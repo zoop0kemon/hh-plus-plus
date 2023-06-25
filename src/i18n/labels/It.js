@@ -114,7 +114,6 @@ export const stConfig = {
     leagueTableCompressed: 'Classifica compatta',
     leagueTableRowStripes: 'Righe della classifica di campionato',
     leagueTableShadow: 'Rimuovi l\'ombra della classifica',
-    clubTableShadow: 'Rimuovi l\'ombra del tavolo del club',
     removeParticleEffects: 'Rimuove gli effetti particellari della schermata iniziale',
     eventGirlTicks: `Ticchettii migliorati per ${gameConfig.leragazze} dell'evento`,
     eventGirlBorders: `Bordi verdi intorno ${gameConfig.alleragazze} degli eventi acquisiti`,

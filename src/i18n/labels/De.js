@@ -88,7 +88,6 @@ export const stConfig = {
     leagueTableCompressed: 'Kompakte Ligatabelle',
     leagueTableRowStripes: 'Gestreifte Ligatabellen-Zeilen',
     leagueTableShadow: 'Entferne Schatten der Ligatabelle',
-    clubTableShadow: 'Entferne Schatten der Clubtabelle',
     removeParticleEffects: 'Entferne die Partikeleffekte des Startbildschirms',
     eventGirlTicks: `Verbesserte Häkchen für Event${Helpers.isGH() ? 'kerle' : 'mädels'}`,
     eventGirlBorders: `Grüne Umrandung um erworbene Event${Helpers.isGH() ? 'kerle' : 'mädchen'}`,

@@ -95,7 +95,6 @@ export const stConfig = {
     leagueTableCompressed: 'Компактный вид списка лиги',
     leagueTableRowStripes: 'Чередование расцветки строк лиги',
     leagueTableShadow: 'Убрать затенение списка лиги',
-    clubTableShadow: 'Убрать затенение списка клуба',
     removeParticleEffects: 'Убрать эффекты частиц на главном экране',
     eventGirlTicks: `Улучшенные галочки на ${gameConfig.девушках} игровых событий`,
     eventGirlBorders: `Зеленая рамка вокруг полученных ${gameConfig.девушек} на экране событий`,

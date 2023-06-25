@@ -104,7 +104,6 @@ export const stConfig = {
     leagueTableCompressed: 'Tableau de Ligue compact',
     leagueTableRowStripes: 'Lignes rayées dans le tableau de Ligue',
     leagueTableShadow: 'Enlever l\'ombre dans le tableau de Ligue',
-    clubTableShadow: 'Enlever l\'ombre dans le tableau de Club',
     removeParticleEffects: 'Enlever les effets de particules de la page d\'accueil',
     eventGirlTicks: `Coches améliorées pour les ${gameConfig.fille}s d'événement`,
     eventGirlBorders: `Bordures vertes pour les ${gameConfig.fille}s d'événement obtenues`,

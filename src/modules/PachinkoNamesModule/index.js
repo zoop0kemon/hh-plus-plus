@@ -71,11 +71,11 @@ class PachinkoNamesModule extends CoreModule {
                 <div class="scrollArea">
                     <div class="availableOnly">
                         ${girlList.length ? this.label('availableGirls') : ''}
-                        ${girlList.map(girl => girl ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">Unknown</span>').join(', ')}
+                        ${girlList.map(girl => girl.name ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">????</span>').join(', ')}
                     </div>
                     <div class="fullPool">
                         ${girlPool.length ? this.label('poolGirls') : ''}
-                        ${girlPool.map(girl => girl ? `<a href="/harem/${girl.id_girl}" class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</a>` : '<span class="unknownGirl">Unknown</span>').join(', ')}
+                        ${girlPool.map(girl => girl.name ? `<a href="/harem/${girl.id_girl}" class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</a>` : '<span class="unknownGirl">????</span>').join(', ')}
                     </div>
                 </div>
             </div>

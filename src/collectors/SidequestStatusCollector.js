@@ -26,21 +26,14 @@ class SidequestStatusCollector {
     }
 
     static collectFromSidequests () {
+        const {quests_data} = window
         let energySpendAvailable = false
         let continueLink
-        $('#side_quests .side-quest').each((i,el) => {
-            const $el = $(el)
-
-            if ($el.has('.Continue').length || $el.has('.Begin').length) {
-                const {rewards} = $el.find('.side-quest-rewards').data('reward-display')
-                const xpReward = rewards.find(({type})=>type==='xp')
-                if (xpReward) {
-                    energySpendAvailable = true
-                    continueLink = $el.find('a.Continue, a.Begin').attr('href')
-                    return false
-                }
-            }
-        })
+        const availableQuest = quests_data.find(quest => quest.rewards.rewards ? quest.rewards.rewards.find(({type})=>type==='xp') : false)
+        if (availableQuest) {
+            energySpendAvailable = true
+            continueLink = `/quest/${availableQuest.id_quest}`
+        }
 
         Helpers.lsSet(lsKeys.SIDEQUEST_STATUS, {energySpendAvailable, continueLink})
     }

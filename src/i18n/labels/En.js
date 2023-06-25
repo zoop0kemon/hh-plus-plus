@@ -109,7 +109,6 @@ export const stConfig = {
     leagueTableCompressed: 'Compact league table',
     leagueTableRowStripes: 'Striped league table rows',
     leagueTableShadow: 'Remove league table shadow',
-    clubTableShadow: 'Remove club table shadow',
     removeParticleEffects: 'Remove home screen particle effects',
     eventGirlTicks: `Improved event ${gameConfig.girl} ticks`,
     eventGirlBorders: `Green borders on obtained event ${gameConfig.girl}s`,

@@ -232,6 +232,12 @@ class ImprovedWaifuModule extends CoreModule {
                     let waifu_image = $('.waifu-container>img').eq(0)
                     const size = {width: waifu_image.width()/2, height: waifu_image.height()/2}
 
+                    const observer = new MutationObserver(() => {
+                        if ($('.waifu-container>img').eq(0).attr('style').includes('margin-top')) {
+                            $('.waifu-container>img').eq(0).css('margin-top', '')
+                        }
+                    })
+                    observer.observe(waifu_image[0], {attributes: true, attributeFilter: ['style']})
                     setTransform();
 
                     waifu_image.mousedown(function (e) {
