@@ -78,6 +78,12 @@ body > div > header {
                 }
             }
         }
+
+        .button-notification-icon.button-notification-reward {
+            right: 70px;
+            top: 5px;
+            z-index: 5;
+        }
     }
 
     .promo_fight_discount_text,
@@ -134,95 +140,108 @@ body > div > header {
     }
 
     .script-booster-status {
-        display: grid;
-        grid-gap: 3px;
-        grid-template-columns: repeat(6, 1fr);
-        margin-top: 9px;
+        display: flex;
+        flex-direction: column;
+        grid-gap: 2px;
+        margin-top: 8px;
         margin-left: 6px;
 
-        .slot {
-            border: none;
-        }
+        .script-boosters {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
 
-        .circular-progress {
-            position: relative;
-            height: 24px;
-            width: 24px;
+            .circular-progress {
+                position: relative;
+                height: 18px;
+                width: 18px;
 
-            .green {
-                background-color: #01d10b;
-            }
-
-            .yellow {
-                background-color: #ffc400;
-            }
-
-            .red {
-                background-color: #ff0000;
-            }
-
-            .slot {
-                position: absolute;
-                height: 20px;
-                width: 20px;
-                top: 2px;
-                left: 2px;
-                z-index: 6;
-
-                &.empty {
-                    cursor: inherit !important;
-                }
-            }
-
-            .empty + .circle {
-                box-shadow: none;
-                .circle-bar {
-                    background-color: transparent;
-                }
-            }
-
-            .circle {
-                height: 100%;
-                width: 100%;
-                //border-radius: 7px;
-                box-shadow: 0px 0px 5px #000, 0px 0px 4px #000, 0px 0px 3px #000, 0px 0px 2px #000;
-            }
-
-            .circle-bar {
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                background-color: #000000bf;
-                clip-path: polygon(0% 0%, 0% 100%, 50% 100%, 50% 0%);
-                //border-radius: 7px;
-                overflow: hidden;
-
-                &.flashing {
-                    animation-name: flashing-background;
-                    animation-duration: 3s;
-                    animation-iteration-count: infinite;
+                .green {
+                    background-color: #01d10b;
                 }
 
-                .progress {
+                .yellow {
+                    background-color: #ffc400;
+                }
+
+                .red {
+                    background-color: #ff0000;
+                }
+
+                .slot {
                     position: absolute;
-                    height: 200%;
-                    width: 200%;
-                    top: -50%;
-                    left: -50%;
-                    clip-path: polygon(50% -50%, 150% -50%, 150% 150%, 50% 150%);
+                    height: 16px;
+                    width: 16px;
+                    top: 1px;
+                    left: 1px;
+                    z-index: 6;
+                    border: none;
+
+                    &.empty {
+                        cursor: inherit !important;
+                    }
                 }
 
-                &.right {
-                    transform: rotate(180deg);
-                    z-index: 3;
+                .empty + .circle {
+                    box-shadow: none;
+                    .circle-bar {
+                        background-color: transparent;
+                    }
                 }
-                &.left .progress {
-                    z-index: 1;
+
+                .circle {
+                    height: 100%;
+                    width: 100%;
+                    //border-radius: 7px;
+                    box-shadow: 0px 0px 5px #000, 0px 0px 4px #000, 0px 0px 3px #000, 0px 0px 2px #000;
+                }
+
+                .circle-bar {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    background-color: #000000bf;
+                    clip-path: polygon(0% 0%, 0% 100%, 50% 100%, 50% 0%);
+                    //border-radius: 7px;
+                    overflow: hidden;
+
+                    &.flashing {
+                        animation-name: flashing-background;
+                        animation-duration: 3s;
+                        animation-iteration-count: infinite;
+                    }
+
+                    .progress {
+                        position: absolute;
+                        height: 200%;
+                        width: 200%;
+                        top: -50%;
+                        left: -50%;
+                        clip-path: polygon(50% -50%, 150% -50%, 150% 150%, 50% 150%);
+                    }
+
+                    &.right {
+                        transform: rotate(180deg);
+                        z-index: 3;
+                    }
+                    &.left .progress {
+                        z-index: 1;
+                    }
+                }
+
+                .dummy-timer-target {
+                    display: none !important;
                 }
             }
 
-            .dummy-timer-target {
-                display: none !important;
+            &:hover {
+                transform: scale(1.5);
+                transform-origin: top;
+                z-index: 20;
+
+                &.mythic {
+                    transform-origin: bottom;
+                }
             }
         }
     }

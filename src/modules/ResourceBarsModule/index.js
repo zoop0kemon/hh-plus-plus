@@ -303,22 +303,23 @@ class ResourceBarsModule extends CoreModule {
 
     addBoosterStatus() {
         const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || { normal: [], mythic: [] }
+        const slotCount = { normal: 4, mythic: 5 }
 
         boosterStatus.normal = boosterStatus.normal.filter(({ endAt }) => endAt > server_now_ts)
 
         Object.keys(boosterStatus).forEach(key => {
-            if (boosterStatus[key].length < 3) {
+            if (boosterStatus[key].length < slotCount[key]) {
                 // fill the rest with empty
-                boosterStatus[key] = [...boosterStatus[key], ...Array(3 - boosterStatus[key].length).fill({ empty: true })]
+                boosterStatus[key] = [...boosterStatus[key], ...Array(slotCount[key] - boosterStatus[key].length).fill({ empty: true })]
             }
         })
 
-        const $boosterStatusHTML = $('<a class="script-booster-status" href="/shop.html?type=player-stats&subtab=booster"></a>')
+        const $boosterStatusHTML = $('<a class="script-booster-status" href="/shop.html?type=player-stats&subtab=booster"><div class="script-boosters normal"></div><div class="script-boosters mythic"></div></a>')
 
         const buildNormalSlot = (data) => {
             const { empty, id_item, ico, identifier, rarity, endAt } = { ...data, ...data.item }
             if (empty) {
-                return '<div class="slot empty"></div>'
+                return $('<div class="slot empty"></div>')
             }
             data.expiration = endAt - server_now_ts
             const formattedDate = new Date(endAt * 1000).toLocaleTimeString(I18n.getLang(), { hour: '2-digit', minute: '2-digit' }).replace(/(\d)/g, (x) => `${x}<i></i>`)
@@ -330,7 +331,7 @@ class ResourceBarsModule extends CoreModule {
         const buildMythicSlot = (data) => {
             const { empty, id_item, ico, identifier } = { ...data, ...data.item }
             if (empty) {
-                return '<div class="slot mythic empty"></div>'
+                return $('<div class="slot mythic empty"></div>')
             }
             return $(`
                 <div class="slot mythic" id_item="${id_item}" booster-item-tooltip data-d="${JSON.stringify(data).replace(/"/g, '&quot;')}" additional-tooltip-info="${JSON.stringify({ additionalText: '<span class="script-tooltip"></span>' }).replace(/"/g, '&quot;')}">
@@ -434,7 +435,7 @@ class ResourceBarsModule extends CoreModule {
             let current = 0
             let max = 1
             let useTimer = false
-            const isMythic = rarity === 'mythic'
+            const isMythic = empty ? $slot.hasClass('mythic') : rarity === 'mythic'
 
             if (!empty) {
                 if (isMythic) {
@@ -470,7 +471,7 @@ class ResourceBarsModule extends CoreModule {
             if (replaceEmpty) {
                 $boosterStatusHTML.find(`.circular-progress:has(.empty${isMythic ? '.mythic' : ':not(.mythic)'})`).first().replaceWith($progressWrapper)
             } else {
-                $boosterStatusHTML.append($progressWrapper)
+                $boosterStatusHTML.find(`.script-boosters.${isMythic ? 'mythic' : 'normal'}`).append($progressWrapper)
             }
 
             if (!empty && isMythic) {
@@ -479,6 +480,8 @@ class ResourceBarsModule extends CoreModule {
             }
         }
 
+        
+        
         boosterStatus.normal.forEach(data => {
             buildSlotAndAddTooltip(buildNormalSlot, data)
         })

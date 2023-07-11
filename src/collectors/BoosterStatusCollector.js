@@ -65,7 +65,7 @@ class BoosterStatusCollector {
 
             let mythicUpdated = false
 
-            let sandalwood, allMastery, headband, watch, cinnamon, perfume
+            let sandalwood, allMastery, headband, watch, cinnamon, perfume, leaguesMastery, seasonsMastery
             boosterStatus.mythic.forEach(booster => {
                 switch (booster.item.identifier){
                 case 'MB1':
@@ -85,6 +85,12 @@ class BoosterStatusCollector {
                     break
                 case 'MB7':
                     perfume = booster
+                    break
+                case 'MB8':
+                    leaguesMastery = booster
+                    break
+                case 'MB9':
+                    seasonsMastery = booster
                     break
                 }
             })
@@ -130,6 +136,16 @@ class BoosterStatusCollector {
 
             if (perfume && action === 'start' && className === 'TempPlaceOfPower') {
                 perfume.usages_remaining--
+                mythicUpdated = true
+            }
+
+            if (leaguesMastery && action == 'do_battles_leagues') {
+                leaguesMastery.usages_remaining -= parseInt(number_of_battles)
+                mythicUpdated = true
+            }
+
+            if (seasonsMastery && action == 'do_battles_seasons') {
+                seasonsMastery.usages_remaining -= parseInt(number_of_battles)
                 mythicUpdated = true
             }
 

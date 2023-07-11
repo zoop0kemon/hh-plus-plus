@@ -57,49 +57,52 @@ class ContestRewardsModule extends CoreModule {
         }
 
         contests.forEach((contest) => {
-            const {data: reward_data, drops} = contest.reward
-            if (reward_data.rewards) {
-                reward_data.rewards.forEach((reward) => {
-                    const type = reward.type
-                    const sum_reward = rewards_data.rewards.find((e) => {
-                        const type_matches = e.type === type
-                        const gem_matches = type === 'gems' && type_matches ? e.gem_type === reward.gem_type : true
-                        const item_matches = type === 'item' && type_matches ? e.value.item.id_item === reward.value.item.id_item : true
-                        const armor_matches = type === 'armor' && type_matches ? e.display === reward.display : true
-                        return type_matches && gem_matches && item_matches && armor_matches
-                    })
+            if ($(`.contest[id_contest="${contest.id_contest}"]`).length) {
+                const {data: reward_data, drops} = contest.reward
 
-                    if (sum_reward) {
-                        if (typeof sum_reward.value === 'object') {
-                            sum_reward.value.quantity += reward.value.quantity || 1
-                        } else if (type === 'soft_currency') {
-                            sum_reward.value += drops.hero.soft_currency
-                        }else {
-                            sum_reward.value += I18n.parseLocaleRoundedInt(reward.value.toString())
-                        }
-                    } else {
-                        let copied_reward = JSON.parse(JSON.stringify(reward))
-                        if (typeof reward.value === 'object') {
-                            copied_reward.value.quantity = reward.value.quantity || 1
-                        } else if (type === 'soft_currency') {
-                            copied_reward.value = drops.hero.soft_currency
+                if (reward_data.rewards) {
+                    reward_data.rewards.forEach((reward) => {
+                        const type = reward.type
+                        const sum_reward = rewards_data.rewards.find((e) => {
+                            const type_matches = e.type === type
+                            const gem_matches = type === 'gems' && type_matches ? e.gem_type === reward.gem_type : true
+                            const item_matches = type === 'item' && type_matches ? e.value.item.id_item === reward.value.item.id_item : true
+                            const armor_matches = type === 'armor' && type_matches ? e.display === reward.display : true
+                            return type_matches && gem_matches && item_matches && armor_matches
+                        })
+
+                        if (sum_reward) {
+                            if (typeof sum_reward.value === 'object') {
+                                sum_reward.value.quantity += parseInt(reward.value.quantity) || 1
+                            } else if (type === 'soft_currency') {
+                                sum_reward.value += drops.hero.soft_currency
+                            }else {
+                                sum_reward.value += I18n.parseLocaleRoundedInt(reward.value.toString())
+                            }
                         } else {
-                            copied_reward.value = I18n.parseLocaleRoundedInt(reward.value.toString())
+                            let copied_reward = JSON.parse(JSON.stringify(reward))
+                            if (typeof reward.value === 'object') {
+                                copied_reward.value.quantity = parseInt(reward.value.quantity) || 1
+                            } else if (type === 'soft_currency') {
+                                copied_reward.value = drops.hero.soft_currency
+                            } else {
+                                copied_reward.value = I18n.parseLocaleRoundedInt(reward.value.toString())
+                            }
+                            rewards_data.rewards.push(copied_reward)
                         }
-                        rewards_data.rewards.push(copied_reward)
-                    }
-                })
-            }
-            if (reward_data.shards) {
-                reward_data.shards.forEach((girl) => {
-                    const sum_girl = rewards_data.shards.find(e => e.id_girl == girl.id_girl)
+                    })
+                }
+                if (reward_data.shards) {
+                    reward_data.shards.forEach((girl) => {
+                        const sum_girl = rewards_data.shards.find(e => e.id_girl == girl.id_girl)
 
-                    if (sum_girl) {
-                        sum_girl.value += girl.value
-                    } else {
-                        rewards_data.shards.push(JSON.parse(JSON.stringify(girl)))
-                    }
-                })
+                        if (sum_girl) {
+                            sum_girl.value += girl.value
+                        } else {
+                            rewards_data.shards.push(JSON.parse(JSON.stringify(girl)))
+                        }
+                    })
+                }
             }
         })
 
@@ -111,17 +114,13 @@ class ContestRewardsModule extends CoreModule {
             }
         })
         const $reward_wrap = $(`<div class="reward_wrap">${buildMultipleSlots(rewards_data, 'xs')}</div>`)
-        const gift_reward = rewards_data.rewards.find(e => e.type === 'armor' && e.display === 'mystery')
-        if (gift_reward) {
-            $reward_wrap.find('.gift').append(`<div class="amount">${gift_reward.value.quantity}</div>`)
-        }
 
         if (!this.$rewardsDisplay) {
             this.$rewardsDisplay = $('<div class="scriptRewardsDisplay"></div>')
             $contestPanel.append(this.$rewardsDisplay)
         }
         this.$rewardsDisplay.html('')
-        this.$rewardsDisplay.append(`<h3>${this.label('totalRewards', {contests: contests.length})}</h3>`)
+        this.$rewardsDisplay.append(`<h3>${this.label('totalRewards', {contests: $('.contest .ended').length})}</h3>`)
         this.$rewardsDisplay.append($reward_wrap)
         this.$rewardsDisplay.append(`<br>${this.label('contestsWarning')}`)
     }
