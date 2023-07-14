@@ -43,8 +43,8 @@ class BoosterStatusCollector {
             }
 
             if (action === 'market_equip_booster' && type === 'booster') {
-                const idItemParsed = parseInt(id_item)
-                const isMythic = idItemParsed >= 632 && idItemParsed <= 638
+                const {item: {rarity}} = equipped_booster
+                const isMythic = rarity === 'mythic'
 
                 const boosterData = equipped_booster
 

@@ -179,6 +179,7 @@ export const villain = {
     kellykline: 'Kelly Kline',
     jamiebrooks: 'Jamie Brooks',
     jordankingsley: 'Jordan Kingsley',
+    sierrasinn: 'Sierra Sinn',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -223,6 +224,7 @@ export const villainBreadcrumbs = {
     suckramento: 'Welcome to Suckramento',
     fiskyfresno: 'Frisky in Fresno',
     milftown: 'Milftown',
+    sinncity: 'Sinn City',
 }
 
 export const market = {

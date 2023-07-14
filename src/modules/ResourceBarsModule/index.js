@@ -67,9 +67,11 @@ class ResourceBarsModule extends CoreModule {
             this.injectCSSVars()
             this.betterXP()
             this.betterMoney()
-            this.addEnergyBarShortcut()
             this.initTooltips()
-            this.addAdditionalBars()
+            Helpers.doWhenSelectorAvailable('.energy_counter[type="fight"] .energy_counter_icon', () => {
+                this.addEnergyBarShortcut()
+                this.addAdditionalBars()
+            })
             this.addPoPTimer()
             this.addBoosterStatus()
             this.overrideGlitter()
@@ -95,7 +97,6 @@ class ResourceBarsModule extends CoreModule {
                     this.initTooltips()
                 }
             }
-
         })
 
         this.hasRun = true
@@ -494,7 +495,7 @@ class ResourceBarsModule extends CoreModule {
         $(document).on('boosters:equipped', (event, { id_item, isMythic, new_id }) => {
             const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || { normal: [], mythic: [] }
 
-            const newBoosterData = boosterStatus[isMythic ? 'mythic' : 'normal'].find(data => data.id_item === id_item && (new_id && data.id_member_booster_equipped === new_id))
+            const newBoosterData = boosterStatus[isMythic ? 'mythic' : 'normal'].find(data => parseInt(data.id_item) === parseInt(id_item) && (new_id && parseInt(data.id_member_booster_equipped) === parseInt(new_id)))
 
             if (newBoosterData) {
                 const $slotToReplace = $boosterStatusHTML.find(`.slot.empty${isMythic ? '.mythic' : ':not(.mythic)'}`)

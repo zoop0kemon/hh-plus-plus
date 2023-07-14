@@ -7,6 +7,7 @@
     cursor: pointer;
     background-size: contain;
     background-image: var(--config-button-icon);
+    z-index: 5;
 
     &:after {
         content: "++";
@@ -196,5 +197,9 @@
         font-size: 46px;
         height: 40px;
         line-height: 46px;
+    }
+
+    #homepage .social_links {
+        margin-left: 51rem;
     }
 }

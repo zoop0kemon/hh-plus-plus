@@ -47,4 +47,5 @@ export const PSH = [
     'suckramento',
     'friskyfresno',
     'milftown',
+    'sinncity',
 ]

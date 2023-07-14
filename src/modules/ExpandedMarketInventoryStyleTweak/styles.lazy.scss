@@ -43,8 +43,6 @@
         .tab-armor,
         .tab-booster {
             .my-inventory-equipement-container .my-inventory {
-                width: 24.5rem !important;
-
                 .my-inventory-container {
                     width: 24rem !important;
 
@@ -56,12 +54,8 @@
             }
 
             .equiped-items {
-                width: 16rem !important;
-
                 .armor-container,
                 .booster-container {
-                    width: 15rem !important;
-
                     .armor {
                         display: grid;
                         grid-template-rows: 1fr 1fr 1fr;
@@ -80,11 +74,42 @@
                     }
 
                     .booster {
-                        width: 13rem !important;
+                        width: 14rem !important;
                     }
 
                     .hero-img > .character {
                         right: 2.5rem !important;
+                    }
+                }
+            }
+        }
+
+        .tab-armor {
+            .my-inventory-equipement-container .my-inventory {
+                width: 24.5rem !important;
+            }
+
+            .equiped-items {
+                width: 16rem !important;
+
+                .armor-container {
+                    width: 15rem !important;
+                }
+            }
+        }
+        .tab-booster {
+            .my-inventory-equipement-container .my-inventory {
+                width: 22.5rem !important;
+            }
+
+            .equiped-items {
+                width: 19rem !important;
+
+                .booster-container {
+                    width: 18rem !important;
+
+                    .equiped-booster-text {
+                        padding: 10px 0px !important;
                     }
                 }
             }

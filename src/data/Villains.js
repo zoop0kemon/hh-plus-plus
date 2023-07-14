@@ -697,14 +697,27 @@ export default {
             }]
         },
         {
+            key: 'sierrasinn',
             world: 11,
+            girls: {
+                1: ['169741198', '459885596', '507702178'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'nature',
+                amount: 20,
+            }]
+        },
+        {
+            world: 12,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'nature',
+                element: 'stone',
                 amount: 20,
             }]
         },

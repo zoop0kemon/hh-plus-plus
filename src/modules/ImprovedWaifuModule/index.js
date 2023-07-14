@@ -260,7 +260,7 @@ class ImprovedWaifuModule extends CoreModule {
                         cord = {x: e.clientX - start.x, y: e.clientY-start.y}
                         setTransform();
                     })
-                    waifu_image.bind('mousewheel', function (e) {
+                    waifu_image.bind('wheel', function (e) {
                         if (!editing) {return}
                         e.preventDefault();
                         const offset = waifu_image.offset(), old_scale = scale

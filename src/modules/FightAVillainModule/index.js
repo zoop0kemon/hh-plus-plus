@@ -44,15 +44,17 @@ class FightAVillainModule extends CoreModule {
                 this.$container.removeClass('shown')
                 this.$overlay.removeClass('shown')
             })
-            $('#contains_all > header [type=fight] .bar-wrapper').click(() => {
-                if (!this.$container) {
-                    const $menu = this.buildMenu()
-                    this.$container = $('<div class="script-fight-a-villain-menu-container fixed_scaled"></div>')
-                    this.$container.append($menu)
-                    $('body').append(this.$container)
-                }
-                this.$container.addClass('shown')
-                this.$overlay.addClass('shown')
+            Helpers.doWhenSelectorAvailable('#contains_all > header [type=fight] .bar-wrapper', () => {
+                $('#contains_all > header [type=fight] .bar-wrapper').click(() => {
+                    if (!this.$container) {
+                        const $menu = this.buildMenu()
+                        this.$container = $('<div class="script-fight-a-villain-menu-container fixed_scaled"></div>')
+                        this.$container.append($menu)
+                        $('body').append(this.$container)
+                    }
+                    this.$container.addClass('shown')
+                    this.$overlay.addClass('shown')
+                })
             })
         })
 

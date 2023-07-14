@@ -13,6 +13,16 @@ body > div > header {
         margin-left: 437px;
     }
 
+    div[rel="avatar"] {
+        margin-left: 10px;
+        margin-right: 20px;
+
+        @media #{$mediaMobile} {
+            margin-left: 0px;
+            margin-right: 15px;
+        }
+    }
+
     div[rel="xp"] {
         position: absolute;
         top: 0;
@@ -28,7 +38,7 @@ body > div > header {
         div[rel="level"] {
             position: absolute;
             top: 8px;
-            left: 91px;
+            left: 101px;
             width: 36px;
             z-index: 150;
             text-align: center;
@@ -80,9 +90,14 @@ body > div > header {
         }
 
         .button-notification-icon.button-notification-reward {
-            right: 70px;
-            top: 5px;
+            left: 128px;
+            top: 22px;
             z-index: 5;
+
+            @media #{$mediaMobile} {
+                left: 198px;
+                top: 42px;
+            }
         }
     }
 
@@ -109,11 +124,11 @@ body > div > header {
     }
 
     .promo_profile_discount_text {
-        left: 21px;
+        left: 31px;
         top: -3px;
 
         @media #{$mediaMobile} {
-            left: 116px;
+            left: 100px;
             top: 67px !important;
         }
     }
@@ -144,7 +159,11 @@ body > div > header {
         flex-direction: column;
         grid-gap: 2px;
         margin-top: 8px;
-        margin-left: 6px;
+        margin-left: 16px;
+        @media #{$mediaMobile} {
+            grid-gap: 12px;
+            margin-left: 6px;
+        }
 
         .script-boosters {
             display: flex;
@@ -239,15 +258,20 @@ body > div > header {
                 transform-origin: top;
                 z-index: 20;
 
-                &.mythic {
-                    transform-origin: bottom;
+                @media #{$mediaDesktop} {
+                    &.mythic  {
+                        transform-origin: bottom;
+                    }
                 }
             }
         }
     }
 
     div.currency {
-        margin-left: 6px;
+        margin-left: 16px;
+        @media #{$mediaMobile} {
+            margin-left: 6px;
+        }
         margin-top: 4px;
         width: 116px;
         height: 36px;
@@ -290,6 +314,9 @@ body > div > header {
             position: absolute;
             left: 28px;
             font-size: 12px;
+            @media #{$mediaMobile} {
+                left: 25px;
+            }
         }
 
         div[hero="soft_currency"],
@@ -317,6 +344,10 @@ body > div > header {
 
         & + #blessings-button {
             margin-left: 5px;
+            @media #{$mediaMobile} {
+                margin-left: -34px;
+                margin-top: 34px;
+            }
         }
     }
 }
@@ -533,7 +564,7 @@ body#hh_comix > div > header div[rel="xp"] {
         }
 
         div[rel="xp"] div[rel="level"] {
-            left: 144px;
+            left: 135px;
             top: 4px;
 
             & > div {
@@ -681,10 +712,6 @@ body#hh_comix > div > header div[rel="xp"] {
             margin-top: 42px;
         }
 
-        .script-booster-status {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-
         div.currency {
             height: 60px;
 
@@ -706,7 +733,7 @@ body#hh_comix > div > header div[rel="xp"] {
 
         #blessings-button,
         #show-hero-resources {
-            height: 60px;
+            height: 28px;
             width: 34px;
             border-radius: 8px;
         }

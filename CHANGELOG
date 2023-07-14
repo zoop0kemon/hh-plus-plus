@@ -1,3 +1,4 @@
+1.36.7: Fixing resource bars module after 12/07 update and adjusting it's display. Fixing bugs with booster tracker when equipping mythic boosters, Improved Waifu scroll to zoom on Firefox, Expanded Market Inventory cut off booster text, and script settings button being covered on mobile. Adding PSH world 11 data.
 1.36.6: Updating resource bars to new 9 boosters slots, adding mythic booster tracking for Leagues and Seasons Mastery. Fixing saved contest rewards not updating when claiming contests.
 1.36.5: Fixing club related modules, removing redundant club table shadow module, and fixing Improved Waifu placement.
 1.36.4: Fixing Hide Claimed Rewards and style tweak for Seasonal Event
