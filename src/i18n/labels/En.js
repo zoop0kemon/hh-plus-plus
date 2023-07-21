@@ -70,7 +70,7 @@ export const config = {
     staticBackground: 'Prevent background switching during Orgy Days',
     rewardShards: `Display current shard counts on ${gameConfig.girl} rewards`,
     leaderboardFix: 'Fix Season, PoV, PoG and Pantheon leaderboards',
-    hideClaimedRewards: 'Hide claimed Season/PoA/PoV rewards',
+    hideClaimedRewards: 'Hide claimed rewards',
     disableDragDrop: 'Disable Drag-and-Drop in the Market',
     autoRefresh: 'Auto-refresh the game every 10 minutes',
     villainBreadcrumbs: 'Add breadcrumbs to villain pages',

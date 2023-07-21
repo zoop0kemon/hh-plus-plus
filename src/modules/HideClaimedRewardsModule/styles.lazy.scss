@@ -28,6 +28,14 @@
         display: none;
     }
 
+    .page-member-progression
+        .member-progression-container
+        .tiers-container 
+        .tiers
+        &.tier {
+            display: none;
+    }
+
     .rewards_seasons_row &.rewards_pair {
         display: none;
     }

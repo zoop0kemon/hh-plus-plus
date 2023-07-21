@@ -76,7 +76,7 @@ export const config = {
     staticBackground: 'Impedi lo scambio di sfondo durante i giorni dell\'orgia',
     rewardShards:  'Mostra i conti attuali dei frammenti sulle ricompense',
     leaderboardFix: 'Correggi le classifiche di Stagione, SdV, SdG e Pantheon',
-    hideClaimedRewards: 'Nascondi le ricompense già rivendicate per la stagione/PoA/PoV',
+    hideClaimedRewards: 'Nascondi ricompense riscosse',
     disableDragDrop: 'Disabilitare il drag-and-drop nel mercato',
     autoRefresh: 'Aggiorna il gioco automaticamente ogni 10 minuti',
     villainBreadcrumbs: 'Aggiungi briciole di pane alle pagine dei troll',

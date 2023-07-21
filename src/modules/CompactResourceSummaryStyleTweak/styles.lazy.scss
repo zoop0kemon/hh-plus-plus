@@ -5,10 +5,23 @@
         grid-gap: 0.5rem 3rem;
 
         .hero-energies-container,
-        .hero-gems-container,
-        .hero-orbs-container {
+        .hero-gems-container {
             grid-column-start: 1;
             grid-column-end: 9;
+        }
+
+        .hero-orbs-container {
+            grid-column-start: 2;
+            grid-column-end: 8;
+
+            .hero-orb:has(.orb_icon.o_v4) {
+                order: 1
+            }
+
+            .hero-orb:has(span[class^="orb_icon o_eq"]),
+            .hero-orb:has(span[class^="orb_icon o_m"]) {
+                order: 2
+            }
         }
 
         .hero-currencies-container {

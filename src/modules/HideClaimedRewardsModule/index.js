@@ -22,7 +22,7 @@ class HideClaimedRewardsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal'].some(page => Helpers.isCurrentPage(page))
+        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal', 'member-progression'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -40,6 +40,8 @@ class HideClaimedRewardsModule extends CoreModule {
                 this.dp()
             } else if (Helpers.isCurrentPage('seasonal')) {
                 this.seasonalEvent()
+            } else if (Helpers.isCurrentPage('member-progression')) {
+                this.heroLevel()
             }
         })
 
@@ -460,6 +462,103 @@ class HideClaimedRewardsModule extends CoreModule {
             observer.observe($('.seasonal-progress-bar-tiers')[0], {attributes: true, attributeFilter: ['class'], subtree: true})
 
             $('.girls-reward-container').click(toggle)
+        })
+    }
+
+    heroLevel () {
+        Helpers.doWhenSelectorAvailable('.progress-bar', () => {
+            let hidden = false
+            let $groupsToHide = $('.tier.claimed')
+            let $groupsRemaining = $('.tier.unclaimed')
+            let claimedCount = $groupsToHide.length
+            const widthPattern = /width: ?(?<existingLength>[0-9.a-z%]+);?/
+            const containerWidth = $('.tiers .tier').outerWidth()
+            let existingLengthStr
+            let newLength
+            const $progressBar = $('.progress-bar .progress-bar-current')
+            const styleAttr = $progressBar.attr('style')
+
+            const assertHidden = () => {
+                $groupsToHide = $('.tier.claimed')
+                $groupsRemaining = $('.tier.unclaimed')
+                claimedCount = $groupsToHide.length
+                if (claimedCount === 0) {
+                    // nothing to do
+                    return
+                }
+
+                $groupsToHide.addClass('script-hide-claimed')
+                hidden = true
+                if (styleAttr) {
+                    setTimeout(() => {
+                        if ($groupsRemaining.length) {
+                            newLength = containerWidth * ($groupsRemaining.length - 0.5)
+                        } else {
+                            newLength = 0
+                        }
+                        $progressBar.addClass('no-transition')
+                        $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${newLength}px;`))
+                        $progressBar[0].offsetHeight
+                        $progressBar.removeClass('no-transition')
+                    }, 1)
+                }
+                setTimeout(() => {
+                    $('.progress-bar-current').getNiceScroll().resize()
+                }, 1200)
+            }
+            const assertShown = () => {
+                $('.script-hide-claimed').removeClass('script-hide-claimed')
+                hidden = false
+                if (styleAttr) {
+                    $progressBar.addClass('no-transition')
+                    $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${existingLengthStr};`))
+                    $progressBar[0].offsetHeight
+                    $progressBar.removeClass('no-transition')
+                }
+                setTimeout(() => {
+                    $('.progress-bar-current').getNiceScroll().resize()
+                }, 1200)
+            }
+
+            if (styleAttr) {
+                const matches = styleAttr.match(widthPattern)
+                if (matches && matches.groups) {
+                    existingLengthStr = matches.groups.existingLength
+                }
+            }
+            assertHidden()
+            $('.progress-bar-current').stop(true).animate({
+                scrollLeft: Math.max(0, newLength - 150)
+            }, 100)
+
+            const toggle = () => {
+                if (hidden) {
+                    assertShown()
+                } else {
+                    assertHidden()
+                }
+            }
+
+            const observer = new MutationObserver((mutations) => {
+                if (!hidden) {return}
+                let shouldUpdate = false
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'attributes') {
+                        const {attributeName, target} = mutation
+                        if (attributeName === 'class' && !$(target).hasClass('progress-bar-current') &&
+                            !$(target).hasClass('unclaimed') && !$groupsToHide.toArray().includes(target)) {
+                            shouldUpdate = true
+                        }
+                    }
+                })
+
+                if (shouldUpdate) {
+                    assertHidden()
+                }
+            })
+            observer.observe($('.tiers-container .tiers')[0], {attributes: true, attributeFilter: ['class'], subtree: true})
+
+            $('.page-girl').click(toggle)
         })
     }
 }

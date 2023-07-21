@@ -76,7 +76,7 @@ export const config = {
     staticBackground: 'Previene cambios de fondo durante Días de Orgía',
     rewardShards: `Mostrar el contador de fragmentos actual en las recompensas para ${Helpers.isGH() ? 'chicos' : 'chicas'}`,
     leaderboardFix: 'Arreglar las tablas de clasificación de Temporada, CdV, CdlG y Panteón',
-    hideClaimedRewards: 'Ocultar recompensas reclamadas de Temporada/CdA/CdV',
+    hideClaimedRewards: 'Ocultar recompensas reclamadas',
     disableDragDrop: 'Desactivar la opción de Drag-and-Drop en el mercado',
     autoRefresh: 'Refresca el juego automáticamente cada 10 minutos',
     villainBreadcrumbs: 'Agregar ruta de navegación a las páginas de villanos',

@@ -80,8 +80,8 @@ class FightAVillainModule extends CoreModule {
         const filteredVillainSet = villainsSet.filter(villain => villain.world <= currentWorld)
         const $menu = $(`<div class="script-fight-a-villain-menu width-${Math.min(4, filteredVillainSet.length)}"></div>`)
 
-        filteredVillainSet.forEach(({key, girls, world, gems, items, v}) => {
-            const villainId = `${world - 1}`
+        filteredVillainSet.forEach(({key, girls, opponent, world, gems, items, v}) => {
+            const villainId = `${opponent ? opponent : world - 1}`
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
             const villainWorld = `/world/${world}`

@@ -65,7 +65,7 @@ class BoosterStatusCollector {
 
             let mythicUpdated = false
 
-            let sandalwood, allMastery, headband, watch, cinnamon, perfume, leaguesMastery, seasonsMastery
+            let sandalwood, allMastery, headband, watch, cinnamon, perfume, leaguesMastery, seasonsMastery, banger
             boosterStatus.mythic.forEach(booster => {
                 switch (booster.item.identifier){
                 case 'MB1':
@@ -92,6 +92,8 @@ class BoosterStatusCollector {
                 case 'MB9':
                     seasonsMastery = booster
                     break
+                case 'MB11':
+                    banger = booster
                 }
             })
 
@@ -146,6 +148,11 @@ class BoosterStatusCollector {
 
             if (seasonsMastery && action == 'do_battles_seasons') {
                 seasonsMastery.usages_remaining -= parseInt(number_of_battles)
+                mythicUpdated = true
+            }
+
+            if (banger && action == 'do_battles_boss_bang') {
+                banger.usages_remaining -= parseInt(number_of_battles)
                 mythicUpdated = true
             }
 

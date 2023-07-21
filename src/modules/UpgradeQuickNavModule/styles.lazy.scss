@@ -45,7 +45,7 @@
         left: -140px;
 
         &[resource="equipment"] {
-            left : -40px;
+            left : 0px;
         }
 
         &[resource="teams"] {
@@ -61,7 +61,7 @@
         right: -140px;
 
         &[resource="equipment"] {
-            right : -40px;
+            right : 0px;
         }
 
         &[resource="teams"] {
@@ -81,4 +81,14 @@
 
 .equipment-left-controls {
     z-index: 2;
+
+    #girl-equipment-unequip {
+        position: absolute;
+        left: 535px
+    }
+
+    #girl-equipment-level-up {
+        position: absolute;
+        right: 198px;
+    }
 }

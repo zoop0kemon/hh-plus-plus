@@ -27,7 +27,35 @@ class CompactResourceSummaryStyleTweak extends STModule {
         super.run(props)
 
         Helpers.defer(() => {
-            // window.number_reduce = (n) => I18n.nThousand(+n)
+            Helpers.onAjaxResponse(/action=hero_get_resources/, (response) => {
+                const observer = new MutationObserver(() => {
+                    if ($('#hero_resources_popup').length) {
+                        $('.hero-currency>p').eq(0).text(`x${I18n.nThousand(+response.currencies.hard_currency)}`)
+                        $('.hero-currency>p').eq(2).text(`x${I18n.nThousand(+response.currencies.frames)}`)
+                        $('.hero-currency>p').eq(3).text(`x${I18n.nThousand(+response.currencies.sultry_coins)}`)
+                        $('.hero-currency>p').eq(4).text(`x${I18n.nThousand(+response.currencies.ticket)}`)
+                        
+                        Object.values(response.gems).forEach((gem, index) => {
+                            $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
+                        })
+
+                        Object.values(response.gems).forEach((gem, index) => {
+                            $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
+                        })
+
+                        Object.values(response.orbs).forEach((orb, index) => {
+                            $('.hero-orb>p').eq(index).text(`x${I18n.nThousand(+orb)}`)
+                        })
+
+                        Object.values(response.progressions).forEach((progression, index) => {
+                            $('.hero-progression>p').eq(index).text(`x${I18n.nThousand(+progression)}`)
+                        })
+
+                        observer.disconnect()
+                    }
+                })
+                observer.observe($('#popups')[0], {childList: true})
+            })
         })
     }
 }

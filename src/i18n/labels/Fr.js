@@ -66,7 +66,7 @@ export const config = {
     staticBackground: 'Empêche les changements de décor durant les Jours d\'Orgie',
     rewardShards: `Affiche le nombre de Fragments d'Affection actuels sur les ${gameConfig.fille}s en récompense`,
     leaderboardFix: 'Corrige les classements de Saison, VdV, VdlG et Panthéon',
-    hideClaimedRewards: 'Masquer les récompenses de Saison/CdA/VdV',
+    hideClaimedRewards: 'Masquer les récompenses récupérées',
     disableDragDrop: 'Désactiver la fonction glisser-déposer dans le marché',
     autoRefresh: 'Actualise automatiquement le jeu toutes les 10 minutes',
     villainBreadcrumbs: 'Ajouter une chaîne de navigation aux pages des boss du mode aventure',

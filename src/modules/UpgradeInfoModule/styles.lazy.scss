@@ -2,30 +2,10 @@
     height: 2rem;
     align-items: center;
 
-    ::before {
-        width: 2rem;
-        height: 2rem;
-    }
-
-    &>:first-child {
-        margin-left: 10px !important;
-    }
-
-    :nth-child(2) {
-        margin-left: 0.7rem !important;
-    }
-
-    :last-child {
-        margin-left: unset !important;
-    }
-
-    .girl_pos {
-        margin-left: 0.2rem !important;
-
-        img {
-            width: 40px;
-            height: 40px;
-        }
+    .girl-position {
+        height: 3rem !important;
+        margin-top: 0rem !important;
+        margin-left: 0.625rem !important;
     }
 }
 
@@ -65,5 +45,23 @@
         .matches {
             filter: drop-shadow(0px 0px 3px #00ff06) drop-shadow(0px 0px 3px #00ff06) drop-shadow(0px 0px 3px #00ff06);
         }
+    }
+}
+
+.inventory-controls #girl-equipment-equip {
+    position: absolute;
+    right: 53px;
+    bottom: 1rem;
+}
+
+.equipment-left-controls {
+    #girl-equipment-unequip {
+        position: absolute;
+        left: 535px
+    }
+
+    #girl-equipment-level-up {
+        position: absolute;
+        right: 198px;
     }
 }

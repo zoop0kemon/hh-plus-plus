@@ -68,7 +68,8 @@ class ResourceBarsModule extends CoreModule {
             this.betterXP()
             this.betterMoney()
             this.initTooltips()
-            Helpers.doWhenSelectorAvailable('.energy_counter[type="fight"] .energy_counter_icon', () => {
+            const energyBarSelector = Helpers.isCurrentPage('season-arena') ? '#season_battle_user_block_kiss_energy' : '.energy_counter[type="fight"] .energy_counter_icon'
+            Helpers.doWhenSelectorAvailable(energyBarSelector, () => {
                 this.addEnergyBarShortcut()
                 this.addAdditionalBars()
             })

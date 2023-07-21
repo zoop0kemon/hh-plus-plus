@@ -34,14 +34,13 @@ class UpgradeInfoModule extends CoreModule {
 
         Helpers.defer(() => {
             const {girl} = window
-            const isBlessed = !!girl.blessed_attributes
 
             // additional girl stats
             const $girl_upper_info = $('.girl-upper-info')
             const $girl_class = $girl_upper_info.children().eq(1)
             const $girl_theme = $girl_upper_info.children().eq(0)
-            const $girl_figure = $(`<div class="girl_pos"><img src="${Helpers.getCDNHost()}/pictures/design/battle_positions/${girl.figure}.png"></div>`)
             // Don't know the blessing bonus % or base stats, so can't update caracs...
+            // const isBlessed = !!girl.blessed_attributes
             // const $girl_upper_stats = $(`
             // <div class="girl-upper-stats${isBlessed? ' blessed-attribute' : ''}">
             //     <div carac="1"><br>${I18n.nThousand(girl.caracs.carac1)}</div>
@@ -50,7 +49,6 @@ class UpgradeInfoModule extends CoreModule {
             // </div>`)
 
             $girl_class.after($girl_theme)
-            $girl_upper_info.append($girl_figure)
             // $girl_upper_info.after($girl_upper_stats)
 
             // equip resonance match indication

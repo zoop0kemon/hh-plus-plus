@@ -24,6 +24,30 @@ export const calculateStatPrice = (points) => {
     else if (points < 16000) {
         cost = 112005 + (points - 14000) * 16
     }
+    else if (points < 18000) {
+        cost = 144005 + (points - 16000) * 18
+    }
+    else if (points < 20000) {
+        cost = 180005 + (points - 18000) * 20
+    }
+    else if (points < 22000) {
+        cost = 220005 + (points - 20000) * 22
+    }
+    else if (points < 24000) {
+        cost = 264005 + (points - 22000) * 24
+    }
+    else if (points < 26000) {
+        cost = 312005 + (points - 24000) * 26
+    }
+    else if (points < 28000) {
+        cost = 364005 + (points - 26000) * 28
+    }
+    else if (points < 30000) {
+        cost = 420005 + (points - 28000) * 30
+    }
+    else if (points < 32000) {
+        cost = 480005 + (points - 30000) * 32
+    }
     return cost
 }
 export const calculateTotalPrice = (points) => {
@@ -52,6 +76,30 @@ export const calculateTotalPrice = (points) => {
     }
     else if (points < 16000) {
         price = 560126000 + (112021 + last_price) / 2 * (points - 14000)
+    }
+    else if (points < 18000) {
+        price = 816152000 + (144023 + last_price) / 2 * (points - 16000)
+    }
+    else if (points < 20000) {
+        price = 1140180000 + (180025 + last_price) / 2 * (points - 18000)
+    }
+    else if (points < 22000) {
+        price = 1540210000 + (220027 + last_price) / 2 * (points - 20000)
+    }
+    else if (points < 24000) {
+        price = 2024242000 + (264029 + last_price) / 2 * (points - 22000)
+    }
+    else if (points < 26000) {
+        price = 2600276000 + (312031 + last_price) / 2 * (points - 24000)
+    }
+    else if (points < 28000) {
+        price = 3276312000 + (364033 + last_price) / 2 * (points - 26000)
+    }
+    else if (points < 30000) {
+        price = 4060350000 + (420035 + last_price) / 2 * (points - 28000)
+    }
+    else if (points < 32000) {
+        price = 4960390000 + (480037 + last_price) / 2 * (points - 30000)
     }
     return price
 }

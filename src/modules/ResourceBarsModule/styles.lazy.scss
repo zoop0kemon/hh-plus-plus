@@ -330,6 +330,15 @@ body > div > header {
         plus {
             top: 0;
             right: -10px;
+
+            .new_notif.button-notification-new {
+                display: none;
+            }
+
+            .button-notification-icon.button-notification-reward {
+                scale: 0.8;
+                right: -8px;
+            }
         }
     }
 

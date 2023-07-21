@@ -698,7 +698,8 @@ export default {
         },
         {
             key: 'sierrasinn',
-            world: 11,
+            opponent: 11,
+            world: 14,
             girls: {
                 1: ['169741198', '459885596', '507702178'],
                 2: [],
@@ -710,7 +711,8 @@ export default {
             }]
         },
         {
-            world: 12,
+            opponent: 12,
+            world: 15,
             girls: {
                 1: [],
                 2: [],
@@ -720,7 +722,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }]
-        },
+        }
     ],
     HoH: [
         {
