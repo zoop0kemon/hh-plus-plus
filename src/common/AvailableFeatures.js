@@ -26,7 +26,7 @@ const countGirls = () => {
 
 class AvailableFeatures {
     get pantheon () {
-        return !Helpers.isPSH() && !Helpers.isHoH() && window.Hero.infos.level >= 15
+        return !Helpers.isHoH() && window.Hero.infos.level >= 15
     }
 
     get leagues () {

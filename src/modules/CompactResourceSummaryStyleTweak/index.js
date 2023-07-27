@@ -39,10 +39,6 @@ class CompactResourceSummaryStyleTweak extends STModule {
                             $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
                         })
 
-                        Object.values(response.gems).forEach((gem, index) => {
-                            $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
-                        })
-
                         Object.values(response.orbs).forEach((orb, index) => {
                             $('.hero-orb>p').eq(index).text(`x${I18n.nThousand(+orb)}`)
                         })

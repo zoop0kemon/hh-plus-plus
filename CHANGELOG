@@ -1,3 +1,4 @@
+1.36.9: Enabling pantheon script features on PSH
 1.36.8: Adding boss bang booster tracking, adding hero level rewards to Hide Claimed Rewards module, unrounding numbers in compact resource summary, and fixing various bugs.
 1.36.7: Fixing resource bars module after 12/07 update and adjusting it's display. Fixing bugs with booster tracker when equipping mythic boosters, Improved Waifu scroll to zoom on Firefox, Expanded Market Inventory cut off booster text, and script settings button being covered on mobile. Adding PSH world 11 data.
 1.36.6: Updating resource bars to new 9 boosters slots, adding mythic booster tracking for Leagues and Seasons Mastery. Fixing saved contest rewards not updating when claiming contests.
