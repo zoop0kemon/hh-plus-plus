@@ -43,7 +43,7 @@ class BattleSimulatorModule extends CoreModule {
 
         Helpers.defer(() => {
             this.injectCSSVars()
-            if (Helpers.isCurrentPage('tower-of-fame')) {
+            if ((Helpers.isCurrentPage('tower-of-fame') && window.opponent_fighter) || Helpers.isCurrentPage('leagues-pre-battle')) {
                 this.simManagers = [new League()]
             } else if (Helpers.isCurrentPage('season-arena')) {
                 this.preSim = true
@@ -60,7 +60,7 @@ class BattleSimulatorModule extends CoreModule {
             this.runManagedSim()
 
 
-            if (Helpers.isCurrentPage('tower-of-fame')) {
+            if (Helpers.isCurrentPage('tower-of-fame') && window.opponent_fighter) {
                 new MutationObserver(() => this.runManagedSim()).observe(document.getElementById('leagues_right'), {childList: true})
             }
         })

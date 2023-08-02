@@ -19,15 +19,15 @@ const MIGRATIONS = {
 
 class LeagueInfoCollector {
     static collect() {
-        if (Helpers.isCurrentPage('battle') && !Helpers.isCurrentPage('pre-battle')) {
-            LeagueInfoCollector.collectLeagueBattlePoints()
-        }
+        // if (Helpers.isCurrentPage('battle') && !Helpers.isCurrentPage('pre-battle')) {
+        //     LeagueInfoCollector.collectLeagueBattlePoints()
+        // }
 
         if (Helpers.isCurrentPage('tower-of-fame')) {
             Helpers.defer(() => {
                 LeagueInfoCollector.migrate()
                 LeagueInfoCollector.clean()
-                LeagueInfoCollector.setupListeners()
+                // LeagueInfoCollector.setupListeners()
             })
         }
     }

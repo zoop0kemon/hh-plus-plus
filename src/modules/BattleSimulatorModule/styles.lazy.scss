@@ -151,7 +151,62 @@ $minus-bg: #ff2f2f28;
     }
 }
 
-#pre-battle {
+#pre-battle.leagues-battle .oponnent-panel {
+    .matchRating {
+        text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+        text-align: center;
+        margin-top: -5px;
+        font-size: 12px;
+        line-height: 12px;
+
+        &.plus {
+            color: $plus;
+        }
+
+        &.minus {
+            color: $minus;
+        }
+
+        &.close {
+            color: $close;
+        }
+
+        &-value {
+            font-size: 16px;
+            line-height: 16px;
+        }
+
+        &-key,
+        &-value {
+            display: block;
+        }
+
+        .short-circuit {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            margin-left: 6px;
+        }
+    }
+
+    .average-lvl {
+        text-align: center;
+
+        .team-total-power {
+            display: block;
+        }
+    }
+
+    .gridWrapper {
+        margin-top: -42px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+}
+
+#pre-battle:not(.leagues-battle) .oponnent-panel {
     .plus {
         color: $plus;
     }

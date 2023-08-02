@@ -3,16 +3,16 @@ import SimHelpers from './SimHelpers'
 
 class League {
     extract () {
-        const {opponent_fighter, hero_fighter, caracs_per_opponent, loadedLeaguePlayers} = window
+        const {opponent_fighter, hero_fighter, caracs_per_opponent, loadedLeaguePlayers, hero_data} = window
         let opponent_data, opponent_caracs
-        if (Object.keys(loadedLeaguePlayers)?.length) {
+        if (loadedLeaguePlayers && Object.keys(loadedLeaguePlayers)?.length) {
             let opponentId = $('#leagues_right .avatar_border>img').attr('hero-page-id')
             opponent_data = loadedLeaguePlayers[opponentId].player
             opponent_caracs = caracs_per_opponent[opponentId]
 
         } else {
             opponent_data = opponent_fighter.player
-            opponent_caracs = hero_fighter
+            opponent_caracs = hero_fighter ? hero_fighter: hero_data
         }
         const {
             chance: playerCrit,
@@ -24,7 +24,7 @@ class League {
         const playerEgo = playerRemainingEgo || playerTotalEgo
         const {
             team: playerTeam
-        } = hero_fighter
+        } = hero_fighter ? hero_fighter: hero_data
         let normalisedElements = playerTeam.theme_elements
         let normalisedSynergies = playerTeam.synergies
 
@@ -154,7 +154,8 @@ class League {
             ).join('')
 
         const $rating = $(`<div class="matchRating" style="color:${pointGrade[Math.round(expectedValue)]};" tooltip="${probabilityTooltip}">${matchRatingHtml}</div>`)
-        $('#leagues_right .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating)
+        $('#leagues_right .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating) // outdated
+        $('.player_team_block.opponent .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating)
         $('.lead_table_default > td:nth-child(1) > div:nth-child(1) > div:nth-child(2) .level').append($rating)
     }
 }
