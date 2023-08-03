@@ -1,3 +1,3 @@
-.lead_table table tbody tr:nth-of-type(even) {
+#leagues .league_table .data-row.body-row:nth-of-type(even) {
     background-color: var(--table-row-color);
 }

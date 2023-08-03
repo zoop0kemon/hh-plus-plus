@@ -1,64 +1,156 @@
-@import "../../common/constants.scss";
+#leagues {
+    .league_content {
+        padding: 3rem 1rem 0.5rem;
 
-@media #{$mediaDesktop} {
-    .lead_table table {
-        .square-avatar-wrapper {
-            height: 21px;
-            width: 21px;
+        .league_tiers .league_tier_progress {
+            padding: 1rem 1.5rem 0;
+            height: 3.5rem;
+        }
+        
+        .league_table .data-list .data-row {
+            display: flex;
+            min-height: 2rem;
+            padding: 0.1rem 0;
+            font-size: 12px;
 
-            img {
-                height: 15px;
-                width: 15px;
-            }
+            &.head-row {
+                min-width: 20px;
 
-            // Numbers' HH++ script version
-            div.classLeague {
-                left: -22px !important;
-                top: 2px !important;
-
-                img.theme-icon {
-                    height: 15px !important;
-                    width: 15px !important;
+                .head-column {
+                    height: 20px!important;
                 }
             }
 
-            // Tom208's HH++ script version
-            img.classLeague {
-                height: 15px !important;
-                width: 15px !important;
-                top: -4px;
-                left: -22px !important;
+            &.player-row {
+                top: 1.9rem;
+            }
+
+            .data-column:not(.head-column) {
+                &[column=place] {
+                    font-size: 16px;
+                }
+
+                &[column=nickname] {
+                    .square-avatar-wrapper {
+                        margin-right: 0.1rem;
+                        width: 30px;
+                        height: 30px;
+
+                        img {
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+
+                    .country {
+                        margin-right: 0.1rem;
+                    }
+                }
+
+                &[column=match_history] {
+                    .result {
+                        width: 1.75rem;
+                        height: 1.75rem;
+                        font-size: 10px;
+                        line-height: 1.7rem;
+                    }
+                }
+
+                &[column=team] {
+                    .button_team_synergy {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+
+                &[column=boosters] {
+                    .player_stats {
+                        width: 6rem;
+
+                        .player_stats_row {
+                            width: 3rem;
+
+                            &>div {
+                                height: 1rem;
+                                line-height: 12px;
+                            }
+
+                            span[carac],
+                            span[carac]::before {
+                                width: 1.0rem;
+                                height: 1.0rem;
+                            }
+
+                            .carac_value {
+                                font-size: 8px;
+                            }
+                        }
+                    }
+
+                    .boosters {
+                        display: flex;
+                        column-gap: 3px;
+                        width: 8.25rem;
+                        min-height: 1.75rem;
+                        height: 1.75rem;
+
+                        .slot.mythic {
+                            order: 1
+                        }
+                    }
+                }
+
+                &[column=can_fight] {
+                    .blue_button_L {
+                        padding: 2px 10px;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .data-column {
+                &[column=level] {
+                    min-width: 2.2rem;
+                }
+
+                &[column=match_history] {
+                    min-width: 5.25rem;
+                }
+
+                &[column=can_fight] {
+                    min-width: 4rem;
+                }
             }
         }
 
-        .country {
-            transform: scale(0.5);
-            margin: 0px !important;
-        }
-
-        tbody tr {
-            height: 21px !important;
-            line-height: 21px !important;
-
-            & > td {
-                font-size: 13px;
-
-                .nickname {
-                    width: 242px;
+        .league_buttons {
+            height: 4rem;
+        
+            .league_buttons_block {
+                .orange_button_L {
+                    padding: 2px 20px;
                 }
-
-                &:first-child .promotion {
-                    margin-right: 26px;
-                    height: 16px;
+        
+                button.multiple-battles {
+                    font-size: 12px;
+        
+                    [class*="_icn"] {
+                        width: 1rem;
+                        height: 1rem;
+                    }
+        
+                    div {
+                        font-size: 12px;
+                        margin-top: -.3rem;
+        
+                        [class*="_icn"] {
+                            width: 0.9rem;
+                            height: 1rem;
+                            transform: translateY(-2px);
+                        }
+                    }
                 }
             }
         }
-    }
-
-    #leagues_middle .lead_table table tbody tr td:nth-child(4),
-    #leagues_middle .lead_table table thead th:nth-child(4),
-    #leagues_middle .use-lead-table table tbody tr td:nth-child(4),
-    #leagues_middle .use-lead-table table thead th:nth-child(4) {
-        width: 75px;
     }
 }

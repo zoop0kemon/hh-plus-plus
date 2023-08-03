@@ -1,4 +1,4 @@
-/* global leagues_list, opponent_fighter, loadedLeaguePlayers */
+/* global opponent_fighter, loadedLeaguePlayers */
 
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
@@ -110,8 +110,8 @@ class LeagueInfoModule extends CoreModule {
     }
 
     aggregateData() {
-        const {leagues_list, season_end_at, Hero} = window
-        const playersTotal = leagues_list.length
+        const {opponents_list, season_end_at, Hero} = window
+        const playersTotal = opponents_list.length
         this.aggregates.playersTotal = playersTotal
 
         const posPointsIndex = {}
@@ -123,12 +123,11 @@ class LeagueInfoModule extends CoreModule {
 
         const levels = []
 
-        leagues_list.forEach(({nb_challenges_played, level, place, class: rowClass, html}) => {
-            const $row = $(html.replace(/[\n\t]/g, ''))
+        opponents_list.forEach(({match_history, player, place, player_league_points}) => {
+            const match_history_array = Object.values(match_history)[0]
+            const points = I18n.parseLocaleRoundedInt(player_league_points)
 
-            levels.push(parseInt(level, 10))
-
-            const points = I18n.parseLocaleRoundedInt($row.eq(4).text())
+            levels.push(parseInt(player.level, 10))
 
             posPointsIndex[place] = points
             if (thresholds.includes(place)) {
@@ -140,12 +139,12 @@ class LeagueInfoModule extends CoreModule {
                 this.aggregates.demotions.nonDemote = points
             }
 
-            if (rowClass && rowClass.includes('personal_highlight')) {
+            if (match_history_array == false) {
                 // is self
                 this.aggregates.playerRank = place
                 this.aggregates.playerScore = points
             } else {
-                this.aggregates.challengesDone += parseInt(nb_challenges_played, 10)
+                this.aggregates.challengesDone += match_history_array.filter((e) => {return e != null}).length
             }
         })
 
@@ -195,11 +194,11 @@ class LeagueInfoModule extends CoreModule {
             }).join('')
         }
         if (promo) {
-            const {league_tag} = window
+            const {current_tier_number} = window
             const {demote, nonDemote} = demotions
 
-            const canDemote = league_tag > 1
-            const canPromote = league_tag < 9
+            const canDemote = current_tier_number > 1
+            const canPromote = current_tier_number < 9
 
             const playerAtZeroPoints = playerScore === 0
             const playerIsTop15 = playerRank <= 15
@@ -253,8 +252,8 @@ class LeagueInfoModule extends CoreModule {
                 ${promoHtml}
             </div>
         `
-        $('.leagues_middle_header').after('<div class="leagues_middle_header_script"></div>')
-        $('.leagues_middle_header_script').append(summaryHtml)
+        $('.league_buttons_block').before('<div class="leagues_script"></div>')
+        $('.leagues_script').append(summaryHtml)
     }
 
     manageHideFoughtOpponents () {
@@ -309,124 +308,48 @@ class LeagueInfoModule extends CoreModule {
             setButtonHide()
         }
 
-        let button = document.querySelector('#beaten_opponents')
-        button.addEventListener('click', function(){
-            if (!hidden) {
-                removeFoughtOpponents()
-                setButtonDisplay()
-            } else {
-                displayFoughtOpponents()
-                setButtonHide()
-            }
-            $('.leagues_table .lead_table_view').getNiceScroll().resize()
-            hidden = !hidden
-            Helpers.lsSet(lsKeys.FOUGHT_OPPONENTS_HIDDEN, hidden)
-        })
+        // let button = document.querySelector('#beaten_opponents')
+        // button.addEventListener('click', function(){
+        //     if (!hidden) {
+        //         removeFoughtOpponents()
+        //         setButtonDisplay()
+        //     } else {
+        //         displayFoughtOpponents()
+        //         setButtonHide()
+        //     }
+        //     $('.leagues_table .lead_table_view').getNiceScroll().resize()
+        //     hidden = !hidden
+        //     Helpers.lsSet(lsKeys.FOUGHT_OPPONENTS_HIDDEN, hidden)
+        // })
 
-        let sort_by = document.querySelectorAll('span[sort_by]')
-        for (let sort of sort_by) {
-            sort.addEventListener('click', function(){
-                if (hidden) {
-                    removeFoughtOpponents()
-                }
-                $(document).trigger('league:table-sorted')
-                // displayLeaguePlayersInfo()
-            })
-        }
+        // let sort_by = document.querySelectorAll('span[sort_by]')
+        // for (let sort of sort_by) {
+        //     sort.addEventListener('click', function(){
+        //         if (hidden) {
+        //             removeFoughtOpponents()
+        //         }
+        //         $(document).trigger('league:table-sorted')
+        //         // displayLeaguePlayersInfo()
+        //     })
+        // }
     }
 
     manageTableAnnotations () {
-        function resolveScoreConflicts(scores) {
-            console.log('resolving scores', scores)
-            const resolutionIndices = {
-                4: [0,1,3],
-                5: [0,3,4],
-                6: [3,4,5]
-            }
-            const resolved = scores.filter((_,i) => resolutionIndices[scores.length].includes(i))
-            console.log('resolved to:', resolved)
-            return resolved
-        }
-
-        const displayLeaguePlayersInfo = () => {
-            let player = $('#leagues_right .avatar_border>img').attr('hero-page-id')
-            let points
-            try{
-                points=Helpers.lsGet(lsKeys.LEAGUE_POINT_HISTORY)[player].points
-            }catch(e){
-                points=[]
-            }
-            for(let i=0;i<3;i++){
-                let result=$('.result')[i]
-                if(result.innerText!==''){
-                    result.innerText=points[i] || '?'
-                }
-            }
-
-            const data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
-            const pointHistory = Helpers.lsGet(lsKeys.LEAGUE_POINT_HISTORY) || {}
-            let pointHistoryChanged = false
-            $('.leagues_table .lead_table_view tbody.leadTable tr').each((i, el) => {
-                let playerData = $(el)
-                let playerId = playerData.attr('sorting_id')
-                let player = data[playerId]
-                if (player) {
-                    if (playerData.find('.classLeague').length===0) {
-                        playerData.find('.square-avatar-wrapper').append($('<div class="classLeague"></div>'))
-                    }
-                    if (player.themeIcons) {
-                        const $classLeague = playerData.find('.classLeague')
-                        $classLeague.empty()
-                        player.themeIcons.forEach(icon => {
-                            $classLeague.append(`<img class="theme-icon" src="${icon}"/>`)
-                        })
-                    }
-                }
-                if (!playerData.hasClass('personal_highlight')){
-                    let points
-                    const leaguesListPlayer = leagues_list.find(({id_player}) => id_player===playerId)
-                    try{
-                        points=pointHistory[playerId].points
-                        if (leaguesListPlayer.nb_challenges_played === '3' && points.length > 3) {
-                            points = resolveScoreConflicts(points)
-                            pointHistory[playerId].points = points
-                            pointHistoryChanged = true
-                        }
-                    }catch{
-                        points=[]
-                    }
-                    let pointsText=''
-                    const showIndividualPoints = Helpers.lsGetRaw(lsKeys.TABLE_SHOW_INDIVIDUAL) === '1'
-                    if (showIndividualPoints) {
-                        pointsText = [0,1,2].map(j => {
-                            if(j<parseInt(leaguesListPlayer.nb_challenges_played)){
-                                return points[j] || '?'
-                            }
-                            return '-'
-                        }).join('/')
-                    } else {
-                        pointsText = `${leaguesListPlayer.nb_challenges_played}/3`
-                    }
-                    if (!playerData.hasClass('selected-player-leagues')) {
-                        playerData[0].children[3].innerText=pointsText
-                    }
-                }
-            })
-            if (pointHistoryChanged) {
-                Helpers.lsSet(lsKeys.LEAGUE_POINT_HISTORY, pointHistory)
-            }
-        }
 
         const calculateVictories = () => {
+            const {opponents_list} = window
             let data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
             let nb_players = this.aggregates.playersTotal
             let nb_opponents = nb_players-1
             Helpers.lsSet(lsKeys.LEAGUE_PLAYERS, nb_opponents)
 
             let fightsPlayed = 0
-            for (let i=0; i<nb_players; i++) {
-                fightsPlayed += parseInt(leagues_list[i].nb_challenges_played)
-            }
+            opponents_list.forEach(({match_history}) => {
+                const match_history_array = Object.values(match_history)[0]
+                if (match_history_array) {
+                    fightsPlayed += match_history_array.filter((e) => {return e != null}).length
+                }
+            })
 
             let tot_victory = 0
             let tot_defeat = 0
@@ -502,84 +425,44 @@ class LeagueInfoModule extends CoreModule {
         }
 
         const saveVictories = () => {
+            const {opponents_list} = window
             let data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
-            let player, spec, results
-            if (Object.keys(loadedLeaguePlayers)?.length) {
-                player = $('#leagues_right .avatar_border>img').attr('hero-page-id')
-                spec = loadedLeaguePlayers[player].player.class
-                results = loadedLeaguePlayers[player].match_history[player]
-            } else {
-                player = opponent_fighter.player.id_fighter
-                spec = opponent_fighter.player.class
-                results = window.match_history[player]
-            }
-            let $themeIcons = $('#leagues_middle .selected-player-leagues .theme-container img')
-            if (!$themeIcons.length) {
-                $themeIcons = $('#leagues_right .team-theme')
-            }
-            const themeIcons = $themeIcons.map((i,el)=>$(el).attr('src')).toArray()
-            const nb_victories = results.filter(match => match === 'won').length
-            const nb_defeats = results.filter(match => match === 'lost').length
 
-            data[player] = {
-                victories: nb_victories,
-                defeats: nb_defeats,
-                class: spec,
-                themeIcons
-            }
+            opponents_list.forEach(({player, match_history}) => {
+                const match_history_array = Object.values(match_history)[0]
+
+                if (match_history_array) {
+                    let nb_victories = 0
+                    let nb_defeats = 0
+                    match_history_array.forEach((match) => {
+                        if (match) {
+                            const {attacker_won} = match
+
+                            nb_victories += attacker_won === 'won' ? 1 : 0
+                            nb_defeats += attacker_won === 'lost' ? 1 : 0
+                        }
+                    })
+
+                    let themeIcons = player.team.theme_elements.map((e) => e.ico_url)
+                    if (!themeIcons.length) {
+                        themeIcons = [`${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png`]
+                    }
+
+                    data[parseInt(player.id_fighter)] = {
+                        victories: nb_victories,
+                        defeats: nb_defeats,
+                        class: player.class,
+                        themeIcons
+                    }
+                }
+            })
 
             Helpers.lsSet(lsKeys.LEAGUE_RESULTS, data)
 
             calculateVictories()
         }
 
-        const waitOpnt = () => {
-            setTimeout(function() {
-                if ($('.result')) {
-                    saveVictories()
-                    displayLeaguePlayersInfo()
-                } else {
-                    waitOpnt()
-                }
-            }, 50);
-        }
-        waitOpnt()
-
-        let observeCallback = () => {
-            saveVictories()
-            displayLeaguePlayersInfo()
-        }
-
-        $(document).on('league:table-sorted', () => {
-            displayLeaguePlayersInfo()
-        })
-
-        const leagueTableShowIndividualCurrent = Helpers.lsGetRaw(lsKeys.TABLE_SHOW_INDIVIDUAL) || '0'
-        const individualDisplaySwitchOptions = [
-            {label: '22/21/-', value: '1'},
-            {label: '2/3', value: '0'}
-        ].map(option => Helpers.$(`
-            <label>
-                <input type="radio" name="leagueTableShowIndividual" value="${option.value}" ${option.value === leagueTableShowIndividualCurrent ? 'checked' : ''} />
-                <span>${option.label}</span>
-            </label>
-        `).change((e) => {
-            Helpers.lsSetRaw(lsKeys.TABLE_SHOW_INDIVIDUAL, e.target.value)
-            displayLeaguePlayersInfo()
-        }))
-        const individualDisplaySwitch = $('<div class="individualDisplaySwitch"></div>')
-        individualDisplaySwitchOptions.forEach((option, i) => {
-            if (i > 0) {
-                individualDisplaySwitch.append('&middot;')
-            }
-            individualDisplaySwitch.append(option)
-        })
-
-        $('.leagues_middle_header_script').append(individualDisplaySwitch)
-
-        $(document).on('league:player-selected', () => {
-            observeCallback()
-        })
+        saveVictories()
     }
 }
 

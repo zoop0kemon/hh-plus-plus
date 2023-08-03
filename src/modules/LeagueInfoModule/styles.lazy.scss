@@ -1,46 +1,19 @@
 @import "../../common/constants.scss";
 @import "../../common//mixins.scss";
 
-#leagues_middle {
-    @media #{$mediaDesktop} {
-        margin-top: 1rem!important;
-    }
-
-    @media #{$mediaMobile} {
-        margin-top: 2rem!important;
-    }
-}
-
-#leagues_middle .league_end_in {
-    position: relative;
-    top: 20px;
-
-    @media #{$mediaMobile} {
-        left: 70px;
-    }
-}
-
-.leagues_middle_header_script {
+.leagues_script {
     display: flow-root;
     margin-top: 4px;
 }
 
 .scriptLeagueInfo {
-    display: block;
-    float: right;
-    margin-right: 9px;
+    display: flex;
+    width: 9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 8px;
     line-height: 16px;
-
-    @media #{$mediaDesktop} {
-        font-size: 13px;
-    }
-
-    @media #{$mediaMobile} {
-        position: absolute;
-        right: 300px;
-        top: 20px;
-        font-size: 14px;
-    }
+    font-size: 13px;
 }
 
 .scriptLeagueInfoIcon {
@@ -166,12 +139,6 @@
     }
 }
 
-// #leagueStats table tr td:first-child,
-// #oldLeagueStats table
-
-// #leagueStats table tr td:last-child,
-// #oldLeagueStats table
-
 .individualDisplaySwitch {
     position: absolute;
     input {
@@ -197,5 +164,32 @@
         top: 44px;
         left: 335px;
         font-size: 16px;
+    }
+}
+
+#leagues .league_content .league_buttons {
+    .challenge_points {
+        margin-right: 1.5rem;
+
+        .bar-wrap {
+            width: 10rem;
+
+            .over {
+                font-size: 13px;
+
+                [rel=count_txt] {
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
+    .league_end_in div>p {
+        font-size: 13px;
+        line-height: 0.6rem;
+    }
+
+    .league_buttons_block {
+        width: 10.5rem;
     }
 }

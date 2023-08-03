@@ -1,3 +1,4 @@
+1.36.11: Fixing Compact Daily Missions, Compact League and striped table row style tweaks and parts of the League Info module, removing redundant league style tweaks, updating patrons list for August.
 1.36.10: Quick fix for Battle Simulator in leagues and temporarily disabling league related modules, fixing bug with compact resource summary
 1.36.9: Enabling pantheon script features on PSH
 1.36.8: Adding boss bang booster tracking, adding hero level rewards to Hide Claimed Rewards module, unrounding numbers in compact resource summary, and fixing various bugs.

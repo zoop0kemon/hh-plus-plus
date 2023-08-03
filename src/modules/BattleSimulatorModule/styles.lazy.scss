@@ -198,6 +198,10 @@ $minus-bg: #ff2f2f28;
         }
     }
 
+    .icon-area {
+        z-index: 1;
+    }
+
     .gridWrapper {
         margin-top: -42px;
         display: grid;
@@ -206,45 +210,53 @@ $minus-bg: #ff2f2f28;
     }
 }
 
-#pre-battle:not(.leagues-battle) .oponnent-panel {
-    .plus {
-        color: $plus;
-    }
-
-    .minus {
-        color: $minus;
-    }
-
-    .close {
-        color: $close;
-    }
-
-    .gridWrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-    }
-
-    .matchRating {
-        text-align: center;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-
-        .short-circuit {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-size: contain;
-            margin-left: 6px;
+#pre-battle:not(.leagues-battle) {
+    .oponnent-panel, .opponent-panel {
+        .plus {
+            color: $plus;
         }
-    }
 
-    .fighter-team .team-hexagon-container .average-lvl {
-        text-align: center;
-        margin-top: 0px;
-        line-height: 26px;
+        .minus {
+            color: $minus;
+        }
+
+        .close {
+            color: $close;
+        }
+
+        .icon-area {
+            z-index: 1;
+        }
+
+        .gridWrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            align-items: center;
+            text-align: center;
+        }
+
+        .matchRating {
+            text-align: center;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+
+            .short-circuit {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: contain;
+                margin-left: 6px;
+            }
+        }
+
+        .fighter-team .team-hexagon-container .average-lvl {
+            text-align: center;
+            margin-top: 0px;
+            line-height: 26px;
+        }
     }
 }

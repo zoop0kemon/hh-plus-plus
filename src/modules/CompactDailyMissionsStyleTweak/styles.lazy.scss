@@ -68,15 +68,22 @@
             }
 
             .mission_reward {
-                width: auto;
+                width: 90px;
                 height: 50%;
                 padding-left: 0px;
                 padding-top: 15px;
-                gap: 8px;
+                gap: 6px;
                 align-items: flex-start;
 
                 .slot {
                     margin: 0px !important;
+                    width: 1.6rem;
+                    height: 2.2rem;
+                    overflow: visible;
+
+                    .orb_icon {
+                        background-size: cover;
+                    }
                 }
 
                 .reward_wrap .slot:first-child {

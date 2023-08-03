@@ -68,11 +68,11 @@ class TeamsFilterModule extends CoreModule {
     }
 
     updateFilterGirlData() {
-        this.arenaGirls = $('.harem-panel-girls div.harem-girl-container')
+        this.arenaGirls = $('.harem-panel div.harem-girl-container')
 
         this.girlsData = $.map(this.arenaGirls, function(girl) {
             // CxH still uses 'new-girl-tooltip-data' and is broken in the UI
-            return JSON.parse($(girl).attr('data-new-girl-tooltip') || $(girl).attr('new-girl-tooltip-data'))
+            return JSON.parse($(girl).find('.girl_img').attr('data-new-girl-tooltip') || $(girl).find('.girl_img').attr('new-girl-tooltip-data'))
         })
     }
 

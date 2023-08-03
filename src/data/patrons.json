@@ -11,6 +11,17 @@
         ]
     },
     {
+        "name": "haven4ever",
+        "tier": "gold",
+        "flairs": [
+            {
+                "game": "GH",
+                "platform": ".com",
+                "id": "26313"
+            }
+        ]
+    },
+    {
         "name": "Darkyz",
         "tier": "silver",
         "flairs": [
