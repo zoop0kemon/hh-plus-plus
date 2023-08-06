@@ -98,44 +98,22 @@
     }
 }
 
-#leagues_middle > .leagues_table.lead_table > .lead_table_view table .square-avatar-wrapper .classLeague {
-    position: absolute;
+#leagues
+.league_content
+.league_table
+.data-list
+.data-row
+.data-column:not(.head-column)[column=team]
+.button_team_synergy {
+    background: none;
     display: flex;
-    left: -38px;
-    top: 6px;
-    width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    column-gap: 3px;
 
-    @media #{$mediaMobile} {
-        left: -66px;
-        top: 17px;
-    }
-
-    img.theme-icon {
-        flex: 0 1 0%;
-        height: 17px;
-        width: 17px;
-        border: none;
-        position: initial;
-
-        @media #{$mediaMobile} {
-            height: 25px;
-            width: 25px;
-        }
-    }
-}
-
-#leagueStats table,
-#oldLeagueStats table {
-    margin-left: auto;
-    margin-right: auto;
-
-    & tr td:first-child {
-        text-align: right;
-    }
-
-    & tr td:last-child {
-        text-align: left;
+    img.team-theme.icon {
+        width: 20px;
+        height: 20px;
     }
 }
 

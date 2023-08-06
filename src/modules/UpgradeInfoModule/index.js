@@ -75,35 +75,40 @@ class UpgradeInfoModule extends CoreModule {
             equip_observer.observe($equip_inventory[0], { childList: true })
 
             // current resource spent amount
-            const $resource_section = $('.girl-resource-section')
-            const addResourceCur = (cur = -1) => {
+            const resources = ['experience', 'affection']
+
+            const addResourceCurrent = (current = -1) => {
                 const resource = this.getCurrentResource()
+                const $resource_section = $(`#${resource} .girl-resource-section`)
 
-                if (['experience', 'affection'].includes(resource)) {
-                    let $script_cur = $resource_section.find('.script-cur')
-                    if (!$script_cur.length) {
-                        $script_cur = $('<span class="script-cur"></span>')
-                        $resource_section.find('.top-text>p').eq(0).append($script_cur)
+                if (resources.includes(resource)) {
+                    let $script_current = $resource_section.find('.script-current')
+                    if (!$script_current.length) {
+                        $script_current = $('<span class="script-current"></span>')
+                        $resource_section.find('.top-text>p').eq(0).append($script_current)
                     }
 
-                    if (cur < 0) {
-                        cur = resource === 'experience' ? girl.Xp.cur : girl.Affection.cur
+                    if (current < 0) {
+                        current = resource === 'experience' ? girl.Xp.cur : girl.Affection.cur
                     }
-                    $script_cur.text(` ${I18n.nThousand(cur)}`)
+                    $script_current.text(` ${I18n.nThousand(current)}`)
                 }
             }
 
-            addResourceCur()
+            addResourceCurrent()
             const resource_observer = new MutationObserver(() => {
-                addResourceCur()
+                addResourceCurrent()
             })
-            resource_observer.observe($resource_section[0], { childList: true })
+            resources.forEach((resource) => {
+                resource_observer.observe($(`#${resource} .girl-resource-section`)[0], { childList: true })
+            })
+
             Helpers.onAjaxResponse(/action=girl_give_/, (response, opt) => {
                 if (!response.success) {return}
 
                 const searchParams = new URLSearchParams(opt.data)
-                const cur = response[searchParams.get('action').replace('girl_give_', '')]
-                addResourceCur(cur)
+                const current = response[searchParams.get('action').replace('girl_give_', '')]
+                addResourceCurrent(current)
             })
         })
 

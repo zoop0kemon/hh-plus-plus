@@ -34,8 +34,12 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            if (['activities', 'tower-of-fame'].some(page => Helpers.isCurrentPage(page))) {
+            if (Helpers.isCurrentPage('activities')) {
                 this.addSupporterAnnotations()
+            } else if (Helpers.isCurrentPage('tower-of-fame')) {
+                Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+                    this.addSupporterAnnotations()
+                })
             }
         })
 
@@ -47,6 +51,7 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
 
     async addSupporterAnnotations (data) {
         const selector = (data && data.selector) || ''
+        const isLeagues = Helpers.isCurrentPage('tower-of-fame')
         const supporters = await Supporters.getSupporters()
         const filteredSupporters = supporters.filter(({flairs}) => flairs)
 
@@ -58,7 +63,8 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
         filteredSupporters.forEach(({tier, flairs}) => {
             flairs.forEach(({game, platform, id}) => {
                 if (game === gameKey && platform === gamePlatform) {
-                    $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector).append(`<div class="script-flair script-supporter"><img class="tier-icon" src="${TIER_ICONS[tier]}" tooltip="HH++ ${tier.substring(0,1).toUpperCase()}${tier.substring(1)} Tier Supporter"/></div>`)
+                    const $nickname = isLeagues ? $(`.nickname[id-member="${id}"]`) : $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector)
+                    $nickname.append(`<div class="script-flair script-supporter"><img class="tier-icon" src="${TIER_ICONS[tier]}" tooltip="HH++ ${tier.substring(0,1).toUpperCase()}${tier.substring(1)} Tier Supporter"/></div>`)
                 }
             })
         })
@@ -67,8 +73,6 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
     getNameColumnSelector () {
         if (Helpers.isCurrentPage('activities')) {
             return 'td:nth-of-type(2)'
-        } else if (Helpers.isCurrentPage('tower-of-fame')) {
-            return '.nickname'
         }
         return '> div:nth-of-type(2)'
     }

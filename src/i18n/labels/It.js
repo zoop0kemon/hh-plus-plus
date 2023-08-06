@@ -96,7 +96,8 @@ export const config = {
     improvedWaifu: `${Helpers.isGH()? 'Fidanzato migliorato' : 'Waifu migliorata'}`,
     sortDailyMissions: 'Ordina le missioni giornaliere per durata',
     sortDailyMissions_reverse: 'Ordine inverso',
-    upgradeInfo: 'Informazioni sulla pagina di miglioramento'
+    upgradeInfo: 'Informazioni sulla pagina di miglioramento',
+    leagueQuickNav: 'Navigazione rapida tra avversari Lega'
 }
 export const stConfig = {
     missionsBackground: 'Cambiare lo sfondo delle missioni',

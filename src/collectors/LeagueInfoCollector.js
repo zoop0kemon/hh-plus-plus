@@ -1,6 +1,7 @@
 /* global server_now_ts, season_end_at */
 import { lsKeys } from '../common/Constants'
 import Helpers from '../common/Helpers'
+import I18n from '../i18n'
 
 const MIGRATIONS = {
     leaguePlayers: lsKeys.LEAGUE_PLAYERS,
@@ -19,16 +20,110 @@ const MIGRATIONS = {
 
 class LeagueInfoCollector {
     static collect() {
-        // if (Helpers.isCurrentPage('battle') && !Helpers.isCurrentPage('pre-battle')) {
-        //     LeagueInfoCollector.collectLeagueBattlePoints()
-        // }
 
         if (Helpers.isCurrentPage('tower-of-fame')) {
             Helpers.defer(() => {
+                LeagueInfoCollector.collectAvaliableOpponents()
+                LeagueInfoCollector.collectFromOpponentsList()
                 LeagueInfoCollector.migrate()
                 LeagueInfoCollector.clean()
-                // LeagueInfoCollector.setupListeners()
+
+                const observer = new MutationObserver(() => {
+                    $(document).trigger('league:table-sorted')
+                    LeagueInfoCollector.collectAvaliableOpponents()
+                })
+                Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+                    observer.observe($('.league_table .data-list')[0], {childList: true})
+                })
             })
+        }
+    }
+
+    static collectAvaliableOpponents () {
+        const {opponents_list} = window
+        if (opponents_list && opponents_list.length) {
+            let avaliable_opponents = []
+
+            opponents_list.forEach(({match_history, player}) => {
+                const match_history_array = Object.values(match_history)[0]
+
+                if (match_history_array) {
+                    const player_id = parseInt(player.id_fighter)
+                    const fights_played = match_history_array.filter((e) => {return e != null}).length
+
+                    if (fights_played < 3) {
+                        avaliable_opponents.push(player_id)
+                    }
+                }
+            })
+
+            Helpers.lsSet(lsKeys.AVAILABLE_OPPONENTS, avaliable_opponents)
+        }
+    }
+
+    static collectFromOpponentsList () {
+        const {opponents_list} = window
+        if (opponents_list && opponents_list.length) {
+            let data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
+            const nb_players = opponents_list.length
+
+            let playerScore = 0
+            let challengesDone = 0
+            let tot_victory = 0
+            let tot_defeat = 0 
+            opponents_list.forEach(({match_history, player, player_league_points}) => {
+                const match_history_array = Object.values(match_history)[0]
+
+                if (match_history_array) {
+                    const player_id = parseInt(player.id_fighter)
+                    let nb_victories = 0
+                    let nb_defeats = 0
+                    match_history_array.forEach((match) => {
+                        if (match) {
+                            const {attacker_won} = match
+
+                            nb_victories += attacker_won === 'won' ? 1 : 0
+                            nb_defeats += attacker_won === 'lost' ? 1 : 0
+                        }
+                    })
+                    tot_victory += nb_victories
+                    tot_defeat += nb_defeats
+                    challengesDone += match_history_array.filter((e) => {return e != null}).length
+
+                    let themeIcons = player.team.theme_elements.map((e) => e.ico_url)
+                    if (!themeIcons.length) {
+                        themeIcons = [`${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png`]
+                    }
+
+                    data[player_id] = {
+                        victories: nb_victories,
+                        defeats: nb_defeats,
+                        class: player.class,
+                        themeIcons
+                    }
+                } else {
+                    // is self
+                    playerScore = I18n.parseLocaleRoundedInt(player_league_points)
+                }
+            })
+
+            Helpers.lsSet(lsKeys.LEAGUE_RESULTS, data)
+            Helpers.lsSet(lsKeys.LEAGUE_PLAYERS, nb_players-1)
+
+            let nb_unknown = challengesDone - tot_victory - tot_defeat
+            Helpers.lsSet(lsKeys.LEAGUE_UNKNOWN, nb_unknown)
+
+            const avgScore = (challengesDone !== 0) ? playerScore/challengesDone : 0
+            const avg = Math.round(avgScore*100)/100
+            const leagueScore = {
+                points: playerScore,
+                avg
+            }
+            const oldScore = Helpers.lsGet(lsKeys.LEAGUE_SCORE) || {points: 0, avg: 0}
+            const {points: oldPoints} = oldScore
+            if (playerScore > oldPoints) {
+                Helpers.lsSet(lsKeys.LEAGUE_SCORE, leagueScore)
+            }
         }
     }
 
@@ -72,35 +167,6 @@ class LeagueInfoCollector {
                 // TODO delete old
             }
         })
-    }
-
-    static collectLeagueBattlePoints() {
-        Helpers.onAjaxResponse(/action=do_battles_leagues/i, (response, opt) => {
-            const searchParams = new URLSearchParams(opt.data)
-            const player = searchParams.get('id_opponent')
-            const number_of_battles = searchParams.get('number_of_battles')
-
-            if (number_of_battles > 1) {
-                // can't handle a x15, no individual scores or player ids available
-                return
-            }
-
-            const points = response.rewards.heroChangesUpdate.league_points
-
-            const pointHist = Helpers.lsGet(lsKeys.LEAGUE_POINT_HISTORY) || {}
-            try {
-                pointHist[player].points.push(points)
-            } catch(e) {
-                pointHist[player]={points:[points]}
-            }
-            Helpers.lsSet(lsKeys.LEAGUE_POINT_HISTORY, pointHist)
-        })
-    }
-
-    static setupListeners () {
-        new MutationObserver(() => {
-            $(document).trigger('league:player-selected')
-        }).observe(document.getElementById('leagues_right'), {childList: true})
     }
 }
 

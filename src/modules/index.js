@@ -36,6 +36,7 @@ export {default as LeaderboardProfilePopupsModule} from './LeaderboardProfilePop
 export {default as ImprovedWaifuModule} from './ImprovedWaifuModule'
 export {default as SortDailyMissionsModule} from './SortDailyMissionsModule'
 export {default as UpgradeInfoModule} from './UpgradeInfoModule'
+export {default as LeagueQuckNavModule} from './LeagueQuckNavModule'
 
 export {default as HomeScreenRightSideRearrangeStyleTweak} from './HomeScreenRightSideRearrangeStyleTweak'
 export {default as ContestNotifsStyleTweak} from './ContestNotifsStyleTweak'

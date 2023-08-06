@@ -1,0 +1,15 @@
+#pre-battle.leagues-battle
+.middle-container
+.battle-buttons-row
+.back_button_s {
+    position: relative;
+    top: 1rem;
+    left: unset;
+    right: unset;
+    background-image: var(--forwards);
+    background-size: 24px;
+
+    &.prev {
+        transform: scaleX(-1);
+    }
+}

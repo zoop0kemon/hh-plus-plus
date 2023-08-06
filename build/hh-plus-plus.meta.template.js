@@ -42,6 +42,7 @@ window.HHPlusPlus={
             'Dogurasu53': ['es'],
             'FinderKeeper': ['ru'],
             'holymolly': ['de', 'es', 'it'],
+            'Iron Man': ['it'],
             'Reisen': ['es'],
             'shal': ['de'],
             'Sozan': ['es'],

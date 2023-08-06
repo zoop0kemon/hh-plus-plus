@@ -1,5 +1,3 @@
-/* global opponent_fighter, loadedLeaguePlayers */
-
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -62,27 +60,6 @@ class LeagueInfoModule extends CoreModule {
             ]
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
-
-        this.aggregates = {
-            challengesDone: 0,
-            challengesPossible: 0,
-            challengesTotal: 0,
-            playersTotal: 0,
-            levelRange: {
-                min: 0,
-                max: 0,
-                median: 0,
-            },
-            playerRank: 0,
-            playerScore: 0,
-            tops: {},
-            demotions: {},
-            demoteThreshold: 0,
-            avg: 0,
-            scoreExpected: 0,
-        }
-
-        this.possibleChallengesTooltip = ''
     }
 
     shouldRun () {
@@ -96,10 +73,10 @@ class LeagueInfoModule extends CoreModule {
 
         Helpers.defer(() => {
             this.injectCSSVars()
-            this.aggregateData()
             this.displaySummary({board, promo})
             this.manageTableAnnotations()
-            this.manageHideFoughtOpponents()
+            // this.manageHideFoughtOpponents()
+            this.fixLeagueBugs()
         })
 
         this.hasRun = true
@@ -109,151 +86,235 @@ class LeagueInfoModule extends CoreModule {
         Sheet.registerVar('legendary-bg', `url("${Helpers.getCDNHost()}/legendary.png")`)
     }
 
-    aggregateData() {
-        const {opponents_list, season_end_at, Hero} = window
-        const playersTotal = opponents_list.length
-        this.aggregates.playersTotal = playersTotal
+    // temp bug fixes
+    fixLeagueBugs () {
 
-        const posPointsIndex = {}
-
-        const demoteThreshold = playersTotal-14
-        const nonDemoteThreshold = playersTotal-15
-        this.aggregates.demoteThreshold = demoteThreshold
-        const thresholds = [...TOPS, ...TOPS.map(top => top+1)]
-
-        const levels = []
-
-        opponents_list.forEach(({match_history, player, place, player_league_points}) => {
-            const match_history_array = Object.values(match_history)[0]
-            const points = I18n.parseLocaleRoundedInt(player_league_points)
-
-            levels.push(parseInt(player.level, 10))
-
-            posPointsIndex[place] = points
-            if (thresholds.includes(place)) {
-                this.aggregates.tops[place] = points
+        // broken sorting system
+        const {opponents_list} = window
+        if (opponents_list && opponents_list.length) {
+            if (!opponents_list[0].level) {
+                opponents_list.forEach((opponent) => {
+                    const {player, match_history} = opponent
+                    opponent.nickname = player.nickname
+                    opponent.level = parseInt(player.level)
+                    opponent.player_league_points = I18n.parseLocaleRoundedInt(opponent.player_league_points)
+                    const {ego, damage, defense, chance} = player.team.caracs
+                    opponent.power = ego + 7.5*(damage + defense) + 0.625*chance
+                    opponent.team = player.team.theme
+                    const match_history_array = Object.values(match_history)[0]
+                    if (match_history_array) {
+                        opponent.can_fight = match_history_array.filter((e) => {return e != null}).length
+                    }
+                })
             }
-            if (demoteThreshold === place) {
-                this.aggregates.demotions.demote = points
-            } else if (nonDemoteThreshold === place) {
-                this.aggregates.demotions.nonDemote = points
-            }
-
-            if (match_history_array == false) {
-                // is self
-                this.aggregates.playerRank = place
-                this.aggregates.playerScore = points
-            } else {
-                this.aggregates.challengesDone += match_history_array.filter((e) => {return e != null}).length
-            }
-        })
-
-        const challengesPossibleMinutes = parseInt(Math.floor(season_end_at/60), 10)
-        const challengesPossible = (Hero.energies.challenge.amount !== Hero.energies.challenge.max_regen_amount)? Math.floor((challengesPossibleMinutes + (35 - Hero.energies.challenge.next_refresh_ts / 60))/35) + parseInt(Hero.energies.challenge.amount, 10) : Math.floor(challengesPossibleMinutes/35) + parseInt(Hero.energies.challenge.amount, 10)
-        this.aggregates.challengesPossible = challengesPossible
-
-        levels.sort((a,b) => a-b)
-        const midpoint = Math.floor(levels.length / 2)
-        this.aggregates.levelRange = {
-            min: Math.min(...levels),
-            max: Math.max(...levels),
-            median: levels.length % 2 ? levels[midpoint] : (levels[midpoint - 1] + levels[midpoint]) / 2.0
         }
-
-        const {challengesDone, playerScore} = this.aggregates
-        const challengesTotal = (playersTotal - 1) * CHALLENGES_PER_PLAYER
-        this.aggregates.challengesTotal = challengesTotal
-        const avgScore = (challengesDone !== 0) ? playerScore/challengesDone : 0
-        const avgRounded = Math.round(avgScore*100)/100
-        const scoreExpected = Math.floor(avgScore*challengesTotal)
-        const leagueScore = {
-            points: playerScore,
-            avg: avgRounded
-        }
-        const oldScore = Helpers.lsGet(lsKeys.LEAGUE_SCORE) || {points: 0, avg: 0}
-        const {points: oldPoints} = oldScore
-        if (playerScore > oldPoints) {
-            Helpers.lsSet(lsKeys.LEAGUE_SCORE, leagueScore)
-        }
-
-        this.aggregates.avg = avgRounded
-        this.aggregates.scoreExpected = scoreExpected
     }
 
-    displaySummary({board, promo}) {
-        const {challengesDone, challengesPossible, challengesTotal, playerScore, playerRank, tops, demotions, demoteThreshold, avg, scoreExpected} = this.aggregates
+    displaySummary ({board, promo}) {
+        const {opponents_list, season_end_at, Hero} = window
+        if (opponents_list && opponents_list.length) {
+            const playersTotal = opponents_list.length
+            const opponentsTotal = playersTotal - 1
+            const posPointsIndex = {}
+            const demoteThreshold = playersTotal-14
+            const nonDemoteThreshold = playersTotal-15
+            const thresholds = [...TOPS, ...TOPS.map(top => top+1)]
+            const levels = []
+            const demotions = {}
+            const tops = {}
 
-        let topsHtml = ''
-        let promoHtml = ''
-        if (board) {
-            topsHtml = TOPS.map(top => {
-                const scoreDisplayData = getScoreDisplayDataForTop(playerRank, playerScore, top, tops[top], tops[top+1])
-                const {diff, score, symbol, labelKey} = scoreDisplayData
+            let challengesDone = 0
+            let tot_victory = 0
+            let tot_defeat = 0
+            let playerRank
+            let playerScore
+            opponents_list.forEach(({match_history, player, place, player_league_points}) => {
+                const match_history_array = Object.values(match_history)[0]
+                const points = I18n.parseLocaleRoundedInt(player_league_points)
 
-                return `<span class="minTop${top}" hh_title="${this.label(labelKey, {points: I18n.nThousand(score), top})}" tooltip><span class="scriptLeagueInfoIcon top${top}"></span>${symbol}${I18n.nThousand(diff)}</span>`
-            }).join('')
-        }
-        if (promo) {
-            const {current_tier_number} = window
-            const {demote, nonDemote} = demotions
+                levels.push(parseInt(player.level, 10))
 
-            const canDemote = current_tier_number > 1
-            const canPromote = current_tier_number < 9
+                posPointsIndex[place] = points
+                if (thresholds.includes(place)) {
+                    tops[place] = points
+                }
+                if (demoteThreshold === place) {
+                    demotions.demote = points
+                } else if (nonDemoteThreshold === place) {
+                    demotions.nonDemote = points
+                }
 
-            const playerAtZeroPoints = playerScore === 0
-            const playerIsTop15 = playerRank <= 15
-            const playerWouldDemote = canDemote && (playerAtZeroPoints || playerScore <= demote)
-
-            let textDemote
-            let textNonDemote
-            let textStagnate
-
-            if (canDemote) {
-                if (!playerWouldDemote) {
-                    textDemote = this.label('toDemote', {players: demoteThreshold - playerRank})
+                if (match_history_array == false) {
+                    // is self
+                    playerRank = place
+                    playerScore = points
                 } else {
-                    if (playerAtZeroPoints) {
-                        textDemote = this.label('willDemoteZero')
-                        textNonDemote = this.label('toNotDemote')
+                    let nb_victories = 0
+                    let nb_defeats = 0
+                    match_history_array.forEach((match) => {
+                        if (match) {
+                            const {attacker_won} = match
+
+                            nb_victories += attacker_won === 'won' ? 1 : 0
+                            nb_defeats += attacker_won === 'lost' ? 1 : 0
+                        }
+                    })
+                    tot_victory += nb_victories
+                    tot_defeat += nb_defeats
+                    challengesDone += match_history_array.filter((e) => {return e != null}).length
+                }
+            })
+
+            const challengesPossibleMinutes = parseInt(Math.floor(season_end_at/60), 10)
+            const challengesPossible = (Hero.energies.challenge.amount !== Hero.energies.challenge.max_regen_amount)? Math.floor((challengesPossibleMinutes + (35 - Hero.energies.challenge.next_refresh_ts / 60))/35) + parseInt(Hero.energies.challenge.amount, 10) : Math.floor(challengesPossibleMinutes/35) + parseInt(Hero.energies.challenge.amount, 10)
+
+            levels.sort((a,b) => a-b)
+            const midpoint = Math.floor(levels.length / 2)
+            const levelRange = {
+                min: Math.min(...levels),
+                max: Math.max(...levels),
+                median: levels.length % 2 ? levels[midpoint] : (levels[midpoint - 1] + levels[midpoint]) / 2.0
+            }
+
+            const challengesTotal = (opponentsTotal) * CHALLENGES_PER_PLAYER
+            const avgScore = (challengesDone !== 0) ? playerScore/challengesDone : 0
+            const avg = Math.round(avgScore*100)/100
+            const scoreExpected = Math.floor(avgScore*challengesTotal)
+
+            let topsHtml = ''
+            let promoHtml = ''
+            if (board) {
+                topsHtml = TOPS.map(top => {
+                    const scoreDisplayData = getScoreDisplayDataForTop(playerRank, playerScore, top, tops[top], tops[top+1])
+                    const {diff, score, symbol, labelKey} = scoreDisplayData
+
+                    return `<span class="minTop${top}" hh_title="${this.label(labelKey, {points: I18n.nThousand(score), top})}" tooltip><span class="scriptLeagueInfoIcon top${top}"></span>${symbol}${I18n.nThousand(diff)}</span>`
+                }).join('')
+            }
+            if (promo) {
+                const {current_tier_number} = window
+                const {demote, nonDemote} = demotions
+
+                const canDemote = current_tier_number > 1
+                const canPromote = current_tier_number < 9
+
+                const playerAtZeroPoints = playerScore === 0
+                const playerIsTop15 = playerRank <= 15
+                const playerWouldDemote = canDemote && (playerAtZeroPoints || playerScore <= demote)
+
+                let textDemote
+                let textNonDemote
+                let textStagnate
+
+                if (canDemote) {
+                    if (!playerWouldDemote) {
+                        textDemote = this.label('toDemote', {players: demoteThreshold - playerRank})
                     } else {
-                        textDemote = this.label('willDemote', {points: nonDemote})
+                        if (playerAtZeroPoints) {
+                            textDemote = this.label('willDemoteZero')
+                            textNonDemote = this.label('toNotDemote')
+                        } else {
+                            textDemote = this.label('willDemote', {points: nonDemote})
+                        }
                     }
                 }
-            }
 
-            if (canPromote) {
-                if (playerIsTop15) {
-                    if (!playerAtZeroPoints) {
-                        textStagnate = this.label('toStay', {players: 16 - playerRank})
+                if (canPromote) {
+                    if (playerIsTop15) {
+                        if (!playerAtZeroPoints) {
+                            textStagnate = this.label('toStay', {players: 16 - playerRank})
+                        }
+                    } else {
+                        textStagnate = this.label('willStay', {points: tops[15]})
                     }
-                } else {
-                    textStagnate = this.label('willStay', {points: tops[15]})
                 }
+
+                const promotionInfoTooltip = [textStagnate, textNonDemote, textDemote].filter(a=>a).map(text=>`<p>${text}</p>`).join('')
+
+                promoHtml = `
+                    <span class="promotionInfo" hh_title="${promotionInfoTooltip}" tooltip>
+                        <img src="${Helpers.getCDNHost()}/leagues/ic_rankup.png" style="height: 15px; width: 12px; margin-left: 6px; margin-bottom: 0px;">
+                    </span>
+                `
             }
 
-            const promotionInfoTooltip = [textStagnate, textNonDemote, textDemote].filter(a=>a).map(text=>`<p>${text}</p>`).join('')
+            const challengesLeft = challengesTotal - challengesDone
+            const possibleChallengesTooltip = `${this.label('challengesRegen', {challenges: challengesPossible})}<br/>${this.label('challengesLeft', {challenges: challengesLeft})}`
 
-            promoHtml = `
-                <span class="promotionInfo" hh_title="${promotionInfoTooltip}" tooltip>
-                    <img src="${Helpers.getCDNHost()}/leagues/ic_rankup.png" style="height: 15px; width: 12px; margin-left: 6px; margin-bottom: 0px;">
-                </span>
+            const nb_unknown = challengesDone - tot_victory - tot_defeat
+            const {min, max, median} = levelRange
+
+            const leagueStatsText = `
+                <hr/>
+                <span id=&quot;leagueStats&quot;><u>${this.label('currentLeague')}</u>
+                <table>
+                    <tbody>
+                        <tr><td>${this.label('victories')} :</td><td><em>${tot_victory}</em>/<em>${challengesTotal}</em></td></tr>
+                        <tr><td>${this.label('defeats')} :</td><td><em>${tot_defeat}</em>/<em>${challengesTotal}</em></td></tr>
+                        <tr><td>${this.label('unknown')} :</td><td><em>${nb_unknown}</em>/<em>${challengesTotal}</em></td></tr>
+                        <tr><td>${this.label('notPlayed')} :</td><td><em>${challengesLeft}</em>/<em>${challengesTotal}</em></td></tr>
+                        <tr><td>${this.label('levelRange')} :</td><td><em>${min}</em>…<em>${median}</em>…<em>${max}</em></td></tr>
+                    </tbody>
+                </table>
+                </span>`
+
+            const old_data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS_OLD) || {}
+            const old_nb_opponents = Helpers.lsGet(lsKeys.LEAGUE_PLAYERS_OLD) || 0
+            const old_nb_unknown = Helpers.lsGet(lsKeys.LEAGUE_UNKNOWN_OLD) || 0
+            const old_score = Helpers.lsGet(lsKeys.LEAGUE_SCORE_OLD) || {}
+            const old_time = Helpers.lsGet(lsKeys.LEAGUE_TIME_OLD) || 0
+
+            let oldLeagueStatsText = ''
+
+            if (old_time > 0) {
+                let old_tot_victory = 0
+                let old_tot_defeat = 0
+
+                const old_points = old_score.points || 0
+                const old_avg = old_score.avg || 0
+
+                for(let old_key in old_data) {
+                    old_tot_victory += old_data[old_key].victories
+                    old_tot_defeat += old_data[old_key].defeats
+                }
+
+                const old_challenges_total = CHALLENGES_PER_PLAYER * old_nb_opponents
+                const old_tot_notPlayed = old_challenges_total - old_tot_victory - old_tot_defeat - old_nb_unknown
+
+                const options = {year: 'numeric', month: 'short', day: 'numeric'}
+                const old_date_end_league = new Date(old_time*1000).toLocaleDateString(I18n.getLang(), options)
+
+                oldLeagueStatsText = `
+                    <hr/>
+                    <span id=&quot;oldLeagueStats&quot;>
+                        ${this.label('leagueFinished', {date: `<em>${old_date_end_league}</em>`})}
+                        <table>
+                            <tbody>
+                                <tr><td>${this.label('victories')} :</td><td><em>${old_tot_victory}</em>/<em>${old_challenges_total}</em></td></tr>
+                                <tr><td>${this.label('defeats')} :</td><td><em>${old_tot_defeat}</em>/<em>${old_challenges_total}</em></td></tr>
+                                <tr><td>${this.label('notPlayed')} :</td><td><em>${old_tot_notPlayed}</em>/<em>${old_challenges_total}</em></td></tr>
+                                <tr><td>${this.label('opponents')} :</td><td><em>${old_nb_opponents}</em></td></tr>
+                                <tr><td>${this.label('leaguePoints')} :</td><td><em>${I18n.nThousand(old_points)}</em></td></tr>
+                                <tr><td>${this.label('avg')} :</td><td><em>${I18n.nThousand(old_avg)}</em></td></tr>
+                            </tbody>
+                        </table>
+                    </span>`
+            }
+
+            const allLeagueStatsText = `${possibleChallengesTooltip}${leagueStatsText}${oldLeagueStatsText}`
+            const summaryHtml = `
+                <div class="scriptLeagueInfo">
+                    <span class="averageScore" hh_title="${this.label('averageScore', {average: I18n.nThousand(avg)})}<br/>${this.label('scoreExpected', {score: I18n.nThousand(scoreExpected)})}" tooltip><img src="${meanIcon}" style="height: 15px; width: 16px; margin-left: 2px; margin-bottom: 0px;">${I18n.nThousand(avg)}</span>
+                    <span class="possibleChallenges" hh_title="${allLeagueStatsText}" tooltip><img src="${Helpers.getCDNHost()}/pictures/design/league_points.png" style="height: 15px; width: 16px; margin-left: 6px; margin-bottom: 0px;">${challengesPossible}/${challengesLeft}</span>
+                    ${topsHtml}
+                    ${promoHtml}
+                </div>
             `
-
+            Helpers.doWhenSelectorAvailable('.league_buttons_block', () => {
+                $('.league_buttons_block').before('<div class="leagues_script"></div>')
+                $('.leagues_script').append(summaryHtml)
+            })
         }
-
-        const challengesLeft = challengesTotal - challengesDone
-        this.possibleChallengesTooltip = `${this.label('challengesRegen', {challenges: challengesPossible})}<br/>${this.label('challengesLeft', {challenges: challengesLeft})}`
-
-        const summaryHtml = `
-            <div class="scriptLeagueInfo">
-                <span class="averageScore" hh_title="${this.label('averageScore', {average: I18n.nThousand(avg)})}<br/>${this.label('scoreExpected', {score: I18n.nThousand(scoreExpected)})}" tooltip><img src="${meanIcon}" style="height: 15px; width: 16px; margin-left: 2px; margin-bottom: 0px;">${I18n.nThousand(avg)}</span>
-                <span class="possibleChallenges" hh_title="${this.possibleChallengesTooltip}" tooltip><img src="${Helpers.getCDNHost()}/pictures/design/league_points.png" style="height: 15px; width: 16px; margin-left: 6px; margin-bottom: 0px;">${challengesPossible}/${challengesLeft}</span>
-                ${topsHtml}
-                ${promoHtml}
-            </div>
-        `
-        $('.league_buttons_block').before('<div class="leagues_script"></div>')
-        $('.leagues_script').append(summaryHtml)
     }
 
     manageHideFoughtOpponents () {
@@ -336,133 +397,33 @@ class LeagueInfoModule extends CoreModule {
 
     manageTableAnnotations () {
 
-        const calculateVictories = () => {
-            const {opponents_list} = window
-            let data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
-            let nb_players = this.aggregates.playersTotal
-            let nb_opponents = nb_players-1
-            Helpers.lsSet(lsKeys.LEAGUE_PLAYERS, nb_opponents)
+        const addTeamThemes = () => {
+            const {opponents_list, GT} = window
 
-            let fightsPlayed = 0
-            opponents_list.forEach(({match_history}) => {
-                const match_history_array = Object.values(match_history)[0]
-                if (match_history_array) {
-                    fightsPlayed += match_history_array.filter((e) => {return e != null}).length
-                }
-            })
-
-            let tot_victory = 0
-            let tot_defeat = 0
-            for(let key in data) {
-                tot_victory += data[key].victories
-                tot_defeat += data[key].defeats
-            }
-
-            let tot_notPlayed = 3*nb_opponents - fightsPlayed
-            let nb_unknown = fightsPlayed - tot_victory - tot_defeat
-            Helpers.lsSet(lsKeys.LEAGUE_UNKNOWN, nb_unknown)
-
-            const {min, max, median} = this.aggregates.levelRange
-
-            const leagueStatsText = `
-                <hr/>
-                <span id="leagueStats"><u>${this.label('currentLeague')}</u>
-                <table>
-                    <tbody>
-                        <tr><td>${this.label('victories')} :</td><td><em>${tot_victory}</em>/<em>${3*nb_opponents}</em></td></tr>
-                        <tr><td>${this.label('defeats')} :</td><td><em>${tot_defeat}</em>/<em>${3*nb_opponents}</em></td></tr>
-                        <tr><td>${this.label('unknown')} :</td><td><em>${nb_unknown}</em>/<em>${3*nb_opponents}</em></td></tr>
-                        <tr><td>${this.label('notPlayed')} :</td><td><em>${tot_notPlayed}</em>/<em>${3*nb_opponents}</em></td></tr>
-                        <tr><td>${this.label('levelRange')} :</td><td><em>${min}</em>…<em>${median}</em>…<em>${max}</em></td></tr>
-                    </tbody>
-                </table>
-                </span>`
-
-            const old_data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS_OLD) || {}
-            const old_nb_opponents = Helpers.lsGet(lsKeys.LEAGUE_PLAYERS_OLD) || 0
-            const old_nb_unknown = Helpers.lsGet(lsKeys.LEAGUE_UNKNOWN_OLD) || 0
-            const old_score = Helpers.lsGet(lsKeys.LEAGUE_SCORE_OLD) || {}
-            const old_time = Helpers.lsGet(lsKeys.LEAGUE_TIME_OLD) || 0
-
-            let oldLeagueStatsText = ''
-
-            if (old_time > 0) {
-                let old_tot_victory = 0
-                let old_tot_defeat = 0
-
-                const old_points = old_score.points || 0
-                const old_avg = old_score.avg || 0
-
-                for(let old_key in old_data) {
-                    old_tot_victory += old_data[old_key].victories
-                    old_tot_defeat += old_data[old_key].defeats
-                }
-
-                let old_tot_notPlayed = 3*old_nb_opponents - old_tot_victory - old_tot_defeat - old_nb_unknown
-
-                const options = {year: 'numeric', month: 'short', day: 'numeric'}
-                let old_date_end_league = new Date(old_time*1000).toLocaleDateString(I18n.getLang(), options)
-
-                oldLeagueStatsText = `
-                    <hr/>
-                    <span id="oldLeagueStats">
-                        ${this.label('leagueFinished', {date: `<em>${old_date_end_league}</em>`})}
-                        <table>
-                            <tbody>
-                                <tr><td>${this.label('victories')} :</td><td><em>${old_tot_victory}</em>/<em>${3*old_nb_opponents}</em></td></tr>
-                                <tr><td>${this.label('defeats')} :</td><td><em>${old_tot_defeat}</em>/<em>${3*old_nb_opponents}</em></td></tr>
-                                <tr><td>${this.label('notPlayed')} :</td><td><em>${old_tot_notPlayed}</em>/<em>${3*old_nb_opponents}</em></td></tr>
-                                <tr><td>${this.label('opponents')} :</td><td><em>${old_nb_opponents}</em></td></tr>
-                                <tr><td>${this.label('leaguePoints')} :</td><td><em>${I18n.nThousand(old_points)}</em></td></tr>
-                                <tr><td>${this.label('avg')} :</td><td><em>${I18n.nThousand(old_avg)}</em></td></tr>
-                            </tbody>
-                        </table>
-                    </span>`
-            }
-
-            const allLeagueStatsText = `${this.possibleChallengesTooltip}${leagueStatsText}${oldLeagueStatsText}`
-            $('.possibleChallenges').attr('hh_title', allLeagueStatsText)
-        }
-
-        const saveVictories = () => {
-            const {opponents_list} = window
-            let data = Helpers.lsGet(lsKeys.LEAGUE_RESULTS) || {}
-
-            opponents_list.forEach(({player, match_history}) => {
-                const match_history_array = Object.values(match_history)[0]
-
-                if (match_history_array) {
-                    let nb_victories = 0
-                    let nb_defeats = 0
-                    match_history_array.forEach((match) => {
-                        if (match) {
-                            const {attacker_won} = match
-
-                            nb_victories += attacker_won === 'won' ? 1 : 0
-                            nb_defeats += attacker_won === 'lost' ? 1 : 0
-                        }
-                    })
-
-                    let themeIcons = player.team.theme_elements.map((e) => e.ico_url)
-                    if (!themeIcons.length) {
-                        themeIcons = [`${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png`]
+            if (opponents_list && opponents_list.length) {
+                opponents_list.forEach(({player: {team: {theme_elements}}}, index) => {
+                    let $icons = []
+                    if (theme_elements.length) {
+                        theme_elements.forEach((theme_element) => {
+                            const {ico_url, flavor} = theme_element
+                            $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${flavor}">`)
+                        })
+                    } else {
+                        $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)
                     }
 
-                    data[parseInt(player.id_fighter)] = {
-                        victories: nb_victories,
-                        defeats: nb_defeats,
-                        class: player.class,
-                        themeIcons
-                    }
-                }
-            })
-
-            Helpers.lsSet(lsKeys.LEAGUE_RESULTS, data)
-
-            calculateVictories()
+                    $('.data-row.body-row').eq(index).find('.data-column[column=team] .button_team_synergy').append($($icons.join('')))
+                })
+            }
         }
 
-        saveVictories()
+        Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+            addTeamThemes()
+
+            $(document).on('league:table-sorted', () => {
+                addTeamThemes()
+            })
+        })
     }
 }
 

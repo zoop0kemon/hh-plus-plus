@@ -91,7 +91,8 @@ export const config = {
     improvedWaifu: `Improved ${gameConfig.waifu}`,
     sortDailyMissions: 'Sort daily missions by duration',
     sortDailyMissions_reverse: 'Reverse order',
-    upgradeInfo: `Upgrade page information`
+    upgradeInfo: 'Upgrade page information',
+    leagueQuickNav: 'League opponent quick navigation',
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',

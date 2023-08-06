@@ -27,8 +27,12 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            if (['activities', 'tower-of-fame'].some(page => Helpers.isCurrentPage(page))) {
+            if (Helpers.isCurrentPage('activities')) {
                 this.addClubmateAnnotations()
+            } else if (Helpers.isCurrentPage('tower-of-fame')) {
+                Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+                    this.addClubmateAnnotations()
+                })
             }
         })
 
@@ -40,13 +44,15 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
 
     async addClubmateAnnotations (data) {
         const selector = (data && data.selector) || ''
+        const isLeagues = Helpers.isCurrentPage('tower-of-fame')
         const clubStatus = Helpers.lsGet(lsKeys.CLUB_STATUS)
         const nameColumnSelector = this.getNameColumnSelector()
 
         if (clubStatus && clubStatus.memberIds) {
             clubStatus.memberIds.forEach((id) => {
                 if (id === `${window.Hero.infos.id}`) {return}
-                $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector).append(`<div class="script-flair script-clubmate"><span class="globalClubs_mix_icn" tooltip="${this.label('clubmate')}"/></div>`)
+                const $nickname = isLeagues ? $(`.nickname[id-member="${id}"]`) : $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector)
+                $nickname.append(`<div class="script-flair script-clubmate"><span class="globalClubs_mix_icn" tooltip="${this.label('clubmate')}"/></div>`)
             })
         }
     }
@@ -54,8 +60,6 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
     getNameColumnSelector () {
         if (Helpers.isCurrentPage('activities')) {
             return 'td:nth-of-type(2)'
-        } else if (Helpers.isCurrentPage('tower-of-fame')) {
-            return '.nickname'
         }
         return '> div:nth-of-type(2)'
     }

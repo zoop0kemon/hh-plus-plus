@@ -1,14 +1,29 @@
-.girl-leveler-panel .girl-leveler-container .girl-section .girl-avatar {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    align-items: center;
+.girl-leveler-panel .girl-leveler-container {
+    .girl-section .girl-avatar, #skills .script-girl-avatar {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .girl-section .girl-avatar {
+        position: relative;
+        align-items: center;
+    }
+
+    #skills {
+        .script-girl-avatar {
+            align-items: flex-start;
+            position: absolute;
+            left: 3.75rem;
+        }
+        .girl-skills-avatar {
+            position: unset;
+        }
+    }
 }
 
 .script-quicknav {
     &-prev,
     &-next {
-        position: absolute;
         width: 100px;
         opacity: 0.8;
 
@@ -17,66 +32,43 @@
             filter: drop-shadow(0px 0px 4px white);
         }
 
-        &[resource="equipment"] {
+        img {
+            width: 100%;
+        }
+
+        #equipment & {
+            position: absolute;
             bottom: -60px;
         }
 
-        img {
-            width: 100%;
-
-            &.quicknav-ico {
-                display: none;
-            }
-        }
-
-        &[resource="equipment"] {
-            img {
-                &.quicknav-ico {
-                    display: unset;
-                }
-                &.quicknav-ava {
-                    display: none;
-                }
-            }
+        #teams & {
+            position: absolute;
+            top: 120px;
         }
     }
 
     &-prev {
         left: -140px;
 
-        &[resource="equipment"] {
-            left : 0px;
+        #equipment & {
+            left: 0px;
         }
 
-        &[resource="teams"] {
-            left : -100px;
-
-            &.no-teams {
-                left: -240px;
-                top: 60px;
-            }
+        #teams & {
+            left: 0.5rem;
         }
     }
     &-next {
         right: -140px;
 
-        &[resource="equipment"] {
-            right : 0px;
+        #equipment & {
+            right: 0px;
         }
 
-        &[resource="teams"] {
-            right : -100px;
-
-            &.no-teams {
-                right: -240px;
-                top: 60px;
-            }
+        #teams & {
+            left: 25.75rem;
         }
     }
-}
-
-.synergy-helper {
-    left: 15.5rem !important;
 }
 
 .equipment-left-controls {
