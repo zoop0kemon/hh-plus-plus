@@ -34,6 +34,10 @@ class LeagueTableRowStripesStyleTweak extends STModule {
         super.run()
         Helpers.defer(() => {
             this.injectCSSVars()
+
+            Helpers.doWhenSelectorAvailable(('.league_table .data-list'), () => {
+                $('.data-row.body-row:not(.script-hide):not(:has(.player-pin.pinned)):even').addClass('script-stripe')
+            })
         })
     }
 

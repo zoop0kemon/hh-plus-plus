@@ -48,20 +48,11 @@
     }
 }
 
-.inventory-controls #girl-equipment-equip {
-    position: absolute;
-    right: 53px;
-    bottom: 1rem;
-}
+#equipment .inventory-controls {
+    justify-content: space-evenly;
+    margin-top: 2.5rem;
 
-.equipment-left-controls {
-    #girl-equipment-unequip {
-        position: absolute;
-        left: 535px
-    }
-
-    #girl-equipment-level-up {
-        position: absolute;
-        right: 198px;
+    > * {
+        margin-left: 0px;
     }
 }

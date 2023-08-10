@@ -4,6 +4,7 @@ import I18n from '../../i18n'
 import Sheet from '../../common/Sheet'
 
 import meanIcon from '../../assets/mean.svg'
+import filterIcon from '../../assets/filter.svg'
 
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
@@ -74,7 +75,7 @@ class LeagueInfoModule extends CoreModule {
         Helpers.defer(() => {
             this.injectCSSVars()
             this.displaySummary({board, promo})
-            this.manageTableAnnotations()
+            this.manageTable()
             // this.manageHideFoughtOpponents()
             this.fixLeagueBugs()
         })
@@ -84,30 +85,27 @@ class LeagueInfoModule extends CoreModule {
 
     injectCSSVars () {
         Sheet.registerVar('legendary-bg', `url("${Helpers.getCDNHost()}/legendary.png")`)
+        Sheet.registerVar('filter-icon', `url('${filterIcon}')`)
     }
 
     // temp bug fixes
     fixLeagueBugs () {
+        Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+            // No stats view without league girl
+            // const $girl_toggle = $('#toggle_columns')
 
-        // broken sorting system
-        const {opponents_list} = window
-        if (opponents_list && opponents_list.length) {
-            if (!opponents_list[0].level) {
+            // if (!$girl_toggle.length) {
+            //     $('#leagues').addClass('hidden_girl')
+            // }
+
+            // fix / adjust sorting system
+            const {opponents_list} = window
+            if (opponents_list && opponents_list.length) {
                 opponents_list.forEach((opponent) => {
-                    const {player, match_history} = opponent
-                    opponent.nickname = player.nickname
-                    opponent.level = parseInt(player.level)
                     opponent.player_league_points = I18n.parseLocaleRoundedInt(opponent.player_league_points)
-                    const {ego, damage, defense, chance} = player.team.caracs
-                    opponent.power = ego + 7.5*(damage + defense) + 0.625*chance
-                    opponent.team = player.team.theme
-                    const match_history_array = Object.values(match_history)[0]
-                    if (match_history_array) {
-                        opponent.can_fight = match_history_array.filter((e) => {return e != null}).length
-                    }
                 })
             }
-        }
+        })
     }
 
     displaySummary ({board, promo}) {
@@ -311,91 +309,149 @@ class LeagueInfoModule extends CoreModule {
                 </div>
             `
             Helpers.doWhenSelectorAvailable('.league_buttons_block', () => {
-                $('.league_buttons_block').before('<div class="leagues_script"></div>')
-                $('.leagues_script').append(summaryHtml)
+                $('.league_buttons_block').before(summaryHtml)
             })
         }
     }
 
-    manageHideFoughtOpponents () {
-        let rowCache = []
+    manageTable () {
+        const filters = {
+            fought_opponent: {
+                label: 'filterFoughtOpponents',
+                type: "radio",
+                options: [
+                    {value: false, icon: 'quest/ic_eyeopen.svg'},
+                    {value: true, icon: 'quest/ic_eyeclosed.svg'}
+                ]
+            },
+            boosted: {
+                label: 'filterBoosted',
+                type: "radio",
+                options: [
+                    {value: false, icon: 'quest/ic_eyeopen.svg'},
+                    {value: true, icon: 'quest/ic_eyeclosed.svg'}
+                ]
+            },
+            team_theme: {
+                label: 'filterTeamTheme',
+                type: "checkbox",
+                options: [
+                    {value: 'darkness', icon: 'pictures/girls_elements/Dominatrix.png'},
+                    {value: 'light', icon: 'pictures/girls_elements/Submissive.png'},
+                    {value: 'psychic', icon: 'pictures/girls_elements/Voyeurs.png'},
+                    {value: 'balanced', icon: 'pictures/girls_elements/Multicolored.png'},
+                    {value: 'water', icon: 'pictures/girls_elements/Sensual.png'},
+                    {value: 'fire', icon: 'pictures/girls_elements/Eccentric.png'},
+                    {value: 'nature', icon: 'pictures/girls_elements/Exhibitionist.png'},
+                    {value: 'stone', icon: 'pictures/girls_elements/Physical.png'},
+                    {value: 'sun', icon: 'pictures/girls_elements/Playful.png'}
+                ]
+            }
+        }
+        const activeFilters = Helpers.lsGet(lsKeys.OPPONENT_FILTER) || {
+            fought_opponent: false,
+            boosted: false,
+            team_theme: []
+        }
 
-        function removeFoughtOpponents() {
-            let board = document.getElementsByClassName('leadTable')[0]
-            if(!board)
-                return
-            rowCache = []
-            const $opponents = $(board).find('tr')
-            $opponents.each((i, el) => {
-                try {
-                    const $opponent = $(el)
-                    rowCache.push($opponent)
-                    const playerId = $opponent.attr('sorting_id')
-                    if(leagues_list.find(({id_player}) => id_player === playerId).nb_challenges_played === '3'){
-                        $opponent.detach()
+        let pinPlayer = Helpers.lsGet(lsKeys.LEAGUE_PIN_PLAYER) || false
+
+        const createGridSelectorItem = ({id, type, value, icon}) => {
+            const inputId = `${id}-${value}`
+            const isChecked = type === 'checkbox' ? activeFilters[id].includes(value) : JSON.parse(activeFilters[id]) === value
+            return `
+                <input type="${type}" name="${id}" id="${inputId}" value="${value}"${isChecked ? ' checked' : ''}/>
+                <label for="${inputId}">
+                    <img src="${Helpers.getCDNHost()}/${icon}">
+                </label>
+            `
+        }
+
+        const createGridSelector = ({id, filter}) => {
+            const {label, type, options} = filter
+            return `
+                <span>${this.label(label)}</span>
+                <div class="grid-selector" rel="${id}">
+                    ${options.map(option => {
+                        const {value, icon} = option
+                        return createGridSelectorItem({id, type, value, icon})
+                    }).join('')}
+                </div>
+            `
+        }
+
+        const createFilterBox = () => {
+            return $(`
+                <div class="league_filter_box" style="display: none;">
+                    ${Object.keys(filters).map(key => createGridSelector({id: key, filter: filters[key]})).join('')}
+                </div>`)
+        }
+
+        const adjustStripes = () => {
+            $('.data-row.body-row').removeClass('script-stripe')
+            $('.data-row.body-row:not(.script-hide):not(:has(.player-pin.pinned)):even').addClass('script-stripe')
+        }
+
+        const hideOpponents = () => {
+            const {opponents_list} = window
+
+            if (opponents_list && opponents_list.length) {
+
+                opponents_list.forEach(({match_history, boosters, player: {team: {theme}}}, index) => {
+                    const match_history_array = Object.values(match_history)[0]
+
+                    if (match_history_array) { // only care about opponents
+                        let toHide = false
+
+                        const challenges_done = match_history_array.filter((e) => {return e != null}).length
+                        toHide |= challenges_done >= 3 && JSON.parse(activeFilters.fought_opponent)
+
+                        toHide |= boosters.length && JSON.parse(activeFilters.boosted)
+
+                        const team_themes = (theme || 'balanced').split(',')
+                        toHide |= !team_themes.some(e => activeFilters.team_theme.includes(e)) && activeFilters.team_theme.length
+
+                        const $row = $('.data-row.body-row').eq(index)
+                        if (toHide) {
+                            $row.addClass('script-hide')
+                        } else {
+                            $row.removeClass('script-hide')
+                        }
                     }
-                } catch(e) {
-                    // Ignore
-                }
+                })
+
+                adjustStripes()
+                $('.league_table').getNiceScroll().resize()
+            }
+        }
+
+        const addFilterButtons = () => {
+            const $filter = $('<button id="league_filter" class="blue_button_L"><span class="filter_mix_icn"></span></button>')
+            const $filter_box = createFilterBox()
+
+            Helpers.doWhenSelectorAvailable('.league_tiers', () => {
+                $('.league_tiers').append($filter).append($filter_box)
+            })
+
+            $filter.click(() => { $filter_box.toggle() })
+            $filter_box.find('input').each((i, input) => {
+                $(input).change((e) => {
+                    const { value, name, type } = e.target
+                    if (type === 'checkbox') {
+                        if ($(e.target).is(':checked')) {
+                            activeFilters[name].push(value)
+                        } else {
+                            activeFilters[name] = activeFilters[name].filter(e => e !== value)
+                        }
+                    } else {
+                        activeFilters[name] = value
+                    }
+                    hideOpponents()
+                    Helpers.lsSet(lsKeys.OPPONENT_FILTER, activeFilters)
+                    $(document).trigger('league:table-filtered')
+                })
             })
         }
-
-        function displayFoughtOpponents() {
-            const board = document.getElementsByClassName('leadTable')[0]
-            if(!board || !rowCache.length)
-                return
-            rowCache.forEach($opponent => {
-                $(board).append($opponent)
-            })
-        }
-
-        let hidden = Helpers.lsGet(lsKeys.FOUGHT_OPPONENTS_HIDDEN)
-        $('.leagues_middle_header_script').append('<button id="beaten_opponents" class=""><span id="hide_beaten"></span></button>')
-
-        const setButtonDisplay = () => {
-            const label = this.label('showFoughtOpponents')
-            $('#hide_beaten').html(`<img alt="${label}" hh_title="${label}" src="${Helpers.getCDNHost()}/quest/ic_eyeopen.svg">`)
-        }
-        const setButtonHide = () => {
-            const label = this.label('hideFoughtOpponents')
-            $('#hide_beaten').html(`<img alt="${label}" hh_title="${label}" src="${Helpers.getCDNHost()}/quest/ic_eyeclosed.svg">`)
-        }
-
-        if (hidden) {
-            removeFoughtOpponents()
-            setButtonDisplay()
-        }
-        else {
-            setButtonHide()
-        }
-
-        // let button = document.querySelector('#beaten_opponents')
-        // button.addEventListener('click', function(){
-        //     if (!hidden) {
-        //         removeFoughtOpponents()
-        //         setButtonDisplay()
-        //     } else {
-        //         displayFoughtOpponents()
-        //         setButtonHide()
-        //     }
-        //     $('.leagues_table .lead_table_view').getNiceScroll().resize()
-        //     hidden = !hidden
-        //     Helpers.lsSet(lsKeys.FOUGHT_OPPONENTS_HIDDEN, hidden)
-        // })
-
-        // let sort_by = document.querySelectorAll('span[sort_by]')
-        // for (let sort of sort_by) {
-        //     sort.addEventListener('click', function(){
-        //         if (hidden) {
-        //             removeFoughtOpponents()
-        //         }
-        //         $(document).trigger('league:table-sorted')
-        //         // displayLeaguePlayersInfo()
-        //     })
-        // }
-    }
-
-    manageTableAnnotations () {
 
         const addTeamThemes = () => {
             const {opponents_list, GT} = window
@@ -417,11 +473,32 @@ class LeagueInfoModule extends CoreModule {
             }
         }
 
+        const addPlayerPin = () => {
+            const $player_row = $('.data-row.body-row.player-row')
+            const $pin_button = $(`<div class="player-pin${pinPlayer? ' pinned' : ''}"><img src="${Helpers.getCDNHost()}/clubs/ic_Pin.png"></div>`)
+
+            $pin_button.click(() => {
+                pinPlayer = !pinPlayer
+                $pin_button.toggleClass('pinned')
+                adjustStripes()
+                Helpers.lsSet(lsKeys.LEAGUE_PIN_PLAYER, pinPlayer)
+            })
+
+            $player_row.find('.data-column[column=can_fight]').append($pin_button)
+
+            adjustStripes()
+        }
+
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
+            addFilterButtons()
+            hideOpponents()
             addTeamThemes()
+            addPlayerPin()
 
             $(document).on('league:table-sorted', () => {
+                hideOpponents()
                 addTeamThemes()
+                addPlayerPin()
             })
         })
     }

@@ -1,3 +1,4 @@
+1.37.1: Adding opponent filter and option to pin the player row for the League Info module. Fixing style issues in upgrade info and quick nav modules.
 1.37.0: Adding module for League opponent quick navigation, adding temp fix for league table sorting, adding back team themes into league table, fixing upgrade info and quick nav modules, fixing clubmate and script Patreon supporter indicators for league.
 1.36.11: Fixing Compact Daily Missions, Compact League and striped table row style tweaks and parts of the League Info module, removing redundant league style tweaks, updating patrons list for August.
 1.36.10: Quick fix for Battle Simulator in leagues and temporarily disabling league related modules, fixing bug with compact resource summary

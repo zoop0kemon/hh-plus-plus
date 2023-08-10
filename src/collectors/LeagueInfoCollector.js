@@ -6,8 +6,6 @@ import I18n from '../i18n'
 const MIGRATIONS = {
     leaguePlayers: lsKeys.LEAGUE_PLAYERS,
     oldLeaguePlayers: lsKeys.LEAGUE_PLAYERS_OLD,
-    pointHistory: lsKeys.LEAGUE_POINT_HISTORY,
-    oldPointHistory: lsKeys.LEAGUE_POINT_HISTORY_OLD,
     leagueResults: lsKeys.LEAGUE_RESULTS,
     oldLeagueResults: lsKeys.LEAGUE_RESULTS_OLD,
     leagueScore: lsKeys.LEAGUE_SCORE,
@@ -32,6 +30,9 @@ class LeagueInfoCollector {
                     $(document).trigger('league:table-sorted')
                     LeagueInfoCollector.collectAvaliableOpponents()
                 })
+                $(document).on('league:table-filtered', () => {
+                    LeagueInfoCollector.collectAvaliableOpponents()
+                })
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
                     observer.observe($('.league_table .data-list')[0], {childList: true})
                 })
@@ -42,16 +43,28 @@ class LeagueInfoCollector {
     static collectAvaliableOpponents () {
         const {opponents_list} = window
         if (opponents_list && opponents_list.length) {
+            const activeFilters = Helpers.lsGet(lsKeys.OPPONENT_FILTER) || {
+                fought_opponent: false,
+                boosted: false,
+                team_theme: []
+            }
             let avaliable_opponents = []
 
-            opponents_list.forEach(({match_history, player}) => {
+            opponents_list.forEach(({match_history, boosters, player}) => {
                 const match_history_array = Object.values(match_history)[0]
 
                 if (match_history_array) {
                     const player_id = parseInt(player.id_fighter)
-                    const fights_played = match_history_array.filter((e) => {return e != null}).length
+                    const challenges_done = match_history_array.filter((e) => {return e != null}).length
+                    let hidden = false
 
-                    if (fights_played < 3) {
+                    hidden |= boosters.length && JSON.parse(activeFilters.boosted)
+
+                    const {theme} = player.team
+                    const team_themes = (theme || 'balanced').split(',')
+                    hidden |= !team_themes.some(e => activeFilters.team_theme.includes(e)) && activeFilters.team_theme.length
+
+                    if (challenges_done < 3 && !hidden) {
                         avaliable_opponents.push(player_id)
                     }
                 }
@@ -78,28 +91,24 @@ class LeagueInfoCollector {
                     const player_id = parseInt(player.id_fighter)
                     let nb_victories = 0
                     let nb_defeats = 0
+                    let scores = []
                     match_history_array.forEach((match) => {
                         if (match) {
-                            const {attacker_won} = match
+                            const {attacker_won, match_points} = match
 
                             nb_victories += attacker_won === 'won' ? 1 : 0
                             nb_defeats += attacker_won === 'lost' ? 1 : 0
+                            scores.push(parseInt(match_points))
                         }
                     })
                     tot_victory += nb_victories
                     tot_defeat += nb_defeats
-                    challengesDone += match_history_array.filter((e) => {return e != null}).length
-
-                    let themeIcons = player.team.theme_elements.map((e) => e.ico_url)
-                    if (!themeIcons.length) {
-                        themeIcons = [`${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png`]
-                    }
+                    challengesDone += scores.length
 
                     data[player_id] = {
                         victories: nb_victories,
                         defeats: nb_defeats,
-                        class: player.class,
-                        themeIcons
+                        points: scores
                     }
                 } else {
                     // is self

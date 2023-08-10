@@ -1,11 +1,6 @@
 @import "../../common/constants.scss";
 @import "../../common//mixins.scss";
 
-.leagues_script {
-    display: flow-root;
-    margin-top: 4px;
-}
-
 .scriptLeagueInfo {
     display: flex;
     width: 9rem;
@@ -60,114 +55,171 @@
     color: white;
 }
 
-#beaten_opponents {
-    position: absolute;
-    padding-left: 5px;
-    padding-right: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-    @media #{$mediaDesktop} {
-        height: 28px;
-        top: 2px;
-        left: 200px;
-    }
-
-    @media #{$mediaMobile} {
-        height: 32px;
-        z-index: 1;
-        right: 540px;
-        top: 40px;
-    }
-}
-
-#hide_beaten {
-    position: relative;
-
-    img {
-        width: auto;
-
-        @media #{$mediaDesktop} {
-            height: 20px;
+#leagues .league_content {
+    .league_tiers {
+        button#league_filter {
+            height: 32px;
+            width: 32px;
+            padding: 0;
+            margin-left: 0.5rem;
+    
+            .filter_mix_icn {
+                display: block;
+                height: 32px;
+                width: 24px;
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-image: var(--filter-icon);
+                margin: auto;
+            }
         }
 
-        @media #{$mediaMobile} {
-            height: 26px;
-        }
-    }
-}
-
-#leagues
-.league_content
-.league_table
-.data-list
-.data-row
-.data-column:not(.head-column)[column=team]
-.button_team_synergy {
-    background: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 3px;
-
-    img.team-theme.icon {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-.individualDisplaySwitch {
-    position: absolute;
-    input {
-        display: none;
-        & + span {
-            color: #d08467;
+        .league_filter_box {
+            position: absolute;
+            left: 45rem;
+            top: 6rem;
+            width: 6.5rem;
+            height: -moz-fit-content;
+            height: fit-content;
+            z-index: 3;
+            border-radius: 8px 10px 10px 8px;
+            background-color: rgb(30, 38, 30);
+            box-shadow: rgba(255, 255, 255, 0.73) 0px 0px;
             padding: 5px;
-            cursor: pointer;
-        }
-        &:checked + span,
-        &:hover + span {
-            color: #fff;
-        }
-    }
+            border: 1px solid rgb(255, 162, 62);
+            text-align: center;
+        
+            span {
+                display: block;
+                font-size: 12px;
+                line-height: 1.2;
+            }
+        
+            label {
+                background: transparent;
+                width: auto;
+                height: 100%;
+                margin: 0px;
+                border-radius: 5px;
+                display: block;
+            }
+        
+            .grid-selector {
+                width: 100%;
+                display: grid;
+                grid-auto-flow: row;
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 2px;
+                margin-bottom: 4px;
 
-    @media #{$mediaDesktop} {
-        top: 10px;
-        left: 260px;
-        font-size: 13px;
-    }
+                &[rel="team_theme"] {
+                    grid-template-rows: 1fr 1fr 1fr;
+                    grid-template-columns: 1fr 1fr 1fr;
+                }
+    
+                &:last-child {
+                    margin-bottom: 0px;
+                }
 
-    @media #{$mediaMobile} {
-        top: 44px;
-        left: 335px;
-        font-size: 16px;
-    }
-}
+                input {
+                    display: none;
 
-#leagues .league_content .league_buttons {
-    .challenge_points {
-        margin-right: 1.5rem;
-
-        .bar-wrap {
-            width: 10rem;
-
-            .over {
-                font-size: 13px;
-
-                [rel=count_txt] {
-                    font-size: 10px;
+                    &:checked + label,
+                    &:hover + label {
+                        background-color: #fff8;
+                    }
+                }
+            
+                img {
+                    height: 24px;
+                    width: 24px;
+                    margin: 2px;
+                }
+        
+                div {
+                    height: 24px;
+                    width: 24px;
+                    margin: 4px;
+                    border-radius: 5px;
                 }
             }
         }
     }
 
-    .league_end_in div>p {
-        font-size: 13px;
-        line-height: 0.6rem;
+    .league_table .data-list .data-row {
+        &.head-row {
+            order: -2;
+        }
+
+        &.body-row.script-hide {
+            display: none;
+        }
+
+        &.body-row.player-row {
+            &:has(.player-pin.pinned) {
+                order: -1;
+            }
+
+            .data-column[column=can_fight] .player-pin {
+                opacity: 0.5;
+
+                &:hover {
+                    opacity: 1;
+                }
+
+                &.pinned {
+                    opacity: 1;
+                }
+
+                img {
+                    width: 1.5rem;
+                    transform: scaleX(-1);
+                }
+            }
+        }
+
+        .data-column:not(.head-column) {
+            &[column=team] .button_team_synergy {
+                background: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                column-gap: 3px;
+
+                img.team-theme.icon {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
     }
 
-    .league_buttons_block {
-        width: 10.5rem;
+    .league_buttons {
+        .challenge_points {
+            margin-right: 1.5rem;
+    
+            .bar-wrap {
+                width: 10rem;
+    
+                .over {
+                    font-size: 13px;
+    
+                    [rel=count_txt] {
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    
+        .league_end_in div>p {
+            font-size: 13px;
+            line-height: 0.6rem;
+        }
+    
+        .league_buttons_block {
+            width: 10.5rem;
+        }
     }
 }

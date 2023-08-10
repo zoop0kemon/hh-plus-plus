@@ -74,6 +74,11 @@ class UpgradeInfoModule extends CoreModule {
             })
             equip_observer.observe($equip_inventory[0], { childList: true })
 
+            // Move equipment buttons out of the way, to keep consistent with quick nav
+            const $unequip = $('.equipment-left-controls #girl-equipment-unequip')
+            const $levelup = $('.equipment-left-controls #girl-equipment-level-up')
+            $('#equipment .inventory-controls').prepend($levelup).prepend($unequip)
+
             // current resource spent amount
             const resources = ['experience', 'affection']
 

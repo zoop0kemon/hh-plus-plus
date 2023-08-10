@@ -71,16 +71,22 @@
     }
 }
 
-.equipment-left-controls {
-    z-index: 2;
-
-    #girl-equipment-unequip {
-        position: absolute;
-        left: 535px
+#equipment {
+    .equipment-left-controls {
+        z-index: 2;
+        width: auto;
     }
 
-    #girl-equipment-level-up {
-        position: absolute;
-        right: 198px;
+    .inventory-controls {
+        justify-content: space-evenly;
+        margin-top: 2.5rem;
+
+        > * {
+            margin-left: 0px;
+        }
     }
+}
+
+#skills #reset_skills {
+    z-index: 1;
 }

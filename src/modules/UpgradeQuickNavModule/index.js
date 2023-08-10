@@ -72,6 +72,11 @@ class UpgradeQuickNavModule extends CoreModule {
             })
 
             window.replaceImageSources()
+
+            // Move equipment buttons out of the way
+            const $unequip = $('.equipment-left-controls #girl-equipment-unequip')
+            const $levelup = $('.equipment-left-controls #girl-equipment-level-up')
+            $('#equipment .inventory-controls').prepend($levelup).prepend($unequip)
         })
 
         this.hasRun = true
