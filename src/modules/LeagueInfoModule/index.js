@@ -13,6 +13,12 @@ const MODULE_KEY = 'league'
 
 const TOPS = [4, 15, 30]
 const CHALLENGES_PER_PLAYER = 3
+const CIRCULAR_THRESHOLDS = {
+    1: 'green',
+    0.5: 'yellow',
+    0.2: 'red'
+}
+const THEME_ORDER = ['balanced', 'darkness', 'light', 'psychic', 'water', 'fire', 'nature', 'stone', 'sun']
 
 const getScoreDisplayDataForTop = (currentPos, currentScore, top, scoreToBeat, scoreToStayAbove) => {
     let symbol = ''
@@ -77,7 +83,7 @@ class LeagueInfoModule extends CoreModule {
             this.displaySummary({board, promo})
             this.manageTable()
             // this.manageHideFoughtOpponents()
-            this.fixLeagueBugs()
+            this.fixLeagueSorting()
         })
 
         this.hasRun = true
@@ -89,20 +95,15 @@ class LeagueInfoModule extends CoreModule {
     }
 
     // temp bug fixes
-    fixLeagueBugs () {
+    fixLeagueSorting () {
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
-            // No stats view without league girl
-            // const $girl_toggle = $('#toggle_columns')
-
-            // if (!$girl_toggle.length) {
-            //     $('#leagues').addClass('hidden_girl')
-            // }
-
             // fix / adjust sorting system
             const {opponents_list} = window
             if (opponents_list && opponents_list.length) {
                 opponents_list.forEach((opponent) => {
                     opponent.player_league_points = I18n.parseLocaleRoundedInt(opponent.player_league_points)
+                    const {player: {team: {theme}}} = opponent
+                    opponent.team = (theme || 'balanced').split(',').map(e => THEME_ORDER.indexOf(e)).join('-')
                 })
             }
         })
@@ -392,6 +393,38 @@ class LeagueInfoModule extends CoreModule {
             $('.data-row.body-row:not(.script-hide):not(:has(.player-pin.pinned)):even').addClass('script-stripe')
         }
 
+        const buildBoosterProgress = (current, max) => {
+            const percentage = Math.min(current / max, 1)
+            const firstHalf = Math.min(percentage, 0.5) * 2
+            const secondHalf = Math.max(percentage - 0.5, 0) * 2
+
+            let colorClass = ''
+            let flashingClass = ''
+
+            if (percentage > 0) {
+                Object.entries(CIRCULAR_THRESHOLDS).forEach(([threshold, className]) => {
+                    if (percentage <= threshold) {
+                        colorClass = className
+                    }
+                })
+            } else {
+                flashingClass = 'flashing'
+            }
+
+            const $progress = $(`
+                <div class="circle">
+                    <div class="circle-bar left ${flashingClass}">
+                        <div class="progress ${colorClass}" style="transform: rotate(${180 * secondHalf}deg)"></div>
+                    </div>
+                    <div class="circle-bar right ${flashingClass}">
+                        <div class="progress ${colorClass}" style="transform: rotate(${180 * firstHalf}deg)"></div>
+                    </div>
+                </div>
+            `)
+
+            return $progress
+        }
+
         const hideOpponents = () => {
             const {opponents_list} = window
 
@@ -406,7 +439,8 @@ class LeagueInfoModule extends CoreModule {
                         const challenges_done = match_history_array.filter((e) => {return e != null}).length
                         toHide |= challenges_done >= 3 && JSON.parse(activeFilters.fought_opponent)
 
-                        toHide |= boosters.length && JSON.parse(activeFilters.boosted)
+                        const expiration = boosters.length ? boosters.reduce((a, b) => a.expiration > b.expiration ? a : b).expiration : 0
+                        toHide |= boosters.length && expiration > 0 && JSON.parse(activeFilters.boosted)
 
                         const team_themes = (theme || 'balanced').split(',')
                         toHide |= !team_themes.some(e => activeFilters.team_theme.includes(e)) && activeFilters.team_theme.length
@@ -473,6 +507,32 @@ class LeagueInfoModule extends CoreModule {
             }
         }
 
+        const addBoosterStatus = () => {
+            const $boosters = $('[column=boosters] .boosters .slot')
+            $boosters.each((i, el) => {
+                const data = $(el).data('d')
+                const { usages_remaining, expiration, item } = data
+                const { rarity, default_usages, duration } = item || {}
+                let current = 0
+                let max = 1
+                const isMythic = rarity === 'mythic'
+
+                if (isMythic) {
+                    current = usages_remaining
+                    max = default_usages
+                } else {
+                    const normalisedDuration = duration === '1440' ? 86400 : duration
+                    current = expiration
+                    max = normalisedDuration
+                }
+
+                $(el).wrap(`<div class="circular-progress"></div>`).before(buildBoosterProgress(current, max))
+                if (current == 0) {
+                    $(el).addClass('expired')
+                }
+            })
+        }
+
         const addPlayerPin = () => {
             const $player_row = $('.data-row.body-row.player-row')
             const $pin_button = $(`<div class="player-pin${pinPlayer? ' pinned' : ''}"><img src="${Helpers.getCDNHost()}/clubs/ic_Pin.png"></div>`)
@@ -493,11 +553,13 @@ class LeagueInfoModule extends CoreModule {
             addFilterButtons()
             hideOpponents()
             addTeamThemes()
+            addBoosterStatus()
             addPlayerPin()
 
             $(document).on('league:table-sorted', () => {
                 hideOpponents()
                 addTeamThemes()
+                addBoosterStatus()
                 addPlayerPin()
             })
         })

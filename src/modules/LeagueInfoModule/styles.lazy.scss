@@ -151,6 +151,15 @@
     .league_table .data-list .data-row {
         &.head-row {
             order: -2;
+
+            .data-column.head-column[column=team] {
+                pointer-events: unset;
+                cursor: pointer;
+
+                .upDownArrows_mix_icn {
+                    display: unset;
+                }
+            }
         }
 
         &.body-row.script-hide {
@@ -193,6 +202,79 @@
                     height: 20px;
                 }
             }
+
+            &[column=boosters] {
+                .circular-progress {
+                    position: relative;
+                    width: 1.5rem;
+                    height: 1.5rem;
+
+                    .green {
+                        background-color: #01d10b;
+                    }
+
+                    .yellow {
+                        background-color: #ffc400;
+                    }
+
+                    .red {
+                        background-color: #ff0000;
+                    }
+
+                    .slot {
+                        position: absolute;
+                        left: 7.5%;
+                        top: 7.5%;
+                        width: 85%;
+                        height: 85%;
+                        border: none;
+
+                        &.expired {
+                            opacity: 0.5;
+                        }
+                    }
+
+                    .circle {
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 15%;
+                        box-shadow: 0px 0px 5px #000, 0px 0px 4px #000, 0px 0px 3px #000, 0px 0px 2px #000;
+                    }
+
+                    .circle-bar {
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                        background-color: #000000bf;
+                        clip-path: polygon(0% 0%, 0% 100%, 50% 100%, 50% 0%);
+                        border-radius: 15%;
+                        overflow: hidden;
+
+                        &.flashing {
+                            animation-name: flashing-background;
+                            animation-duration: 3s;
+                            animation-iteration-count: infinite;
+                        }
+
+                        .progress {
+                            position: absolute;
+                            height: 200%;
+                            width: 200%;
+                            top: -50%;
+                            left: -50%;
+                            clip-path: polygon(50% -50%, 150% -50%, 150% 150%, 50% 150%);
+                        }
+
+                        &.right {
+                            transform: rotate(180deg);
+                        }
+                    }
+
+                    .dummy-timer-target {
+                        display: none !important;
+                    }
+                }
+            }
         }
     }
 
@@ -221,5 +303,17 @@
         .league_buttons_block {
             width: 10.5rem;
         }
+    }
+}
+
+@keyframes flashing-background {
+    0% {
+        background-color: #000000bf;
+    }
+    50% {
+        background-color: #ff0000;
+    }
+    100% {
+        background-color: #000000bf;
     }
 }

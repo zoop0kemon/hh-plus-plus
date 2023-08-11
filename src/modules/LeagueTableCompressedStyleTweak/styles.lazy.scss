@@ -97,6 +97,10 @@
                         .slot.mythic {
                             order: 1
                         }
+
+                        .circular-progress:has(.slot.mythic) {
+                            order: 1;
+                        }
                     }
                 }
 

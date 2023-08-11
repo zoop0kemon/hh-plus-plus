@@ -21,10 +21,10 @@ class LeagueInfoCollector {
 
         if (Helpers.isCurrentPage('tower-of-fame')) {
             Helpers.defer(() => {
-                LeagueInfoCollector.collectAvaliableOpponents()
-                LeagueInfoCollector.collectFromOpponentsList()
                 LeagueInfoCollector.migrate()
                 LeagueInfoCollector.clean()
+                LeagueInfoCollector.collectFromOpponentsList()
+                LeagueInfoCollector.collectAvaliableOpponents()
 
                 const observer = new MutationObserver(() => {
                     $(document).trigger('league:table-sorted')
@@ -58,7 +58,8 @@ class LeagueInfoCollector {
                     const challenges_done = match_history_array.filter((e) => {return e != null}).length
                     let hidden = false
 
-                    hidden |= boosters.length && JSON.parse(activeFilters.boosted)
+                    const expiration = boosters.length ? boosters.reduce((a, b) => a.expiration > b.expiration ? a : b).expiration : 0
+                    hidden |= boosters.length && expiration > 0 && JSON.parse(activeFilters.boosted)
 
                     const {theme} = player.team
                     const team_themes = (theme || 'balanced').split(',')
@@ -148,7 +149,6 @@ class LeagueInfoCollector {
         if (leagueEndTime > storedEndTime) {
             // archive
             Helpers.lsSetRaw(lsKeys.LEAGUE_PLAYERS_OLD, Helpers.lsGetRaw(lsKeys.LEAGUE_PLAYERS))
-            Helpers.lsSetRaw(lsKeys.LEAGUE_POINT_HISTORY_OLD, Helpers.lsGetRaw(lsKeys.LEAGUE_POINT_HISTORY))
             Helpers.lsSetRaw(lsKeys.LEAGUE_RESULTS_OLD, Helpers.lsGetRaw(lsKeys.LEAGUE_RESULTS))
             Helpers.lsSetRaw(lsKeys.LEAGUE_SCORE_OLD, Helpers.lsGetRaw(lsKeys.LEAGUE_SCORE))
             Helpers.lsSetRaw(lsKeys.LEAGUE_UNKNOWN_OLD, Helpers.lsGetRaw(lsKeys.LEAGUE_UNKNOWN))
@@ -156,7 +156,6 @@ class LeagueInfoCollector {
 
             // clear
             Helpers.lsRm(lsKeys.LEAGUE_PLAYERS)
-            Helpers.lsRm(lsKeys.LEAGUE_POINT_HISTORY)
             Helpers.lsRm(lsKeys.LEAGUE_RESULTS)
             Helpers.lsRm(lsKeys.LEAGUE_SCORE)
             Helpers.lsRm(lsKeys.LEAGUE_UNKNOWN)
