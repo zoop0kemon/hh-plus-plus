@@ -1,3 +1,4 @@
+1.37.3: Pre-empting update for added change team button in leagues page
 1.37.2: Adding booster status indication to League Info module, improving opponent boosted filter, and allowing sorting by team theme. Fixing bug with league data collector.
 1.37.1: Adding opponent filter and option to pin the player row for the League Info module. Fixing style issues in upgrade info and quick nav modules.
 1.37.0: Adding module for League opponent quick navigation, adding temp fix for league table sorting, adding back team themes into league table, fixing upgrade info and quick nav modules, fixing clubmate and script Patreon supporter indicators for league.

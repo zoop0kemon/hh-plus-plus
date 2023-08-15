@@ -310,7 +310,11 @@ class LeagueInfoModule extends CoreModule {
                 </div>
             `
             Helpers.doWhenSelectorAvailable('.league_buttons_block', () => {
-                $('.league_buttons_block').before(summaryHtml)
+                if ($('.change_team_container').length) {
+                    $('.change_team_container').before(summaryHtml)
+                } else {
+                    $('.league_buttons_block').before(summaryHtml)
+                }
             })
         }
     }

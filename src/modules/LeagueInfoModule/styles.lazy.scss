@@ -9,6 +9,7 @@
     gap: 2px 8px;
     line-height: 16px;
     font-size: 13px;
+    padding-top: 0.25rem;
 }
 
 .scriptLeagueInfoIcon {
@@ -279,6 +280,20 @@
     }
 
     .league_buttons {
+        .league_buttons_block {
+            max-width: 10.5rem;
+            width: unset;
+
+            button.multiple-battles {
+                padding: 0.5rem;
+                font-size: 13px;
+
+                div {
+                    font-size: 13px;
+                }
+            }
+        }
+
         .challenge_points {
             margin-right: 1.5rem;
     
@@ -299,9 +314,11 @@
             font-size: 13px;
             line-height: 0.6rem;
         }
-    
-        .league_buttons_block {
-            width: 10.5rem;
+
+        .change_team_container #change_team {
+            padding: 0.5rem;
+            font-size: 13px;
+            text-align: center;
         }
     }
 }

@@ -132,7 +132,7 @@
         
             .league_buttons_block {
                 .orange_button_L {
-                    padding: 2px 20px;
+                    padding: 0.25rem 0.5rem;
                 }
         
                 button.multiple-battles {
@@ -154,6 +154,12 @@
                         }
                     }
                 }
+            }
+
+            .change_team_container #change_team {
+                padding: 0.5rem;
+                font-size: 12px;
+                text-align: center;
             }
         }
     }
