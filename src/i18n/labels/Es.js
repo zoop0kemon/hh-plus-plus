@@ -141,7 +141,8 @@ export const stConfig = {
     hideClaimAllButton: 'Ocultar el botón "Reclamar todo" en la pantalla de recompensas de temporada',
     dpEventTweaks: 'Ajustes de eventos de DP',
     compactDailyMissions: 'Misiones diarias compactas',
-    removeSlotBorder: 'Retirar el borde del slot blanco en el mercado'
+    removeSlotBorder: 'Retirar el borde del slot blanco en el mercado',
+    hideLeagueMultiFight: 'Ocultar botón 15x de lucha de la liga',
 }
 
 export const villain = {
@@ -228,6 +229,7 @@ export const league = {
 }
 
 export const simFight = {
+    simResults: 'Resultados del sim',
     guaranteed: 'Garantizado',
     impossible: 'Imposible',
 }

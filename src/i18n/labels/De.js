@@ -115,7 +115,8 @@ export const stConfig = {
     hideClaimAllButton: '"Alles beanspruchen"-Button in der Saison verbergen',
     dpEventTweaks: 'DP-Event Anpassungen',
     compactDailyMissions: 'Kompakte tägliche Missionen',
-    removeSlotBorder: 'Weißen Rahmen im Markt entfernen'
+    removeSlotBorder: 'Weißen Rahmen im Markt entfernen',
+    hideLeagueMultiFight: 'Verstecke 15x in Liga auftreten Knopf',
 }
 
 export const villain = {
@@ -201,6 +202,7 @@ export const league = {
 }
 
 export const simFight = {
+    simResults: 'Sim Resultate',
     guaranteed: 'Garantiert',
     impossible: 'Unmöglich',
 }

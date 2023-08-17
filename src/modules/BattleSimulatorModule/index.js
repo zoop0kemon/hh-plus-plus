@@ -8,6 +8,8 @@ import League from './League'
 import Simulator from './Simulator'
 import Season from './Season'
 import BDSMPvE from './BDSMPvE'
+import SimHelpers from './SimHelpers'
+import { lsKeys } from '../../common/Constants'
 
 const MODULE_KEY = 'simFight'
 
@@ -43,8 +45,55 @@ class BattleSimulatorModule extends CoreModule {
 
         Helpers.defer(() => {
             this.injectCSSVars()
-            if ((Helpers.isCurrentPage('tower-of-fame') && window.opponent_fighter) || Helpers.isCurrentPage('leagues-pre-battle')) {
-                this.simManagers = [new League()]
+
+            if (Helpers.isCurrentPage('tower-of-fame')) {
+                Helpers.doWhenSelectorAvailable('.league_table .data-list', async () => {
+                    const {opponents_list} = window
+                    if (opponents_list && opponents_list.length) {
+                        const player_data = await this.getLeaguePlayerData()
+                        if (player_data) {
+                            const $column_label = $('.data-column.head-column[column=power]>span')
+                            $column_label.html(`${this.label('simResults')}<span class="${$column_label.find('span').attr('class')}"></span></span>`)
+
+                            opponents_list.forEach((opponent) => {
+                                if (player_data.id_fighter != opponent.player.id_fighter) {
+                                    this.simManagers.push(new League(true, player_data, opponent))
+                                } else {
+                                    opponent.power = 0
+                                }
+                            })
+    
+                            const updatePlayerRow = () => {
+                                $('.data-row.body-row.player-row .data-column[column=power]').text('-')
+    
+                                // show the correct team theme
+                                const correct_themes = player_data.team.theme_elements
+                                let $icons = []
+                                if (correct_themes.length) {
+                                    correct_themes.forEach((theme_element) => {
+                                        const {ico_url, flavor} = theme_element
+                                        $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${flavor}">`)
+                                    })
+                                } else {
+                                    $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)
+                                }
+    
+                                Helpers.doWhenSelectorAvailable('.data-row.body-row.player-row .data-column[column=team] .team-theme', () => {
+                                    $('.data-row.body-row.player-row .data-column[column=team] .button_team_synergy').empty().append($($icons.join('')))
+                                })
+                            }
+    
+                            updatePlayerRow()
+                            $(document).on('league:table-sorted', () => {
+                                updatePlayerRow()
+                            })
+    
+                            this.runManagedSim()                            
+                        }
+                    }
+                })
+            } else if (Helpers.isCurrentPage('leagues-pre-battle')) {
+                this.simManagers = [new League(false)]
             } else if (Helpers.isCurrentPage('season-arena')) {
                 this.preSim = true
                 this.simManagers = [
@@ -57,11 +106,8 @@ class BattleSimulatorModule extends CoreModule {
                 this.simManagers = [new BDSMPvE({label: this.label})]
             }
 
-            this.runManagedSim()
-
-
-            if (Helpers.isCurrentPage('tower-of-fame') && window.opponent_fighter) {
-                new MutationObserver(() => this.runManagedSim()).observe(document.getElementById('leagues_right'), {childList: true})
+            if (this.simManagers.length) {
+                this.runManagedSim()
             }
         })
 
@@ -73,6 +119,7 @@ class BattleSimulatorModule extends CoreModule {
     }
 
     runManagedSim () {
+        const isMainLeague = Helpers.isCurrentPage('tower-of-fame')
         this.simManagers.forEach(simManager => {
             const {player, opponent} = simManager.extract()
             const {logging, preSim} = this
@@ -80,7 +127,7 @@ class BattleSimulatorModule extends CoreModule {
             const simulator = new Simulator({player, opponent, logging, preSim})
             const result = simulator.run()
 
-            if (!Helpers.isCurrentPage('tower-of-fame')) {
+            if (!isMainLeague) {
                 const waitOpnt = () => {
                     setTimeout(function() {
                         if ($('.average-lvl')) {
@@ -95,6 +142,50 @@ class BattleSimulatorModule extends CoreModule {
                 simManager.display(result)
             }
         })
+
+        if (isMainLeague) {
+            $(document).trigger('league:sim-done')
+        }
+    }
+
+    async getLeaguePlayerData () {
+        const {opponents_list} = window
+        const opponent = opponents_list.find(({match_history_sorting}) => match_history_sorting>=0 && match_history_sorting<3)
+        let player_data
+
+        if (opponent) {
+            const {player: {id_fighter: opponent_id}} = opponent
+
+            const page = await new Promise((res) => {
+                window.$.ajax({
+                    url: `/leagues-pre-battle.html?id_opponent=${opponent_id}`,
+                    success: res
+                })
+            })
+
+            $(page).find('script:not([src])').each((i, el) => {
+                const html = $(el).html()
+                if (html.includes('hero_data')) {
+                    player_data = JSON.parse(html.match(/hero_data\s+=\s+(\{.*\})/)[1])
+
+                    const {damage, team} = player_data
+                    const {team: {theme_elements}} = opponent.player
+                    const playerElements = team.theme_elements.map(({type}) => type)
+                    const opponentElements = theme_elements.map(({type}) => type)
+                    const dominanceBonuses = SimHelpers.calculateDominationBonuses(playerElements, opponentElements)
+
+                    const re_damage = Math.round(team.caracs.damage * (1+dominanceBonuses.player.attack))
+                    player_data.hasAME = Math.round(damage/re_damage * 100) === 115
+                }
+            })
+
+            Helpers.lsSet(lsKeys.PLAYER_DATA, player_data)
+        } else {
+            // backup method if the player can't load any league pre-battle pages due to finishing all available challenges
+            player_data = Helpers.lsGet(lsKeys.PLAYER_DATA)
+        }
+
+        return player_data
     }
 }
 

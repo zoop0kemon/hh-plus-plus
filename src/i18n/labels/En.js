@@ -136,7 +136,8 @@ export const stConfig = {
     hideClaimAllButton: 'Hide "Claim All" button on Season rewards screen',
     dpEventTweaks: 'DP Event tweaks',
     compactDailyMissions: 'Compact daily missions',
-    removeSlotBorder: 'Remove white slot border in Market'
+    removeSlotBorder: 'Remove white slot border in Market',
+    hideLeagueMultiFight: 'Hide league 15x fight button',
 }
 
 export const villain = {
@@ -300,6 +301,7 @@ export const league = {
 }
 
 export const simFight = {
+    simResults: 'Sim Results',
     guaranteed: 'Guaranteed',
     impossible: 'Impossible',
 }

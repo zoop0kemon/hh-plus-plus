@@ -19,17 +19,6 @@ class Simulator {
 
         const setup = x => {
             x.critMultiplier = 2 + x.bonuses.critDamage
-            x.dmg = Math.max(0, x.dmg)
-            x.baseAttack = {
-                probability: 1 - x.critchance,
-                damageAmount: Math.ceil(x.dmg),
-                healAmount: Math.ceil(x.dmg * x.bonuses.healOnHit)
-            }
-            x.critAttack = {
-                probability: x.critchance,
-                damageAmount: Math.ceil(x.dmg * x.critMultiplier),
-                healAmount: Math.ceil(x.dmg * x.critMultiplier * x.bonuses.healOnHit)
-            }
             x.hp = Math.ceil(x.hp)
         }
 
@@ -69,6 +58,23 @@ class Simulator {
         return ret
     }
 
+    getDamages(x, turn) {
+        const dmg = Math.max(0, x.atk*(x.atkMult ** turn) - x.def*(x.defMult ** turn))
+
+        return {
+            baseAtk: {
+                probability: 1 - x.critchance,
+                damageAmount: Math.ceil(dmg),
+                healAmount: Math.ceil(dmg * x.bonuses.healOnHit)
+            },
+            critAtk: {
+                probability: x.critchance,
+                damageAmount: Math.ceil(dmg * x.critMultiplier),
+                healAmount: Math.ceil(dmg * x.critMultiplier * x.bonuses.healOnHit)
+            }
+        }
+    }
+
     mergeResult(x, xProbability, y, yProbability) {
         const points = {}
         Object.entries(x.points).map(([point, probability]) => [point, probability * xProbability])
@@ -94,9 +100,8 @@ class Simulator {
         if (cachedResult) return cachedResult
 
         // simulate base attack and critical attack
-        const baseAtk = this.player.baseAttack
+        const {baseAtk, critAtk} = this.getDamages(this.player, turns)
         const baseAtkResult = this.playerAttack(playerHP, opponentHP, baseAtk, turns)
-        const critAtk = this.player.critAttack
         const critAtkResult = this.playerAttack(playerHP, opponentHP, critAtk, turns)
         // merge result
         const mergedResult = this.mergeResult(baseAtkResult, baseAtk.probability, critAtkResult, critAtk.probability)
@@ -133,9 +138,8 @@ class Simulator {
 
     opponentTurn(playerHP, opponentHP, turns) {
         // simulate base attack and critical attack
-        const baseAtk = this.opponent.baseAttack
+        const {baseAtk, critAtk} = this.getDamages(this.opponent, turns)
         const baseAtkResult = this.opponentAttack(playerHP, opponentHP, baseAtk, turns)
-        const critAtk = this.opponent.critAttack
         const critAtkResult = this.opponentAttack(playerHP, opponentHP, critAtk, turns)
         // merge result
         return this.mergeResult(baseAtkResult, baseAtk.probability, critAtkResult, critAtk.probability)

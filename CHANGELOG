@@ -1,3 +1,4 @@
+1.38.0: Adding style tweak (off by default) to hide league 15x fight button. Updating sim to account for tier 4 girl skills and bringing back sim results to the main league page (thanks to help from -MM-), replacing the game's "power" column.
 1.37.3: Pre-empting update for added change team button in leagues page
 1.37.2: Adding booster status indication to League Info module, improving opponent boosted filter, and allowing sorting by team theme. Fixing bug with league data collector.
 1.37.1: Adding opponent filter and option to pin the player row for the League Info module. Fixing style issues in upgrade info and quick nav modules.

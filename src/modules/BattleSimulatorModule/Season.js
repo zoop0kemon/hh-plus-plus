@@ -10,6 +10,7 @@ class Season {
         const { opponents, hero_data, caracs_per_opponent } = window
         const opponent_data = opponents[this.idOpponent - 1].player
         const opponentId = opponent_data.id_fighter
+
         const {
             chance: playerCrit,
             damage: playerAtk,
@@ -95,18 +96,24 @@ class Season {
 
         const player = {
             hp: playerEgo,
-            dmg: playerAtk - opponentDef,
+            atk: playerAtk,
+            def: opponentDef,
             critchance: SimHelpers.calculateCritChanceShare(playerCrit, opponentCrit) + dominanceBonuses.player.chance + playerBonuses.critChance,
             bonuses: {...playerBonuses, dominance: dominanceBonuses.player},
             theme: playerElements,
+            atkMult: SimHelpers.getSkillPercentage(playerTeam, 9),
+            defMult: SimHelpers.getSkillPercentage(playerTeam, 10)
         }
         const opponent = {
             hp: opponentEgo,
-            dmg: opponentAtk - playerDef,
+            atk: opponentAtk,
+            def: playerDef,
             critchance: SimHelpers.calculateCritChanceShare(opponentCrit, playerCrit) + dominanceBonuses.opponent.chance + opponentBonuses.critChance,
             name,
             bonuses: {...opponentBonuses, dominance: dominanceBonuses.opponent},
             theme: opponentElements,
+            atkMult: SimHelpers.getSkillPercentage(opponentTeam, 9),
+            defMult: SimHelpers.getSkillPercentage(opponentTeam, 10)
         }
 
         return { player, opponent }

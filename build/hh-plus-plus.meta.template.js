@@ -33,6 +33,7 @@ window.HHPlusPlus={
             'zoopokemon',
             'Ia1nn',
             'rena-jp',
+            '-MM-',
             'and many more over the years!'
         ],
         TRANSLATIONS: {

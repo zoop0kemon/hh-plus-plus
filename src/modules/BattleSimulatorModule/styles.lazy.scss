@@ -8,11 +8,24 @@ $minus-bg: #ff2f2f28;
 
 #leagues {
     .matchRating {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+        text-align: center;
+        font-size: 12px;
+        line-height: 12px;
+
+        &-value {
+            font-size: 15px;
+            line-height: 15px;
+        }
+
+        &-key,
+        &-value {
+            display: block;
+        }
 
         &-win-chance {
-            margin-top: 5px;
-
             &.plus {
                 color: $plus;
             }
@@ -21,35 +34,6 @@ $minus-bg: #ff2f2f28;
             }
             &.close {
                 color: $close;
-            }
-        }
-
-        @media #{$mediaDesktop} {
-            text-align: center;
-            margin-top: -5px;
-            font-size: 12px;
-            line-height: 12px;
-
-            &-value {
-                font-size: 16px;
-                line-height: 16px;
-            }
-
-            &-key,
-            &-value {
-                display: block;
-            }
-        }
-
-        @media #{$mediaMobile} {
-            margin-left: 75px;
-            margin-top: -31px;
-            margin-bottom: -8px;
-            font-size: 16px;
-            line-height: 16px;
-
-            &-value {
-                margin-left: 5px;
             }
         }
     }
@@ -68,6 +52,17 @@ $minus-bg: #ff2f2f28;
 
     .player_block .team-hexagon-container .icon {
         z-index: 1;
+    }
+
+    .league_content .league_table .data-list .data-row .data-column {
+        &[column=power] {
+            min-width: 6rem;
+            text-align: center;
+        }
+
+        &.head-column[column=power]>span {
+            line-height: 1.2;
+        }
     }
 }
 

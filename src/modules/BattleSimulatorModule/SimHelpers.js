@@ -111,6 +111,10 @@ class SimHelpers {
     static calculateCritChanceShare(ownHarmony, otherHarmony) {
         return 0.3*ownHarmony/(ownHarmony+otherHarmony)
     }
+
+    static getSkillPercentage(team, id) {
+        return 1 + (team.girls.map(e => e.skills[id]?.skill.percentage_value ?? 0).reduce((a, b) => a+b, 0) / 100);
+    }
 }
 
 export default SimHelpers

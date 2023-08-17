@@ -131,7 +131,8 @@ export const stConfig = {
     hideClaimAllButton: 'Cacher le bouton "Tout réclamer" pour les récompenses de saison',
     dpEventTweaks: 'Modifications pour la Double Pénétration',
     compactDailyMissions: 'Missions quotidiennes compactes',
-    removeSlotBorder: 'Retirer la bordure blanche dans le marché'
+    removeSlotBorder: 'Retirer la bordure blanche dans le marché',
+    hideLeagueMultiFight: 'Cacher "Affronter x15" en ligue',
 }
 
 export const villain = {
@@ -217,6 +218,7 @@ export const league = {
 }
 
 export const simFight = {
+    simResults: 'Résultats de simul',
     guaranteed: 'Victoire garantie',
     impossible: 'Victoire impossible',
 }

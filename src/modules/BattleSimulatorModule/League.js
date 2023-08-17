@@ -2,29 +2,31 @@ import I18n from '../../i18n'
 import SimHelpers from './SimHelpers'
 
 class League {
-    extract () {
-        const {opponent_fighter, hero_fighter, caracs_per_opponent, loadedLeaguePlayers, hero_data} = window
-        let opponent_data, opponent_caracs
-        if (loadedLeaguePlayers && Object.keys(loadedLeaguePlayers)?.length) {
-            let opponentId = $('#leagues_right .avatar_border>img').attr('hero-page-id')
-            opponent_data = loadedLeaguePlayers[opponentId].player
-            opponent_caracs = caracs_per_opponent[opponentId]
+    constructor(isMainLeague, playerData, opponentData) {
+        this.isMainLeague = isMainLeague
+        this.playerData = playerData
+        this.opponentData = opponentData
+    }
 
-        } else {
-            opponent_data = opponent_fighter.player
-            opponent_caracs = hero_fighter ? hero_fighter: hero_data
-        }
-        const {
+    extract () {
+        const {opponent_fighter, hero_data} = window
+        const isMainLeague = this.isMainLeague
+        const opponent_data = isMainLeague ? this.opponentData.player : opponent_fighter.player
+        const player_data = isMainLeague ? this.playerData : hero_data
+
+        let {
             chance: playerCrit,
             damage: playerAtk,
             defense: playerDef,
             remaining_ego: playerRemainingEgo,
             total_ego: playerTotalEgo,
-        } = opponent_caracs
-        const playerEgo = playerRemainingEgo || playerTotalEgo
+            ego: playerRawEgo
+        } = isMainLeague ? player_data.team.caracs : player_data
+        let playerEgo = isMainLeague ? playerRawEgo : playerRemainingEgo || playerTotalEgo
         const {
-            team: playerTeam
-        } = hero_fighter ? hero_fighter: hero_data
+            team: playerTeam,
+            hasAME
+        } = player_data
         let normalisedElements = playerTeam.theme_elements
         let normalisedSynergies = playerTeam.synergies
 
@@ -76,6 +78,7 @@ class League {
         let counts
         if (teamGirlSynergyBonusesMissing) {
             // Open bug, sometimes opponent syergy data is missing team bonuses, so we need to rebuild it from the team
+            // Bug should be fixed now
             counts = opponentTeamMemberElements.reduce((a,b)=>{a[b]++;return a}, {
                 fire: 0,
                 stone: 0,
@@ -97,20 +100,59 @@ class League {
 
         const dominanceBonuses = SimHelpers.calculateDominationBonuses(playerElements, opponentElements)
 
+        // test used to used to see how to get player stats from normalized data
+        const testPlayer = () => {
+            const {damage, defense, remaining_ego, chance, team: {caracs}} = hero_data
+
+            let re_damage = Math.round(caracs.damage * (1+dominanceBonuses.player.attack))
+            // check if AME/LME is being used
+            if (Math.round(damage/re_damage * 100) === 115) {
+                re_damage *= 1.15
+            }
+            const defDecrease = SimHelpers.findBonusFromSynergies(opponentSynergies, 'sun', teamGirlSynergyBonusesMissing, counts)
+            const re_defense = Math.floor(caracs.defense * (1-defDecrease))
+            const re_ego = Math.round(caracs.ego * (1+dominanceBonuses.player.ego))
+            const re_chance = caracs.chance
+
+            if (damage === re_damage && defense === re_defense && remaining_ego === re_ego && chance === re_chance) {
+                console.log("Pass")
+            } else {
+                console.log(damage, defense, remaining_ego, chance)
+                console.log(re_damage, re_defense, re_ego, re_chance)
+            }
+        }
+        // testPlayer()
+
+        if (isMainLeague) {
+            playerAtk = Math.round(playerAtk * (1+dominanceBonuses.player.attack))
+            if (hasAME) {
+                playerAtk *= 1.15
+            }
+            playerEgo = Math.round(playerEgo * (1+dominanceBonuses.player.ego))
+            const defDecrease = SimHelpers.findBonusFromSynergies(opponentSynergies, 'sun', teamGirlSynergyBonusesMissing, counts)
+            playerDef = Math.floor(playerDef * (1-defDecrease))
+        }
+
         const player = {
             hp: playerEgo,
-            dmg: playerAtk - opponentDef,
+            atk: playerAtk,
+            def: opponentDef,
             critchance: SimHelpers.calculateCritChanceShare(playerCrit, opponentCrit) + dominanceBonuses.player.chance + playerBonuses.critChance,
             bonuses: {...playerBonuses, dominance: dominanceBonuses.player},
             theme: playerElements,
+            atkMult: SimHelpers.getSkillPercentage(playerTeam, 9),
+            defMult: SimHelpers.getSkillPercentage(playerTeam, 10)
         }
         const opponent = {
             hp: opponentEgo,
-            dmg: opponentAtk - playerDef,
+            atk: opponentAtk,
+            def: playerDef,
             critchance: SimHelpers.calculateCritChanceShare(opponentCrit, playerCrit) + dominanceBonuses.opponent.chance + opponentBonuses.critChance,
             name,
             bonuses: {...opponentBonuses, dominance: dominanceBonuses.opponent},
             theme: opponentElements,
+            atkMult: SimHelpers.getSkillPercentage(opponentTeam, 9),
+            defMult: SimHelpers.getSkillPercentage(opponentTeam, 10)
         }
 
         return {player, opponent}
@@ -132,31 +174,46 @@ class League {
         probabilityTooltip += `<tr class='${scoreClass}'><td>${GT.design.leagues_won_letter}</td><td>${I18n.nRounding(100*win, 2, -1)}%</td></tr>`
         probabilityTooltip += '</table>'
 
-        $('.matchRating').remove()
-
         const matchRatingParts = {
             expected: {
                 label: 'E[X]',
                 value: I18n.nRounding(expectedValue, 2, 0),
                 className: '',
+                tooltip: probabilityTooltip
             },
             'win-chance': {
                 label: `P[${GT.design.leagues_won_letter}]`,
                 value: `${I18n.nRounding(100*win, 0, -1)}%`,
                 className: scoreClass,
+                tooltip: ''
             }
         }
 
         const matchRatingHtml = Object
             .entries(matchRatingParts)
-            .map(([key, {label, value, className}]) =>
-                `<div class="matchRating-${key} ${className}"><span class="matchRating-label">${label}:</span><span class="matchRating-value">${value}</span></div>`
+            .map(([key, {label, value, className, tooltip}]) =>
+                `<div class="matchRating-${key} ${className}" tooltip="${tooltip}"><span class="matchRating-label">${label}:</span><span class="matchRating-value">${value}</span></div>`
             ).join('')
+        const $rating = $(`<div class="matchRating" style="color:${pointGrade[Math.round(expectedValue)]};">${matchRatingHtml}</div>`)
 
-        const $rating = $(`<div class="matchRating" style="color:${pointGrade[Math.round(expectedValue)]};" tooltip="${probabilityTooltip}">${matchRatingHtml}</div>`)
-        $('#leagues_right .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating) // outdated
-        $('.player_team_block.opponent .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating)
-        $('.lead_table_default > td:nth-child(1) > div:nth-child(1) > div:nth-child(2) .level').append($rating)
+        if (this.isMainLeague) {
+            const addRating = (isFirst) => {
+                const {opponents_list} = window
+                const index = opponents_list.findIndex(e => e.player.id_fighter === this.opponentData.player.id_fighter)
+                if (isFirst) {
+                    opponents_list[index].power = expectedValue
+                    opponents_list[index].sim = result
+                }
+                $('.data-row.body-row').eq(index).find('.data-column[column=power]').empty().append($rating)
+            }
+
+            addRating(true)
+            $(document).on('league:table-sorted', () => {
+                addRating(false)
+            })
+        } else {
+            $('.player_team_block.opponent .average-lvl').wrap('<div class="gridWrapper"></div>').after($rating)
+        }
     }
 }
 

@@ -64,6 +64,7 @@ export const lsKeys = {
     LEAGUE_TIME_OLD:            lsKey('LeagueTimeOld'),
     LEAGUE_UNKNOWN_OLD:         lsKey('LeagueUnknownOld'),
     LEAGUE_PIN_PLAYER:          lsKey('LeaguePinPlayer'),
+    PLAYER_DATA:                lsKey('PlayerData'),
     AVAILABLE_OPPONENTS:        lsKey('AvailableOpponents'),
     OPPONENT_FILTER:            lsKey('OpponentFilter'),
     TRACKED_TIMES:              lsKey('TrackedTimes'),

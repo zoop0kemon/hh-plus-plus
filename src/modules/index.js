@@ -80,3 +80,4 @@ export {default as HideClaimAllButtonStyleTweak} from './HideClaimAllButtonStyle
 export {default as DPEventStyleTweak} from './DPEventStyleTweak'
 export {default as CompactDailyMissionsStyleTweak} from './CompactDailyMissionsStyleTweak'
 export {default as RemoveSlotBorderStyleTweak} from './RemoveSlotBorderStyleTweak'
+export {default as HideLeagueMultiFightStyleTweak} from './HideLeagueMultiFightStyleTweak'
