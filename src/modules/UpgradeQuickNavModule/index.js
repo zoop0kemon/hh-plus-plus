@@ -32,6 +32,7 @@ class UpgradeQuickNavModule extends CoreModule {
 
         Helpers.defer(() => {
             const filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
+            $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
             if (!filteredGirlIds || filteredGirlIds.length < 2) { return }
             const girlDictionary = Helpers.getGirlDictionary()
             const currentGirlId = window.girl.id_girl
@@ -63,7 +64,7 @@ class UpgradeQuickNavModule extends CoreModule {
                 const $next = this.buildAvatarHtml(this.nextGirlId, this.nextGirl, 'next', resource)
 
                 if (resource == 'skills') {
-                    $(`#${resource} .girl-skills-avatar`).wrap('<div class="script-girl-avatar"></div>').before($prev).after($next)
+                    $(`#${resource} .girl-skills-avatar`).before($prev).after($next)
                 } if (resource == 'teams') {
                     $(`#${resource}`).append($prev).append($next)
                 } else {

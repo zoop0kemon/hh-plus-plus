@@ -191,16 +191,27 @@
         }
 
         .data-column:not(.head-column) {
-            &[column=team] .button_team_synergy {
-                background: none;
+            &[column=team] {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                column-gap: 3px;
+                flex-direction: column;
 
-                img.team-theme.icon {
-                    width: 20px;
-                    height: 20px;
+                .button_team_synergy {
+                    width: auto;
+                    height: 1.5rem;
+                    background: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    column-gap: 3px;
+
+                    img.team-theme.icon {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+
+                span.team-power {
+                    font-size: 12px;
                 }
             }
 

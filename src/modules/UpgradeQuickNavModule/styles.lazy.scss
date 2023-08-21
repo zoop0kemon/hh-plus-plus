@@ -11,10 +11,13 @@
 
     #skills {
         .script-girl-avatar {
-            align-items: flex-start;
             position: absolute;
-            left: 3.75rem;
+            align-items: flex-start;
+            justify-content: center;
+            width: 24.5rem;
+            left: 3.5rem;
         }
+
         .girl-skills-avatar {
             position: unset;
         }

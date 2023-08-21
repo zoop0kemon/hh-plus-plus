@@ -60,29 +60,33 @@ class BattleSimulatorModule extends CoreModule {
                                     this.simManagers.push(new League(true, player_data, opponent))
                                 } else {
                                     opponent.power = 0
+                                    opponent.team = player_data.team.total_power
                                 }
                             })
-    
+
                             const updatePlayerRow = () => {
                                 $('.data-row.body-row.player-row .data-column[column=power]').text('-')
-    
-                                // show the correct team theme
-                                const correct_themes = player_data.team.theme_elements
+
+                                // show the correct team theme / power
+                                const {team: {theme_elements, total_power}} = player_data
                                 let $icons = []
-                                if (correct_themes.length) {
-                                    correct_themes.forEach((theme_element) => {
+                                if (theme_elements.length) {
+                                    theme_elements.forEach((theme_element) => {
                                         const {ico_url, flavor} = theme_element
                                         $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${flavor}">`)
                                     })
                                 } else {
                                     $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)
                                 }
-    
+                                const $team_power = $(`<span class="team-power">${I18n.nThousand(Math.ceil(total_power))}</span>`)
+
                                 Helpers.doWhenSelectorAvailable('.data-row.body-row.player-row .data-column[column=team] .team-theme', () => {
-                                    $('.data-row.body-row.player-row .data-column[column=team] .button_team_synergy').empty().append($($icons.join('')))
+                                    const $team_button = $('.data-row.body-row.player-row .data-column[column=team] .button_team_synergy')
+                                    $team_button.empty().next().remove()
+                                    $team_button.append($($icons.join(''))).after($team_power)
                                 })
                             }
-    
+
                             updatePlayerRow()
                             $(document).on('league:table-sorted', () => {
                                 updatePlayerRow()

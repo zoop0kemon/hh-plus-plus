@@ -18,7 +18,6 @@ const CIRCULAR_THRESHOLDS = {
     0.5: 'yellow',
     0.2: 'red'
 }
-const THEME_ORDER = ['balanced', 'darkness', 'light', 'psychic', 'water', 'fire', 'nature', 'stone', 'sun']
 
 const getScoreDisplayDataForTop = (currentPos, currentScore, top, scoreToBeat, scoreToStayAbove) => {
     let symbol = ''
@@ -82,7 +81,6 @@ class LeagueInfoModule extends CoreModule {
             this.injectCSSVars()
             this.displaySummary({board, promo})
             this.manageTable()
-            // this.manageHideFoughtOpponents()
             this.fixLeagueSorting()
         })
 
@@ -94,7 +92,6 @@ class LeagueInfoModule extends CoreModule {
         Sheet.registerVar('filter-icon', `url('${filterIcon}')`)
     }
 
-    // temp bug fixes
     fixLeagueSorting () {
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
             // fix / adjust sorting system
@@ -102,8 +99,8 @@ class LeagueInfoModule extends CoreModule {
             if (opponents_list && opponents_list.length) {
                 opponents_list.forEach((opponent) => {
                     opponent.player_league_points = I18n.parseLocaleRoundedInt(opponent.player_league_points)
-                    const {player: {team: {theme}}} = opponent
-                    opponent.team = (theme || 'balanced').split(',').map(e => THEME_ORDER.indexOf(e)).join('-')
+                    const {player: {team: {total_power}}} = opponent
+                    opponent.team = total_power
                 })
             }
         })
@@ -495,7 +492,7 @@ class LeagueInfoModule extends CoreModule {
             const {opponents_list, GT} = window
 
             if (opponents_list && opponents_list.length) {
-                opponents_list.forEach(({player: {team: {theme_elements}}}, index) => {
+                opponents_list.forEach(({player: {team: {theme_elements, total_power}}}, index) => {
                     let $icons = []
                     if (theme_elements.length) {
                         theme_elements.forEach((theme_element) => {
@@ -505,8 +502,9 @@ class LeagueInfoModule extends CoreModule {
                     } else {
                         $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)
                     }
+                    const $team_power = $(`<span class="team-power">${I18n.nThousand(Math.ceil(total_power))}</span>`)
 
-                    $('.data-row.body-row').eq(index).find('.data-column[column=team] .button_team_synergy').append($($icons.join('')))
+                    $('.data-row.body-row').eq(index).find('.data-column[column=team] .button_team_synergy').append($($icons.join(''))).after($team_power)
                 })
             }
         }
