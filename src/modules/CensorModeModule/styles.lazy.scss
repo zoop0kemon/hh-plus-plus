@@ -11,6 +11,7 @@ img[src*="/pictures/design/daily_goals_side"],
 img[src*="/pictures/design/payments"],
 img[src*="/pictures/design/el_teams-girls.png"],
 img[src*="/pictures/design/sultry_mysteries/static.png"],
+img[src*="/pictures/design/hero_leveling_girl.png"],
 img[src*="/pictures/misc/events"],
 img[src*="/pictures/misc/places_of_power"],
 img[src*="/pictures/misc/missions"],
@@ -28,6 +29,11 @@ img[src*="/images/members/"],
 #popups #scene_popup,
 #popups #no_HC .product-background.integrated,
 #popups #no_HC .product-background.standalone,
+#popups #no_HC .product-offer-background-container,
 #contests > div > div.left_part > .scroll_area > .contest > .contest_header {
     filter: blur(20px) !important;
+}
+
+#popups #no_HC .bundle-offer-container.treasure-bg {
+    background-image: none;
 }
