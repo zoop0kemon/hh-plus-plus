@@ -1,4 +1,5 @@
-1.38.3: Fixing censor module in shop popup and hero level rewards, Updating patrons list for September
+1.38.4: Adding leaderboard annotations to LR event, adding LR to Seasonal/Mega Event style tweak, and fixing various bugs.
+1.38.3: Fixing censor module in shop popup and hero level rewards. Updating patrons list for September
 1.38.2: Updating IT translations
 1.38.1: Fixing bug with upgrade quick nav. Adding team power to the "Team" column for the League Info Module.
 1.38.0: Adding style tweak (off by default) to hide league 15x fight button. Updating sim to account for tier 4 girl skills and bringing back sim results to the main league page (thanks to help from -MM-), replacing the game's "power" column.

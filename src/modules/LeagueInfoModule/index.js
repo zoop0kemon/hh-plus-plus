@@ -95,6 +95,13 @@ class LeagueInfoModule extends CoreModule {
     fixLeagueSorting () {
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
             // fix / adjust sorting system
+            const isColumnSortable_actual = window.isColumnSortable
+            const hook = (column_name, settings) => {
+                if (column_name === "team") {return true}
+                return isColumnSortable_actual(column_name, settings)
+            }
+            window.isColumnSortable = hook
+
             const {opponents_list} = window
             if (opponents_list && opponents_list.length) {
                 opponents_list.forEach((opponent) => {

@@ -134,7 +134,7 @@ export const stConfig = {
     dailyGoals: 'Remodelación de objetivos diarios',
     bbProgress: 'Mejor barra de progreso de recompensas de Boss Bang',
     compactLossScreen: 'Pantalla de derrota compacta',
-    seasonalEventTweaks: 'Ajustes de Eventos de Temporada',
+    seasonalEventTweaks: 'Ajustes de Mega Eventos',
     compactHaremFilters: 'Filtros de harén compactos',
     expandedMarketInventory: 'Ampliación del inventario de mercado',
     compactResourceSummary: 'Inventario de recursos compacto',

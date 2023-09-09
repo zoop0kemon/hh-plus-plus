@@ -48,10 +48,9 @@ class ContestRewardsModule extends CoreModule {
 
     displayRewardSums () {
         const $contestPanel = $('.over_bunny.over_panel')
-        const { contests_data, buildMultipleSlots } = window
+        const { contests_data, buildSlot } = window
         const contests = contests_data.finished
         let rewards_data = {
-            loot: 'true',
             rewards: [],
             shards: []
         }
@@ -113,7 +112,8 @@ class ContestRewardsModule extends CoreModule {
                 reward.value = I18n.nThousand(reward.value)
             }
         })
-        const $reward_wrap = $(`<div class="reward_wrap">${buildMultipleSlots(rewards_data, 'xs')}</div>`)
+
+        const $reward_wrap = $(`<div class="reward_wrap">${[...rewards_data.rewards, ...rewards_data.shards].map((reward) => buildSlot(reward, 'xs')).join('')}</div>`)
 
         if (!this.$rewardsDisplay) {
             this.$rewardsDisplay = $('<div class="scriptRewardsDisplay"></div>')

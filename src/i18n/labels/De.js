@@ -108,7 +108,7 @@ export const stConfig = {
     dailyGoals: 'Restyle der Täglichen Ziele',
     bbProgress: 'Bessere Belohungsfort-schrittsleiste in Boss Bums',
     compactLossScreen: 'Kompakte Niederlage-Anzeige',
-    seasonalEventTweaks: 'Optimierungen für Saisonales Event',
+    seasonalEventTweaks: 'Optimierungen für Mega-Events',
     compactHaremFilters: 'Kompakte Haremfilter',
     expandedMarketInventory: 'Erweitertes Marktinventar',
     compactResourceSummary: 'Kompaktes Ressourcen-Inventar',

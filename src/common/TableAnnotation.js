@@ -14,6 +14,8 @@ class TableAnnotation {
             case 'path_of_glory':
                 TableAnnotation.annotateTable('#pog_leaderboard_tab_container #leaderboard_list', leaderboard)
                 break
+            case 'seasonal_event_percent':
+                break
             default:
                 TableAnnotation.annotateTable('#leaderboard_list', leaderboard)
             }

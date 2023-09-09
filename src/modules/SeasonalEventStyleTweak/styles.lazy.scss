@@ -12,3 +12,23 @@
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
+
+.mega-event-panel
+.mega-event-container
+.tabs-section
+#home_tab_container
+.bottom-container
+.right-part-container
+.mega-tiers-section
+.mega-progress-bar-section
+.mega-progress-bar-tiers
+.mega-tier-container {
+    &.double-tier {
+        width: 4.5rem;
+    }
+
+    .mega-tier {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}

@@ -134,7 +134,7 @@ export const stConfig = {
     dailyGoals: 'Restyle degli obiettivi giornalieri',
     bbProgress: 'Barra di avanzamento delle ricompense nella Scopata Boss migliorata',
     compactLossScreen: 'Schermata di sconfitta compatta',
-    seasonalEventTweaks: 'Ottimizzazioni per l\'evento stagionale',
+    seasonalEventTweaks: 'Ottimizzazioni per i Mega Eventi',
     compactHaremFilters: 'Filtri dell\'Harem compatti',
     expandedMarketInventory: 'Inventario del mercato allargato',
     compactResourceSummary: 'Riepilogo delle risorse compatto',

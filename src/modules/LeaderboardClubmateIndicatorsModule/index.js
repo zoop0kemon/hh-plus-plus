@@ -18,7 +18,7 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['activities', 'tower-of-fame', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory'].some(page => Helpers.isCurrentPage(page))
+        return ['activities', 'tower-of-fame', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {

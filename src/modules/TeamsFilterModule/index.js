@@ -106,7 +106,7 @@ class TeamsFilterModule extends CoreModule {
         let filterAffCategory = $('#filter_aff_category').get(0).value
         let filterAffLvl = $('#filter_aff_lvl').get(0).value
         let filterLevelCap = $('#filter_level_cap').get(0).value
-        const haremGirls = window.haremGirls
+        const haremGirls = window.availableGirls
 
         let girlsFiltered = $.map(this.girlsData, (girl, index) => {
             let matchesClass = (girl.class === filterClass) || (filterClass === 'all')

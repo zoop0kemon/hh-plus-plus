@@ -129,7 +129,7 @@ export const stConfig = {
     dailyGoals: 'Daily Goals restyle',
     bbProgress: 'Better Boss Bang rewards progress bar',
     compactLossScreen: 'Compact loss screen',
-    seasonalEventTweaks: 'Seasonal Event tweaks',
+    seasonalEventTweaks: 'Mega Events tweaks',
     compactHaremFilters: 'Compact Harem filters',
     expandedMarketInventory: 'Expanded Market inventory',
     compactResourceSummary: 'Compact resource summary',

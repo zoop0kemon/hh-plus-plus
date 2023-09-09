@@ -71,7 +71,7 @@ class ImprovedWaifuModule extends CoreModule {
                     return
                 }
                 let max_grade = dictGirl.grade || unlocked_grade
-                let selected_grade = girlInfo.grade === undefined ? Math.min(waifu.selected_grade, max_grade, unlocked_grade) : girlInfo.grade
+                let selected_grade = girlInfo.grade === undefined ? Math.min(max_grade, unlocked_grade) : girlInfo.grade
                 let fav = girlInfo.fav || false
 
                 let display = (waifuInfo.display === undefined)?  !!parseInt(waifu.display) : waifuInfo.display
