@@ -40,6 +40,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 this.dp()
             } else if (Helpers.isCurrentPage('seasonal')) {
                 this.seasonalEvent()
+                this.megaEvent()
             } else if (Helpers.isCurrentPage('member-progression')) {
                 this.heroLevel()
             }
@@ -66,13 +67,13 @@ class HideClaimedRewardsModule extends CoreModule {
                 $groupsRemaining = $('.potions-paths-tier.unclaimed')
                 claimedCount = $groupsToHide.length
                 unclaimedCount = $groupsRemaining.length
+                hidden = true
                 if (claimedCount === 0) {
                     // nothing to do
                     return
                 }
 
                 $groupsToHide.addClass('script-hide-claimed')
-                hidden = true
                 if (styleAttr) {
                     setTimeout(() => {
                         if (existingLengthStr) {
@@ -157,19 +158,17 @@ class HideClaimedRewardsModule extends CoreModule {
             const {season_tiers, season_has_pass, season_tier} = window
 
             let unclaimedCount = 0
-            let rewardsHidden = false
 
             $tiers.each((i, el) => {
                 const {free_reward_picked, pass_reward_picked, tier} = season_tiers[i]
                 if (free_reward_picked === '1' && (!season_has_pass || pass_reward_picked === '1')) {
                     $(el).addClass('script-hide-claimed')
-                    rewardsHidden = true
                 } else if (parseInt(tier) <= season_tier) {
                     unclaimedCount++
                 }
             })
 
-            hidden = rewardsHidden
+            hidden = true
 
             fixWidth()
 
@@ -291,10 +290,10 @@ class HideClaimedRewardsModule extends CoreModule {
             const assertHidden = () => {
                 $groupsToHide = $('.tier-container:has(.claimed-reward-tick.display-block)')
                 $groupsRemaining = $('.tier-container:has([rel="reward-claim"]:not(.hidden):not([style="display: none;"]))')
+                hidden = true
                 if ($groupsToHide.length == 0) {return}
 
                 $groupsToHide.addClass('script-hide-claimed')
-                hidden = true
                 if (styleAttr) {
                     setTimeout(() => {
                         if ($groupsRemaining.length) {
@@ -385,13 +384,13 @@ class HideClaimedRewardsModule extends CoreModule {
                 $groupsToHide = $('.seasonal-tier.claimed')
                 $groupsRemaining = $('.seasonal-tier.unclaimed')
                 claimedCount = $groupsToHide.length
+                hidden = true
                 if (claimedCount === 0) {
                     // nothing to do
                     return
                 }
 
                 $groupsToHide.addClass('script-hide-claimed')
-                hidden = true
                 if (styleAttr) {
                     setTimeout(() => {
                         if ($groupsRemaining.length) {
@@ -465,6 +464,103 @@ class HideClaimedRewardsModule extends CoreModule {
         })
     }
 
+    megaEvent () {
+        Helpers.doWhenSelectorAvailable('.mega-timer.timer', () => {
+            let hidden = false
+            let $groupsToHide = $('.mega-tier-container:has(.claimed):not(:has([rel="claim"]))')
+            let $groupsRemaining = $('.mega-tier-container:has([rel="claim"])')
+            let claimedCount = $groupsToHide.length
+            const widthPattern = /width: ?(?<existingLength>[0-9.a-z%]+);?/
+            const containerWidth = $('.mega-tier-container').width()
+            let existingLengthStr
+            let newLength
+            const $progressBar = $('.mega-progress-bar .mega-progress-bar-current')
+            const styleAttr = $progressBar.attr('style')
+
+            const assertHidden = () => {
+                $groupsToHide = $('.mega-tier-container:has(.claimed):not(:has([rel="claim"]))')
+                $groupsRemaining = $('.mega-tier-container:has([rel="claim"])')
+                claimedCount = $groupsToHide.length
+                hidden = true
+                if (claimedCount === 0) {
+                    // nothing to do
+                    return
+                }
+
+                $groupsToHide.addClass('script-hide-claimed')
+                if (styleAttr) {
+                    setTimeout(() => {
+                        if ($groupsRemaining.length) {
+                            newLength = containerWidth * ($groupsRemaining.length - 0.5)
+                        } else {
+                            newLength = 0
+                        }
+                        $progressBar.addClass('no-transition')
+                        $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${newLength}px;`))
+                        $progressBar[0].offsetHeight
+                        $progressBar.removeClass('no-transition')
+                    }, 1)
+                }
+                setTimeout(() => {
+                    $('.mega-progress-bar-section').getNiceScroll().resize()
+                }, 1200)
+            }
+            const assertShown = () => {
+                $('.script-hide-claimed').removeClass('script-hide-claimed')
+                hidden = false
+                if (styleAttr) {
+                    $progressBar.addClass('no-transition')
+                    $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${existingLengthStr};`))
+                    $progressBar[0].offsetHeight
+                    $progressBar.removeClass('no-transition')
+                }
+                setTimeout(() => {
+                    $('.mega-progress-bar-section').getNiceScroll().resize()
+                }, 1200)
+            }
+
+            if (styleAttr) {
+                const matches = styleAttr.match(widthPattern)
+                if (matches && matches.groups) {
+                    existingLengthStr = matches.groups.existingLength
+                }
+            }
+            assertHidden()
+            $('.mega-progress-bar-section').stop(true).animate({
+                scrollLeft: Math.max(0, newLength - 150)
+            }, 100)
+
+            const toggle = () => {
+                if (hidden) {
+                    assertShown()
+                } else {
+                    assertHidden()
+                }
+            }
+
+            const observer = new MutationObserver((mutations) => {
+                if (!hidden) {return}
+                let shouldUpdate = false
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'attributes') {
+                        const {attributeName, target} = mutation
+                        if (attributeName === 'class' && !$(target).hasClass('mega-progress-bar-current') &&
+                            !$(target).hasClass('unclaimed') && !$groupsToHide.toArray().includes(target)) {
+                            shouldUpdate = true
+                        }
+                    }
+                })
+
+                if (shouldUpdate) {
+                    assertHidden()
+                }
+            })
+            observer.observe($('.mega-progress-bar-tiers')[0], {attributes: true, attributeFilter: ['class'], subtree: true})
+
+            $('.girls-reward-container').click(toggle)
+        })
+    }
+
     heroLevel () {
         Helpers.doWhenSelectorAvailable('.progress-bar', () => {
             let hidden = false
@@ -482,13 +578,13 @@ class HideClaimedRewardsModule extends CoreModule {
                 $groupsToHide = $('.tier.claimed')
                 $groupsRemaining = $('.tier.unclaimed')
                 claimedCount = $groupsToHide.length
+                hidden = true
                 if (claimedCount === 0) {
                     // nothing to do
                     return
                 }
 
                 $groupsToHide.addClass('script-hide-claimed')
-                hidden = true
                 if (styleAttr) {
                     setTimeout(() => {
                         if ($groupsRemaining.length) {

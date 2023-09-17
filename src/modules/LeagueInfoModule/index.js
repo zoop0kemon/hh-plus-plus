@@ -365,6 +365,9 @@ class LeagueInfoModule extends CoreModule {
 
         let pinPlayer = Helpers.lsGet(lsKeys.LEAGUE_PIN_PLAYER) || false
 
+        const {Tutorial} = window
+        let tutorial_complete = !!Tutorial.data.leagues6
+
         const createGridSelectorItem = ({id, type, value, icon}) => {
             const inputId = `${id}-${value}`
             const isChecked = type === 'checkbox' ? activeFilters[id].includes(value) : JSON.parse(activeFilters[id]) === value
@@ -436,8 +439,7 @@ class LeagueInfoModule extends CoreModule {
         const hideOpponents = () => {
             const {opponents_list} = window
 
-            if (opponents_list && opponents_list.length) {
-
+            if (opponents_list && opponents_list.length && tutorial_complete) {
                 opponents_list.forEach(({match_history, boosters, player: {team: {theme}}}, index) => {
                     const match_history_array = Object.values(match_history)[0]
 
@@ -572,6 +574,19 @@ class LeagueInfoModule extends CoreModule {
                 addPlayerPin()
             })
         })
+
+        if (!tutorial_complete) {
+            Helpers.onAjaxResponse(/action=tutorial_complete/, (response, opt) => {
+                if (!response.success) {return}
+                const searchParams = new URLSearchParams(opt.data)
+                const tutorial = searchParams.get('tutorial')
+
+                if (tutorial == 'leagues6') {
+                    tutorial_complete = true
+                    hideOpponents()
+                }
+            })
+        }
     }
 }
 

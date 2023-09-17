@@ -28,6 +28,20 @@
         display: none;
     }
 
+    .mega-event-panel
+        .mega-event-container
+        .tabs-section
+        #home_tab_container
+        .bottom-container
+        .right-part-container
+        .mega-tiers-section
+        .mega-progress-bar-section
+        .mega-progress-bar-tiers
+        .mega-tier-container
+        &.mega-tier {
+        display: none;
+    }
+
     .page-member-progression
         .member-progression-container
         .tiers-container 
