@@ -365,8 +365,8 @@ class LeagueInfoModule extends CoreModule {
 
         let pinPlayer = Helpers.lsGet(lsKeys.LEAGUE_PIN_PLAYER) || false
 
-        const {Tutorial} = window
-        let tutorial_complete = !!Tutorial.data.leagues6
+        const {tutoData} = window
+        let tutorial_complete = !!tutoData.leagues6
 
         const createGridSelectorItem = ({id, type, value, icon}) => {
             const inputId = `${id}-${value}`

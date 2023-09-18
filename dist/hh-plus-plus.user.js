@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Hentai Heroes++ BDSM version
 // @description     Adding things here and there in the Hentai Heroes game. Also supports HHCore-based games such as GH and CxH.
-// @version         1.38.5
+// @version         1.38.6
 // @match           https://*.hentaiheroes.com/*
 // @match           https://nutaku.haremheroes.com/*
 // @match           https://*.gayharem.com/*
@@ -354,7 +354,7 @@ window.HHPlusPlus={CHANGELOG:"https://raw.githubusercontent.com/zoop0kemon/hh-pl
                     ${e}
                     ${i}
                 </div>
-            `;O.doWhenSelectorAvailable(".league_buttons_block",()=>{($(".change_team_container").length?$(".change_team_container"):$(".league_buttons_block")).before(z)})}}manageTable(){const t={fought_opponent:{label:"filterFoughtOpponents",type:"radio",options:[{value:!1,icon:"quest/ic_eyeopen.svg"},{value:!0,icon:"quest/ic_eyeclosed.svg"}]},boosted:{label:"filterBoosted",type:"radio",options:[{value:!1,icon:"quest/ic_eyeopen.svg"},{value:!0,icon:"quest/ic_eyeclosed.svg"}]},team_theme:{label:"filterTeamTheme",type:"checkbox",options:[{value:"darkness",icon:"pictures/girls_elements/Dominatrix.png"},{value:"light",icon:"pictures/girls_elements/Submissive.png"},{value:"psychic",icon:"pictures/girls_elements/Voyeurs.png"},{value:"balanced",icon:"pictures/girls_elements/Multicolored.png"},{value:"water",icon:"pictures/girls_elements/Sensual.png"},{value:"fire",icon:"pictures/girls_elements/Eccentric.png"},{value:"nature",icon:"pictures/girls_elements/Exhibitionist.png"},{value:"stone",icon:"pictures/girls_elements/Physical.png"},{value:"sun",icon:"pictures/girls_elements/Playful.png"}]}},l=O.lsGet(P.OPPONENT_FILTER)||{fought_opponent:!1,boosted:!1,team_theme:[]};let a=O.lsGet(P.LEAGUE_PIN_PLAYER)||!1;var e=window["Tutorial"];let i=!!e.data.leagues6;const o=({id:e,type:t,value:a,icon:i})=>{var n=`${e}-${a}`;return`
+            `;O.doWhenSelectorAvailable(".league_buttons_block",()=>{($(".change_team_container").length?$(".change_team_container"):$(".league_buttons_block")).before(z)})}}manageTable(){const t={fought_opponent:{label:"filterFoughtOpponents",type:"radio",options:[{value:!1,icon:"quest/ic_eyeopen.svg"},{value:!0,icon:"quest/ic_eyeclosed.svg"}]},boosted:{label:"filterBoosted",type:"radio",options:[{value:!1,icon:"quest/ic_eyeopen.svg"},{value:!0,icon:"quest/ic_eyeclosed.svg"}]},team_theme:{label:"filterTeamTheme",type:"checkbox",options:[{value:"darkness",icon:"pictures/girls_elements/Dominatrix.png"},{value:"light",icon:"pictures/girls_elements/Submissive.png"},{value:"psychic",icon:"pictures/girls_elements/Voyeurs.png"},{value:"balanced",icon:"pictures/girls_elements/Multicolored.png"},{value:"water",icon:"pictures/girls_elements/Sensual.png"},{value:"fire",icon:"pictures/girls_elements/Eccentric.png"},{value:"nature",icon:"pictures/girls_elements/Exhibitionist.png"},{value:"stone",icon:"pictures/girls_elements/Physical.png"},{value:"sun",icon:"pictures/girls_elements/Playful.png"}]}},l=O.lsGet(P.OPPONENT_FILTER)||{fought_opponent:!1,boosted:!1,team_theme:[]};let a=O.lsGet(P.LEAGUE_PIN_PLAYER)||!1;var e=window["tutoData"];let i=!!e.leagues6;const o=({id:e,type:t,value:a,icon:i})=>{var n=`${e}-${a}`;return`
                 <input type="${t}" name="${e}" id="${n}" value="${a}"${("checkbox"===t?l[e].includes(a):JSON.parse(l[e])===a)?" checked":""}/>
                 <label for="${n}">
                     <img src="${O.getCDNHost()}/${i}">
