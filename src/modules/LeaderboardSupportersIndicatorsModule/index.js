@@ -35,7 +35,9 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
 
         Helpers.defer(() => {
             if (Helpers.isCurrentPage('activities')) {
-                this.addSupporterAnnotations()
+                Helpers.doWhenSelectorAvailable('#contests .right_part', () => {
+                    this.addSupporterAnnotations()
+                })
             } else if (Helpers.isCurrentPage('tower-of-fame')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
                     this.addSupporterAnnotations()

@@ -75,7 +75,6 @@ export const config = {
     gemStock: 'Stock de gemas en el mercado/harén',
     staticBackground: 'Previene cambios de fondo durante Días de Orgía',
     rewardShards: `Mostrar el contador de fragmentos actual en las recompensas para ${Helpers.isGH() ? 'chicos' : 'chicas'}`,
-    leaderboardFix: 'Arreglar las tablas de clasificación de Temporada, CdV, CdlG y Panteón',
     hideClaimedRewards: 'Ocultar recompensas reclamadas',
     disableDragDrop: 'Desactivar la opción de Drag-and-Drop en el mercado',
     autoRefresh: 'Refresca el juego automáticamente cada 10 minutos',

@@ -65,7 +65,6 @@ export const config = {
     gemStock: 'Stock de gemmes au marché/harem',
     staticBackground: 'Empêche les changements de décor durant les Jours d\'Orgie',
     rewardShards: `Affiche le nombre de Fragments d'Affection actuels sur les ${gameConfig.fille}s en récompense`,
-    leaderboardFix: 'Corrige les classements de Saison, VdV, VdlG et Panthéon',
     hideClaimedRewards: 'Masquer les récompenses récupérées',
     disableDragDrop: 'Désactiver la fonction glisser-déposer dans le marché',
     autoRefresh: 'Actualise automatiquement le jeu toutes les 10 minutes',
@@ -141,6 +140,7 @@ export const villain = {
     pandorawitch: 'Sorcière Pandora',
     werebunnypolice: 'Police des Lapines-Garous',
     asaakira: 'Directrice Asa Akira',
+    yeehaw: 'Yi Haa !',
     fallback: 'Monde {{world}} troll',
 }
 

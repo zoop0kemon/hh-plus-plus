@@ -143,13 +143,17 @@ body > div > header {
             height: 20px;
         }
         .backbar {
+            position: relative;
+            top: -8px;
             width: 114px;
-            height: 7px;
+            height: 12px;
             overflow: hidden;
         }
         .text {
+            position: relative;
+            z-index: 1;
             font-size: 10px;
-            top: 3px;
+            top: 1px;
             pointer-events: none;
         }
     }

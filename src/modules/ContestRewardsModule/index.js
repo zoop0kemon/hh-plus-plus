@@ -28,19 +28,21 @@ class ContestRewardsModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            this.displayRewardSums()
-            this.displayExpiration()
+            Helpers.doWhenSelectorAvailable('.left_part .scroll_area', () => {
+                this.displayRewardSums()
+                this.displayExpiration()
 
-            const observer = new MutationObserver((mutations) => {
-                for(const mutation of mutations) {
-                    if (mutation.type === 'childList') {
-                        this.displayRewardSums()
-                        this.displayExpiration()
+                const observer = new MutationObserver((mutations) => {
+                    for(const mutation of mutations) {
+                        if (mutation.type === 'childList') {
+                            this.displayRewardSums()
+                            this.displayExpiration()
+                        }
                     }
-                }
-            })
+                })
 
-            observer.observe($('.left_part .scroll_area')[0],{attributes: false, childList: true, subtree: false})
+                observer.observe($('.left_part .scroll_area')[0],{attributes: false, childList: true, subtree: false})
+            })
         })
 
         this.hasRun = true
@@ -48,14 +50,14 @@ class ContestRewardsModule extends CoreModule {
 
     displayRewardSums () {
         const $contestPanel = $('.over_bunny.over_panel')
-        const { contests_data, buildSlot } = window
-        const contests = contests_data.finished
+        const { contests, buildSlot } = window
+        const contests_data = contests.finished
         let rewards_data = {
             rewards: [],
             shards: []
         }
 
-        contests.forEach((contest) => {
+        contests_data.forEach((contest) => {
             if ($(`.contest[id_contest="${contest.id_contest}"]`).length) {
                 const {data: reward_data, drops} = contest.reward
 
@@ -126,13 +128,13 @@ class ContestRewardsModule extends CoreModule {
     }
 
     displayExpiration () {
-        const {contests_data, GT, createTimer} = window
+        const {contests, GT, createTimer} = window
 
         $('.contest .contest_header.ended').each((i, contest_header) => {
             const $contest_header = $(contest_header)
             if (!$contest_header.find('.expiration').length) {
                 const id_contest = $contest_header.parent().attr('id_contest')
-                const contest_data = contests_data.finished.find(e => e.id_contest == id_contest)
+                const contest_data = contests.finished.find(e => e.id_contest == id_contest)
                 const expires_in = EXPIRATION_TIME - (-contest_data.remaining_time)
 
 

@@ -60,7 +60,6 @@ export const config = {
     gemStock: 'Показывать запас камней в Гареме/Рынке',
     staticBackground: 'Остановить переключение фона во время Оргий',
     rewardShards: `Показывать текущее притяжение на ${Helpers.isGH() ? 'парнях' : 'девушках'}-наградах`,
-    leaderboardFix: 'Исправить список лидеров Сезона, PoV, PoG и Pantheon',//TODO No official name for PoV yet
     hideClaimedRewards: 'Скрывать полученные награды Сезона/Пути/PoV',//TODO No official name for PoV yet
     disableDragDrop: 'Отключить перетаскивание на Рынке',
     autoRefresh: 'Обновлять окно игры каждые 10 минут',

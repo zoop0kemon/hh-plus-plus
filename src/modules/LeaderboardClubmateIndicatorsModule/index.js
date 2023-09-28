@@ -28,7 +28,9 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
 
         Helpers.defer(() => {
             if (Helpers.isCurrentPage('activities')) {
-                this.addClubmateAnnotations()
+                Helpers.doWhenSelectorAvailable('#contests .right_part', () => {
+                    this.addClubmateAnnotations()
+                })
             } else if (Helpers.isCurrentPage('tower-of-fame')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
                     this.addClubmateAnnotations()

@@ -26,7 +26,7 @@ class TableAnnotation {
         Helpers.doWhenSelectorAvailable(`${selector} .leaderboard_row`, () => {
             const $leaderboardList = $(selector)
 
-            $leaderboardList.find('.leaderboard_row:not(.build-at-bottom):not(.script-season-leaderboard-fix)').each((i, el) => {
+            $leaderboardList.find('.leaderboard_row:not(.build-at-bottom)').each((i, el) => {
                 $(el).attr('sorting_id', leaderboard[i].id_member)
             })
 

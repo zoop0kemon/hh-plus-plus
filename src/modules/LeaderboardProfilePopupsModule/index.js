@@ -15,7 +15,7 @@ class LeaderboardProfilePopupsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['pantheon', 'season.html', 'path-of-valor', 'path-of-glory'].some(page => Helpers.isCurrentPage(page))
+        return ['pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {

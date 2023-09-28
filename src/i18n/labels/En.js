@@ -69,7 +69,6 @@ export const config = {
     gemStock: 'Gem stock in Market/Harem',
     staticBackground: 'Prevent background switching during Orgy Days',
     rewardShards: `Display current shard counts on ${gameConfig.girl} rewards`,
-    leaderboardFix: 'Fix Season, PoV, PoG and Pantheon leaderboards',
     hideClaimedRewards: 'Hide claimed rewards',
     disableDragDrop: 'Disable Drag-and-Drop in the Market',
     autoRefresh: 'Auto-refresh the game every 10 minutes',
@@ -179,6 +178,7 @@ export const villain = {
     jamiebrooks: 'Jamie Brooks',
     jordankingsley: 'Jordan Kingsley',
     sierrasinn: 'Sierra Sinn',
+    yeehaw: 'Yee Haw!',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }

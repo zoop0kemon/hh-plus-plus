@@ -75,7 +75,6 @@ export const config = {
     gemStock: 'Scorte di gemme nel Mercato/Harem',
     staticBackground: 'Impedisci il cambio di sfondo durante i giorni dell\'orgia',
     rewardShards:  `Mostra il conteggio attuale dei frammenti sulle ricompense ${gameConfig.delleragazze}`,
-    leaderboardFix: 'Correggi le classifiche di Stagione, SdV, SdG e Pantheon',
     hideClaimedRewards: 'Nascondi ricompense riscosse',
     disableDragDrop: 'Disabilita il drag-and-drop nel mercato',
     autoRefresh: 'Aggiorna il gioco automaticamente ogni 10 minuti',
