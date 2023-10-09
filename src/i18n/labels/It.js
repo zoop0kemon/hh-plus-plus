@@ -346,3 +346,8 @@ export const improvedWaifu = {
     cycleWaifu: `Avvia rotazione ${Helpers.isGH() ? 'Fidanzati' : 'Waifu'}`,
     cyclePause: 'Ferma rotazione',
 }
+
+export const compactResourceSummary = {
+    orbsTitle: 'Sfere ({{totalOrbs}})',
+    gemsTitle: 'Gemme ({{totalGems}})'
+}

@@ -316,3 +316,8 @@ export const haremTeamsFilter = {
 export const leaderboardClubmateIndicators = {
     clubmate: 'Член Клуба',
 }
+
+export const compactResourceSummary = {
+    orbsTitle: 'Orbs ({{totalOrbs}})',
+    gemsTitle: 'Gems ({{totalGems}})'
+}

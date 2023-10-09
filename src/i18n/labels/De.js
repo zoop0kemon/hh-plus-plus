@@ -317,3 +317,8 @@ export const improvedWaifu = {
     cycleWaifu: `${Helpers.isGH() ? 'Boyfriend' : 'Waifu'} durchwechseln`,
     cyclePause: 'Durchwechseln pausieren',
 }
+
+export const compactResourceSummary = {
+    orbsTitle: 'Kugeln ({{totalOrbs}})',
+    gemsTitle: 'Juwelen ({{totalGems}})'
+}

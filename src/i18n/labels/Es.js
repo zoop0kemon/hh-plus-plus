@@ -345,3 +345,8 @@ export const improvedWaifu = {
     cycleWaifu: `Rotar ${gameConfig.waifu}`,
     cyclePause: 'Pausar rotación',
 }
+
+export const compactResourceSummary = {
+    orbsTitle: 'Orbes ({{totalOrbs}})',
+    gemsTitle: 'Gemas ({{totalGems}})'
+}
