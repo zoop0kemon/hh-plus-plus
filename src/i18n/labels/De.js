@@ -374,3 +374,8 @@ export const improvedWaifu = {
     cycleWaifu: `${gameConfig.Waifu} durchwechseln`,
     cyclePause: 'Durchwechseln pausieren',
 }
+
+export const compactResourceSummary = {
+    orbsTitle: 'Kugeln ({{totalOrbs}})',
+    gemsTitle: 'Juwelen ({{totalGems}})'
+}

@@ -17,6 +17,7 @@ class CompactResourceSummaryStyleTweak extends STModule {
             configSchema,
             styles
         })
+        this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
     }
 
     shouldRun () {
@@ -51,13 +52,19 @@ class CompactResourceSummaryStyleTweak extends STModule {
                             }
                         })
 
+                        let totalGems = 0;
                         Object.values(response.gems).forEach((gem, index) => {
                             $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
+                            totalGems += +gem.amount;
                         })
+                        $(".hero-gems-container>p").text(this.label('gemsTitle', {totalGems}))
 
+                        let totalOrbs = 0
                         Object.values(response.orbs).forEach((orb, index) => {
                             $('.hero-orb>p').eq(index).text(`x${I18n.nThousand(+orb)}`)
+                            totalOrbs += +orb;
                         })
+                        $(".hero-orbs-container>p").text(this.label('orbsTitle', {totalOrbs}))
 
                         Object.values(response.progressions).forEach((progression, index) => {
                             $('.hero-progression>p').eq(index).text(`x${I18n.nThousand(+progression)}`)
