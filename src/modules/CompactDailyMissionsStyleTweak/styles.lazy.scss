@@ -101,7 +101,6 @@
                 .duration {
                     top: 0px;
                     left: 0px;
-                    overflow-x: hidden;
                 }
 
                 & > button[rel=mission_start] {
@@ -114,7 +113,7 @@
                 }
 
                 .hh_bar {
-                    top: 2px;
+                    top: 5px;
                     left: 2px;
 
                     .backbar {
@@ -143,7 +142,7 @@
                     padding: 0px 0px;
                     width: 90px;
                     height: 25px;
-                    top: -4px;
+                    top: -2px;
                     left: 2px;
                     line-height: 12px;
                     font-size: 9px;
