@@ -77,7 +77,6 @@ export const config = {
     rewardShards: `Mostrar el contador de fragmentos actual en las recompensas para ${Helpers.isGH() ? 'chicos' : 'chicas'}`,
     hideClaimedRewards: 'Ocultar recompensas reclamadas',
     disableDragDrop: 'Desactivar la opción de Drag-and-Drop en el mercado',
-    autoRefresh: 'Refresca el juego automáticamente cada 10 minutos',
     villainBreadcrumbs: 'Agregar ruta de navegación a las páginas de villanos',
     blessingSpreadsheetLink: 'Agregue un enlace a la hoja de cálculo de datos de bendiciones en la ventana emergente de bendiciones',
     homeScreenIcons: 'Agregar íconos de funciones a los enlaces de la pantalla de inicio',

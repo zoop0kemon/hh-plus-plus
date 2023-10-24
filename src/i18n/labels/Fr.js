@@ -67,7 +67,6 @@ export const config = {
     rewardShards: `Affiche le nombre de Fragments d'Affection actuels sur les ${gameConfig.fille}s en récompense`,
     hideClaimedRewards: 'Masquer les récompenses récupérées',
     disableDragDrop: 'Désactiver la fonction glisser-déposer dans le marché',
-    autoRefresh: 'Actualise automatiquement le jeu toutes les 10 minutes',
     villainBreadcrumbs: 'Ajouter une chaîne de navigation aux pages des boss du mode aventure',
     blessingSpreadsheetLink: 'Ajouter un lien vers la feuille de données des bénédictions à l\'infobulle des bénédictions',
     homeScreenIcons: 'Ajouter des icônes aux menus de l\'écran principal',

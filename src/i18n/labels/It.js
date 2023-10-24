@@ -77,7 +77,6 @@ export const config = {
     rewardShards:  `Mostra il conteggio attuale dei frammenti sulle ricompense ${gameConfig.delleragazze}`,
     hideClaimedRewards: 'Nascondi ricompense riscosse',
     disableDragDrop: 'Disabilita il drag-and-drop nel mercato',
-    autoRefresh: 'Aggiorna il gioco automaticamente ogni 10 minuti',
     villainBreadcrumbs: 'Aggiungi link di navigazione alle pagine dei Troll',
     blessingSpreadsheetLink: 'Aggiungi il link al foglio di calcolo delle benedizioni nel popup delle benedizioni',
     homeScreenIcons: 'Aggiungi icone caratteristiche ai link della schermata principale',

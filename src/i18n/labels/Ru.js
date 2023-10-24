@@ -62,7 +62,6 @@ export const config = {
     rewardShards: `Показывать текущее притяжение на ${Helpers.isGH() ? 'парнях' : 'девушках'}-наградах`,
     hideClaimedRewards: 'Скрывать полученные награды Сезона/Пути/PoV',//TODO No official name for PoV yet
     disableDragDrop: 'Отключить перетаскивание на Рынке',
-    autoRefresh: 'Обновлять окно игры каждые 10 минут',
     villainBreadcrumbs: 'Показывать цепочку навигации на экранах злодеев',
     blessingSpreadsheetLink: 'Добавить ссылку на таблицу благословений во всплывающее окно благословений',
     homeScreenIcons: 'Добавить иконки к ссылкам на главном экране',

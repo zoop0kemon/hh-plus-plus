@@ -71,7 +71,6 @@ export const config = {
     rewardShards: `Display current shard counts on ${gameConfig.girl} rewards`,
     hideClaimedRewards: 'Hide claimed rewards',
     disableDragDrop: 'Disable Drag-and-Drop in the Market',
-    autoRefresh: 'Auto-refresh the game every 10 minutes',
     villainBreadcrumbs: 'Add breadcrumbs to villain pages',
     blessingSpreadsheetLink: 'Add link to the blessing data spreadsheet on the blessings popup',
     homeScreenIcons: 'Add feature icons to home screen links',
