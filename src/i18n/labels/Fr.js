@@ -318,6 +318,7 @@ export const villainBreadcrumbs = {
     hornyknight: 'Le chevalier corné',
     suitdown: 'Sans costume',
     manmeatofsteel: 'L\'Homme au morceau d\'acier',
+    dickmannoir: 'Bitmann Noir',
 
     fukwell: 'Université de Belbaise',
     eurodick: 'Eurobite',

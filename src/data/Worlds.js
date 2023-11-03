@@ -33,6 +33,7 @@ export const CxH = [
     'hornyknight',
     'suitdown',
     'manmeatofsteel',
+    'dickmannoir',
 ]
 
 export const PSH = [

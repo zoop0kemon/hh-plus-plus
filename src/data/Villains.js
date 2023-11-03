@@ -544,14 +544,27 @@ export default {
             }]
         },
         {
+            key: 'dklong',
             world: 10,
+            girls: {
+                1: [258185125, 897951171, 971686222],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'fire',
+                amount: 20,
+            }]
+        },
+        {
+            world: 11,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'fire',
+                element: 'nature',
                 amount: 20,
             }]
         },
