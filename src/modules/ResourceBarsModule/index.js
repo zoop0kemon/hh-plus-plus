@@ -444,7 +444,7 @@ class ResourceBarsModule extends CoreModule {
                     current = usages_remaining
                     max = default_usages
                 } else {
-                    let normalisedDuration = duration === '1440' ? 86400 : duration
+                    let normalisedDuration = duration == 1440 ? 86400 : duration
                     current = endAt - server_now_ts
                     max = normalisedDuration
                     useTimer = true

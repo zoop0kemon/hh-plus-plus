@@ -236,7 +236,7 @@ class ChampionsModule extends CoreModule {
         if (!canDraft) {return}
 
         const {poses} = champion
-        const figures = poses.map(fig=>`${fig}`)
+        const figures = poses.map(fig=>parseInt(fig))
         const figuresExtrapolated = [...figures, ...figures]
 
         const attachMatches = () => {
@@ -247,8 +247,8 @@ class ChampionsModule extends CoreModule {
                 const $girl = $girlSelection.find(`[id_girl=${id_girl}]`)
 
                 if (poseMatching) {
-                    const rightPoseWrongPlace = figures.includes(figure)
-                    const rightPoseRightPlace = figuresExtrapolated[i] === figure
+                    const rightPoseWrongPlace = figures.includes(parseInt(figure))
+                    const rightPoseRightPlace = figuresExtrapolated[i] === parseInt(figure)
 
                     let $marker = $girl.find('.script-pose-match')
                     if (!$marker.length) {

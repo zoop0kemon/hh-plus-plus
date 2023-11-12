@@ -532,7 +532,7 @@ class LeagueInfoModule extends CoreModule {
                     current = usages_remaining
                     max = default_usages
                 } else {
-                    const normalisedDuration = duration === '1440' ? 86400 : duration
+                    const normalisedDuration = duration == 1440 ? 86400 : duration
                     current = expiration
                     max = normalisedDuration
                 }
