@@ -318,6 +318,7 @@ export const villainBreadcrumbs = {
     training: 'Dimensione d\'Allenamento',
     weresquidisland: 'Isola dei Calamari Mannari',
     haremtournament: 'Il Torneo dell\'Harem',
+    gemskingdomprovince: 'Provincia del Regno delle Gemme',
 }
 
 export const blessingSpreadsheetLink = {

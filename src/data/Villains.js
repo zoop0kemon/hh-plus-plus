@@ -227,14 +227,27 @@ export default {
             }]
         },
         {
+            key: 'gross',
             world: 18,
+            girls: {
+                1: ['572827174', '653889168', '547099506'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'fire',
+                amount: 25,
+            }]
+        },
+        {
+            world: 19,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'fire',
+                element: 'nature',
                 amount: 25,
             }]
         },

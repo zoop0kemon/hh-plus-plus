@@ -149,6 +149,7 @@ export const villain = {
     jacksoncrew: 'La tripulación de Jackson',
     pandorawitch: 'Pandora Bruja',
     werebunnypolice: 'Policía hombres-conejos',
+    gross: 'Bruto',
     fallback: 'Mondo {{world}} nemico',
     event: 'Evento',
 }
@@ -317,6 +318,7 @@ export const villainBreadcrumbs = {
     training: 'Training Dimension',
     weresquidisland: 'Isla WereSquid',
     haremtournament: 'El Torneo del Harem',
+    gemskingdomprovince: 'Provincia del Reino de las Gemas',
 }
 
 export const blessingSpreadsheetLink = {

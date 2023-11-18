@@ -155,6 +155,7 @@ export const villain = {
     sake: 'Sake',
     werebunnypolice: 'WereBunny Police',
     auga: 'Auga',
+    gross: 'Gross',
     edward: 'Edward',
     edernas: 'Edernas',
     maro: 'Maro',
@@ -203,6 +204,7 @@ export const villainBreadcrumbs = {
     training: 'Training Dimension',
     weresquidisland: 'WereSquid Island',
     haremtournament: 'The Harem Tournament',
+    gemskingdomprovince: 'Gems Kingdom Province',
 
     begincitycxh: 'Begin City',
     heroacademy: 'Hero Academy',

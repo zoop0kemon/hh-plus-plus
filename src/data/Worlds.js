@@ -17,6 +17,7 @@ export const HH = [
     'training',
     'weresquidisland',
     'haremtournament',
+    'gemskingdomprovince',
 ]
 
 export const GH = HH

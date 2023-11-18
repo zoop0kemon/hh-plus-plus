@@ -289,6 +289,7 @@ export const villainBreadcrumbs = {
     training: 'Trainingsdimension',
     weresquidisland: 'Wer-Tintenfisch-Insel',
     haremtournament: 'Das Haremturnier',
+    gemskingdomprovince: 'Provinz Edelstein-Königreich',
 }
 
 export const blessingSpreadsheetLink = {

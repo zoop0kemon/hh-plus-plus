@@ -308,6 +308,7 @@ export const villainBreadcrumbs = {
     training: 'La dimension d\'entraînement',
     weresquidisland: 'L\'île des Poulpes Garous',
     haremtournament: 'Le Tournoi de Harem',
+    gemskingdomprovince: 'Province des Gemmes',
 
     begincitycxh: 'Préludeville',
     heroacademy: 'Académie des Héros',
