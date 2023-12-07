@@ -1,3 +1,4 @@
+import Helpers from '../../common/Helpers'
 import STModule from '../STModule'
 import I18n from '../../i18n'
 
@@ -19,7 +20,7 @@ class MoveSkipButtonStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return true
+        return Helpers.isCurrentPage('battle') && !Helpers.isCurrentPage('pre-battle')
     }
 }
 
