@@ -113,7 +113,7 @@ class LeagueInfoCollector {
                     }
                 } else {
                     // is self
-                    playerScore = I18n.parseLocaleRoundedInt(player_league_points)
+                    playerScore = player_league_points
                 }
             })
 

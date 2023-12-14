@@ -35,7 +35,7 @@ class UpgradeQuickNavModule extends CoreModule {
             $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
             if (!filteredGirlIds || filteredGirlIds.length < 2) { return }
             const girlDictionary = Helpers.getGirlDictionary()
-            const currentGirlId = window.girl.id_girl
+            const currentGirlId = `${window.girl.id_girl}`
 
             const currentIndex = filteredGirlIds.indexOf(currentGirlId)
             if (currentIndex > -1) {

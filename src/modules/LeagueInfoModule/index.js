@@ -105,7 +105,6 @@ class LeagueInfoModule extends CoreModule {
             const {opponents_list} = window
             if (opponents_list && opponents_list.length) {
                 opponents_list.forEach((opponent) => {
-                    opponent.player_league_points = I18n.parseLocaleRoundedInt(opponent.player_league_points)
                     const {player: {team: {total_power}}} = opponent
                     opponent.team = total_power
                 })
@@ -133,7 +132,7 @@ class LeagueInfoModule extends CoreModule {
             let playerScore
             opponents_list.forEach(({match_history, player, place, player_league_points}) => {
                 const match_history_array = Object.values(match_history)[0]
-                const points = I18n.parseLocaleRoundedInt(player_league_points)
+                const points = player_league_points
 
                 levels.push(parseInt(player.level, 10))
 

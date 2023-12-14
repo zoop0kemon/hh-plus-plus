@@ -91,6 +91,7 @@ export const config = {
     sortDailyMissions_reverse: 'Reverse order',
     upgradeInfo: 'Upgrade page information',
     leagueQuickNav: 'League opponent quick navigation',
+    labyrinth: 'Labyrinth information'
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
@@ -227,6 +228,7 @@ export const villainBreadcrumbs = {
     fiskyfresno: 'Frisky in Fresno',
     milftown: 'Milftown',
     sinncity: 'Sinn City',
+    yeehaw: 'Yee Haw!'
 }
 
 export const market = {

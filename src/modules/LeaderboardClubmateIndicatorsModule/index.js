@@ -52,7 +52,7 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
 
         if (clubStatus && clubStatus.memberIds) {
             clubStatus.memberIds.forEach((id) => {
-                if (id === `${window.Hero.infos.id}`) {return}
+                if (id === window.Hero.infos.id) {return}
                 const $nickname = isLeagues ? $(`.nickname[id-member="${id}"]`) : $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector)
                 $nickname.append(`<div class="script-flair script-clubmate"><span class="globalClubs_mix_icn" tooltip="${this.label('clubmate')}"/></div>`)
             })

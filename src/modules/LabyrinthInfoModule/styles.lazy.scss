@@ -1,0 +1,57 @@
+.new_girl_tooltip {
+    &.pvp-v4 .stats-wrapper {
+        .right-section {
+            width: 50%;
+            margin-left: 40%;
+            margin-top: -1.5rem;
+        }
+
+        .caracs {
+            height: 8rem;
+        }
+    }
+
+    .caracs {
+        margin-top: 0px;
+    }
+}
+
+.page-labyrinth-pre-battle section .labyrinth-battle .player_team_block.battle_hero .team-member-container {
+    margin-bottom: 1.4rem;
+
+    .team-order-number {
+        position: absolute;
+        width: 1.5rem;
+        height: 1.5rem;
+        top: -0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+        background: linear-gradient(180deg,#2694c8 0,#006697 100%);
+        border-radius: 1.5rem;
+        border: 2px solid #fff;
+        z-index: 2;
+    }
+
+    .ego-bar-container {
+        bottom: -1.2rem;
+    }
+}
+
+.team-hexagon-container .team-hexagon .team-member-container {
+    .girl-icons {
+        position: absolute;
+        bottom: -3px;
+        display: flex;
+        gap: 0.25rem;
+
+        [carac]::before {
+            display: block;
+            width: 15px;
+            height: 15px;
+        }
+
+        .icon {
+            position: unset;
+        }
+    }
+}

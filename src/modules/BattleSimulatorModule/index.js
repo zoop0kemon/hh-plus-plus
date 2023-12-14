@@ -34,7 +34,7 @@ class BattleSimulatorModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['pre-battle', 'tower-of-fame', 'season-arena'].some(page=>Helpers.isCurrentPage(page))
+        return ['pre-battle', 'tower-of-fame', 'season-arena'].some(page=>Helpers.isCurrentPage(page)) && !Helpers.isCurrentPage('labyrinth') 
     }
 
     run ({logging}) {
