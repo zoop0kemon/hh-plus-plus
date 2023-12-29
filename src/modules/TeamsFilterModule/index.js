@@ -9,6 +9,11 @@ import Sheet from '../../common/Sheet'
 import Snippets from '../../common/Snippets'
 
 const MODULE_KEY = 'teamsFilter'
+const CLASS_NAMES = {
+    1: 'hardcore',
+    2: 'charm',
+    3: 'knowhow'
+}
 
 class TeamsFilterModule extends CoreModule {
     constructor () {
@@ -22,7 +27,7 @@ class TeamsFilterModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['edit-team', 'add-boss-bang-team'].some(page => Helpers.isCurrentPage(page))
+        return ['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team', 'labyrinth-pool-select', 'labyrinth.html'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -32,32 +37,49 @@ class TeamsFilterModule extends CoreModule {
 
         Helpers.defer(() => {
             this.injectCSSVars()
-            this.updateFilterGirlData()
-            $('h3.panel-title').before('<button id="arena_filter" class="blue_button_L"><span class="filter_mix_icn"></span></button>')
-            $('h3.panel-title').after(this.createFilterBox())
 
-            $('#filter_element').selectric({
-                optionsItemBuilder: (itemData) => {
-                    const {element, text} = itemData
-                    return element.val().length && element.val() !== 'all' ? `<span class="element-icon ${element.val()}_element_icn"></span>${text}` : text
-                },
-                maxHeight: 320
-            })
-            $('#filter_class').selectric({
-                optionsItemBuilder: (itemData) => {
-                    const {element, text} = itemData
-                    return element.val().length && element.val() !== 'all' ? `<span carac="${element.val()}"></span>${text}` : text
+            const isLabyrinth = Helpers.isCurrentPage('labyrinth.html')
+            const selector = Helpers.isCurrentPage('team') ? 'h3.panel-title' : (isLabyrinth ? '.squad-container' : '#filter_girls')
+            Helpers.doWhenSelectorAvailable(selector, () => {
+                $(selector).before('<button id="arena_filter" class="blue_button_L"><span class="filter_mix_icn"></span></button>')
+                if (!isLabyrinth) {
+                    $(selector).after(this.createFilterBox())
+                } else {
+                    $(selector).before(this.createFilterBox())
+                }
+
+                $('#filter_element').selectric({
+                    optionsItemBuilder: (itemData) => {
+                        const {element, text} = itemData
+                        return element.val().length && element.val() !== 'all' ? `<span class="element-icon ${element.val()}_element_icn"></span>${text}` : text
+                    },
+                    maxHeight: 320
+                })
+                $('#filter_class').selectric({
+                    optionsItemBuilder: (itemData) => {
+                        const {element, text} = itemData
+                        return element.val().length && element.val() !== 'all' ? `<span carac="${element.val()}"></span>${text}` : text
+                    }
+                })
+                $('#filter_rarity').selectric({
+                    optionsItemBuilder: (itemData) => {
+                        const {element, text} = itemData
+                        return element.val().length && element.val() !== 'all' ? `<span class="${element.val()}-text">${text}</span>` : text
+                    }
+                })
+                const otherFields = ['aff_category', 'aff_lvl', 'blessed_attributes', 'level_cap']
+                otherFields.forEach(field => $(`#filter_${field}`).selectric())
+    
+                this.updateFilterGirlData()
+                this.createFilterEvents()
+                if (isLabyrinth) {
+                    const observer = new MutationObserver(() => {
+                        this.updateFilterGirlData()
+                        this.filterGirls()
+                    })
+                    observer.observe($(selector)[0], {childList: true})
                 }
             })
-            $('#filter_rarity').selectric({
-                optionsItemBuilder: (itemData) => {
-                    const {element, text} = itemData
-                    return element.val().length && element.val() !== 'all' ? `<span class="${element.val()}-text">${text}</span>` : text
-                }
-            })
-            const otherFields = ['aff_category', 'aff_lvl', 'blessed_attributes', 'level_cap']
-            otherFields.forEach(field => $(`#filter_${field}`).selectric())
-            this.createFilterEvents()
         })
 
         this.hasRun = true
@@ -68,11 +90,11 @@ class TeamsFilterModule extends CoreModule {
     }
 
     updateFilterGirlData() {
-        this.arenaGirls = $('.harem-panel div.harem-girl-container')
+        const isLabyrinth = Helpers.isCurrentPage('labyrinth.html')
+        this.arenaGirls = Helpers.isCurrentPage('team') ?  $('.harem-panel div.harem-girl-container') : ($(`${isLabyrinth ? '.squad-container' : '.girl-grid'} .girl-container`))
 
         this.girlsData = $.map(this.arenaGirls, function(girl) {
-            // CxH still uses 'new-girl-tooltip-data' and is broken in the UI
-            return JSON.parse($(girl).find('.girl_img').attr('data-new-girl-tooltip') || $(girl).find('.girl_img').attr('new-girl-tooltip-data'))
+            return JSON.parse($(girl).find('.girl_img, .girl-image').attr('data-new-girl-tooltip'))
         })
     }
 
@@ -106,10 +128,10 @@ class TeamsFilterModule extends CoreModule {
         let filterAffCategory = $('#filter_aff_category').get(0).value
         let filterAffLvl = $('#filter_aff_lvl').get(0).value
         let filterLevelCap = $('#filter_level_cap').get(0).value
-        const haremGirls = window.availableGirls
+        const haremGirls = window.availableGirls || window.owned_girls || girl_squad.map(g => g.member_girl)
 
         let girlsFiltered = $.map(this.girlsData, (girl, index) => {
-            let matchesClass = (girl.class === filterClass) || (filterClass === 'all')
+            let matchesClass = (`${girl.class}` === filterClass) || (filterClass === 'all')
             const {element_data} = girl
             let matchesElement = (element_data.type === filterElement) || filterElement === 'all'
             let matchesRarity = (girl.rarity === filterRarity) || (filterRarity === 'all')
@@ -133,13 +155,14 @@ class TeamsFilterModule extends CoreModule {
             const affectionLvl = `${$grade.filter('g:not(.grey):not(.green)').length}`
             let matchesAffCategory = (affectionCategory === filterAffCategory) || (filterAffCategory === 'all')
             let matchesAffLvl = (affectionLvl === filterAffLvl) || (filterAffLvl === 'all')
-            let matchesLevelCap = (filterLevelCap === 'all') || (filterLevelCap === 'capped' && haremGirls[index].Xp.maxed) || (filterLevelCap === 'uncapped' && !haremGirls[index].Xp.maxed)
+            const isCapped = haremGirls[index].level === haremGirls[index].level_cap
+            let matchesLevelCap = (filterLevelCap === 'all') || (filterLevelCap === 'capped' && isCapped) || (filterLevelCap === 'uncapped' && !isCapped)
 
             return (matchesClass && matchesElement && matchesRarity && matchesName && matchesBlessedAttributes && matchesAffCategory && matchesAffLvl && matchesLevelCap) ? index : null
         })
 
         $.each(this.arenaGirls, function(index, girlElem) {
-            $(girlElem).css('display', $.inArray(index, girlsFiltered) > -1 ? 'flex' : 'none')
+            $.inArray(index, girlsFiltered) > -1 ? $(girlElem).show() : $(girlElem).hide()
         })
 
         //update scroll display
@@ -151,7 +174,7 @@ class TeamsFilterModule extends CoreModule {
         const affectionGradeOption = grade => ({ label: this.label(`grade${grade}`), value: grade })
 
         totalHTML += Snippets.textInput({id: 'filter_name', label: this.label('searchedName'), placeholder: this.label('girlName'), value: ''})
-        totalHTML += Snippets.selectInput({id: 'filter_class', label: this.label('searchedClass'), options: [1,2,3].map(option => ({label: GT.caracs[option], value: option})), className: 'script-filter-carac'})
+        totalHTML += Snippets.selectInput({id: 'filter_class', label: this.label('searchedClass'), options: [1,2,3].map(option => ({label: !Helpers.isCurrentPage('labyrinth') ? GT.caracs[option] : GT.design[`class_${CLASS_NAMES[option]}`], value: option})), className: 'script-filter-carac'})
         totalHTML += Snippets.selectInput({id: 'filter_element', label: this.label('searchedElement'), options: ['fire', 'nature', 'stone', 'sun', 'water', 'darkness', 'light', 'psychic'].map(option => ({label: GT.design[`${option}_flavor_element`], value: option})), className: 'script-filter-element'})
         totalHTML += Snippets.selectInput({id: 'filter_rarity', label: this.label('searchedRarity'), options: ['starting', 'common', 'rare', 'epic', 'legendary', 'mythic'].map(option => ({label: GT.design[`girls_rarity_${option}`], value: option})), className: 'script-filter-rarity rarity-styling'})
         totalHTML += Snippets.selectInput({id: 'filter_aff_category', label: this.label('searchedAffCategory'), options: ['1','3','5','6'].map(affectionGradeOption), className: 'script-filter-aff-category'})

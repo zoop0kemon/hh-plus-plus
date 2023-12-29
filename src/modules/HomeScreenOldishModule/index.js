@@ -46,7 +46,7 @@ class HomeScreenOldishModule extends CoreModule {
         if (!$clubs.length) {
             $clubs = $('[rel=clubs]')
             if (!$clubs.length) {
-                $clubs = $('.feature-locked:has([rel=club])')
+                $clubs = $('.feature-locked[feature-name=clubs]')
             }
         }
         $clubs.addClass('position-clubs')
@@ -54,6 +54,9 @@ class HomeScreenOldishModule extends CoreModule {
         let $leaderboard = $('.quest-container:has([rel=leaderboard])')
         if (!$leaderboard.length) {
             $leaderboard = $('[rel=leaderboard]')
+            if (!$leaderboard.length) {
+                $leaderboard = $('.feature-locked[feature-name=leagues]')
+            }
         }
         $leaderboard.addClass('position-leaderboard')
     }

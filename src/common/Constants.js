@@ -9,7 +9,7 @@ export const colors = {
     GH: {
         homeDark: 'rgba(32,3,7,.9)',
         homeBorder: '#69daff',
-        panelBorderGradient: 'linear-gradient(180deg,#6a8cff,#8966ff)',
+        panelBorderGradient: 'linear-gradient(180deg, #6a8cff, #8966ff)',
         panelBackground: 'linear-gradient(to top,#84a 0,#2a2435 99%,#2a2435 100%)',
         panelInset: 'inset 0 0 40px 15px rgb(131 55 245 / 60%)'
     },
@@ -32,6 +32,20 @@ export const colors = {
         homeBorder: '#ffb827',
         panelBorderGradient: 'linear-gradient(180deg, #ffa23e, #c41b53)',
         panelBackground: 'linear-gradient(to top,#572332 0,#572332 1%,#2c1e1c 100%)',
+        panelInset: 'inset 0 0 40px 15px #662034'
+    },
+    TPSH: {
+        homeDark: 'rgba(32,3,7,.9)',
+        homeBorder: '#F80',
+        panelBorderGradient: 'linear-gradient(180deg, #ffa23e, #c41b53)',
+        panelBackground: 'linear-gradient(to top,#c23e3f 0,#c23e3f 1%,#3d0815 100%)',
+        panelInset: 'inset 0 0 40px 15px #662034'
+    },
+    GPSH: {
+        homeDark: 'rgba(32,3,7,.9)',
+        homeBorder: '#F80',
+        panelBorderGradient: 'linear-gradient(180deg, #ffa23e, #c41b53)',
+        panelBackground: 'linear-gradient(to top,#ff66d1 0,#ff66d1 1%,#520a25 100%)',
         panelInset: 'inset 0 0 40px 15px #662034'
     },
 }
@@ -76,4 +90,5 @@ export const lsKeys = {
     PATH_TIME_POG:              lsKey('PathTimePoG'),
     HAREM_FILTER_IDS:           lsKey('HaremFilterIDs'),
     WAIFU_INFO:                 lsKey('WaifuInfo'),
+    LABYRINTH_SPEEDS:           lsKey('LabyrinthSpeeds'),
 }

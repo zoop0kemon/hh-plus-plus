@@ -16,42 +16,139 @@
     }
 }
 
-.page-labyrinth-pre-battle section .labyrinth-battle .player_team_block.battle_hero .team-member-container {
-    margin-bottom: 1.4rem;
+.team-hexagon-container .team-hexagon {
+    .page-edit-labyrinth-team .player_team_block & .team-hexagon-col {
+        row-gap: 0.4rem;
+    }
 
+    .team-member-container {
+        .page-labyrinth-pre-battle section .labyrinth-battle .player_team_block.battle_hero & {
+            margin-bottom: 1.4rem;
+
+            .ego-bar-container {
+                bottom: -1.2rem;
+            }
+        }
+
+        .girl-icons {
+            position: absolute;
+            bottom: -3px;
+            display: flex;
+            gap: 0.25rem;
+
+            [carac]::before {
+                display: block;
+                width: 15px;
+                height: 15px;
+            }
+
+            .icon {
+                position: unset;
+            }
+        }
+    }
+}
+
+.page-labyrinth-pre-battle,
+.page-edit-labyrinth-team {
     .team-order-number {
         position: absolute;
         width: 1.5rem;
         height: 1.5rem;
-        top: -0.5rem;
         font-size: 0.8rem;
         text-align: center;
-        background: linear-gradient(180deg,#2694c8 0,#006697 100%);
+        background: linear-gradient(90deg,#333750 0,#1e9fdf 100%);
         border-radius: 1.5rem;
         border: 2px solid #fff;
         z-index: 2;
     }
 
-    .ego-bar-container {
-        bottom: -1.2rem;
+    .labyrinth-battle,
+    .harem-panel-girls {
+        .team-order-number {
+            top: -0.5rem;
+        }
     }
 }
 
-.team-hexagon-container .team-hexagon .team-member-container {
-    .girl-icons {
-        position: absolute;
-        bottom: -3px;
-        display: flex;
-        gap: 0.25rem;
+.harem-panel .harem-panel-girls .harem-girl-container {
+    .icon {
+        top: unset;
+        left: 0px;
 
-        [carac]::before {
-            display: block;
-            width: 15px;
-            height: 15px;
+        &::before {
+            width: 24px;
+            height: 24px;
         }
+    }
+
+    .girl-element {
+        top: unset;
+    }
+}
+
+.labyrinth-pool-select-panel .labyrinth-pool-select-container .girl-grid,
+.labyrinth-panel .labyrinth-container .squad-container .girl-grid,
+.labyrinth-panel .labyrinth-container .rejuvenation_stones-container .girl-grid {
+    grid-column-gap: 0.5rem;
+
+    .girl-container {
+        overflow: visible!important;
 
         .icon {
-            position: unset;
+            position: relative;
+            bottom: 48px;
+            display: inline-block;
+
+            &.caracs {
+                right: 15px;
+
+                &[carac]::before {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+            &.element {
+                left: 15px;
+
+                & img {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
         }
+    }
+}
+
+.labyrinth-panel .labyrinth-container .squad-container .girl-grid,
+.labyrinth-panel .labyrinth-container .rejuvenation_stones-container .girl-grid {
+        grid-column-gap: unset;
+
+        .girl-container {
+            margin-bottom: 0.25rem;
+            height: 8rem;
+
+            .girl-image {
+                width: 4.5rem;
+                height: 4.5rem;
+            }
+
+            .girl-power-container {
+                margin-top: 0.25rem;
+
+                .girl-power-icon {
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    margin: 0 0 0 -0.2rem;
+                }
+            }
+
+            .ego-bar-container {
+                margin-top: 0;
+            }
+
+            .icon {
+                bottom: 66px;
+            }
     }
 }

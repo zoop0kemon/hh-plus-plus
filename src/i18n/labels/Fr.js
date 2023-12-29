@@ -3,33 +3,59 @@ import Helpers from '../../common/Helpers'
 const gameConfigs = {
     HH: {
         fille: 'fille',
+        Fille: 'Fille',
+        es: 'es',
         delafille: 'de la fille',
         fleurs: 'fleurs',
         waifu: 'waifu'
     },
     GH: {
         fille: 'mec',
+        Fille: 'Mec',
+        es: 's',
         delafille: 'du mec',
         fleurs: 'sucettes',
         waifu: 'boyfriend'
     },
     CxH: {
         fille: 'fille',
+        Fille: 'Fille',
+        es: 'es',
         delafille: 'de la fille',
         fleurs: 'bijoux',
         waifu: 'waifu'
     },
     PSH: {
         fille: 'fille',
+        Fille: 'Fille',
+        es: 'es',
         delafille: 'de la fille',
         fleurs: 'bières',
         waifu: 'waifu'
     },
     HoH: {
         fille: 'fille',
+        Fille: 'Fille',
+        es: 'es',
         delafille: 'de la fille',
         fleurs: 'fleurs',
         waifu: 'waifu'
+    },
+    TPSH: {
+        fille: 'fille',
+        Fille: 'Fille',
+        es: 'es',
+        delafille: 'de la fille',
+        fleurs: 'bières',
+        waifu: 'waifu'
+    },
+    GPSH: {
+        fille: 'mec',
+        Fille: 'Mec',
+        es: 's',
+        delafille: 'du mec',
+        fleurs: 'bières',
+        waifu: 'boyfriend'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -85,7 +111,8 @@ export const config = {
     sortDailyMissions: 'Trier les missions par durée',
     sortDailyMissions_reverse: 'Ordre inverse',
     upgradeInfo: 'Infos sur la page d\'amélioration',
-    leagueQuickNav: 'Navigation rapide entre adversaires de ligue'
+    leagueQuickNav: 'Navigation rapide entre adversaires de ligue',
+    labyrinth: 'Informations du Labyrinthe',
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',
@@ -139,7 +166,6 @@ export const villain = {
     pandorawitch: 'Sorcière Pandora',
     werebunnypolice: 'Police des Lapines-Garous',
     asaakira: 'Directrice Asa Akira',
-    yeehaw: 'Yi Haa !',
     fallback: 'Monde {{world}} troll',
 }
 
@@ -224,7 +250,7 @@ export const simFight = {
 
 export const teamsFilter = {
     searchedName: 'Nom',
-    girlName: `Nom ${Helpers.isGH() ? 'du mec' : 'de la fille'}`,
+    girlName: `Nom ${gameConfig.delafille}`,
     searchedClass: 'Classe',
     searchedElement: 'Élément',
     searchedRarity: 'Rareté',
@@ -242,8 +268,8 @@ export const teamsFilter = {
     grade5: '5 étoiles',
     grade6: '6 étoiles',
     searchedBlessedAttributes: 'Bénédictions',
-    blessedAttributes: Helpers.isGH() ? 'Mecs bénis' : 'Filles bénies',
-    nonBlessedAttributes: Helpers.isGH() ? 'Mecs non bénis' : 'Filles non bénies',
+    blessedAttributes: `${gameConfig.Fille}s béni${gameConfig.es}`,
+    nonBlessedAttributes: `${gameConfig.Fille}s non béni${gameConfig.es}`,
 }
 
 export const champions = {
@@ -279,7 +305,7 @@ export const seasonStats = {
 }
 
 export const pachinkoNames = {
-    availableGirls: `${Helpers.isGH() ? 'Mecs' : 'Filles'} disponibles: `,
+    availableGirls: `${gameConfig.Fille}s disponibles: `,
     poolGirls: 'Pool actuel: ',
 }
 
@@ -330,6 +356,7 @@ export const villainBreadcrumbs = {
     suckramento: 'Bienvenue à Fiakramento',
     fiskyfresno: 'Des folies à Fresno',
     milftown: 'Cité MILF',
+    yeehaw: 'Yi Haa !',
 }
 
 export const blessingSpreadsheetLink = {

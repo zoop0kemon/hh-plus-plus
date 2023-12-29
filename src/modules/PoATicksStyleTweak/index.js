@@ -12,6 +12,8 @@ const DARK_COLOR = {
     GH: '#1b0d37',
     CxH: '#0f0b1d',
     PSH: '#3d072b',
+    TPSH: '#3d072b',
+    GPSH: '#3d072b'
 }
 
 class PoATicksStyleTweak extends STModule {

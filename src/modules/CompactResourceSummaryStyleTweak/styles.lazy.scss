@@ -41,8 +41,13 @@
         .hero-orbs-container > div .hero-orb,
         .hero-progressions-container > div .hero-progression {
             height: 2.5rem;
-            width: 6rem;
+            width: auto;
             padding: 0;
+        }
+
+        .hero-gems-container > div .hero-gem,
+        .hero-orbs-container > div .hero-orb {
+            min-width: 6rem;
         }
 
         .hero-energies-container > div.hero-energies .hero-energy {

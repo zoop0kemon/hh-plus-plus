@@ -56,3 +56,25 @@ export const PSH = [
     '',
     'yeehaw',
 ]
+
+export const TPSH = [
+    '',
+    'begincity',
+    'bigdville',
+    'dreamtown',
+    '',
+    'cockifornia',
+    'corporatecock',
+    'cumcam',
+    'campcock',
+]
+
+export const GPSH = [
+    '',
+    'tropicalbeginnings',
+    'spotlight',
+    '',
+    '',
+    '',
+    'boysarebad',
+]

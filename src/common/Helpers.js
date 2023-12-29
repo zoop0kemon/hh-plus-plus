@@ -6,6 +6,8 @@ let isGH
 let isCxH
 let isPSH
 let isHoH
+let isTPSH
+let isGPSH
 let isNutakuKobans
 let cdnHost
 let girlDictionary
@@ -36,7 +38,7 @@ class Helpers {
 
     static isHH() {
         if (isHH === undefined) {
-            isHH = !(Helpers.isGH() || Helpers.isCxH() || Helpers.isPSH() || Helpers.isHoH())
+            isHH = !(Helpers.isGH() || Helpers.isCxH() || Helpers.isPSH() || Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH())
         }
         return isHH
     }
@@ -77,6 +79,24 @@ class Helpers {
         }
         return isHoH
     }
+    static isTPSH() {
+        if (isTPSH === undefined) {
+            isTPSH = [
+                'www.transpornstarharem.com',
+                'nutaku.transpornstarharem.com'
+            ].includes(Helpers.getHost())
+        }
+        return isTPSH
+    }
+    static isGPSH() {
+        if (isGPSH === undefined) {
+            isGPSH = [
+                'www.gaypornstarharem.com',
+                'nutaku.gaypornstarharem.com'
+            ].includes(Helpers.getHost())
+        }
+        return isGPSH
+    }
     static getGameKey () {
         if (Helpers.isHH()) {
             return 'HH'
@@ -92,6 +112,12 @@ class Helpers {
         }
         if (Helpers.isHoH()) {
             return 'HoH'
+        }
+        if (Helpers.isTPSH()) {
+            return 'TPSH'
+        }
+        if (Helpers.isGPSH()) {
+            return 'GPSH'
         }
     }
 

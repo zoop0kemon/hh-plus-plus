@@ -120,7 +120,7 @@ class PopNavSortModule extends CoreModule {
         const {status, girls} = currentPoP
         let girlsToAnnotate = girls
         if (status !== 'can_start') {
-            girlsToAnnotate = girls.filter(({assigned}) => assigned === currentPoPId)
+            girlsToAnnotate = girls.filter(({assigned}) => `${assigned}` === currentPoPId)
         }
 
         const $girlsContainer = $('.pop_right_part .grid_view')

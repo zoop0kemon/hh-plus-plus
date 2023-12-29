@@ -5,6 +5,7 @@ import Helpers from '../../common/Helpers'
 import { lsKeys } from '../../common/Constants'
 import I18n from '../../i18n'
 import pantheonIcon from '../../assets/pantheon.svg'
+import labyrinthIcon from '../../assets/labyrinth.svg'
 
 import styles from './styles.lazy.scss'
 import AvailableFeatures from '../../common/AvailableFeatures'
@@ -76,6 +77,7 @@ class HomeScreenModule extends CoreModule {
 
     injectCSSVars() {
         Sheet.registerVar('pantheon-icon', `url("${pantheonIcon}")`)
+        Sheet.registerVar('labyrinth-icon', `url("${labyrinthIcon}")`)
         Sheet.registerVar('champions-icon', `url("${Helpers.getCDNHost()}/design/menu/ic_champions.svg")`)
     }
 
@@ -132,7 +134,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     addShortcuts() {
-        const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${href}" hh_title="${title}"><div class="${iconClass}"></div></a>`
+        const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${href}" tooltip hh_title="${title}"><div class="${iconClass}"></div></a>`
 
         // Club champ
         if (Helpers.isInClub()) {
@@ -144,18 +146,18 @@ class HomeScreenModule extends CoreModule {
             $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
         }
 
-        const { champs, pantheon } = AvailableFeatures
+        const { champs, pantheon, labyrinth } = AvailableFeatures
 
-        if (champs || pantheon) {
+        if (champs || pantheon || labyrinth) {
             const $godShortcuts = $('<div class="script-home-shortcut-container"></div>')
-            // Champs
             if (champs) {
                 $godShortcuts.append(shortcutHtml('champs', '/champions-map.html', GT.design.Champions, 'champions_flat_icn'))
             }
-
-            // Pantheon
             if (pantheon) {
                 $godShortcuts.append(shortcutHtml('pantheon', '/pantheon.html', GT.design.pantheon, 'pantheon_flat_icn'))
+            }
+            if (labyrinth) {
+                $godShortcuts.append(shortcutHtml('labyrinth', '/labyrinth-entrance.html', GT.design.labyrinth, 'labyrinth_flat_icn'))
             }
 
             const $wrapper = $('<div class="quest-container"></div>')

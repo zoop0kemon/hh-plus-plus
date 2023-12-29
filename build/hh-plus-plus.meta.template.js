@@ -8,6 +8,8 @@
 // @match           https://*.comixharem.com/*
 // @match           https://*.hornyheroes.com/*
 // @match           https://*.pornstarharem.com/*
+// @match           https://*.transpornstarharem.com/*
+// @match           https://*.gaypornstarharem.com/*
 // @run-at          document-body
 // @namespace       https://github.com/zoop0kemon/hh-plus-plus
 // @updateURL       https://raw.githubusercontent.com/zoop0kemon/hh-plus-plus/main/dist/hh-plus-plus.user.js

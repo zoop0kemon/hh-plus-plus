@@ -8,16 +8,13 @@ export default {
                 2: ['7270263'],
                 3: ['979916751']
             },
-            gems: [
-                {
-                    element: 'fire',
-                    amount: 15
-                },
-                {
-                    element: 'sun',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'fire',
+                amount: 15
+            }, {
+                element: 'sun',
+                amount: 15
+            }]
         },
         {
             key: 'ninjaspy',
@@ -450,8 +447,7 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 15
-            },
-            {
+            }, {
                 element: 'sun',
                 amount: 15
             }]
@@ -591,16 +587,13 @@ export default {
                 2: [],
                 3: []
             },
-            gems: [
-                {
-                    element: 'fire',
-                    amount: 15
-                },
-                {
-                    element: 'sun',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'fire',
+                amount: 15
+            }, {
+                element: 'sun',
+                amount: 15
+            }]
         },
         {
             key: 'sammyjayne',
@@ -610,16 +603,13 @@ export default {
                 2: [],
                 3: []
             },
-            gems: [
-                {
-                    element: 'darkness',
-                    amount: 15
-                },
-                {
-                    element: 'light',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'darkness',
+                amount: 15
+            }, {
+                element: 'light',
+                amount: 15
+            }]
         },
         {
             key: 'ivywinters',
@@ -629,16 +619,13 @@ export default {
                 2: [],
                 3: []
             },
-            gems: [
-                {
-                    element: 'psychic',
-                    amount: 15
-                },
-                {
-                    element: 'water',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'psychic',
+                amount: 15
+            }, {
+                element: 'water',
+                amount: 15
+            }]
         },
         {
             key: 'sophiajade',
@@ -737,7 +724,7 @@ export default {
             }]
         },
         {
-            key: 'yeehaw',
+            key: 'jasminejae',
             opponent: 12,
             world: 16,
             girls: {
@@ -773,16 +760,13 @@ export default {
                 2: [],
                 3: []
             },
-            gems: [
-                {
-                    element: 'fire',
-                    amount: 15
-                },
-                {
-                    element: 'sun',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'fire',
+                amount: 15
+            }, {
+                element: 'sun',
+                amount: 15
+            }]
         },
         {
             key: 'ninjaspy',
@@ -832,5 +816,165 @@ export default {
                 amount: 15,
             }]
         },
+    ],
+    TPSH: [
+        {
+            key: 'arieldemure',
+            world: 2,
+            girls: {
+                1: ['171883542', '771348244', '229180984'],
+                2: [],
+                3: []
+            },
+            gems: [
+                {
+                    element: 'fire',
+                    amount: 15
+                },
+                {
+                    element: 'sun',
+                    amount: 15
+                }
+            ]
+        },
+        {
+            key: 'emmarose',
+            world: 3,
+            girls: {
+                1: ['910924260', '484962893', '879574564'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 15
+            }, {
+                element: 'light',
+                amount: 15
+            }]
+        },
+        {
+            key: 'nataliestone',
+            opponent: 3,
+            world: 5,
+            girls: {
+                1: ['911144911', '667194919', '334144727'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'nature',
+                amount: 15,
+            }, {
+                element: 'stone',
+                amount: 15,
+            }]
+        },
+        {
+            key: 'janieblade',
+            opponent: 4,
+            world: 6,
+            girls: {
+                1: ['945710078', '708191289', '473470854'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 20,
+            }]
+        },
+        {
+            key: 'nikkinort',
+            opponent: 5,
+            world: 7,
+            girls: {
+                1: ['526732951', '521022556', '104549634'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'light',
+                amount: 20,
+            }]
+        },
+        {
+            key: 'mistressvenom',
+            opponent: 6,
+            world: 8,
+            girls: {
+                1: ['317800067', '920682672', '542090972'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 20,
+            }]
+        },
+        {
+            opponent: 7,
+            world: 9,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 20,
+            }]
+        }
+    ],
+    GPSH: [
+        {
+            key: 'tristanhunter',
+            world: 2,
+            girls: {
+                1: ['780402171', '374763633', '485499759'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 15
+            }, {
+                element: 'light',
+                amount: 15
+            }]
+        },
+        {
+            key: 'jimmydurano',
+            opponent: 2,
+            world: 6,
+            girls: {
+                1: ['290465722', '524315573', '970767946'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 15
+            }, {
+                element: 'water',
+                amount: 15
+            }]
+        },
+        {
+            opponent: 3,
+            world: 7,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'nature',
+                amount: 15,
+            }, {
+                element: 'stone',
+                amount: 15
+            }],
+        }
     ]
 }

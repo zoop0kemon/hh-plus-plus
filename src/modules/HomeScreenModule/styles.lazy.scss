@@ -118,6 +118,10 @@
     background-image: var(--pantheon-icon);
 }
 
+.labyrinth_flat_icn {
+    background-image: var(--labyrinth-icon);
+}
+
 .script-home-shortcut-container {
     display: flex;
     height: 30px;
@@ -146,7 +150,8 @@
 
     .clubChampions_flat_icn,
     .champions_flat_icn,
-    .pantheon_flat_icn {
+    .pantheon_flat_icn,
+    .labyrinth_flat_icn {
         height: 16px;
         width: 16px;
         background-size: contain;

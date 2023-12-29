@@ -5,6 +5,14 @@
         display: none;
     }
 
+    #events
+        .nc-panel-container
+        .nc-panel-body
+        #nc-poa-tape-rewards
+        &.nc-poa-reward-pair {
+        display: none;
+    }
+
     #dp-content 
         .left-container
         .tiers-container

@@ -91,13 +91,15 @@ class BattleSimulatorModule extends CoreModule {
                             $(document).on('league:table-sorted', () => {
                                 updatePlayerRow()
                             })
-    
-                            this.runManagedSim()                            
+
+                            this.runManagedSim()
                         }
                     }
                 })
             } else if (Helpers.isCurrentPage('leagues-pre-battle')) {
                 this.simManagers = [new League(false)]
+
+                this.runManagedSim()
             } else if (Helpers.isCurrentPage('season-arena')) {
                 this.preSim = true
                 this.simManagers = [
@@ -105,12 +107,12 @@ class BattleSimulatorModule extends CoreModule {
                     new Season(2),
                     new Season(3),
                 ]
+
+                this.runManagedSim()
             } else if (Helpers.isCurrentPage('pre-battle')) {
                 this.preSim = true
                 this.simManagers = [new BDSMPvE({label: this.label})]
-            }
 
-            if (this.simManagers.length) {
                 this.runManagedSim()
             }
         })

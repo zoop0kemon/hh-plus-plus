@@ -243,7 +243,7 @@ class HideClaimedRewardsModule extends CoreModule {
         if(!$('a.active[href*="?tab=path_event_"]').length){return}
 
         Helpers.doWhenSelectorAvailable('.nc-poa-reward-pair', () => {
-            const {bonus_rewards_unlocked} = window
+            const {bonus_rewards_unlocked, next_tier} = window
 
             const assertHidden = () => {
                 $('.nc-poa-reward-pair').each((i, el) => {
@@ -262,6 +262,9 @@ class HideClaimedRewardsModule extends CoreModule {
             }
             assertHidden()
             fixScroll()
+            $('.scroll-area').stop(true).animate({
+                scrollLeft: Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6)
+            }, 100)
             const toggle = () => {
                 if ($('.script-hide-claimed').length) {
                     assertShown()

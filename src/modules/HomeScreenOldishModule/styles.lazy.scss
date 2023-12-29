@@ -51,7 +51,8 @@
             bottom: 81px;
             right: 31px;
         }
-        [rel="pachinko"] {
+        [rel="pachinko"],
+        .feature-locked[feature-name="pachinko"] {
             position: absolute;
             width: 8.125rem;
             top: 67px;

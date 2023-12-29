@@ -4,27 +4,58 @@ const gameConfigs = {
     HH: {
         девушках: 'девушках',
         девушек: 'девушек',
+        Девушек: 'Девушек',
+        девушки: 'девушки',
+        девушками: 'девушками',
         цветов: 'цветов',
     },
     GH: {
         девушках: 'парнях',
         девушек: 'парней',
+        Девушек: 'Парней',
+        девушки: 'парня',
+        девушками: 'парнями',
         цветов: 'сосалок'
     },
     CxH: {
         девушках: 'девушках',
         девушек: 'девушек',
+        Девушек: 'Девушек',
+        девушки: 'девушки',
+        девушками: 'девушками',
         цветов: 'драгоценностей'
     },
     PSH: {
         девушках: 'девушках',
         девушек: 'девушек',
+        Девушек: 'Девушек',
+        девушки: 'девушки',
+        девушками: 'девушками',
         цветов: 'напитков'
     },
     HoH: {
         девушках: 'девушках',
         девушек: 'девушек',
+        Девушек: 'Девушек',
+        девушки: 'девушки',
+        девушками: 'девушками',
         цветов: 'цветов'
+    },
+    TPSH: {
+        девушках: 'девушках',
+        девушек: 'девушек',
+        Девушек: 'Девушек',
+        девушки: 'девушки',
+        девушками: 'девушками',
+        цветов: 'напитков'
+    },
+    GPSH: {
+        девушках: 'парнях',
+        девушек: 'парней',
+        Девушек: 'Парней',
+        девушки: 'парня',
+        девушками: 'парнями',
+        цветов: 'напитков'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -36,7 +67,7 @@ export const common = {
 export const config = {
     refresh: 'Обновлять главную страницу',
     villain: 'Меню выбора злодея',
-    villain_tiers: `Показывать стадии с ${Helpers.isGH() ? 'парнями' : 'девушками'}`,
+    villain_tiers: `Показывать стадии с ${gameConfig.девушками}`,
     market: 'Информация о рынке',
     marketEquipsFilter: 'Фильтр снаряжения на рынке',
     harem: 'Информация о гареме',
@@ -59,7 +90,7 @@ export const config = {
     battleEndstate: 'Показывать финальные значения при пропуске боя',
     gemStock: 'Показывать запас камней в Гареме/Рынке',
     staticBackground: 'Остановить переключение фона во время Оргий',
-    rewardShards: `Показывать текущее притяжение на ${Helpers.isGH() ? 'парнях' : 'девушках'}-наградах`,
+    rewardShards: `Показывать текущее притяжение на ${gameConfig.девушках}-наградах`,
     hideClaimedRewards: 'Скрывать полученные награды Сезона/Пути/PoV',//TODO No official name for PoV yet
     disableDragDrop: 'Отключить перетаскивание на Рынке',
     villainBreadcrumbs: 'Показывать цепочку навигации на экранах злодеев',
@@ -67,7 +98,7 @@ export const config = {
     homeScreenIcons: 'Добавить иконки к ссылкам на главном экране',
     homeScreenOrder: 'Альтернативный порядок ссылок на главном экране',
     homeScreenOldish: 'Вид главного экрана подобный старому (Несовместимо с изменением положения элементов правой части от Style Tweak)',
-    overridePachinkoConfirm: `Отключить предупреждение "Нет ${Helpers.isGH() ? 'Парней' : 'Девушек'}" в Пачинко/Ночном-клубе`,
+    overridePachinkoConfirm: `Отключить предупреждение "Нет ${gameConfig.Девушек}" в Пачинко/Ночном-клубе`,
     sidequestCompletionMarkers: 'Метки прогресса побочных историй',
     censorMode: 'Цензурировать все NSFW изображения',
     fixProfilePopup: 'Восстановить просмотр профилей игроков',
@@ -82,9 +113,9 @@ export const stConfig = {
     collectMoneyAnimation: 'Убрать анимацию сбора денег',
     mobileBattle: 'Исправить мобильную версию экрана битв',
     hideRotateDevice: 'Скрыть напоминание повернуть экран в мобильной версии',
-    salaryTimers: `Читаемые таймеры заработка ${Helpers.isGH() ? 'парней' : 'девушек'}`,
+    salaryTimers: `Читаемые таймеры заработка ${gameConfig.девушек}`,
     moveSkipButton: 'Переместить кнопку пропуска битв вниз',
-    poseAspectRatio: `Исправить соотношение сторон у поз ${Helpers.isGH() ? 'парней' : 'девушек'} в битвах`,
+    poseAspectRatio: `Исправить соотношение сторон у поз ${gameConfig.девушек} в битвах`,
     reduceBlur: 'Уменьшить размывание на главном экране',
     homeScreenRightSideRearrange: 'Изменить положение элементов в правой части главного экрана',
     selectableId: 'В профиле позволить выбирать ID игрока мышкой',
@@ -218,7 +249,7 @@ export const league = {
 
 export const teamsFilter = {
     searchedName: 'Поиск',
-    girlName: `Имя ${Helpers.isGH() ? 'парня' : 'девушки'}`,
+    girlName: `Имя ${gameConfig.девушки}`,
     searchedClass: 'Класс',
     searchedElement: 'Элемент',
     searchedRarity: 'Редкость',
@@ -236,8 +267,8 @@ export const teamsFilter = {
     grade5: '5 звезд',
     grade6: '6 звезд',
     searchedBlessedAttributes: 'Благословения',//TODO No official name for Blessings yet
-    blessedAttributes: `Благословленные ${Helpers.isGH() ? 'парни' : 'девушки'}`,//TODO No official name for Blessings yet
-    nonBlessedAttributes: `Неблагословленные ${Helpers.isGH() ? 'парни' : 'девушки'}`,//TODO No official name for Blessings yet
+    blessedAttributes: `Благословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
+    nonBlessedAttributes: `Неблагословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
 }
 
 export const champions = {
@@ -273,7 +304,7 @@ export const seasonStats = {
 }
 
 export const pachinkoNames = {
-    availableGirls: `Доступные ${Helpers.isGH() ? 'парни' : 'девушки'}: `,
+    availableGirls: `Доступные ${gameConfig.девушки}: `,
     poolGirls: 'Текущий выбор: ',
 }
 

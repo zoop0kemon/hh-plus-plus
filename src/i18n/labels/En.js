@@ -35,6 +35,20 @@ const gameConfigs = {
         flower: 'flower',
         waifu: 'Waifu'
     },
+    TPSH: {
+        girl: 'girl',
+        Girl: 'Girl',
+        haremettes: 'haremettes',
+        flower: 'beer',
+        waifu: 'Waifu'
+    },
+    GPSH: {
+        girl: 'guy',
+        Girl: 'Guy',
+        haremettes: 'harem guys',
+        flower: 'beer',
+        waifu: 'Boyfriend'
+    }
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
 
@@ -91,7 +105,7 @@ export const config = {
     sortDailyMissions_reverse: 'Reverse order',
     upgradeInfo: 'Upgrade page information',
     leagueQuickNav: 'League opponent quick navigation',
-    labyrinth: 'Labyrinth information'
+    labyrinth: 'Labyrinth information',
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
@@ -180,7 +194,15 @@ export const villain = {
     jamiebrooks: 'Jamie Brooks',
     jordankingsley: 'Jordan Kingsley',
     sierrasinn: 'Sierra Sinn',
-    yeehaw: 'Yee Haw!',
+    jasminejae: 'Jasmine Jae',
+    arieldemure: 'Ariel Demure',
+    emmarose: 'Emma Rose',
+    nataliestone: 'Natalie Stone',
+    janieblade: 'Janie Blade',
+    nikkinort: 'Nikki Nort',
+    mistressvenom: 'Mistress Venom',
+    tristanhunter: 'Tristan Hunter',
+    jimmydurano: 'Jimmy Durano',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -228,7 +250,18 @@ export const villainBreadcrumbs = {
     fiskyfresno: 'Frisky in Fresno',
     milftown: 'Milftown',
     sinncity: 'Sinn City',
-    yeehaw: 'Yee Haw!'
+    yeehaw: 'Yee Haw!',
+
+    bigdville: 'Big D\'Ville',
+    dreamtown: 'Dream Town',
+    cockifornia: 'Hotel Cockifornia',
+    corporatecock: 'Corporate Cock',
+    cumcam: 'Cum Cam',
+    campcock: 'Camp Cock',
+
+    tropicalbeginnings: 'Tropical Beginnings',
+    spotlight: 'Spotlight',
+    boysarebad: 'Boys Are Bad',
 }
 
 export const market = {

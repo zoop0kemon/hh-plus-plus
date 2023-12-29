@@ -3,6 +3,8 @@ import Helpers from '../../common/Helpers'
 const gameConfigs = {
     HH: {
         chica: 'chica',
+        Chica: 'Chica',
+        as: 'as',
         delachica: 'de la chica',
         lachica: 'la chica',
         laschicas: 'las chicas',
@@ -11,6 +13,8 @@ const gameConfigs = {
     },
     GH: {
         chica: 'chico',
+        Chica: 'Chico',
+        as: 'os',
         delachica: 'del chico',
         lachica: 'el chico',
         laschicas: 'los chicos',
@@ -19,6 +23,8 @@ const gameConfigs = {
     },
     CxH: {
         chica: 'chica',
+        Chica: 'Chica',
+        as: 'as',
         delachica: 'de la chica',
         lachica: 'la chica',
         laschicas: 'las chicas',
@@ -27,6 +33,8 @@ const gameConfigs = {
     },
     PSH: {
         chica: 'chica',
+        Chica: 'Chica',
+        as: 'as',
         delachica: 'de la chica',
         lachica: 'la chica',
         laschicas: 'las chicas',
@@ -35,11 +43,33 @@ const gameConfigs = {
     },
     HoH: {
         chica: 'chica',
+        Chica: 'Chica',
+        as: 'as',
         delachica: 'de la chica',
         lachica: 'la chica',
         laschicas: 'las chicas',
         flower: 'flores',
         waifu: 'Waifu'
+    },
+    TPSH: {
+        chica: 'chica',
+        Chica: 'Chica',
+        as: 'as',
+        delachica: 'de la chica',
+        lachica: 'la chica',
+        laschicas: 'las chicas',
+        flower: 'cervezas',
+        waifu: 'Waifu'
+    },
+    GPSH: {
+        chica: 'chico',
+        Chica: 'Chico',
+        as: 'os',
+        delachica: 'del chico',
+        lachica: 'el chico',
+        laschicas: 'los chicos',
+        flower: 'cervezas',
+        waifu: 'Novio'
     },
 }
 const gameConfig = gameConfigs[Helpers.getGameKey()]
@@ -51,7 +81,7 @@ export const common = {
 export const config = {
     refresh: 'Actualizacion Menu principal',
     villain: 'Menu Pelear contra villano',
-    villain_tiers: `Mostrar Rangos con ${Helpers.isGH() ? 'Chicos' : 'Chicas'}`,
+    villain_tiers: `Mostrar Rangos con ${gameConfig.Chica}s`,
     market: 'Informacion de Mercado',
     marketEquipsFilter: 'Filtro de equipos de mercado',
     harem: 'Informacion de Harén',
@@ -74,7 +104,7 @@ export const config = {
     battleEndstate: 'Muestra los valores finales después de omitir la batalla.',
     gemStock: 'Stock de gemas en el mercado/harén',
     staticBackground: 'Previene cambios de fondo durante Días de Orgía',
-    rewardShards: `Mostrar el contador de fragmentos actual en las recompensas para ${Helpers.isGH() ? 'chicos' : 'chicas'}`,
+    rewardShards: `Mostrar el contador de fragmentos actual en las recompensas para ${gameConfig.chica}s`,
     hideClaimedRewards: 'Ocultar recompensas reclamadas',
     disableDragDrop: 'Desactivar la opción de Drag-and-Drop en el mercado',
     villainBreadcrumbs: 'Agregar ruta de navegación a las páginas de villanos',
@@ -82,7 +112,7 @@ export const config = {
     homeScreenIcons: 'Agregar íconos de funciones a los enlaces de la pantalla de inicio',
     homeScreenOrder: 'Orden alternativo de los enlaces de la pantalla de inicio',
     homeScreenOldish: 'Diseño viejo de la pantalla de inicio (No es compatible con la optimización del estilo reorganizado en el lado derecho)',
-    overridePachinkoConfirm: `Desactivar las ventanas emergentes de advertencia "No hay ${Helpers.isGH() ? 'chicos' : 'chicas'} disponibles" en Pachinko/NC`,
+    overridePachinkoConfirm: `Desactivar las ventanas emergentes de advertencia "No hay ${gameConfig.chica}s disponibles" en Pachinko/NC`,
     sidequestCompletionMarkers: 'Marcadores de finalización de misiones secundarias',
     censorMode: 'Censurar todas las imágenes NSFW',
     fixProfilePopup: 'Reparar ventanas emergentes de perfil de jugador',
@@ -102,9 +132,9 @@ export const stConfig = {
     collectMoneyAnimation: 'Desactivar la animación de recogida de dinero',
     mobileBattle: 'Arreglar la pantalla de batalla para Mobile',
     hideRotateDevice: 'Ocultar la etiqueta de rotación del dispositivo en Mobile',
-    salaryTimers: `Timers legibles de salarios de ${Helpers.isGH() ? 'chicos' : 'chicas'}`,
+    salaryTimers: `Timers legibles de salarios de ${gameConfig.chica}s`,
     moveSkipButton: 'Mueve el botón de saltar batalla abajo',
-    poseAspectRatio: `Arreglar la relación de aspecto de la pose ${Helpers.isGH() ? 'del chico' : 'de la chica'} en la batalla`,
+    poseAspectRatio: `Arreglar la relación de aspecto de la pose ${gameConfig.delachica} en la batalla`,
     reduceBlur: 'Reducir el efecto de profundidad de campo en la pantalla de inicio',
     homeScreenRightSideRearrange: 'Reorganizar los elementos en el lado derecho de la pantalla de inicio',
     selectableId: 'Hacer seleccionable el ID de usuario del perfil',
@@ -235,7 +265,7 @@ export const simFight = {
 
 export const teamsFilter = {
     searchedName: 'Nombre',
-    girlName: `Nombre ${Helpers.isGH() ? 'del chico' : 'de la chica'}`,
+    girlName: `Nombre ${gameConfig.delachica}`,
     searchedClass: 'Clase',
     searchedElement: 'Elemento',
     searchedRarity: 'Rareza',
@@ -253,8 +283,8 @@ export const teamsFilter = {
     grade5: '5 estrellas',
     grade6: '6 estrellas',
     searchedBlessedAttributes: 'Benediciones',
-    blessedAttributes: Helpers.isGH() ? 'Benditos chicos' : 'Benditas chicas',
-    nonBlessedAttributes: Helpers.isGH() ? 'Chicos no bendecidos' : 'Chicas no bendecidas',
+    blessedAttributes: `Bendit${gameConfig.as} ${gameConfig.chica}s`,
+    nonBlessedAttributes: `${gameConfig.Chica}s no bendecid${gameConfig.as}`,
 }
 
 export const champions = {
@@ -289,7 +319,7 @@ export const seasonStats = {
 }
 
 export const pachinkoNames = {
-    availableGirls: `${Helpers.isGH() ? 'Chicos' : 'Chicas'} disponibles: `,
+    availableGirls: `${gameConfig.Chica}s disponibles: `,
     poolGirls: 'Selección actual: ',
 }
 
