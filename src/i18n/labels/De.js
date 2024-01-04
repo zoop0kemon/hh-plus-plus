@@ -125,7 +125,7 @@ export const config = {
     sortDailyMissions_reverse: 'Umgekehrte Reihenfolge',
     upgradeInfo: 'Informationen zur Verbesserungsseite',
     leagueQuickNav: 'Schnellnavigation für Ligagegner',
-    labyrinth: 'Informationen zum Labyrinth',
+    labyrinth: 'Informationen fürs Labyrinth',
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',

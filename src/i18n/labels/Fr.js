@@ -357,6 +357,7 @@ export const villainBreadcrumbs = {
     fiskyfresno: 'Des folies à Fresno',
     milftown: 'Cité MILF',
     yeehaw: 'Yi Haa !',
+    bythebook: 'Fin écrivain',
 }
 
 export const blessingSpreadsheetLink = {

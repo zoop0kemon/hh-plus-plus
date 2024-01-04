@@ -4,6 +4,7 @@ import {
     EventVillainsCollector,
     GirlDictionaryCollector,
     HaremFilterCollector,
+    LabyrinthInfoCollector,
     LeagueInfoCollector,
     MarketInfoCollector,
     PathEventCollector,
@@ -27,6 +28,7 @@ const runScript = () => {
     EventVillainsCollector.collect()
     SeasonStatsCollector.collect()
     MarketInfoCollector.collect()
+    LabyrinthInfoCollector.collect()
     LeagueInfoCollector.collect()
     TimerCollector.collect()
     BoosterStatusCollector.collect()

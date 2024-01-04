@@ -4,8 +4,15 @@ import I18n from '../../i18n'
 
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
+import TooltipManager from '../../common/TooltipManager'
 
 const MODULE_KEY = 'labyrinth'
+
+const CLASS_NAMES = {
+    1: 'hardcore',
+    2: 'charm',
+    3: 'knowhow'
+}
 
 class LabyrinthInfoModule extends CoreModule {
     constructor () {
@@ -53,14 +60,62 @@ class LabyrinthInfoModule extends CoreModule {
             }
         }
         window.displayPvpV4Caracs = hook
+
+        // add tooltips to battle page, have to use a bunch of nasty hacks to get to be a pvp v4 tooltip
+        if (Helpers.isCurrentPage('labyrinth-battle')) {
+            const {hero_fighter_v4, opponent_fighter_v4} = window
+            const actual_tooltip = window.tooltips['[data-new-girl-tooltip]']
+            const actual_displayClassHTML = window.displayClassHTML
+            const actual_buildGirlSkills = window.buildGirlSkills
+            const girls = [...Object.values(hero_fighter_v4.fighters), ...opponent_fighter_v4.fighters]
+
+            Helpers.doWhenSelectorAvailable('.container-opponent', () => {
+                girls.forEach((girl) => {
+                    const $container = $(`.container-${girl.is_hero_fighter ? 'hero' : 'opponent'} .team-member-container[id="member-${girl.id_girl}"]`)
+                    const {girl: {graded2, caracs, blessed_caracs, battle_caracs, level, skill_tiers_info, girl: {name, rarity, class: g_class, element_data}}} = girl
+                    const girl_data = {name, graded2, rarity, class: g_class, caracs, blessed_caracs, battle_caracs, level, element_data, skill_tiers_info}
+
+                    $container.find('.girl_img').attr('data-new-girl-tooltip', JSON.stringify(girl_data))
+                })
+            })
+
+            const hook_tooltip = (...args) => {
+                const ret = actual_tooltip(...args)
+                try {
+                    const {displayPvpV4Caracs} = window
+                    const girl = JSON.parse($(args[0])[0].getAttribute("data-new-girl-tooltip"))
+                    const $body = $(`<div class="script-temp-wrapper">${ret.body}</div>`)
+                    $body.find('.caracs').html(displayPvpV4Caracs(girl))
+
+                    ret.body = $body.html()
+                    ret.class_name = `${ret.class_name}pvp-v4`
+                    return ret
+                } catch {
+                    return ret
+                }
+            }
+            // window.tooltips['[data-new-girl-tooltip]'] = hook_tooltip
+            TooltipManager.initTooltipType('[data-new-girl-tooltip]', hook_tooltip)
+            const hook_displayClassHTML = (...args) => {
+                if (args.length > 2 && typeof args[2] == "boolean") {
+                    args[2] = !args[2]
+                }
+                const ret = actual_displayClassHTML(...args)
+                return ret
+            }
+            window.displayClassHTML = hook_displayClassHTML
+            const hook_buildGirlSkills = (...args) => {
+                if (args.length > 1 && typeof args[1] == "boolean") {
+                    args[1] = !args[1]
+                }
+                const ret = actual_buildGirlSkills(...args)
+                return ret
+            }
+            window.buildGirlSkills = hook_buildGirlSkills
+        }
     }
 
     addGirlIcons () {
-        const CLASS_NAMES = {
-            1: 'hardcore',
-            2: 'charm',
-            3: 'knowhow'
-        }
         const {GT} = window
 
         const addToHex = () => {
@@ -131,7 +186,6 @@ class LabyrinthInfoModule extends CoreModule {
         }
     }
 
-    // TODO update opponent speeds in battle for when defeated to remove knocked out opponent girls
     // off in some cases for girls with same speed
     addGirlOrder () {
         if (Helpers.isCurrentPage('labyrinth-pre-battle')) {
@@ -144,7 +198,6 @@ class LabyrinthInfoModule extends CoreModule {
                 return {speed: speed, girl_id: id_girl, position: position+7}
             })
             const girl_speeds = [...player_speeds, ...opponent_speeds].sort((a, b) => b.speed-a.speed)
-            Helpers.lsSet(lsKeys.LABYRINTH_SPEEDS, opponent_speeds)
 
             Helpers.doWhenSelectorAvailable('.team-hexagon', () => {
                 girl_speeds.forEach(({position, girl_id}, i) => {
@@ -152,7 +205,7 @@ class LabyrinthInfoModule extends CoreModule {
                 })
             })
         } else if (Helpers.isCurrentPage('edit-labyrinth-team')) {
-            const opponent_speeds = Helpers.lsGet(lsKeys.LABYRINTH_SPEEDS)
+            const opponent_speeds = Helpers.lsGet(lsKeys.LABYRINTH_SPEEDS) || []
             let girl_speeds
             let selected
 
@@ -254,8 +307,6 @@ class LabyrinthInfoModule extends CoreModule {
                     })
                 })
             })
-        } else if (Helpers.isCurrentPage('labyrinth-pool-select')) {
-            Helpers.lsSet(lsKeys.LABYRINTH_SPEEDS, [])
         }
     }
 
@@ -269,8 +320,6 @@ class LabyrinthInfoModule extends CoreModule {
             })
         })
     }
-
-    // TODO replace display power with girl power and resort
 }
 
 export default LabyrinthInfoModule

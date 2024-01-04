@@ -91,4 +91,5 @@ export const lsKeys = {
     HAREM_FILTER_IDS:           lsKey('HaremFilterIDs'),
     WAIFU_INFO:                 lsKey('WaifuInfo'),
     LABYRINTH_SPEEDS:           lsKey('LabyrinthSpeeds'),
+    LABYRINTH_RELICS:           lsKey('LabyrinthRelics'),
 }

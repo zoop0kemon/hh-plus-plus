@@ -152,3 +152,11 @@
             }
     }
 }
+
+#battle {
+    .bars-update-text, .girl-image {
+        &[style*="opacity: 0;"] {
+            display: none;
+        }
+    }
+}

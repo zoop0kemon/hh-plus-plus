@@ -423,6 +423,7 @@ export default {
             items: ['K4']
         },
         {
+            key: 'sol',
             world: 14,
             girls: {
                 1: ['86962133', '243793871', '284483399'],
@@ -431,6 +432,18 @@ export default {
             },
             gems: [{
                 element: 'darkness',
+                amount: 25,
+            }]
+        },
+        {
+            world: 15,
+            girls: {
+                1: ['612527302', '167231135', '560979916', '784911160', '549524850', '184523411'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'light',
                 amount: 25,
             }]
         },
@@ -738,15 +751,29 @@ export default {
             }]
         },
         {
+            key: 'bellarose',
             opponent: 13,
-            world: 17,
+            world: 18,
+            girls: {
+                1: ['270920965', '600910475', '799448349'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 20,
+            }]
+        },
+        {
+            opponent: 14,
+            world: 19,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'darkness',
+                element: 'light',
                 amount: 20,
             }]
         }

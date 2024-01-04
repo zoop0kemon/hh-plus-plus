@@ -175,6 +175,7 @@ export const villain = {
     edernas: 'Edernas',
     maro: 'Maro',
     icaruswarlock: 'Icarus Warlock',
+    sol: 'Sol',
     bodyhack: 'BodyHack',
     greygolem: 'Grey Golem',
     nymph: 'The Nymph',
@@ -195,6 +196,7 @@ export const villain = {
     jordankingsley: 'Jordan Kingsley',
     sierrasinn: 'Sierra Sinn',
     jasminejae: 'Jasmine Jae',
+    bellarose: 'Bella Rose',
     arieldemure: 'Ariel Demure',
     emmarose: 'Emma Rose',
     nataliestone: 'Natalie Stone',
@@ -251,6 +253,7 @@ export const villainBreadcrumbs = {
     milftown: 'Milftown',
     sinncity: 'Sinn City',
     yeehaw: 'Yee Haw!',
+    bythebook: 'By the Book',
 
     bigdville: 'Big D\'Ville',
     dreamtown: 'Dream Town',
