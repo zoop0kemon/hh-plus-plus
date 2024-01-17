@@ -19,7 +19,14 @@ class LabyrinthInfoModule extends CoreModule {
         super({
             baseKey: MODULE_KEY,
             label: I18n.getModuleLabel('config', MODULE_KEY),
-            default: true
+            default: true,
+            subSettings: [
+                {
+                    key: 'fixPower',
+                    label: I18n.getModuleLabel('config', `${MODULE_KEY}_fixPower`),
+                    default: false
+                }
+            ]
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
     }
@@ -28,15 +35,19 @@ class LabyrinthInfoModule extends CoreModule {
         return Helpers.isCurrentPage('labyrinth')
     }
 
-    run () {
+    run ({fixPower}) {
         if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
         Helpers.defer(() => {
+            if (fixPower) {
+                this.normalizePower()
+            }
             this.improveGirlTooltip()
             this.addGirlIcons()
             this.addGirlOrder()
+            this.addRelicsMenu()
             if (Helpers.isCurrentPage('labyrinth-battle')) {
                 this.fasterSkipButton()
             }
@@ -45,6 +56,45 @@ class LabyrinthInfoModule extends CoreModule {
         this.hasRun = true
     }
 
+    normalizePower() {
+        if (Helpers.isCurrentPage('labyrinth-pool-select') || Helpers.isCurrentPage('edit-labyrinth-team')) {
+            const {owned_girls, availableGirls} = window
+            const game_girls = owned_girls || availableGirls
+            const girl_powers = []
+            game_girls.forEach((girl) => {
+                const {id_girl, caracs: {carac1, carac2, carac3}} = girl
+                const power = carac1 + carac2 + carac3
+                girl.power_display = power
+                girl_powers.push({id_girl, power})
+            })
+            girl_powers.sort((a, b) => b.power - a.power)
+
+            const is_pool = Helpers.isCurrentPage('labyrinth-pool-select')
+            const grid_selector = is_pool ? '.girl-grid' : '.harem-panel-girls'
+            const container_selector = is_pool ? '.girl-container' : '.harem-girl-container'
+            const power_selector = is_pool ? '.girl-power-number' : '.girl-power-icon>span'
+            Helpers.doWhenSelectorAvailable(grid_selector, () => {
+                const detached_containers = []
+                girl_powers.forEach((girl) => {
+                    const $girl = $(`${container_selector}[id_girl="${girl.id_girl}"]`)
+
+                    detached_containers.push($girl.detach())
+                    $girl.find(power_selector).html(I18n.nThousand(Math.ceil(girl.power)))
+                })
+                detached_containers.forEach((container) => {
+                    $(grid_selector).append(container)
+                })
+            })
+        } else if (Helpers.isCurrentPage('labyrinth.html')) {
+            const {girl_squad} = window
+            girl_squad.forEach(({member_girl}) => {
+                const {caracs: {carac1, carac2, carac3}} = member_girl
+                member_girl.power_display = carac1 + carac2 + carac3
+            })
+        }
+    }
+
+    // TODO add relic stats to tooltips
     improveGirlTooltip () {
         const {number_format_lang} = window
         const actual = window.displayPvpV4Caracs
@@ -61,7 +111,7 @@ class LabyrinthInfoModule extends CoreModule {
         }
         window.displayPvpV4Caracs = hook
 
-        // add tooltips to battle page, have to use a bunch of nasty hacks to get to be a pvp v4 tooltip
+        // add tooltips to battle page, have to use a bunch of nasty hacks to get it to be a pvp v4 tooltip
         if (Helpers.isCurrentPage('labyrinth-battle')) {
             const {hero_fighter_v4, opponent_fighter_v4} = window
             const actual_tooltip = window.tooltips['[data-new-girl-tooltip]']
@@ -310,6 +360,43 @@ class LabyrinthInfoModule extends CoreModule {
         }
     }
 
+    addRelicsMenu () {
+        if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth-pre-battle')) {
+            const {buildRelicContainerHTML, GT} = window
+            const relics_trimed = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
+            const relics = relics_trimed.map((relic) => {
+                const {identifier, rarity, bonus, girl} = relic
+                const type = identifier.match(/[a-z]+/g)[0]
+                const relic_data = {identifier, rarity, type, bonus}
+                if (girl) {relic_data.girl = girl}
+
+                return relic_data
+            })
+            const $relic_panel = $(`
+            <div class="script-relics-panel">
+                <div class="script-relics-grid">
+                    ${relics.length ? relics.map(relic => buildRelicContainerHTML(relic)).join('') : GT.design.labyrinth_no_relics}
+                </div>
+            </div>`)
+            $relic_panel.hide()
+
+            const $toggle = $(`<div class="script-relics-toggle"><img src="${Helpers.getCDNHost()}/labyrinth/relics_icon.png"></div>`)
+            $toggle.click(() => {
+                $relic_panel.toggle()
+                $relic_panel.getNiceScroll().resize()
+            })
+
+            Helpers.doWhenSelectorAvailable('.player-panel .personal_info', () => {
+                $('.player-panel .personal_info').append($toggle)
+            })
+            Helpers.doWhenSelectorAvailable('.boss-bang-panel, .buttons-container.back-button', () => {
+                $('.boss-bang-panel, .buttons-container.back-button').after($relic_panel)
+                $relic_panel.niceScroll('.script-relics-grid', {bouncescroll: false})
+            })
+        }
+    }
+
+    // TODO show end state of battle
     fasterSkipButton () {
         Helpers.onAjaxResponse(/action=do_battles_labyrinth/i, (response) => {
             Helpers.doWhenSelectorAvailable('#new-battle-skip-btn', () => {

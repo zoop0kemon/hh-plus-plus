@@ -1,5 +1,6 @@
+1.39.2: Adding relic menu to pre-battle/team edit and power normalization option to the labyrinth module, adding sort options to team filter module in labyrinth, updating the fight-a-villain module to show multiple girls on a villain for a single event, and fixing various bugs.
 1.39.1: Fixing PoP quicknav module and compact league table style tweak after 3/01 update. Adding girl tooltips to labyrinth battle page. Adding GH world 14 and PSH world 13 data.
-1.39.0: Adding module for addition information for labyrinth, updating various modules for labyrinth, adding support for TPSH and GPSH, and fixing various bug.
+1.39.0: Adding module for addition information for labyrinth, updating various modules for labyrinth, adding support for TPSH and GPSH, and fixing various bugs.
 1.38.14: Fixing league info and upgrade quick nav modules, missing PSH villain breadcrumbs, and expected Mojo formula.
 1.38.13: Fixing skip button style tweak
 1.38.12: Adding HH world 18 data

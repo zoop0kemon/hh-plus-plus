@@ -126,6 +126,7 @@ export const config = {
     upgradeInfo: 'Informationen zur Verbesserungsseite',
     leagueQuickNav: 'Schnellnavigation für Ligagegner',
     labyrinth: 'Informationen fürs Labyrinth',
+    labyrinth_fixPower: `Kraft der ${gameConfig.Mädchen} normalisieren`,
 }
 export const stConfig = {
     missionsBackground: 'Missionshintergrund ändern',

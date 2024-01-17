@@ -1,13 +1,13 @@
 import I18n from '../i18n'
 
 class Snippets {
-    static selectInput ({id, label, options, value, className}) {
+    static selectInput ({id, label, options, value, className, default_text}) {
         return `
             <div class="form-control ${className}">
                 <div class="select-group">
                     <label class="head-group" for="${id}">${label}</label>
                     <select name="${id}" id="${id}" icon="down-arrow">
-                        <option value="all" ${value === 'all' ? 'selected="selected"' : ''}>${I18n.getModuleLabel('common', 'all')}</option>
+                        <option value="all" ${value === 'all' ? 'selected="selected"' : ''}>${default_text ? default_text : I18n.getModuleLabel('common', 'all')}</option>
                         ${options.map(({label, value: optValue}) => `<option value="${optValue}" ${value === optValue ? 'selected="selected"' : ''}>${label}</option>`).join('')}
                     </select>
                 </div>

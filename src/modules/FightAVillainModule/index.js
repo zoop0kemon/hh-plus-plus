@@ -10,12 +10,11 @@ import Sheet from '../../common/Sheet'
 
 const MODULE_KEY = 'villain'
 
+const RARITIES = ['starting', 'common', 'rare', 'epic', 'legendary', 'mythic']
 const DEFAULT_TIER_RARITY = {
     1: 'common',
     2: 'epic',
-    3: 'legendary',
-    event: 'epic',
-    mythicEvent: 'mythic',
+    3: 'legendary'
 }
 
 class FightAVillainModule extends CoreModule {
@@ -64,6 +63,7 @@ class FightAVillainModule extends CoreModule {
     injectCSSVars () {
         Sheet.registerVar('troll-menu-font-weight', Helpers.isCxH() ? '800' : '400')
         Sheet.registerVar('girl-ico-tick', `url("${Helpers.getCDNHost()}/clubs/ic_Tick.png")`)
+        Sheet.registerVar('E', `"${this.label('event')[0]}"`)
     }
 
     buildMenu () {
@@ -85,32 +85,23 @@ class FightAVillainModule extends CoreModule {
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
             const villainWorld = `/world/${world}`
-            let type = 'regular'
-            const eventTrollGirl = eventTrolls.find(({troll}) => troll === villainId)
+            const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId)
+            const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId)
+            const trollGirls = [...eventTrollGirls, ...mythicTrollGirls]
             let allGirlsObtained = true
-            const events = {}
-            if (eventTrollGirl) {
-                const {id, rarity} = eventTrollGirl
-                events.event = id
+            let highest_rarity = 0
+            const event_girls = []
+            trollGirls.forEach(({id, rarity}) => {
+                event_girls.push({id, rarity})
                 const dictGirl = girlDictionary.get(id)
                 const owned = dictGirl ? dictGirl.shards === 100 : false
                 if (!owned) {
-                    type = `eventTroll ${rarity}`
+                    highest_rarity = Math.max(highest_rarity, RARITIES.indexOf(rarity))
                     allGirlsObtained = false
                 }
-            }
-            const mythicTrollGirl = mythicEventTrolls.find(({troll}) => troll === villainId)
-            if (mythicTrollGirl) {
-                const {id} = mythicTrollGirl
-                events.mythicEvent = id
-                const dictGirl = girlDictionary.get(id)
-                const owned = dictGirl ? dictGirl.shards === 100 : false
-                if (!owned) {
-                    type = 'mythicEventTroll'
-                    allGirlsObtained = false
-                }
-            }
+            })
 
+            const type = trollGirls.length && !allGirlsObtained ? `eventTroll ${RARITIES[highest_rarity]}` : 'regular'
             const $villain = $(`<a class="menu-villain ${type}" href="/troll-pre-battle.html?id_opponent=${villainId}"></a>`)
 
             const $villainTopRow = $('<div class="menu-villain-top"></div>')
@@ -137,9 +128,6 @@ class FightAVillainModule extends CoreModule {
 
             Object.entries(girls).forEach(([tier, tierGirls]) => {
                 if (!tierGirls.length) {return}
-                const $villainTier = $('<div class="menu-villain-tier"></div>')
-                const $villainTierTitle = $(`<div class="menu-villain-tier-title">${tier}</div>`)
-                const $villainTierGirls = $(`<div class="menu-villain-tier-girls tier${tier}"></div>`)
 
                 tierGirls.forEach((girlId) => {
                     const girl = girlDictionary.get(girlId)
@@ -157,35 +145,24 @@ class FightAVillainModule extends CoreModule {
                     const showShards = shards === '?' || shards < 100
 
                     allGirlsObtained &= !showShards
-                    $villainTierGirls.append(`<div class="girl_ico ${showShards ? '' : 'obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
+                    $villainBottomRow.append(`<div class="girl_ico tier${tier}${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
                 })
-                $villainTier.append($villainTierTitle).append($villainTierGirls)
-                $villainBottomRow.append($villainTier)
             })
-            if (Object.entries(events).length) {
-                const $villainTier = $('<div class="menu-villain-tier"></div>')
-                const $villainTierTitle = $(`<div class="menu-villain-tier-title">${this.label('event')}</div>`)
-                const $villainTierGirls = $('<div class="menu-villain-tier-girls event"></div>')
-                Object.entries(events).forEach(([type, girlId]) => {
+            event_girls.forEach(({id, rarity}) => {
+                const girl = girlDictionary.get(id)
+                let name, shards
+                if (girl) {
+                    ({name, shards} = girl)
+                } else {
+                    name = 'Unknown',
+                    shards = '?'
+                }
 
-                    const girl = girlDictionary.get(girlId)
-                    let name, rarity, shards
-                    if (girl) {
-                        ({name, rarity, shards} = girl)
-                    } else {
-                        name = 'Unknown',
-                        rarity = DEFAULT_TIER_RARITY[type]
-                        shards = '?'
-                    }
+                const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${id}/ico0-300x.webp`
 
-                    const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${girlId}/ico0-300x.webp`
-
-                    const showShards = shards === '?' || shards < 100
-                    $villainTierGirls.append(`<div class="girl_ico ${showShards ? '' : 'obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
-                })
-                $villainTier.append($villainTierTitle).append($villainTierGirls)
-                $villainBottomRow.append($villainTier)
-            }
+                const showShards = shards === '?' || shards < 100
+                $villainBottomRow.append(`<div class="girl_ico event${showShards ? '' : 'obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
+            })
 
             if (allGirlsObtained) {
                 $villain.addClass('all-obtained')

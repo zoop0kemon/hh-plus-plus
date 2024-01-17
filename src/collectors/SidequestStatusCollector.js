@@ -52,13 +52,20 @@ class SidequestStatusCollector {
     }
 
     static collectFromHome () {
-        if ($('[rel=map] .button-notification-new').length) {
+        const {notificationData} = window
+        if (notificationData.map) {
             const sidequestStatus = Helpers.lsGet(lsKeys.SIDEQUEST_STATUS)
             if (sidequestStatus && !sidequestStatus.energySpendAvailable) {
                 sidequestStatus.energySpendAvailable = true
                 Helpers.lsSet(lsKeys.SIDEQUEST_STATUS, sidequestStatus)
             }
         }
+
+        Helpers.doWhenSelectorAvailable('.continue-quest-container', () => {
+            if (!$('.continue_side_quest_home').length) {
+                Helpers.lsSet(lsKeys.SIDEQUEST_STATUS, {energySpendAvailable: false})
+            }
+        })
     }
 }
 

@@ -36,6 +36,10 @@
             display: flex;
             gap: 0.25rem;
 
+            .page-edit-labyrinth-team & {
+                bottom: 6px;
+            }
+
             [carac]::before {
                 display: block;
                 width: 15px;
@@ -158,5 +162,218 @@
         &[style*="opacity: 0;"] {
             display: none;
         }
+    }
+}
+
+.script-relics-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+
+    img {
+        width: 4rem;
+        height: 4rem;
+
+        animation: zoom-down .5s ease forwards;
+        -webkit-animation: zoom-down .5s ease forwards;
+        &:hover {
+            animation: zoom-up .5s ease forwards;
+            -webkit-animation: zoom-up .5s ease forwards;
+        }
+    }
+}
+
+.script-relics-panel {
+    position: absolute;
+    top: 4rem;
+    width: 22rem;
+    height: auto;
+    max-height: 26rem;
+    overflow-y: auto;
+    background-color: #080808f5;
+    border-radius: 4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #cccccc42;
+
+    .middle-container & {
+        top: 1.5rem;
+        z-index: 3;
+    }
+
+    .script-relics-grid {
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        grid-gap: 0.5rem;
+        justify-items: center;
+        text-align: center;
+
+        .relic-container {
+            position: relative;
+            height: auto;
+            width: 100%;
+            border: solid #f90 0.5px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.25rem;
+            &.common-relic {
+                background-image:url(https://hh.hh-content.com/labyrinth/common_relic_background.jpg);
+                &>.relic-name span {
+                    color:#fff;
+                }
+            }
+            &.rare-relic {
+                background-image:url(https://hh.hh-content.com/labyrinth/rare_relic_background.jpg);
+                &>.relic-name span {
+                    color:#32bc4f;
+                }
+            }
+            &.epic-relic {
+                background-image:url(https://hh.hh-content.com/labyrinth/epic_relic_background.jpg);
+                &>.relic-name span {
+                    color:#ffb244;
+                }
+            }
+            &.legendary-relic {
+                background-image:url(https://hh.hh-content.com/labyrinth/legendary_relic_background.jpg);
+                &>.relic-name span {
+                    color:#9150bf;
+                }
+            }
+            &.mythic-relic {
+                background-image:url(https://hh.hh-content.com/labyrinth/mythic_relic_background.jpg);
+                &>.relic-name span {
+                    color:#ec0039;
+                }
+            }
+
+            .relic-name {
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 0.22px;
+                color: #fff;
+                -webkit-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                -moz-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                height: 2.5rem;
+
+                &>span {
+                    display: block;
+                    position: relative;
+                    bottom: 4px;
+                    font-size: 10px;
+                }
+            }
+
+            .relic-description {
+                font-size: 13px;
+                line-height: 1rem;
+                font-weight: 400;
+                letter-spacing: 0.22px;
+                color: #fff;
+                -webkit-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                -moz-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
+                height: 100%;
+                margin-bottom: 0.25rem;
+            }
+
+            .relic-infos {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                top: 0;
+                right: 2rem;
+
+                &>span {
+                    display: none;
+                    margin-bottom: 0.2rem;
+                    font-size: 13px;
+                    font-weight: 400;
+                    letter-spacing: 0.22px;
+                    color: #ffb827;
+                    text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,-2px -2px 5px rgba(255,159,0,.4),2px -2px 5px rgba(255,159,0,.4),-2px 2px 5px rgba(255,159,0,.4),2px 2px 5px rgba(255,159,0,.4),0 0 10px rgba(255,159,0,.4)
+                }
+
+                .team-relic-icon span {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background-size: 2.5rem;
+                }
+
+                .girl-image {
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    border-radius: 4px;
+                    height: 3rem;
+                    width: 3rem;
+                    border: 2px solid #fff;
+                }
+
+                .ego-bar-container {
+                    width: 4rem;
+                    height: 1rem;
+                    margin-top: 0.3rem;
+                    border: 1px solid #000;
+                    position: relative;
+                    text-align: center;
+                    background: #200307;
+                    line-height: 1rem;
+
+                    span {
+                        position: relative;
+                        top: -1px;
+                        text-shadow: 1px 1px 0 #000;
+                        font-size: 14px;
+                        z-index: 1;
+                    }
+
+                    .ego-fill {
+                        background-image: linear-gradient(to right, #702 0, #e15 100%);
+                        position: absolute;
+                        height: 100%;
+                        top: 0;
+                    }
+                }
+            }
+
+            &.large-card {
+                .relic-name {
+                    align-self: flex-start;
+                    width: 75%;
+                }
+
+                .relic-description {
+                    align-self: flex-start;
+                    width: 75%;
+
+                    span {
+                        display: contents;
+                        color: #9150bf;
+                    }
+                }
+
+                .relic-infos {
+                    right: 0;
+                    bottom: 0;
+                    width: 25%;
+                    height: 100%;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .nicescroll-rails {
+        top: 0rem!important;
+        right: 5px!important;
+        z-index: unset!important;
     }
 }

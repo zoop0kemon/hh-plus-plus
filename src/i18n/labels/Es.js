@@ -125,7 +125,10 @@ export const config = {
     sortDailyMissions: 'Ordena las misiones diarias por duración',
     sortDailyMissions_reverse: 'Orden inversa',
     upgradeInfo: 'Información de la página de mejoras',
-    leagueQuickNav: 'Navegación rápida del oponente de la liga'
+    leagueQuickNav: 'Navegación rápida del oponente de la liga',
+    labyrinth: 'Información del laberinto',
+    labyrinth_fixPower: `Normalizar el poder de visualización ${gameConfig.delachica}`,
+
 }
 export const stConfig = {
     missionsBackground: 'Cambiar el fondo de las misiones',

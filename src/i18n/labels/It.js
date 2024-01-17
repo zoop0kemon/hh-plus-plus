@@ -162,6 +162,7 @@ export const config = {
     upgradeInfo: 'Informazioni sulla pagina di miglioramento',
     leagueQuickNav: 'Navigazione rapida tra avversari Lega',
     labyrinth: 'Informazioni sul labirinto',
+    labyrinth_fixPower: `Normalizza la potenza ${gameConfig.delleragazze} mostrata`,
 }
 export const stConfig = {
     missionsBackground: 'Cambia lo sfondo delle missioni',

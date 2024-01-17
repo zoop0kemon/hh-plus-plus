@@ -101,13 +101,12 @@
                         background-color: #9150bfd6;
                     }
                 }
-            }
 
-            &.mythicEventTroll {
-                background-color: #ec003970;
-
-                &:hover {
-                    background-color: #ff003e70;
+                &.mythic {
+                    background-color: #ec003970;
+                    &:hover {
+                        background-color: #ff003e70;
+                    }
                 }
             }
 
@@ -165,12 +164,35 @@
             }
             &-bottom {
                 display: grid;
-                grid-template-columns: 3fr 1fr 1fr 1fr;
-                grid-gap: 0.2em;
+                grid-template-columns: repeat(6, 1fr);
+                grid-gap: 0.25em;
+                margin-top: 0.5rem;
 
                 .girl_ico {
                     position: relative;
                     width: fit-content;
+
+                    &::before {
+                        content: " ";
+                        font-size: 0.7rem;
+                        text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+                        position: absolute;
+                        display: block;
+                        top: -7px;
+                        left: -3px;
+                    }
+                    &.tier1::before {
+                        content: "1";
+                    }
+                    &.tier2::before {
+                        content: "2";
+                    }
+                    &.tier3::before {
+                        content: "3";
+                    }
+                    &.event::before {
+                        content: var(--E);
+                    }
 
                     &.obtained {
                         border-color: #75b400;
@@ -210,31 +232,6 @@
                             background-size: 140%;
                             background-position: center;
                         }
-                    }
-                }
-            }
-            &-tier {
-                display: flex;
-                flex-direction: column;
-
-                &-title {
-                    font-size: 0.7em;
-                    display: block;
-                    width: 100%;
-                    height: 1.3em;
-                    border-bottom: 1px solid #fff;
-                    margin-bottom: 0.2em;
-                }
-
-                &-girls {
-                    display: grid;
-                    grid-gap: 0.2em;
-
-                    &.tier1 {
-                        grid-template-columns: 1fr 1fr 1fr;
-                    }
-                    &.event {
-                        grid-template-columns: 1fr;
                     }
                 }
             }

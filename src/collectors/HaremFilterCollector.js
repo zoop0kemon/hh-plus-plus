@@ -9,7 +9,7 @@ class HaremFilterCollector {
                     const ret = actual(...args)
                     const { harem: { sortedGirls, filteredGirlsIds } } = window
                     if (sortedGirls && filteredGirlsIds) {
-                        setTimeout(Helpers.lsSet(lsKeys.HAREM_FILTER_IDS, sortedGirls.filter(({ id_girl, own }) => own && filteredGirlsIds.includes(id_girl)).map(({ id_girl }) => `${id_girl}`)))
+                        setTimeout(() => {Helpers.lsSet(lsKeys.HAREM_FILTER_IDS, sortedGirls.filter(({ id_girl, own }) => own && filteredGirlsIds.includes(id_girl)).map(({ id_girl }) => `${id_girl}`))})
                     }
                     return ret
                 }

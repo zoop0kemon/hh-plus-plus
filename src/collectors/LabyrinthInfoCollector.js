@@ -39,22 +39,48 @@ class LabyrinthInfoCollector {
                 })
             }
             if (Helpers.isCurrentPage('labyrinth.html')) {
-                //WIP Relics collection
-                //pass girl id to trimed relic data
-
                 const unclaimed_relics_data = []
+
+                const trimRelicData = (relic) => {
+                    const {identifier, rarity, bonus} = relic
+                    const relic_data = {identifier, rarity, bonus}
+                    if (relic.girl) {
+                        const {id_girl, remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}}, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = relic.girl
+                        const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+
+                        relic_data.girl = {
+                            id_girl,
+                            remaining_ego_percent,
+                            member_girl: {
+                                level,
+                                battle_caracs,
+                                graded2,
+                                ico,
+                                skill_tiers_info,
+                                girl: {
+                                    class: g_class,
+                                    rarity,
+                                    name,
+                                    element_data: {type}
+                                }
+                            }
+                        }
+                    }
+
+                    return relic_data
+                }
+
                 Helpers.onAjaxResponse(/action=labyrinth_get_member_relics/i, (response) => {
                     const {unclaimed_relics, relics} = response
                     if (unclaimed_relics) {
                         unclaimed_relics_data.push(...unclaimed_relics)
                     }
                     if (relics) {
-                        const relic_data = []
+                        const relics_data = []
                         relics.forEach((relic) => {
-                            const {identifier, rarity, bonus} = relic
-                            relic_data.push({identifier, rarity, bonus})
+                            relics_data.push(trimRelicData(relic))
                         })
-                        Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relic_data)
+                        Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics_data)
                     }
                 })
                 Helpers.onAjaxResponse(/action=labyrinth_pick_unclaimed_relic/i, (response, opt) => {
@@ -65,9 +91,8 @@ class LabyrinthInfoCollector {
 
                         if (claimed_relic) {
                             const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
-                            const {identifier, rarity, bonus} = claimed_relic
 
-                            relics.push({identifier, rarity, bonus})
+                            relics.push(trimRelicData(claimed_relic))
                             Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics)
                         }
                     }

@@ -71,7 +71,7 @@ export const config = {
     teamsFilter: 'Teams filter',
     champions: 'Champions information',
     champions_poseMatching: 'Add pose match indicators',
-    champions_fixPower: `Normalise ${gameConfig.girl} power for comparison`,
+    champions_fixPower: `Normalize ${gameConfig.girl} power for comparison`,
     homeScreen: 'Home Screen Shortcuts & Timers',
     homeScreen_leaguePos: 'Show current league rank (makes extra network call)',
     resourceBars: 'Resource bars / Booster tracking',
@@ -106,6 +106,7 @@ export const config = {
     upgradeInfo: 'Upgrade page information',
     leagueQuickNav: 'League opponent quick navigation',
     labyrinth: 'Labyrinth information',
+    labyrinth_fixPower: `Normalize ${gameConfig.girl} display power`,
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',
