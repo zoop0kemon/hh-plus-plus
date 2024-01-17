@@ -71,7 +71,7 @@ class GirlDictionaryCollector {
             if (Helpers.isCurrentPage('season')) {
                 GirlDictionaryCollector.collectFromSeasons()
             }
-            if (Helpers.isCurrentPage('tower-of-fame')) {
+            if (Helpers.isCurrentPage('leagues')) {
                 GirlDictionaryCollector.collectFromLeague()
             }
             if (updated) {

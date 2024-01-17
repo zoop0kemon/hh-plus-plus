@@ -18,7 +18,7 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['activities', 'tower-of-fame', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
+        return ['activities', 'leagues', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -31,7 +31,7 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
                 Helpers.doWhenSelectorAvailable('#contests .right_part', () => {
                     this.addClubmateAnnotations()
                 })
-            } else if (Helpers.isCurrentPage('tower-of-fame')) {
+            } else if (Helpers.isCurrentPage('leagues')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
                     this.addClubmateAnnotations()
                 })
@@ -46,7 +46,7 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
 
     async addClubmateAnnotations (data) {
         const selector = (data && data.selector) || ''
-        const isLeagues = Helpers.isCurrentPage('tower-of-fame')
+        const isLeagues = Helpers.isCurrentPage('leagues')
         const clubStatus = Helpers.lsGet(lsKeys.CLUB_STATUS)
         const nameColumnSelector = this.getNameColumnSelector()
 

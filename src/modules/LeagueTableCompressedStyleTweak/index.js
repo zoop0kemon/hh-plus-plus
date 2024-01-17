@@ -20,7 +20,7 @@ class LeagueTableCompressedStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('tower-of-fame')
+        return Helpers.isCurrentPage('leagues')
     }
 }
 

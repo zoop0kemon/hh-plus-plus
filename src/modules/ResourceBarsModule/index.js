@@ -207,7 +207,7 @@ class ResourceBarsModule extends CoreModule {
     addAdditionalBars() {
         const barTypes = [
             { type: 'kiss', feature: 'seasons', iconClass: 'hudKiss_mix_icn', shortcutLink: '/season-arena.html' },
-            { type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/tower-of-fame.html' },
+            { type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html' },
             { type: 'worship', feature: 'pantheon', iconClass: 'hudWorship_mix_icn', shortcutLink: '/pantheon.html' },
         ]
 
@@ -240,7 +240,7 @@ class ResourceBarsModule extends CoreModule {
                 }
                 addTimer()
 
-                if (type === 'challenge' && !Helpers.isCurrentPage('tower-of-fame')) {
+                if (type === 'challenge' && !Helpers.isCurrentPage('leagues')) {
                     window.can_battle_in_leagues = false
                 }
             }

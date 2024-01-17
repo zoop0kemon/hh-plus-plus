@@ -245,7 +245,7 @@ class HomeScreenModule extends CoreModule {
             // TODO parse and put into own label again
         } else {
             window.$.ajax({
-                url: '/tower-of-fame.html',
+                url: '/leagues.html',
                 success: (data) => {
                     let leaguesListItem
                     let leagueTag

@@ -19,7 +19,7 @@ const MIGRATIONS = {
 class LeagueInfoCollector {
     static collect() {
 
-        if (Helpers.isCurrentPage('tower-of-fame')) {
+        if (Helpers.isCurrentPage('leagues')) {
             Helpers.defer(() => {
                 LeagueInfoCollector.migrate()
                 LeagueInfoCollector.clean()

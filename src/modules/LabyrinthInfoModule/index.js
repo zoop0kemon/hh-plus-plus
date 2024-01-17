@@ -96,20 +96,20 @@ class LabyrinthInfoModule extends CoreModule {
 
     // TODO add relic stats to tooltips
     improveGirlTooltip () {
-        const {number_format_lang} = window
-        const actual = window.displayPvpV4Caracs
-        const hook = (...args) => {
-            const ret = actual(...args)
-            try {
-                const $ego = $(`<span carac="ego">${number_format_lang(args[0].battle_caracs.ego)}</span>`)
-                const $ret = $(`<div class="wrapper">${ret}</div>`)
-                $ret.find('.left-section').prepend($ego)
-                return $ret.html()
-            } catch {
-                return ret
-            }
-        }
-        window.displayPvpV4Caracs = hook
+        // const {number_format_lang} = window
+        // const actual = window.displayPvpV4Caracs
+        // const hook = (...args) => {
+        //     const ret = actual(...args)
+        //     try {
+        //         const $ego = $(`<span carac="ego">${number_format_lang(args[0].battle_caracs.ego)}</span>`)
+        //         const $ret = $(`<div class="wrapper">${ret}</div>`)
+        //         $ret.find('.left-section').prepend($ego)
+        //         return $ret.html()
+        //     } catch {
+        //         return ret
+        //     }
+        // }
+        // window.displayPvpV4Caracs = hook
 
         // add tooltips to battle page, have to use a bunch of nasty hacks to get it to be a pvp v4 tooltip
         if (Helpers.isCurrentPage('labyrinth-battle')) {

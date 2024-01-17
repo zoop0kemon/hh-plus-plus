@@ -25,7 +25,7 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['activities', 'tower-of-fame', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
+        return ['activities', 'leagues', 'pantheon', 'season.html', 'path-of-valor', 'path-of-glory', 'seasonal'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -38,7 +38,7 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
                 Helpers.doWhenSelectorAvailable('#contests .right_part', () => {
                     this.addSupporterAnnotations()
                 })
-            } else if (Helpers.isCurrentPage('tower-of-fame')) {
+            } else if (Helpers.isCurrentPage('leagues')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
                     this.addSupporterAnnotations()
                 })
@@ -53,7 +53,7 @@ class LeaderboardSupportersIndicatorsModule extends CoreModule {
 
     async addSupporterAnnotations (data) {
         const selector = (data && data.selector) || ''
-        const isLeagues = Helpers.isCurrentPage('tower-of-fame')
+        const isLeagues = Helpers.isCurrentPage('leagues')
         const supporters = await Supporters.getSupporters()
         const filteredSupporters = supporters.filter(({flairs}) => flairs)
 
