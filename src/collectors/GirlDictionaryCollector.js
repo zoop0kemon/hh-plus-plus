@@ -71,7 +71,7 @@ class GirlDictionaryCollector {
             if (Helpers.isCurrentPage('season')) {
                 GirlDictionaryCollector.collectFromSeasons()
             }
-            if (Helpers.isCurrentPage('leagues')) {
+            if (Helpers.isCurrentPage('leagues.html')) {
                 GirlDictionaryCollector.collectFromLeague()
             }
             if (updated) {

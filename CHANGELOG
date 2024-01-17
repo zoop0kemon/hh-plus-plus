@@ -1,3 +1,4 @@
+1.39.4: Removing redundant labyrinth girl tooltip improvements and updating labyrinth power normalization to use blessed stats after 17/01 game update
 1.39.3: Updating url to league page after 17/01 game update
 1.39.2: Adding relic menu to pre-battle/team edit and power normalization option to the labyrinth module, adding sort options to team filter module in labyrinth, updating the fight-a-villain module to show multiple girls on a villain for a single event, and fixing various bugs.
 1.39.1: Fixing PoP quicknav module and compact league table style tweak after 3/01 update. Adding girl tooltips to labyrinth battle page. Adding GH world 14 and PSH world 13 data.

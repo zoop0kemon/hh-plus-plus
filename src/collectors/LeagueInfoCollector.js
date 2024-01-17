@@ -19,7 +19,7 @@ const MIGRATIONS = {
 class LeagueInfoCollector {
     static collect() {
 
-        if (Helpers.isCurrentPage('leagues')) {
+        if (Helpers.isCurrentPage('leagues.html')) {
             Helpers.defer(() => {
                 LeagueInfoCollector.migrate()
                 LeagueInfoCollector.clean()

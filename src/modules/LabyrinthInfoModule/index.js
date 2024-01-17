@@ -4,7 +4,6 @@ import I18n from '../../i18n'
 
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
-import TooltipManager from '../../common/TooltipManager'
 
 const MODULE_KEY = 'labyrinth'
 
@@ -44,7 +43,7 @@ class LabyrinthInfoModule extends CoreModule {
             if (fixPower) {
                 this.normalizePower()
             }
-            this.improveGirlTooltip()
+            //this.improveGirlTooltip()
             this.addGirlIcons()
             this.addGirlOrder()
             this.addRelicsMenu()
@@ -62,12 +61,11 @@ class LabyrinthInfoModule extends CoreModule {
             const game_girls = owned_girls || availableGirls
             const girl_powers = []
             game_girls.forEach((girl) => {
-                const {id_girl, caracs: {carac1, carac2, carac3}} = girl
-                const power = carac1 + carac2 + carac3
-                girl.power_display = power
-                girl_powers.push({id_girl, power})
+                const {id_girl, caracs_sum} = girl
+                girl.power_display = caracs_sum
+                girl_powers.push({id_girl, caracs_sum})
             })
-            girl_powers.sort((a, b) => b.power - a.power)
+            girl_powers.sort((a, b) => b.caracs_sum - a.caracs_sum)
 
             const is_pool = Helpers.isCurrentPage('labyrinth-pool-select')
             const grid_selector = is_pool ? '.girl-grid' : '.harem-panel-girls'
@@ -79,7 +77,7 @@ class LabyrinthInfoModule extends CoreModule {
                     const $girl = $(`${container_selector}[id_girl="${girl.id_girl}"]`)
 
                     detached_containers.push($girl.detach())
-                    $girl.find(power_selector).html(I18n.nThousand(Math.ceil(girl.power)))
+                    $girl.find(power_selector).html(I18n.nThousand(Math.ceil(girl.caracs_sum)))
                 })
                 detached_containers.forEach((container) => {
                     $(grid_selector).append(container)
@@ -88,81 +86,20 @@ class LabyrinthInfoModule extends CoreModule {
         } else if (Helpers.isCurrentPage('labyrinth.html')) {
             const {girl_squad} = window
             girl_squad.forEach(({member_girl}) => {
-                const {caracs: {carac1, carac2, carac3}} = member_girl
-                member_girl.power_display = carac1 + carac2 + carac3
+                member_girl.power_display = member_girl.caracs_sum
             })
         }
     }
 
     // TODO add relic stats to tooltips
     improveGirlTooltip () {
-        // const {number_format_lang} = window
-        // const actual = window.displayPvpV4Caracs
-        // const hook = (...args) => {
-        //     const ret = actual(...args)
-        //     try {
-        //         const $ego = $(`<span carac="ego">${number_format_lang(args[0].battle_caracs.ego)}</span>`)
-        //         const $ret = $(`<div class="wrapper">${ret}</div>`)
-        //         $ret.find('.left-section').prepend($ego)
-        //         return $ret.html()
-        //     } catch {
-        //         return ret
-        //     }
-        // }
-        // window.displayPvpV4Caracs = hook
-
-        // add tooltips to battle page, have to use a bunch of nasty hacks to get it to be a pvp v4 tooltip
-        if (Helpers.isCurrentPage('labyrinth-battle')) {
-            const {hero_fighter_v4, opponent_fighter_v4} = window
-            const actual_tooltip = window.tooltips['[data-new-girl-tooltip]']
-            const actual_displayClassHTML = window.displayClassHTML
-            const actual_buildGirlSkills = window.buildGirlSkills
-            const girls = [...Object.values(hero_fighter_v4.fighters), ...opponent_fighter_v4.fighters]
-
-            Helpers.doWhenSelectorAvailable('.container-opponent', () => {
-                girls.forEach((girl) => {
-                    const $container = $(`.container-${girl.is_hero_fighter ? 'hero' : 'opponent'} .team-member-container[id="member-${girl.id_girl}"]`)
-                    const {girl: {graded2, caracs, blessed_caracs, battle_caracs, level, skill_tiers_info, girl: {name, rarity, class: g_class, element_data}}} = girl
-                    const girl_data = {name, graded2, rarity, class: g_class, caracs, blessed_caracs, battle_caracs, level, element_data, skill_tiers_info}
-
-                    $container.find('.girl_img').attr('data-new-girl-tooltip', JSON.stringify(girl_data))
-                })
-            })
-
-            const hook_tooltip = (...args) => {
-                const ret = actual_tooltip(...args)
-                try {
-                    const {displayPvpV4Caracs} = window
-                    const girl = JSON.parse($(args[0])[0].getAttribute("data-new-girl-tooltip"))
-                    const $body = $(`<div class="script-temp-wrapper">${ret.body}</div>`)
-                    $body.find('.caracs').html(displayPvpV4Caracs(girl))
-
-                    ret.body = $body.html()
-                    ret.class_name = `${ret.class_name}pvp-v4`
-                    return ret
-                } catch {
-                    return ret
-                }
-            }
-            // window.tooltips['[data-new-girl-tooltip]'] = hook_tooltip
-            TooltipManager.initTooltipType('[data-new-girl-tooltip]', hook_tooltip)
-            const hook_displayClassHTML = (...args) => {
-                if (args.length > 2 && typeof args[2] == "boolean") {
-                    args[2] = !args[2]
-                }
-                const ret = actual_displayClassHTML(...args)
-                return ret
-            }
-            window.displayClassHTML = hook_displayClassHTML
-            const hook_buildGirlSkills = (...args) => {
-                if (args.length > 1 && typeof args[1] == "boolean") {
-                    args[1] = !args[1]
-                }
-                const ret = actual_buildGirlSkills(...args)
-                return ret
-            }
-            window.buildGirlSkills = hook_buildGirlSkills
+        const actual = window.displayPvpV4Caracs
+        const hook = (...args) => {
+            const ret = actual(...args)
+            console.log(ret)
+            return ret
         }
+        window.displayPvpV4Caracs = hook
     }
 
     addGirlIcons () {

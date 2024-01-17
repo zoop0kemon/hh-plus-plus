@@ -34,7 +34,7 @@ class BattleSimulatorModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['pre-battle', 'leagues', 'season-arena'].some(page=>Helpers.isCurrentPage(page)) && !Helpers.isCurrentPage('labyrinth') 
+        return ['pre-battle', 'leagues.html', 'season-arena'].some(page=>Helpers.isCurrentPage(page)) && !Helpers.isCurrentPage('labyrinth') 
     }
 
     run ({logging}) {
@@ -46,7 +46,7 @@ class BattleSimulatorModule extends CoreModule {
         Helpers.defer(() => {
             this.injectCSSVars()
 
-            if (Helpers.isCurrentPage('leagues')) {
+            if (Helpers.isCurrentPage('leagues.html')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', async () => {
                     const {opponents_list} = window
                     if (opponents_list && opponents_list.length) {
@@ -125,7 +125,7 @@ class BattleSimulatorModule extends CoreModule {
     }
 
     runManagedSim () {
-        const isMainLeague = Helpers.isCurrentPage('leagues')
+        const isMainLeague = Helpers.isCurrentPage('leagues.html')
         this.simManagers.forEach(simManager => {
             const {player, opponent} = simManager.extract()
             const {logging, preSim} = this

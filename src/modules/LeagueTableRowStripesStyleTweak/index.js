@@ -27,7 +27,7 @@ class LeagueTableRowStripesStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('leagues')
+        return Helpers.isCurrentPage('leagues.html')
     }
 
     run () {

@@ -240,7 +240,7 @@ class ResourceBarsModule extends CoreModule {
                 }
                 addTimer()
 
-                if (type === 'challenge' && !Helpers.isCurrentPage('leagues')) {
+                if (type === 'challenge' && !Helpers.isCurrentPage('leagues.html')) {
                     window.can_battle_in_leagues = false
                 }
             }

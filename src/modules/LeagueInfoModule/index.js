@@ -69,7 +69,7 @@ class LeagueInfoModule extends CoreModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('leagues')
+        return Helpers.isCurrentPage('leagues.html')
     }
 
     run ({board, promo}) {
