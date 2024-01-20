@@ -13,15 +13,6 @@
         top: -0.1875rem;
     }
 
-    .leagues_girl_reward_container & {
-        font-size: 0.6rem;
-
-        .shard {
-            height: 0.8rem;
-            width: 0.8rem;
-        }
-    }
-
     .shard {
         height: 1rem;
         width: 1rem;
@@ -36,29 +27,20 @@
     }
 }
 
-.leagues_girl_reward_container .girl_ico {
-    position: relative;
+#season-arena .player_team_block.opponent .opponent_rewards {
+    .rewards_list:has(.slot.girl_ico) {
+        .slot {
+            &.slot_season_affection_girl .season_xp_girl>span:nth-child(2),
+            &.slot_season_xp_girl .season_affection_girl>span:nth-child(2) {
+                font-size: 0.6rem;
+                line-height: 0.75rem;
+            }
+            &.slot.girl_ico {
+                overflow: visible;
+            }
+        }
+    }
 }
-
-// #season-arena .player_team_block.opponent .opponent_rewards {
-//     .rewards_list.script-has-girl-reward {
-//         .slot {
-//             width: 30px;
-//             & > img {
-//                 height: auto;
-//             }
-//             &.slot_gems {
-//                 & > img {
-//                     margin-left: 1px;
-//                 }
-//             }
-//             &.slot_season_affection_girl p:nth-child(2),
-//             &.slot_season_xp_girl p:nth-child(2) {
-//                 font-size: 12px;
-//             }
-//         }
-//     }
-// }
 
 .rewards_tooltip .slot.girl_ico {
     overflow: visible;

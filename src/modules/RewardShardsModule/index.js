@@ -148,9 +148,10 @@ class RewardShardsModule extends CoreModule {
     }
 
     displayOnSeason() {
-        const annotate = () => {
-            const girlDictionary = Helpers.getGirlDictionary()
-            $('.rewards_list .slot_girl_shards .girl_ico').each((i, el) => {
+        const girlDictionary = Helpers.getGirlDictionary()
+
+        const annotate = (selector) => {
+            $(selector).each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
                 if (!$img.length) { return }
@@ -166,69 +167,19 @@ class RewardShardsModule extends CoreModule {
                     shards = 0
                 }
 
+                $el.find('.shards').hide()
                 $el.append(makeShardCount({ name, shards }))
-
-                // Fix layout widths
-                $el.parents('.rewards_list').addClass('script-has-girl-reward')
             })
         }
 
-        if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
-            annotate()
-        } else if ($('.rewards_list .slot_girl_shards').length) {
-            const observer = new MutationObserver(() => {
-                if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
-                    annotate()
-                    observer.disconnect()
-                }
-            })
-            observer.observe($('.rewards_list .slot_girl_shards')[0], { childList: true })
-        } else if ($('.rewards_list .girls_reward [data-reward-display]').length) {
-            const observer = new MutationObserver(() => {
-                if ($('.rewards_list .slot_girl_shards .girl_ico').length) {
-                    annotate()
-                    observer.disconnect()
-                }
-            })
-            observer.observe($('.rewards_list .girls_reward [data-reward-display]')[0], { childList: true })
-        }
-    }
-
-    displayOnLeague() {
-        const annotate = () => {
-            const girlDictionary = Helpers.getGirlDictionary()
-            const $girl = $('.leagues_girl_reward_container .girl_ico')
-            if (!$girl.length) { return }
-            const $img = $girl.find('img')
-            if (!$img.length) { return }
-            const url = $img.attr('src')
-
-            const id = extractIdFromUrl(url)
-            if (!id) { return }
-            const girl = girlDictionary.get(id)
-            let name, shards
-            if (girl) {
-                ({ name, shards } = girl)
-            } else {
-                shards = 0
+        Helpers.doWhenSelectorAvailable('.slot.girl_ico .slot_girl_shards', () => {
+            annotate('.slot.girl_ico .slot_girl_shards')
+        })
+        new MutationObserver(() => {
+            if ($('.rewards_tooltip .girl_ico').length) {
+                annotate('.rewards_tooltip .girl_ico')
             }
-
-            $girl.find('.script-shard-count').remove()
-            $girl.append(makeShardCount({ name, shards }))
-        }
-
-        if ($('.leagues_girl_reward_container .girl_ico').length) {
-            annotate()
-        } else {
-            const observer = new MutationObserver(() => {
-                if ($('.leagues_girl_reward_container .girl_ico').length) {
-                    annotate()
-                    observer.disconnect()
-                }
-            })
-            observer.observe($('.leagues_middle_header')[0], { childList: true })
-        }
-        $(document).on('girl-dictionary:updated', annotate)
+        }).observe(document.body, { childList: true })
     }
 }
 
