@@ -5,6 +5,7 @@ import I18n from '../../i18n'
 import Affection from '../../data/Affection'
 import GirlXP from '../../data/GirlXP'
 import { ELEMENTS } from '../../data/Elements'
+import { RARITIES } from '../../data/Rarities'
 
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
@@ -13,7 +14,6 @@ const {$} = Helpers
 
 const MODULE_KEY = 'harem'
 
-const RARITIES = ['starting', 'common', 'rare', 'epic', 'legendary', 'mythic']
 const GEM_COST_MULTIPLIERS = {
     starting: 1,
     common: 1,
@@ -43,6 +43,7 @@ class HaremInfoModule extends CoreModule {
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
 
         this.aggregates = {
+            checked: [],
             girls: 0,
             scPerHour: 0,
             scCollectAll: 0,
@@ -65,40 +66,41 @@ class HaremInfoModule extends CoreModule {
         return Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')
     }
 
-    aggregateStats () {
-        Object.values(girlsDataList).forEach((girl) => {
-            if (!girl.own) {return}
+    aggregateStats (girls_list) {
+        Object.values(girls_list).forEach((girl) => {
+            if (!girl.is_owned && !this.aggregates.checked.includes(girl.id_girl)) {return}
 
-            const {salary, salary_per_hour, rarity, class: carac, element, graded, nb_grades: maxGradeStr, level, level_cap, awakening_level: awakeningLevelStr} = girl
-            const maxGrade = parseInt(maxGradeStr, 10)
-            const awakeningLevel = parseInt(awakeningLevelStr, 10)
+            const {salary, salaries, rarity, class: carac, element, graded, nb_grades, level, awakening_level, id_girl} = girl
+            const max_grade = parseInt(nb_grades, 10)
+            const level_cap = awakening_requirements[awakening_level].cap_level
 
+            this.aggregates.checked.push(id_girl)
             this.aggregates.scCollectAll += salary
             this.aggregates.rarities[rarity]++
             this.aggregates.caracs[carac]++
             this.aggregates.elements[element]++
             this.aggregates.girls++
-            this.aggregates.scPerHour += Math.round(salary_per_hour)
+            this.aggregates.scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
             this.aggregates.unlockedScenes += graded
-            this.aggregates.totalScenes += maxGrade
+            this.aggregates.totalScenes += max_grade
             this.aggregates.levelSum += parseInt(level)
-            if (graded < maxGrade) {
-                this.aggregates.aff += Math.max(Affection[rarity].totalAff(maxGrade) - girl.Affection.cur, 0)
+            if (graded < max_grade) {
+                this.aggregates.aff += Math.max(Affection[rarity].totalAff(max_grade) - girl.affection, 0)
                 let currentGradeSC = 0,
                     currentGradeHC = 0
                 if (girl.graded > 0) {
                     currentGradeSC = Affection[rarity].totalSC(girl.graded)
                     currentGradeHC = Affection[rarity].totalHC(girl.graded)
                 }
-                this.aggregates.affSC += Affection[rarity].totalSC(maxGrade) - currentGradeSC
-                const hcDiff = Affection[rarity].totalHC(maxGrade) - currentGradeHC
+                this.aggregates.affSC += Affection[rarity].totalSC(max_grade) - currentGradeSC
+                const hcDiff = Affection[rarity].totalHC(max_grade) - currentGradeHC
                 this.aggregates.affHC += Helpers.isNutakuKobans() ? Math.ceil(hcDiff / 6) : hcDiff
             }
 
-            this.aggregates.xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - girl.Xp.cur, 0)
-            this.aggregates.xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - girl.Xp.cur, 0)
+            this.aggregates.xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - girl.xp, 0)
+            this.aggregates.xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - girl.xp, 0)
 
-            this.aggregates.gems[element] += getGemCostFromAwakeningLevel(awakeningLevel, rarity)
+            this.aggregates.gems[element] += getGemCostFromAwakeningLevel(awakening_level, rarity)
         })
     }
 
@@ -313,6 +315,13 @@ class HaremInfoModule extends CoreModule {
     }
 
     attachToPage ($panel) {
+        const $prev_panel = $('#harem_left .harem-info-panel')
+        if ($prev_panel.length) {
+            const prev_classes = $prev_panel.attr('class')
+            $prev_panel.html($panel.html()).addClass(prev_classes)
+            return
+        }
+
         const $button = $('<div class="harem-info-panel-toggle clubGirl_mix_icn"></div>')
         const $overlayBG = $('<div class="harem-info-overlay-bg"></div>')
         $('#harem_left').append($button).append($panel).append($overlayBG)
@@ -346,7 +355,7 @@ class HaremInfoModule extends CoreModule {
         const girl = girlsDataList[girlId]
         const wikiLink = Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())
 
-        if (!girl.own) {
+        if (!girl.is_owned) {
             const $existingLink = $girl.find('.WikiLinkDialogbox > a')
             if ($existingLink.length) {
                 $existingLink.attr('href', wikiLink)
@@ -354,7 +363,7 @@ class HaremInfoModule extends CoreModule {
                 $girl.find('.middle_part.missing_girl .dialog-box').append(`<div class="WikiLinkDialogbox"><a href="${wikiLink}" target="_blank">${this.label('wikiPage', {name: girl.name})}</a></div>`)
             }
         }
-        if (girl.own) {
+        if (girl.is_owned) {
             const $existingLink = $girl.find('.WikiLink a')
             if ($existingLink.length) {
                 $existingLink.attr('href', wikiLink)
@@ -376,7 +385,7 @@ class HaremInfoModule extends CoreModule {
             const index = $el.index()
             const {rarity} = girl
 
-            const remainingAffection = Affection[rarity].totalAff(index + 1) - girl.Affection.cur
+            const remainingAffection = Affection[rarity].totalAff(index + 1) - girl.affection
             const {sc, hc} = Affection[rarity].steps[index]
             const hcMultiplier = Helpers.isNutakuKobans() ? 1/6 : 1
 
@@ -402,8 +411,10 @@ class HaremInfoModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            this.aggregateStats()
-            this.attachToPage(this.buildStatsDisplay())
+            Helpers.onAjaxResponse(/action=girls_get_list/i, (response) => {
+                this.aggregateStats(response.girls_list)
+                this.attachToPage(this.buildStatsDisplay())
+            })
 
             const checkSelectionChange = () => {
                 const $girl = $('#harem_right [girl]')

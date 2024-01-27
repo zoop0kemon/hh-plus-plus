@@ -58,6 +58,7 @@ class ContestRewardsModule extends CoreModule {
         }
 
         contests_data.forEach((contest) => {
+            // Object.values(contest.rewards).forEach((reward_bracket) => {
             if ($(`.contest[id_contest="${contest.id_contest}"]`).length) {
                 const {data: reward_data, drops} = contest.reward
 
@@ -68,7 +69,7 @@ class ContestRewardsModule extends CoreModule {
                             const type_matches = e.type === type
                             const gem_matches = type === 'gems' && type_matches ? e.gem_type === reward.gem_type : true
                             const item_matches = type === 'item' && type_matches ? e.value.item.id_item === reward.value.item.id_item : true
-                            const armor_matches = type === 'armor' && type_matches ? e.display === reward.display : true
+                            const armor_matches = type === 'armor' && type_matches ? e.value.rarity === reward.value.rarity : true
                             return type_matches && gem_matches && item_matches && armor_matches
                         })
 

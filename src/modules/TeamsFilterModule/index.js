@@ -3,6 +3,8 @@ import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
 import filterIcon from '../../assets/filter.svg'
+import { ELEMENTS } from '../../data/Elements'
+import { RARITIES } from '../../data/Rarities'
 
 import styles from './styles.lazy.scss'
 import Sheet from '../../common/Sheet'
@@ -221,13 +223,13 @@ class TeamsFilterModule extends CoreModule {
         totalHTML += Snippets.selectInput({
             id: 'filter_element',
             label: this.label('searchedElement'),
-            options: ['fire', 'nature', 'stone', 'sun', 'water', 'darkness', 'light', 'psychic'].map(option => ({label: GT.design[`${option}_flavor_element`], value: option})),
+            options: ELEMENTS.map(option => ({label: GT.design[`${option}_flavor_element`], value: option})),
             className: 'script-filter-element'
         })
         totalHTML += Snippets.selectInput({
             id: 'filter_rarity',
             label: this.label('searchedRarity'),
-            options: ['starting', 'common', 'rare', 'epic', 'legendary', 'mythic'].map(option => ({label: GT.design[`girls_rarity_${option}`], value: option})),
+            options: RARITIES.map(option => ({label: GT.design[`girls_rarity_${option}`], value: option})),
             className: 'script-filter-rarity rarity-styling'
         })
         totalHTML += Snippets.selectInput({

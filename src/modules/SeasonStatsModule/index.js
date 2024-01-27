@@ -36,16 +36,16 @@ class SeasonStatsModule extends CoreModule {
             <span class="scriptSeasonStatsTooltip" style="visibility: visible;">
                 <table>
                     <tbody>
-                        <tr><td>${this.label('fights')} :</td><td>${fights}</td></tr>
-                        <tr><td>${this.label('victories')} :</td><td>${victories}</td></tr>
-                        <tr><td>${this.label('defeats')} :</td><td>${losses}</td></tr>
+                        <tr><td>${this.label('fights')} :</td><td>${I18n.nThousand(fights)}</td></tr>
+                        <tr><td>${this.label('victories')} :</td><td>${I18n.nThousand(victories)}</td></tr>
+                        <tr><td>${this.label('defeats')} :</td><td>${I18n.nThousand(losses)}</td></tr>
                     </tbody>
                 </table>
                 <hr/>
                 <table>
                     <tbody>
-                        <tr><td>${this.label('mojoWon')} :</td><td>${won_mojo}</td></tr>
-                        <tr><td>${this.label('mojoLost')} :</td><td>${lost_mojo}</td></tr>
+                        <tr><td>${this.label('mojoWon')} :</td><td>${I18n.nThousand(won_mojo)}</td></tr>
+                        <tr><td>${this.label('mojoLost')} :</td><td>${I18n.nThousand(lost_mojo)}</td></tr>
                     </tbody>
                 </table>
                 <hr/>

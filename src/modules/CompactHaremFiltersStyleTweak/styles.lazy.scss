@@ -1,52 +1,128 @@
-#filtering_girls .form-wrapper {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: 1fr 1fr;
+#filtering_girls {
+    .form-wrapper {
+        height: 31rem;
+        width: 23rem;
+        margin:  -14px 0 0 0;
+        padding: 0 1rem;
+        display: grid;
+        grid-gap: 1rem;
+        grid-row-gap: unset;
+        grid-template-columns: 1fr 1fr; 
+        justify-items: stretch;
 
-    .form-control {
-        margin-bottom: 0;
-        margin-top: -6px;
-
-        input,
-        select,
-        .selectric,
-        .selectric .label {
-            font-size: 14px !important;
-            height: 32px !important;
-            line-height: 32px;
-        }
-
-        .checkbox-group > .check-btn.element-state {
-            margin-bottom: 10px;
-        }
-
-        select {
-            &[name="world"],
-            &[name="event"] {
-                margin-top: 11px;
+        
+        .reset-filters-container {
+            grid-column: 1/3;
+            height: 1.5rem;
+        
+            .blue_button_L {
+                width: 100%;
+                padding: 0px;
+                margin: 0 1rem;
             }
         }
 
-        &.secondary-position-fix {
-            grid-column: 2;
-            grid-row: 9;
-            pointer-events: none;
+        .form-control {
+            margin: 0px;
+            max-width: 10rem;
 
-            select {
-                pointer-events: all;
+            &.filter-by-element-form,
+            &.world-filter,
+            &.event-filter {
+                grid-column: 1/3;
+                width: 21rem;
+                max-width: 21rem;
+                margin: 0;
+            }
+
+            &.world-filter,
+            &.event-filter {
+                margin-top: 0.5rem;
+            }
+
+            label.head-group {
+                pointer-events: none;
+            }
+
+            .input-group input {
+                height: 28px;
+                padding-left: 0.5rem;
+                font-size: 12px;
+
+                &[icon=search] {
+                    background-size: 1.5rem;
+                }
+            }
+
+            .select-group {
+                .selectric-wrapper {
+                    .selectric {
+                        height: 28px;
+                        padding-left: 0.5rem;
+
+                        &>.label {
+                            height: 28px;
+                            margin: 0 1.5rem 0 0;
+                            font-size: 12px;
+                            line-height: 28px;
+
+                            &>span {
+                                width: 30px;
+                                height: 30px;
+                                background-size: cover;
+                                background-position: 0px 0px;
+                            }
+                        }
+
+                        &>b {
+                            top: 0px!important;
+                            background-size: 1.5rem!important;
+                            height: 100%!important;
+                        }
+                    }
+
+                    .selectric-items li {
+                        padding: 0 0.5rem;
+                        max-height: 30px;
+                
+                        &>span {
+                            width: 30px;
+                            height: 30px;
+                            background-size: cover;
+                            background-position: 0px 0px;
+                        }
+                    }
+                }
+
+                &>select {
+                    height: 28px;
+                    padding-left: 0.5rem;
+                    font-size: 12px;
+                    background-size: 1.5rem;
+                }
+            }
+
+            .checkbox-group {
+                .check-btn.element-state {
+                    margin: 0;
+                }
+            
+                .check-btn.shards-state,
+                .check-btn.carac-state {
+                    height: 2rem;
+                    min-width: 7rem;
+            
+                    &::before {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
             }
         }
     }
 
-    .reset-filters-container {
-        .blue_button_L {
-            padding: 4px 20px;
-        }
-    }
-
-    .reset-filters-container,
-    .double-wide {
-        grid-column: 1/3;
+    .tip-filter {
+        display: none;
     }
 }
 

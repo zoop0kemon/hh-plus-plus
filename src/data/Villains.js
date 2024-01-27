@@ -890,10 +890,10 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'nature',
+                element: 'psychic',
                 amount: 15,
             }, {
-                element: 'stone',
+                element: 'water',
                 amount: 15,
             }]
         },
@@ -907,8 +907,11 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'darkness',
-                amount: 20,
+                element: 'nature',
+                amount: 15,
+            }, {
+                element: 'stone',
+                amount: 15,
             }]
         },
         {
@@ -921,7 +924,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'light',
+                element: 'darkness',
                 amount: 20,
             }]
         },
@@ -935,7 +938,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'psychic',
+                element: 'light',
                 amount: 20,
             }]
         },
@@ -948,7 +951,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'water',
+                element: 'psychic',
                 amount: 20,
             }]
         }

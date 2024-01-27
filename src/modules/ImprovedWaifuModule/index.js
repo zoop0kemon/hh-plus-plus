@@ -1,4 +1,3 @@
-/* global girlsDataList */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'

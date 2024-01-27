@@ -415,7 +415,7 @@ export const contestSummary = {
 }
 
 export const blessingSpreadsheetLink = {
-    name: `Open ${Helpers.isGH() ? 'Bella' : 'zoopokemon'}'s blessing data spreadsheet`
+    name: 'Open {{maintainer}}\'s blessing data spreadsheet'
 }
 
 export const haremTeamsFilter = {

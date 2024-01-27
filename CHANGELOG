@@ -1,3 +1,4 @@
+1.39.6: Removing defunct harem team filter module, fixing compact harem filters style tweak. Partly fixing harem info module, girl dictionary collector, and harem filter collector. Adding GPSH blessings spreadsheet link and fixing various other bugs.
 1.39.5: Fixing shard count in seasons
 1.39.4: Removing redundant labyrinth girl tooltip improvements and updating labyrinth power normalization to use blessed stats after 17/01 game update
 1.39.3: Updating url to league page after 17/01 game update

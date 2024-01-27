@@ -3,6 +3,7 @@ import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
 import VILLAINS from '../../data/Villains'
+import { RARITIES } from '../../data/Rarities'
 import { lsKeys } from '../../common/Constants'
 
 import styles from './styles.lazy.scss'
@@ -10,7 +11,6 @@ import Sheet from '../../common/Sheet'
 
 const MODULE_KEY = 'villain'
 
-const RARITIES = ['starting', 'common', 'rare', 'epic', 'legendary', 'mythic']
 const DEFAULT_TIER_RARITY = {
     1: 'common',
     2: 'epic',

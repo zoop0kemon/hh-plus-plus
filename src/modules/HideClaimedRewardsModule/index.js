@@ -262,9 +262,7 @@ class HideClaimedRewardsModule extends CoreModule {
             }
             assertHidden()
             fixScroll()
-            $('.scroll-area').stop(true).animate({
-                scrollLeft: Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6)
-            }, 100)
+            $('.scroll-area').getNiceScroll(0).doScrollLeft(Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6), 100)
             const toggle = () => {
                 if ($('.script-hide-claimed').length) {
                     assertShown()

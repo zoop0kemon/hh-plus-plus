@@ -95,7 +95,7 @@ body > div > header {
             z-index: 5;
 
             @media #{$mediaMobile} {
-                left: 198px;
+                left: 190px;
                 top: 42px;
             }
         }
@@ -116,10 +116,10 @@ body > div > header {
     }
 
     .promo_fight_discount_text {
-        left: 238px;
+        left: 248px;
 
         @media #{$mediaMobile} {
-            left: 295px;
+            left: 292px;
         }
     }
 
@@ -358,7 +358,7 @@ body > div > header {
         & + #blessings-button {
             margin-left: 5px;
             @media #{$mediaMobile} {
-                margin-left: -34px;
+                margin-left: -42px;
                 margin-top: 34px;
             }
         }

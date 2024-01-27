@@ -389,7 +389,7 @@ export const villainBreadcrumbs = {
 }
 
 export const blessingSpreadsheetLink = {
-    name: `Apri il foglio di calcolo delle benedizioni di ${Helpers.isGH() ? 'Bella' : 'zoopokemon'}`
+    name: 'Apri il foglio di calcolo delle benedizioni di {{maintainer}}'
 }
 
 export const haremTeamsFilter = {

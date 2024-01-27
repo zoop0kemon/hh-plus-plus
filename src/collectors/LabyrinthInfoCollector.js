@@ -69,20 +69,29 @@ class LabyrinthInfoCollector {
 
                     return relic_data
                 }
+                const relicSort = (a, b) => {
+                    if (a.identifier === b.identifier) {
+                        return b.bonus - a.bonus
+                    }
+                    return a.identifier > b.identifier ? -1 : 1
+                }
 
                 Helpers.onAjaxResponse(/action=labyrinth_get_member_relics/i, (response) => {
                     const {unclaimed_relics, relics} = response
+                    // choice of 3 relics
                     if (unclaimed_relics) {
                         unclaimed_relics_data.push(...unclaimed_relics)
                     }
+                    // default relics menu
                     if (relics) {
                         const relics_data = []
                         relics.forEach((relic) => {
                             relics_data.push(trimRelicData(relic))
                         })
-                        Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics_data)
+                        Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics_data.sort(relicSort))
                     }
                 })
+                // choosing 1 of 3 relics
                 Helpers.onAjaxResponse(/action=labyrinth_pick_unclaimed_relic/i, (response, opt) => {
                     if (unclaimed_relics_data.length) {
                         const searchParams = new URLSearchParams(opt.data)
@@ -93,7 +102,7 @@ class LabyrinthInfoCollector {
                             const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
 
                             relics.push(trimRelicData(claimed_relic))
-                            Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics)
+                            Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics.sort(relicSort))
                         }
                     }
                 })
