@@ -107,6 +107,7 @@ export const config = {
     leagueQuickNav: 'League opponent quick navigation',
     labyrinth: 'Labyrinth information',
     labyrinth_fixPower: `Normalize ${gameConfig.girl} display power`,
+    haremOptimization: 'Optimizing the Harem'
 }
 export const stConfig = {
     missionsBackground: 'Change missions background',

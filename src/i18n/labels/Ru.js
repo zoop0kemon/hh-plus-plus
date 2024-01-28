@@ -107,6 +107,7 @@ export const config = {
     upgradeQuickNav: 'Быстрая навигация на экране апгрейдов',
     leaderboardClubmateIndicators: 'Выделять членов клуба в списках игроков',
     leaderboardProfilePopups: 'Ссылки на профили в списках игроков',
+    haremOptimization: 'оптимизация гарема',
 }
 export const stConfig = {
     missionsBackground: 'Изменить фон миссий',

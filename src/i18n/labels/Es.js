@@ -128,6 +128,7 @@ export const config = {
     leagueQuickNav: 'Navegación rápida del oponente de la liga',
     labyrinth: 'Información del laberinto',
     labyrinth_fixPower: `Normalizar el poder de visualización ${gameConfig.delachica}`,
+    haremOptimization: 'Optimización del harén',
 
 }
 export const stConfig = {
