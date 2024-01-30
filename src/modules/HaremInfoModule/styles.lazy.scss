@@ -313,6 +313,14 @@
     #collect_all_container {
         min-width: 125px;
         margin: unset;
+
+        @media #{$mediaMobile} {
+            width: 11rem;
+
+            #collect_nothing {
+                line-height: 1.25;
+            }
+        }
     }
 
     #unequip_all_container {

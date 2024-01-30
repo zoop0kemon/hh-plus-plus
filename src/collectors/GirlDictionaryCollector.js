@@ -3,18 +3,19 @@ import Helpers from '../common/Helpers'
 let girlDictionary
 
 const upsert = (id, data) => {
+    // if (id == 1) {console.log(data)}
     const existingEntry = girlDictionary.get(`${id}`)
     const upsert = Object.assign({}, existingEntry, data)
     girlDictionary.set(`${id}`, upsert)
 }
 
-const collectFromGirlList = (girl_list, all_owned=false) => {
+const collectFromGirlList = (girl_list) => {
     girlDictionary = Helpers.getGirlDictionary()
     let updated = false
 
     Object.values(girl_list).forEach((girl) => {
         const { id_girl, name, shards, class: girl_class, rarity, nb_grades, graded2, fav_graded, graded, own, is_owned } = girl
-        const has_girl = own !== undefined ? own : (is_owned !== undefined ? is_owned : all_owned)
+        const has_girl = own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100)
 
         const girl_data = {
             name,
@@ -23,7 +24,7 @@ const collectFromGirlList = (girl_list, all_owned=false) => {
             rarity,
             grade: nb_grades ? parseInt(nb_grades, 10) : (graded2 ? $(graded2).length : undefined),
             pose: !has_girl ? undefined : ((fav_graded == null || parseInt(fav_graded, 10) < 0) ? graded : parseInt(fav_graded, 10)),
-            graded: !has_girl ? undefined : graded,
+            graded: !has_girl ? undefined : (graded ? graded : (graded2 ? $(graded2).filter('g:not(.grey):not(.green)').length : undefined)),
         }
 
         Object.keys(girl_data).forEach((key) => {
@@ -74,11 +75,9 @@ const collectFromAjaxResponseLeagues = (response) => {
 class GirlDictionaryCollector {
     static collect() {
         Helpers.defer(() => {
+            // Data for unowned and owned girls
             if (Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')) {
                 GirlDictionaryCollector.collectFromHarem()
-            }
-            if (Helpers.isCurrentPage('/girl/')) {
-                GirlDictionaryCollector.collectFromUpgrade()
             }
             if (Helpers.isCurrentPage('event')) {
                 GirlDictionaryCollector.collectFromEventWidget()
@@ -86,6 +85,21 @@ class GirlDictionaryCollector {
             if (Helpers.isCurrentPage('clubs')) {
                 GirlDictionaryCollector.collectFromClubChamp()
             }
+            // Data for owned girls
+            if (Helpers.isCurrentPage('/girl/')) {
+                GirlDictionaryCollector.collectFromUpgrade()
+            }
+            if (Helpers.isCurrentPage('activities')) {
+                GirlDictionaryCollector.collectFromPoP()
+            }
+            if (['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team'].some(page => Helpers.isCurrentPage(page))) {
+                GirlDictionaryCollector.collectFromTeamEdit()
+            }
+            if (Helpers.isCurrentPage('waifu.html')) {
+                GirlDictionaryCollector.collectFromWaifu()
+            }
+            // To track shard progress
+            // TODO add collection from SM, ME, and Lab market
             if (Helpers.isCurrentPage('battle')) {
                 GirlDictionaryCollector.collectFromBattleResult()
             }
@@ -93,7 +107,6 @@ class GirlDictionaryCollector {
                 GirlDictionaryCollector.collectFromPachinkoRewards()
             }
             if (Helpers.isCurrentPage('activities')) {
-                GirlDictionaryCollector.collectFromPoP()
                 GirlDictionaryCollector.collectFromContestRewards()
             }
             if (Helpers.isCurrentPage('champion')) {
@@ -117,18 +130,6 @@ class GirlDictionaryCollector {
         })
     }
 
-    static collectFromUpgrade() {
-        const {girl} = window
-        collectFromGirlList([girl])
-    }
-
-    static collectFromPoP() {
-        const {pop_hero_girls} = window
-        if (!pop_hero_girls) { return }
-
-        collectFromGirlList(pop_hero_girls, true)
-    }
-
     static collectFromEventWidget() {
         const {event_girls} = window
         collectFromGirlList(event_girls)
@@ -144,6 +145,28 @@ class GirlDictionaryCollector {
         const girl_data = Object.assign({class: girl_class, shards: previous_value}, rewardShards[0])
 
         collectFromGirlList([girl_data])
+    }
+
+    static collectFromUpgrade() {
+        const {girl} = window
+        collectFromGirlList([girl])
+    }
+
+    static collectFromPoP() {
+        const {pop_hero_girls} = window
+        if (!pop_hero_girls) { return }
+
+        collectFromGirlList(pop_hero_girls)
+    }
+
+    static collectFromTeamEdit() {
+        const {availableGirls} = window
+        collectFromGirlList(availableGirls)
+    }
+
+    static collectFromWaifu() {
+        const {girlsDataList} = window
+        collectFromGirlList(girlsDataList)
     }
 
     static collectFromBattleResult() {

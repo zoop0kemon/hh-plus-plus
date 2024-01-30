@@ -1,8 +1,10 @@
+@import "../../common/constants.scss";
+
 #filtering_girls {
     .form-wrapper {
         height: 31rem;
         width: 23rem;
-        margin:  -14px 0 0 0;
+        margin-top: -1rem;
         padding: 0 1rem;
         display: grid;
         grid-gap: 1rem;
@@ -10,6 +12,9 @@
         grid-template-columns: 1fr 1fr; 
         justify-items: stretch;
 
+        @media #{$mediaMobile} {
+            margin-top: 0;
+        }
         
         .reset-filters-container {
             grid-column: 1/3;
@@ -103,6 +108,10 @@
             }
 
             .checkbox-group {
+                @media #{$mediaMobile} {
+                    margin: 0;
+                }
+
                 .check-btn.element-state {
                     margin: 0;
                 }
