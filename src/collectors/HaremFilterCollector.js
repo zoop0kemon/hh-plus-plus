@@ -66,9 +66,10 @@ class HaremFilterCollector {
                 const {teams_data} = window
                 const collectTeamList = () => {
                     const team_id = parseInt($('.team-slot-container.selected-team').attr('data-id-team'))
-                    const {girls_ids} = Object.values(teams_data).find(team => team.id_team === team_id)
+                    if (!team_id) {return}
+                    const {girls_ids} = Object.values(teams_data).find(team => parseInt(team.id_team) === team_id)
 
-                    Helpers.lsSet(lsKeys.HAREM_FILTER_IDS, girls_ids)
+                    Helpers.lsSet(lsKeys.HAREM_FILTER_IDS, girls_ids.map(girl_id => parseInt(girl_id)))
                 }
 
                 Helpers.doWhenSelectorAvailable('.team-slot-container.selected-team', () => {

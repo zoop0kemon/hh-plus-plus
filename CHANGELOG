@@ -1,3 +1,4 @@
+1.39.8: Fixing team filter collector, and fixing relic menu and home screen style tweaks after 31/01 update.
 1.39.7: Fixing compact harem filters style tweak for mobile, updating upgrade quick nav order to use selected team/champion draft if entered from team selection/champion page, and adding more sources for girl dictionary collector.
 1.39.6: Removing defunct harem team filter module, fixing compact harem filters style tweak. Partly fixing harem info module, girl dictionary collector, and harem filter collector. Adding GPSH blessings spreadsheet link and fixing various other bugs.
 1.39.5: Fixing shard count in seasons

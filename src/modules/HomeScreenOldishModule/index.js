@@ -62,9 +62,9 @@ class HomeScreenOldishModule extends CoreModule {
     }
 
     wrapPotionPathButtons () {
-        const $buttons = $('.season-pov-container .pov-button')
+        const $buttons = $('.event-cards-container .pov-button')
         const $wrapper = $('<div class="potions-paths-buttons"></div>')
-        $('.season-pov-container').append($wrapper)
+        $('.event-cards-container').append($wrapper)
         $wrapper.append($buttons)
     }
 }

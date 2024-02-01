@@ -313,7 +313,9 @@ class LabyrinthInfoModule extends CoreModule {
             const relics = relics_trimed.map((relic) => {
                 const {identifier, rarity, bonus, girl} = relic
                 const type = identifier.match(/[a-z]+/g)[0]
-                const relic_data = {identifier, rarity, type, bonus}
+                const title = GT.design[`${relic.identifier}_name`]
+                const description = GT.design[`${relic.identifier}_description`]
+                const relic_data = {identifier, rarity, type, bonus, title, description}
                 if (girl) {relic_data.girl = girl}
 
                 return relic_data

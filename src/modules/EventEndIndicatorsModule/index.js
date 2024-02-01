@@ -47,7 +47,7 @@ class EventEndIndicatorsModule extends CoreModule {
     }
 
     annotateEventWidget () {
-        const $eventTimers = $('.event-widget .timer.ongoing, .seasonal-event .timer.ongoing')
+        const $eventTimers = $('.event-widget .timer.ongoing, .mega-event .timer.ongoing')
 
         $eventTimers.each((i, el) => {
             const $el = $(el)
