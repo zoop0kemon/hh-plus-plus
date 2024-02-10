@@ -22,6 +22,19 @@
                 bottom: 6px;
             }
 
+            #battle & {
+                width: 100%;
+                justify-content: center;
+                bottom: 3rem;
+                z-index: 2;
+                gap: 1rem;
+
+                [carac]::before, .icon {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+
             [carac]::before {
                 display: block;
                 width: 15px;
@@ -327,6 +340,8 @@
             }
 
             &.large-card {
+                min-height: 5rem;
+
                 .relic-name {
                     align-self: flex-start;
                     width: 75%;
@@ -358,4 +373,8 @@
         right: 5px!important;
         z-index: unset!important;
     }
+}
+
+.new_girl_tooltip .caracs span.relic-attribute {
+    color: #ff06ff!important;
 }

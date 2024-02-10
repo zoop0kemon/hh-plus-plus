@@ -1,3 +1,5 @@
+@import "../../common/constants.scss";
+
 #daily_goals .daily-goals-row {
     .daily-goals-left-part {
         width: 62.5rem;
@@ -102,21 +104,19 @@
         overflow: hidden;
         pointer-events: none;
 
-        // PSH
-        & > img {
-            position: absolute;
-            top: 0.5rem;
-            right: 12rem;
-            height: 24.5rem;
-            width: auto;
+        @media #{$mediaMobile} {
+            height: 150px;
         }
 
-        // Everything else
         .timer-girl-container {
             position: absolute;
             top: 0.5rem;
-            right: 12rem;
+            right: 14rem;
             width: 10rem;
+
+            @media #{$mediaMobile} {
+                top: 0px;
+            }
 
             & > img {
                 height: 24.5rem;

@@ -19,14 +19,3 @@ export const ICON_NAMES = {
     'light': 'Submissive',
     'psychic': 'Voyeurs'
 }
-
-export const ELEMENT_NAMES = {
-    'fire': 'eccentric',
-    'nature': 'exhibitionist',
-    'stone': 'physical',
-    'sun': 'playful',
-    'water': 'sensual',
-    'darkness': 'dominatrix',
-    'light': 'submissive',
-    'psychic': 'voyeur'
-}

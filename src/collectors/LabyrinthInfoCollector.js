@@ -107,6 +107,60 @@ class LabyrinthInfoCollector {
                     }
                 })
             }
+            // update girl info for relics
+            if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth.html')) {
+                const {availableGirls, girl_squad} = window
+                const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
+                relics.forEach(({girl: relic_girl}) => {
+                    if (relic_girl) {
+                        const {id_girl} = relic_girl
+                        if (availableGirls) {
+                            const girl = availableGirls.find(girl => girl.id_girl == id_girl)
+                            if (girl) {
+                                const {remaining_ego, level, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp, class: g_class, rarity, name, element_data: {type}} = girl
+                                const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+
+                                relic_girl.member_girl = {
+                                    level,
+                                    battle_caracs,
+                                    graded2,
+                                    ico,
+                                    skill_tiers_info,
+                                    girl: {
+                                        class: g_class,
+                                        rarity,
+                                        name,
+                                        element_data: {type}
+                                    }
+                                }
+                                relic_girl.remaining_ego_percent = parseInt(remaining_ego)
+                            } else {
+                                relic_girl.remaining_ego_percent = 0
+                            }
+                        } else if (girl_squad) {
+                            const girl = girl_squad.find(girl => girl.id_girl == id_girl)
+                            const {remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}}, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = girl
+                            const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+
+                            relic_girl.member_girl = {
+                                level,
+                                battle_caracs,
+                                graded2,
+                                ico,
+                                skill_tiers_info,
+                                girl: {
+                                    class: g_class,
+                                    rarity,
+                                    name,
+                                    element_data: {type}
+                                }
+                            }
+                            relic_girl.remaining_ego_percent = remaining_ego_percent
+                        }
+                    }
+                })
+                Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics)
+            }
         })
     }
 }

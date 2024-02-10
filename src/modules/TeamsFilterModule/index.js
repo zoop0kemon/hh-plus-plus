@@ -5,10 +5,12 @@ import I18n from '../../i18n'
 import filterIcon from '../../assets/filter.svg'
 import { ELEMENTS } from '../../data/Elements'
 import { RARITIES } from '../../data/Rarities'
+import { RELIC_BONUSES } from '../../data/Relics'
 
 import styles from './styles.lazy.scss'
 import Sheet from '../../common/Sheet'
 import Snippets from '../../common/Snippets'
+import { lsKeys } from '../../common/Constants'
 
 const MODULE_KEY = 'teamsFilter'
 const CLASS_NAMES = {
@@ -41,6 +43,10 @@ class TeamsFilterModule extends CoreModule {
             this.injectCSSVars()
 
             this.isLabyrinth = Helpers.isCurrentPage('labyrinth')
+            if (this.isLabyrinth) {
+                const RELIC_KEYS = Object.keys(RELIC_BONUSES)
+                this.relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)).map(relic => Object.assign(relic, RELIC_BONUSES[relic.identifier])) || []
+            }
             this.isLabyrinthMain = Helpers.isCurrentPage('labyrinth.html')
             const selector = Helpers.isCurrentPage('team') ? 'h3.panel-title' : (this.isLabyrinthMain ? '.squad-container' : '#filter_girls')
             Helpers.doWhenSelectorAvailable(selector, () => {
@@ -190,11 +196,24 @@ class TeamsFilterModule extends CoreModule {
         let filterSort = $('#filter_sort').get(0).value
         if (filterSort === 'mana') {filterSort = 'mana_starting'}
         if (filterSort === 'mana-generation') {filterSort = 'mana_generation'}
-        const haremGirls = window.availableGirls || window.owned_girls || window.girl_squad.map(g => g.member_girl)
+        const haremGirls = window.availableGirls || window.owned_girls || window.girl_squad.map(({member_girl}) => member_girl)
+        const relics = this.relics.filter(({carac}) => carac === filterSort)
 
         const sorted_caracs = []
-        haremGirls.forEach(({id_girl, battle_caracs, power_display}) => {
-            const carac = filterSort === 'all' ? power_display : battle_caracs[filterSort]
+        haremGirls.forEach((girl) => {
+            const {id_girl, battle_caracs, power_display, element} = girl
+            const girl_element = element || girl.girl.element_data.type
+
+            const base_carac = filterSort !== 'all' ? battle_caracs[filterSort] : 0
+            let bonus_carac = 0
+            relics.forEach(({identifier, bonus, girl, element: relic_element}) => {
+                const type = identifier.match(/[a-z]+/g)[0]
+                const element_matches = relic_element ? relic_element === girl_element : true
+                const girl_matches = type === 'girl' ? girl.id_girl === id_girl : true
+                bonus_carac += (element_matches && girl_matches) ? Math.ceil(base_carac * (bonus/100)) : 0
+            })
+            const carac = filterSort === 'all' ? power_display : base_carac + bonus_carac
+
             sorted_caracs.push({id_girl, carac})
         })
         sorted_caracs.sort((a, b) => b.carac - a.carac)

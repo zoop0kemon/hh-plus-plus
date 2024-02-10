@@ -1,6 +1,7 @@
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
+import { RELIC_BONUSES } from '../../data/Relics'
 
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
@@ -43,7 +44,7 @@ class LabyrinthInfoModule extends CoreModule {
             if (fixPower) {
                 this.normalizePower()
             }
-            //this.improveGirlTooltip()
+            this.improveGirlTooltip()
             this.addGirlIcons()
             this.addGirlOrder()
             this.addRelicsMenu()
@@ -92,21 +93,65 @@ class LabyrinthInfoModule extends CoreModule {
         }
     }
 
-    // TODO add relic stats to tooltips
     improveGirlTooltip () {
-        const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
+        const GIRL_CONTAINERS = [{
+            page: 'labyrinth.html',
+            selectors: ['.girl-container'],
+            attributes: ['id']
+        }, {
+            page: 'labyrinth-battle',
+            selectors: ['.container-hero .team-member-container'],
+            attributes: ['id'],
+        }, {
+            page: 'labyrinth-pre-battle',
+            selectors: ['.player-panel .team-member-container'],
+            attributes: ['data-girl-id'],
+        }, {
+            page: 'edit-labyrinth-team',
+            selectors: ['.team-member-container', '.harem-girl-container'],
+            attributes: ['data-girl-id', 'id_girl'],
+        }]
+        const RELIC_KEYS = Object.keys(RELIC_BONUSES)
+        const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)) || []
 
-        // need a find a way to get girl id
         const actual = window.displayPvpV4Caracs
         const hook = (...args) => {
             const ret = actual(...args)
-            try {
-                // console.log(args[0])
-                // console.log(ret)
-                return ret
-            } catch {
-                return ret
-            }
+            // try {
+                const $stats = $(`<div class="script-carac-warpper">${ret}</div>`)
+
+                const {selectors, attributes} = GIRL_CONTAINERS.find(e => Helpers.isCurrentPage(e.page)) || {selectors: []}
+                selectors.forEach((selector, i) => {
+                    const $container = $(`${selector}:hover`)
+                    if ($container.length) {
+                        const girl_id = parseInt($container.attr(attributes[i]).match(/\d+/)[0])
+                        const {battle_caracs, element_data: {type: girl_element}} = args[0]
+                        const bonus_caracs = {}
+
+                        relics.forEach(({identifier, bonus, girl}) => {
+                            const type = identifier.match(/[a-z]+/g)[0]
+                            const {carac, element} = RELIC_BONUSES[identifier]
+                            const girl_matches = type === 'girl' ? girl.id_girl === girl_id : true
+                            const element_matches = element ? element === girl_element : true
+
+                            if (girl_matches && element_matches) {
+                                const bonus_carac = Math.ceil(battle_caracs[carac] * (bonus/100))
+                                bonus_caracs[carac] = (bonus_caracs[carac] || 0) + bonus_carac
+                            }
+                        })
+
+                        Object.entries(bonus_caracs).forEach(([carac, bonus]) => {
+                            const $stat = $stats.find(`span[carac="${carac === 'defense' ? 'def0' : carac}"]`)
+                            $stat.addClass('relic-attribute')
+                            $stat.html(I18n.nThousand(battle_caracs[carac] + bonus))
+                        })
+                    }
+                })
+
+                return $stats.html()
+            // } catch {
+            //     return ret
+            // }
         }
         window.displayPvpV4Caracs = hook
     }
@@ -116,10 +161,16 @@ class LabyrinthInfoModule extends CoreModule {
 
         const addToHex = () => {
             Helpers.doWhenSelectorAvailable('.team-hexagon', () => {
-                $('.team-member-container').each((i, el) => {
-                    const girl = $(el).find('.girl_img').data('new-girl-tooltip')
-                    if (girl) {
-                        const $icon = `<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`
+                $('.team-member-container:has(.girl_img)').each((i, el) => {
+                    const girl = JSON.parse($(el).find('.girl_img').attr('data-new-girl-tooltip'))
+                    const $icon = `<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`
+                    if (Helpers.isCurrentPage('labyrinth-battle')) {
+                        const {element_data: {ico_url, type, flavor}} = girl
+                        const $element_icon = `<img class="icon hexagon-girl-element" src="${ico_url}" element="${type}" tooltip="${flavor}">`
+
+                        const $girl_icons = $('<div class="girl-icons"></div>').append($icon, $element_icon)
+                        $(el).prepend($girl_icons)
+                    } else {
                         $(el).find('.icon.hexagon-girl-element').wrap('<div class="girl-icons"></div>').before($icon)
                     }
                 })
@@ -128,7 +179,7 @@ class LabyrinthInfoModule extends CoreModule {
         const addToPanel = () => {
             Helpers.doWhenSelectorAvailable('.harem-panel-girls', () => {
                 $('.harem-girl-container ').each((i, el) => {
-                    const girl = $(el).find('.girl_img').data('new-girl-tooltip')
+                    const girl = JSON.parse($(el).find('.girl_img').attr('data-new-girl-tooltip'))
                     $(el).prepend(`<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`)
                 })
             })
@@ -136,16 +187,16 @@ class LabyrinthInfoModule extends CoreModule {
         const addToPool = () => {
             $('.girl-container:not(.slide_left)').each((i, el) => {
                 if (!$(el).find('.icon').length) {
-                    const girl = $(el).find('.girl-image').data('new-girl-tooltip')
+                    const girl = JSON.parse($(el).find('.girl-image').attr('data-new-girl-tooltip'))
                     const $class_icon = `<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`
                     const {flavor, ico_url} = girl.element_data
                     const $element_icon = `<div class="icon element" tooltip="${flavor}"><img src="${ico_url}"></div>`
-                    $(el).append($class_icon).append($element_icon)
+                    $(el).append($class_icon, $element_icon)
                 }
             })
         }
 
-        if (Helpers.isCurrentPage('labyrinth-pre-battle')) {
+        if (Helpers.isCurrentPage('labyrinth-pre-battle') || Helpers.isCurrentPage('labyrinth-battle')) {
             addToHex()
         } else if (Helpers.isCurrentPage('edit-labyrinth-team')) {
             addToHex()
