@@ -81,7 +81,10 @@ if (!window.$) {
     // iframe container, do nothing.
 } else if (['/integrations/', '/index.php'].some(path => path === location.pathname) && location.hostname.includes('nutaku')) {
     // nutaku post-login home screen, redirect.
-    location.replace(`${location.origin}/home.html`)
+    $(document).ready(() => {
+        const {navigate} = window
+        navigate('/home.html')
+    })
 } else if (document.getElementById('loading-overlay')) {
     // loading page, do nothing.
 } else {

@@ -96,20 +96,20 @@ class LabyrinthInfoModule extends CoreModule {
     improveGirlTooltip () {
         const GIRL_CONTAINERS = [{
             page: 'labyrinth.html',
-            selectors: ['.girl-container'],
-            attributes: ['id']
+            selectors: ['.girl-container', '.relic-infos .girl-image'],
+            attributes: ['id', 'src']
         }, {
             page: 'labyrinth-battle',
             selectors: ['.container-hero .team-member-container'],
             attributes: ['id'],
         }, {
             page: 'labyrinth-pre-battle',
-            selectors: ['.player-panel .team-member-container'],
-            attributes: ['data-girl-id'],
+            selectors: ['.player-panel .team-member-container', '.relic-infos .girl-image'],
+            attributes: ['data-girl-id', 'src'],
         }, {
             page: 'edit-labyrinth-team',
-            selectors: ['.team-member-container', '.harem-girl-container'],
-            attributes: ['data-girl-id', 'id_girl'],
+            selectors: ['.team-member-container', '.harem-girl-container', '.relic-infos .girl-image'],
+            attributes: ['data-girl-id', 'id_girl', 'src'],
         }]
         const RELIC_KEYS = Object.keys(RELIC_BONUSES)
         const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)) || []
@@ -117,7 +117,7 @@ class LabyrinthInfoModule extends CoreModule {
         const actual = window.displayPvpV4Caracs
         const hook = (...args) => {
             const ret = actual(...args)
-            // try {
+            try {
                 const $stats = $(`<div class="script-carac-warpper">${ret}</div>`)
 
                 const {selectors, attributes} = GIRL_CONTAINERS.find(e => Helpers.isCurrentPage(e.page)) || {selectors: []}
@@ -149,9 +149,9 @@ class LabyrinthInfoModule extends CoreModule {
                 })
 
                 return $stats.html()
-            // } catch {
-            //     return ret
-            // }
+            } catch {
+                return ret
+            }
         }
         window.displayPvpV4Caracs = hook
     }

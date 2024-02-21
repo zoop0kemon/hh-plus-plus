@@ -301,6 +301,20 @@ class Helpers {
     static isInClub () {
         return window.Chat_vars && (window.Chat_vars.CLUB_ID || (window.Chat_vars.CLUB_INFO && window.Chat_vars.CLUB_INFO.id_club))
     }
+
+    static getHref (url) {
+        if (Helpers.getPlatform() === 'nutaku' && (url.includes(Helpers.getHost()) ||  !url.includes("http")) && !url.includes("sess=")) {
+            const {PLATFORM_SESS} = window
+            const searchParams = new URLSearchParams(window.location.search)
+            const sess = typeof PLATFORM_SESS === "string" ?  PLATFORM_SESS : searchParams.get("sess")
+
+            if (sess) {
+                return url.includes('?') ? `${url}&sess=${sess}` : `${url}?sess=${sess}`
+            }
+        }
+
+        return url
+    }
 }
 
 export default Helpers

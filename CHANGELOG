@@ -1,3 +1,4 @@
+1.39.10: Hotfix for session not found error on Nutaku after 21/02 game update (script added hrefs still produce the error)
 1.39.9: Adding relic stats to tooltips and team filter module sorting, various bug fixes, and updating patrons list for February.
 1.39.8: Fixing team filter collector, and fixing relic menu and home screen style tweaks after 31/01 update.
 1.39.7: Fixing compact harem filters style tweak for mobile, updating upgrade quick nav order to use selected team/champion draft if entered from team selection/champion page, and adding more sources for girl dictionary collector.
