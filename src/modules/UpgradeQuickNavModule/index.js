@@ -87,7 +87,7 @@ class UpgradeQuickNavModule extends CoreModule {
         const imgType = resource == 'equipment' ? 'ico' : 'ava'
 
         const girlImage = `<img girl-${imgType}-src="${Helpers.getCDNHost()}/pictures/girls/${id}/${imgType}${pose}.png"/>`
-        return $(`<a class="script-quicknav-${className}" resource="${resource}" href="/girl/${id}?resource=${resource}">${girlImage}</a>`)
+        return $(`<a class="script-quicknav-${className}" resource="${resource}" href="${Helpers.getHref(`/girl/${id}?resource=${resource}`)}">${girlImage}</a>`)
     }
 }
 

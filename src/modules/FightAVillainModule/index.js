@@ -84,7 +84,7 @@ class FightAVillainModule extends CoreModule {
             const villainId = `${opponent ? opponent : world - 1}`
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
-            const villainWorld = `/world/${world}`
+            const villainWorld = Helpers.getHref(`/world/${world}`)
             const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId)
             const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId)
             const trollGirls = [...eventTrollGirls, ...mythicTrollGirls]
@@ -102,7 +102,7 @@ class FightAVillainModule extends CoreModule {
             })
 
             const type = trollGirls.length && !allGirlsObtained ? `eventTroll ${RARITIES[highest_rarity]}` : 'regular'
-            const $villain = $(`<a class="menu-villain ${type}" href="/troll-pre-battle.html?id_opponent=${villainId}"></a>`)
+            const $villain = $(`<a class="menu-villain ${type}" href="${Helpers.getHref(`/troll-pre-battle.html?id_opponent=${villainId}`)}"></a>`)
 
             const $villainTopRow = $('<div class="menu-villain-top"></div>')
             $villainTopRow.append(`<img class="menu-villain-icon" src="${villainIcon}" />`)

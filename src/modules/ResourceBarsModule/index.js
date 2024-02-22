@@ -18,7 +18,7 @@ const makeEnergyBarHTML = ({ type, timeForSinglePoint, timeOnLoad, iconClass, cu
         <div class="energy_counter" type="${type}" id="canvas_${type}_energy">
             <div class="energy_counter_bar">
                 <div class="energy_counter_icon"><span class="${iconClass}"></span></div>
-                <a href="${shortcutLink}">
+                <a href="${Helpers.getHref(shortcutLink)}">
                     <div class="bar-wrapper">
                         <div class="bar red" style="width:${100 * Math.min(currentVal, max) / max}%"></div>
                         <div class="over">
@@ -201,7 +201,7 @@ class ResourceBarsModule extends CoreModule {
             shortcutLink = '/champions-help.html'
         }
 
-        $('.energy_counter[type=quest] .bar-wrapper').wrap(`<a href="${shortcutLink}"></a>`)
+        $('.energy_counter[type=quest] .bar-wrapper').wrap(`<a href="${Helpers.getHref(shortcutLink)}"></a>`)
     }
 
     addAdditionalBars() {
@@ -273,7 +273,7 @@ class ResourceBarsModule extends CoreModule {
         }
 
         const $barHTML = $(`
-            <a class="script-pop-timer" href="/activities.html?tab=pop">
+            <a class="script-pop-timer" href="${Helpers.getHref('/activities.html?tab=pop')}">
                 <div class="hh_bar" ${inProgress ? `tooltip="${this.label('readyAt', { time: formattedDate })}"` : ''}>
                     <div class="text">${inProgress ? this.label('popsIn', { time: `<span>${window.format_time_short(popEndIn)}</span>` }) : this.label('popsReady')}</div>
                     <div class="backbar borderbar">
@@ -316,7 +316,7 @@ class ResourceBarsModule extends CoreModule {
             }
         })
 
-        const $boosterStatusHTML = $('<a class="script-booster-status" href="/shop.html?type=player-stats&subtab=booster"><div class="script-boosters normal"></div><div class="script-boosters mythic"></div></a>')
+        const $boosterStatusHTML = $(`<a class="script-booster-status" href="${Helpers.getHref('/shop.html?type=player-stats&subtab=booster')}"><div class="script-boosters normal"></div><div class="script-boosters mythic"></div></a>`)
 
         const buildNormalSlot = (data) => {
             const { empty, id_item, ico, identifier, rarity, endAt } = { ...data, ...data.item }

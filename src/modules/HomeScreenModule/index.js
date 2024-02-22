@@ -39,13 +39,13 @@ class HomeScreenModule extends CoreModule {
             baseKey: MODULE_KEY,
             label: I18n.getModuleLabel('config', MODULE_KEY),
             default: true,
-            subSettings: [
-                {
-                    key: 'leaguePos',
-                    label: I18n.getModuleLabel('config', `${MODULE_KEY}_leaguePos`),
-                    default: false
-                }
-            ]
+            // subSettings: [
+            //     {
+            //         key: 'leaguePos',
+            //         label: I18n.getModuleLabel('config', `${MODULE_KEY}_leaguePos`),
+            //         default: false
+            //     }
+            // ]
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
     }
@@ -54,7 +54,7 @@ class HomeScreenModule extends CoreModule {
         return Helpers.isCurrentPage('home')
     }
 
-    run({ leaguePos }) {
+    run() {
         if (this.hasRun || !this.shouldRun()) { return }
 
         styles.use()
@@ -67,9 +67,9 @@ class HomeScreenModule extends CoreModule {
             this.manageSalaryTimers()
             this.addReplyTimer()
 
-            if (leaguePos) {
-                this.addLeaguePos()
-            }
+            // if (leaguePos) {
+            //     this.addLeaguePos()
+            // }
         })
 
         this.hasRun = true
@@ -106,14 +106,17 @@ class HomeScreenModule extends CoreModule {
         }
 
         // Champions
-        if (trackedTimes.champ && trackedTimes.champ > server_now_ts) {
-            this.attachTimer('sex-god-path', trackedTimes.champ)
+        const champ_times = Object.values(trackedTimes.champs)
+        const has_available = !!champ_times.find(({available}) => available)
+        const shortest_champ = champ_times.filter(({available, time}) => (has_available ? available : !available) && time).sort((a, b) => a.time-b.time)[0]?.time
+        if (shortest_champ && shortest_champ > server_now_ts) {
+            this.attachTimer('sex-god-path', shortest_champ)
         }
 
         // Club Champ
-        if (Helpers.isInClub() && trackedTimes.clubChamp && trackedTimes.clubChamp > server_now_ts) {
-            this.attachTimer('clubs', trackedTimes.clubChamp)
-        }
+        // if (Helpers.isInClub() && trackedTimes.clubChamp && trackedTimes.clubChamp > server_now_ts) {
+        //     this.attachTimer('clubs', trackedTimes.clubChamp)
+        // }
     }
 
     makeLinkSelector(rel) {
@@ -134,7 +137,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     addShortcuts() {
-        const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${href}" tooltip hh_title="${title}"><div class="${iconClass}"></div></a>`
+        const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${Helpers.getHref(href)}" tooltip hh_title="${title}"><div class="${iconClass}"></div></a>`
 
         // Club champ
         if (Helpers.isInClub()) {
@@ -166,7 +169,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     forceActivitiesTab() {
-        $('a[rel=activities]').attr('href', '/activities.html?tab=missions')
+        $('a[rel=activities]').attr('href', Helpers.getHref('/activities.html?tab=missions'))
     }
 
     aggregateSalaries() {
@@ -245,7 +248,7 @@ class HomeScreenModule extends CoreModule {
             // TODO parse and put into own label again
         } else {
             window.$.ajax({
-                url: '/leagues.html',
+                url: Helpers.getHref('/leagues.html'),
                 success: (data) => {
                     let leaguesListItem
                     let leagueTag

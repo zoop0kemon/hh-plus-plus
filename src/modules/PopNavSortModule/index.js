@@ -105,7 +105,8 @@ class PopNavSortModule extends CoreModule {
         const $quickNavContainer = $('<div class="pop-quick-nav"></div>')
 
         spec.forEach(({name, id}) => {
-            $quickNavContainer.append(`<a href="/activities.html?tab=pop&index=${id}" class="back_button"><span class="pop-quick-nav-${name} townForward_flat_icn"></span></a>`)
+            const href = Helpers.getHref(`/activities.html?tab=pop&index=${id}`)
+            $quickNavContainer.append(`<a href="${href}" class="back_button"><span class="pop-quick-nav-${name} townForward_flat_icn"></span></a>`)
         })
 
         $('.pop_right_part').append($quickNavContainer)

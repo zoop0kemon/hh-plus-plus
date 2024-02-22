@@ -732,7 +732,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'stone',
+                element: 'nature',
                 amount: 20,
             }]
         },
@@ -746,7 +746,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'sun',
+                element: 'stone',
                 amount: 20,
             }]
         },
@@ -760,7 +760,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'darkness',
+                element: 'sun',
                 amount: 20,
             }]
         },
@@ -773,8 +773,8 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'light',
-                amount: 20,
+                element: 'darkness',
+                amount: 25,
             }]
         }
     ],

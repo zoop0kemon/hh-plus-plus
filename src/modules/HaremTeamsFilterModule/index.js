@@ -98,12 +98,13 @@ class HaremTeamsFilterModule extends CoreModule {
 
     createTeamsBox() {
         const bdsmTeams = Helpers.lsGet(lsKeys.TEAMS_DICTIONARY)
+        const href = Helpers.getHref('../teams.html')
         if (!bdsmTeams) {
             return $(`
         <div style="position:relative">
             <div class="team-selection" style="display: none;">
                 <span class="close-team-selection"></span>
-                ${this.label('visitTeams')}
+                ${this.label('visitTeams', {href})}
             </div>
         </div>`)
         }

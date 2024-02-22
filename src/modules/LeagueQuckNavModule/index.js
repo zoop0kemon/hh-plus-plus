@@ -54,8 +54,8 @@ class LeagueQuckNavModule extends CoreModule {
                 nextIndex -= avaliable_opponents.length
             }
 
-            const $prev = $(`<a href="/leagues-pre-battle.html?id_opponent=${avaliable_opponents[prevIndex]}" class="back_button_s prev"></a>`)
-            const $next = $(`<a href="/leagues-pre-battle.html?id_opponent=${avaliable_opponents[nextIndex]}" class="back_button_s next"></a>`)
+            const $prev = $(`<a href="${Helpers.getHref(`/leagues-pre-battle.html?id_opponent=${avaliable_opponents[prevIndex]}`)}" class="back_button_s prev"></a>`)
+            const $next = $(`<a href="${Helpers.getHref(`/leagues-pre-battle.html?id_opponent=${avaliable_opponents[nextIndex]}`)}" class="back_button_s next"></a>`)
 
             Helpers.doWhenSelectorAvailable('.green_button_L', () => {
                 $('.battle-buttons-row').prepend($prev).append($next)

@@ -191,8 +191,8 @@ export const market = {
 }
 
 export const harem = {
-    marketRestocked: '> Le <a href="../shop.html">Marché</a> s\'est rempli depuis votre dernière visite.',
-    visitMarket: '> Visitez d\'abord le <a href="../shop.html">Marché</a> pour pouvoir afficher un résumé de votre inventaire ici',
+    marketRestocked: '> Le <a href="{{href}}">Marché</a> s\'est rempli depuis votre dernière visite.',
+    visitMarket: '> Visitez d\'abord le <a href="{{href}}">Marché</a> pour pouvoir afficher un résumé de votre inventaire ici',
     haremStats: 'Stats du harem',
     upgrades: 'Améliorations',
     levelsAwakening: 'Niveaux & Eveil',
@@ -367,7 +367,7 @@ export const blessingSpreadsheetLink = {
 
 export const haremTeamsFilter = {
     team: 'Équipe',
-    visitTeams: 'Visiter d\'abord <a href="../teams.html">l\'équipe</a>.',
+    visitTeams: 'Visiter d\'abord <a href="{{href}}">l\'équipe</a>.',
 }
 
 export const leaderboardClubmateIndicators = {

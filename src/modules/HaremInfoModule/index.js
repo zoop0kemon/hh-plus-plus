@@ -216,11 +216,12 @@ class HaremInfoModule extends CoreModule {
 
     buildMarketSummary () {
         const marketInfo = Helpers.lsGet(lsKeys.MARKET_INFO)
+        const href = Helpers.getHref('../shop.html')
         let content = ''
 
         if (!marketInfo) {
             content = `
-                <p class="market-warning">${this.label('visitMarket')}</p>
+                <p class="market-warning">${this.label('visitMarket', {href})}</p>
             `
         } else {
             const {buyableItems, sellableItems, refreshTime, refreshLevel} = marketInfo
@@ -231,7 +232,7 @@ class HaremInfoModule extends CoreModule {
             if (refreshTime < server_now_ts || refreshLevel < Hero.infos.level) {
                 buyableContent = `
                     <span>${this.label('buyable')}</span>
-                    <p class="market-warning">${this.label('marketRestocked')}</p>
+                    <p class="market-warning">${this.label('marketRestocked', {href})}</p>
                 `
             } else if (buyableItems) {
                 const {aff, xp} = buyableItems

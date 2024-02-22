@@ -289,8 +289,8 @@ export const market = {
 }
 
 export const harem = {
-    marketRestocked: '> The <a href="../shop.html">Market</a> restocked since your last visit.',
-    visitMarket: '> Visit the <a href="../shop.html">Market</a> first to see an inventory summary here',
+    marketRestocked: '> The <a href="{{href}}">Market</a> restocked since your last visit.',
+    visitMarket: '> Visit the <a href="{{href}}">Market</a> first to see an inventory summary here',
     itemSummary: '{{count}} ({{value}} {{type}})',
     haremStats: 'Harem Stats',
     upgrades: 'Upgrades',
@@ -420,7 +420,7 @@ export const blessingSpreadsheetLink = {
 
 export const haremTeamsFilter = {
     team: 'Team',
-    visitTeams: 'Visit <a href="../teams.html">Teams</a> first.',
+    visitTeams: 'Visit <a href="{{href}}">Teams</a> first.',
 }
 
 export const leaderboardClubmateIndicators = {

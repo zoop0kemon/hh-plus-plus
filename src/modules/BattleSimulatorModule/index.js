@@ -164,7 +164,7 @@ class BattleSimulatorModule extends CoreModule {
 
             const page = await new Promise((res) => {
                 window.$.ajax({
-                    url: `/leagues-pre-battle.html?id_opponent=${opponent_id}`,
+                    url: Helpers.getHref(`/leagues-pre-battle.html?id_opponent=${opponent_id}`),
                     success: res
                 })
             })

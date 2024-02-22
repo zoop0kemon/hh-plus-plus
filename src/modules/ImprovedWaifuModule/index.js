@@ -124,7 +124,8 @@ class ImprovedWaifuModule extends CoreModule {
                 $('.waifu-buttons-container a').remove()
                 let waifu_buttons = $('.waifu-buttons-container').eq(0)
 
-                let gradeSwitch = `<div class="diamond-bar"><div class="girls-name"><a href="/waifu.html">${dictGirl.name}</a><a href="/waifu.html"><img src="${Helpers.getCDNHost()}/design/menu/edit.svg"></a></div>`
+                const waifu_href = `<a href="${Helpers.getHref('/waifu.html')}">`
+                let gradeSwitch = `<div class="diamond-bar"><div class="girls-name">${waifu_href}${dictGirl.name}</a>${waifu_href}<img src="${Helpers.getCDNHost()}/design/menu/edit.svg"></a></div>`
                 for (let i=0;i<7;i++) {
                     gradeSwitch += `<div class="diamond${i==selected_grade? ' selected': ''} ${i<=unlocked_grade ? 'un' : ''}locked${i>max_grade? ' hide' : ''}"></div>`
                 }

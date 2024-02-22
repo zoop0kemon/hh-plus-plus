@@ -6,7 +6,7 @@ import * as WORLDS from '../../data/Worlds'
 
 const MODULE_KEY = 'villainBreadcrumbs'
 
-const breadcumbLink = (href, text) => `<a class="back" href="${href}">${text}<span class="mapArrowBack_flat_icn"></span></a>`
+const breadcumbLink = (href, text) => `<a class="back" href="${Helpers.getHref(href)}">${text}<span class="mapArrowBack_flat_icn"></span></a>`
 
 class VillainBreadcrumbsModule extends CoreModule {
     constructor () {
@@ -30,15 +30,12 @@ class VillainBreadcrumbsModule extends CoreModule {
             const gameWorlds = WORLDS[Helpers.getGameKey()]
             const searchParams = new URLSearchParams(window.location.search)
             const villainId = searchParams.get('id_opponent')
-            const worldId = parseInt(villainId) + 1
-
-            const worldKey = gameWorlds[worldId]
-            const villain = gameVillains.find(({world}) => world === worldId)
+            const villain = gameVillains.find(({opponent, world}) =>  `${(opponent ? opponent : world-1)}` === villainId)
 
             const parts = [
                 breadcumbLink('/home.html', this.label('town')),
                 breadcumbLink('/map.html', this.label('adventure')),
-                breadcumbLink(`/world/${worldId}`, this.label(worldKey)),
+                breadcumbLink(`/world/${villain.world}`, this.label(gameWorlds[villain.world])),
                 `<span>${this.villainLabel(villain.key)}</span>`,
             ]
 

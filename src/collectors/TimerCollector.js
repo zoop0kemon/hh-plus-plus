@@ -4,7 +4,6 @@ import Helpers from '../common/Helpers'
 const defaultTimes = {
     pop: 0,
     popDuration: 0,
-    champ: 0,
     champs: {},
     clubChamp: 0,
     gp: 0,
@@ -95,11 +94,11 @@ class TimerCollector {
     static collectClubChampionTime () {
         const times = loadTimes()
 
-        const {championData, club_champion_data} = window;
+        const {championData, club_champion_data, server_now_ts} = window;
 
         [championData, club_champion_data].forEach(data => {
             if (data && data.timers && (data.timers.teamRest || data.timers.championRest)) {
-                times.clubChamp = parseInt(data.timers.teamRest || data.timers.championRest)
+                times.clubChamp = server_now_ts + parseInt(data.timers.teamRest || data.timers.championRest)
             }
         })
 
@@ -107,16 +106,15 @@ class TimerCollector {
     }
     static collectRealtimeClubChampionUpdateFromAjax() {
         Helpers.onAjaxResponse(/battle_type=club_champion/, (response) => {
-            if (!response.success) {
-                return
-            }
+            if (!response.success) {return}
 
             const times = loadTimes()
+            const {server_now_ts} = window
 
             if (response.final.attacker_ego > 0) {
-                times.clubChamp = window.server_now_ts + (24*60*60)
+                times.clubChamp = server_now_ts + (24*60*60)
             } else {
-                times.clubChamp = window.server_now_ts + (15*60)
+                times.clubChamp = server_now_ts + (15*60)
             }
 
             saveTimes(times)
@@ -125,41 +123,27 @@ class TimerCollector {
 
     static collectChampionTimesFromMap () {
         const times = loadTimes()
-
-        const champs = {}
-        let soonestTime = 0
-
+        const {server_now_ts} = window
         const idExtractRegex = /champions\/(?<id>\d+)/
 
-        $('a.champion-lair').each((i,el) => {
+        $('a.champion-lair').each((i, el) => {
             const $el = $(el)
             const href = $el.attr('href')
-
             const matches = href.match(idExtractRegex)
-            if (!matches || !matches.groups) {
-                return
-            }
-
+            if (!matches || !matches.groups) {return}
             const {groups: {id}} = matches
             const champ = {
-                available: true
+                available: times.champs[id] ? times.champs[id].available : true
             }
 
-            const $timer = $el.find('[timer]')
-
+            const $timer = $el.find('.champion-rest-timer')
             if ($timer.length) {
-                champ.time = parseInt($timer.attr('timer'))
-
-                if (!soonestTime || champ.time < soonestTime) {
-                    soonestTime = champ.time
-                }
+                champ.time = server_now_ts + parseInt($timer.attr('data-time'))
             }
 
-            champs[id] = champ
+            times.champs[id] = champ
         })
 
-        times.champs = champs
-        times.champ = soonestTime
         saveTimes(times)
     }
     static collectChampionTime () {
@@ -168,45 +152,33 @@ class TimerCollector {
         const {championData, server_now_ts} = window
 
         if (championData && championData.timers && championData.timers && !Array.isArray(championData.timers)) {
-            const {champion: {id}, timers: {teamRest:teamRestStr, championRest:championRestStr}} = championData
-
-            let newTime
-            if (teamRestStr) {
-                newTime = parseInt(teamRestStr)
-            } else if (championRestStr) {
-                newTime = parseInt(championRestStr)
+            const {champion: {id}, timers: {teamRest, championRest}} = championData
+            const champ = {
+                available: !championRest
             }
 
-            times.champs[id] = {
-                available: true,
-                time: newTime
+            if (teamRest) {
+                champ.time = server_now_ts + parseInt(teamRest)
+            } else if (championRest) {
+                champ.time = server_now_ts + parseInt(championRest)
             }
 
-            if (newTime && (times.champ < server_now_ts || times.champ > newTime)) {
-                times.champ = newTime
-            }
+            times.champs[id] = champ
         }
 
         saveTimes(times)
     }
     static collectRealtimeChampionUpdateFromAjax() {
         Helpers.onAjaxResponse(/battle_type=champion/, (response) => {
-            if (!response.success) {
-                return
-            }
+            if (!response.success) {return}
 
             const times = loadTimes()
-            const id = response.defender.id
-            let newTime
-            if (response.final.attacker_ego > 0) {
-                newTime = window.server_now_ts + (24*60*60)
-            } else {
-                newTime = window.server_now_ts + (15*60)
-            }
+            const {server_now_ts} = window
+            const {defender: {id}, final: {attacker_ego}} = response
 
-            times.champs[id].time = newTime
-            if (times.champ > newTime || times.champ < window.server_now_ts) {
-                times.champ = newTime
+            times.champs[id] = {
+                available: !(attacker_ego > 0),
+                time: server_now_ts + (attacker_ego > 0 ? (24*60*60) : (15*60))
             }
 
             saveTimes(times)
