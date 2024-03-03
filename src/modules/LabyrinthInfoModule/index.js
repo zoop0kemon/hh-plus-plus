@@ -359,7 +359,7 @@ class LabyrinthInfoModule extends CoreModule {
 
     addRelicsMenu () {
         if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth-pre-battle')) {
-            const {buildRelicContainerHTML, GT} = window
+            const {buildRelicContainerHtml, GT} = window
             const relics_trimed = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
             const relics = relics_trimed.map((relic) => {
                 const {identifier, rarity, bonus, girl} = relic
@@ -374,7 +374,7 @@ class LabyrinthInfoModule extends CoreModule {
             const $relic_panel = $(`
             <div class="script-relics-panel">
                 <div class="script-relics-grid">
-                    ${relics.length ? relics.map(relic => buildRelicContainerHTML(relic)).join('') : GT.design.labyrinth_no_relics}
+                    ${relics.length ? relics.map(relic => buildRelicContainerHtml(relic)).join('') : GT.design.labyrinth_no_relics}
                 </div>
             </div>`)
             $relic_panel.hide()

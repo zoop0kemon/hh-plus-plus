@@ -412,7 +412,7 @@ class HaremInfoModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            Helpers.onAjaxResponse(/action=girls_get_list/i, (response) => {
+            Helpers.onAjaxResponse(/action=get_girls_list/i, (response) => {
                 this.aggregateStats(response.girls_list)
                 this.attachToPage(this.buildStatsDisplay())
             })

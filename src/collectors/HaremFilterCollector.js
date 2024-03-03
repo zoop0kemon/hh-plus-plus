@@ -19,7 +19,7 @@ class HaremFilterCollector {
                 let top = false
                 let bottom = false
 
-                Helpers.onAjaxResponse(/action=girls_get_list/i, (response, opt) => {
+                Helpers.onAjaxResponse(/action=get_girls_list/i, (response, opt) => {
                     const {girls_list, reached_top, reached_bottom} = response
                     const searchParams = new URLSearchParams(opt.data)
                     let new_filters = false

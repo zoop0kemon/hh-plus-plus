@@ -125,7 +125,7 @@ class GirlDictionaryCollector {
     }
 
     static collectFromHarem() {
-        Helpers.onAjaxResponse(/action=girls_get_list/i, ({girls_list}) => {
+        Helpers.onAjaxResponse(/action=get_girls_list/i, ({girls_list}) => {
             collectFromGirlList(girls_list)
         })
     }

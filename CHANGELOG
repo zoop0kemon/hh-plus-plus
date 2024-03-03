@@ -1,3 +1,4 @@
+1.39.12: Fixing bugs after 29/02 game update
 1.39.11: Fixing the rest of the session not found errors on Nutaku and updating PsH world data
 1.39.10: Hotfix for session not found error on Nutaku after 21/02 game update (script added hrefs still produce the error)
 1.39.9: Adding relic stats to tooltips and team filter module sorting, various bug fixes, and updating patrons list for February.
