@@ -30,6 +30,9 @@ class LeagueInfoCollector {
                     $(document).trigger('league:table-sorted')
                     LeagueInfoCollector.collectAvaliableOpponents()
                 })
+                $(document).on('league:sim-done', () => {
+                    LeagueInfoCollector.sortByDescendingPower()
+                })
                 $(document).on('league:table-filtered', () => {
                     LeagueInfoCollector.collectAvaliableOpponents()
                 })
@@ -84,7 +87,7 @@ class LeagueInfoCollector {
             let playerScore = 0
             let challengesDone = 0
             let tot_victory = 0
-            let tot_defeat = 0 
+            let tot_defeat = 0
             opponents_list.forEach(({match_history, player, player_league_points}) => {
                 const match_history_array = Object.values(match_history)[0]
 
@@ -134,6 +137,14 @@ class LeagueInfoCollector {
             if (playerScore > oldPoints) {
                 Helpers.lsSet(lsKeys.LEAGUE_SCORE, leagueScore)
             }
+        }
+    }
+
+    static sortByDescendingPower () {
+        const powerSortButton = document.querySelector('#leagues > div.league_content.hidden_girl > div.league_table > div.data-list > div.data-row.head-row > div:nth-child(4)')
+        if (powerSortButton !== null) {
+            powerSortButton.setAttribute('sorting', 'ASC')
+            powerSortButton.click()
         }
     }
 
