@@ -186,6 +186,7 @@ export const villain = {
     pomelo: 'Pomelo',
     alexa: 'Alexa Sl’thor',
     dklong: 'D’Klong',
+    virtueman: 'Virtue Man',
     asaakira: 'Headmistress Asa Akira',
     sammyjayne: 'Sammy Jayne',
     ivywinters: 'Ivy Winters',
@@ -198,6 +199,7 @@ export const villain = {
     sierrasinn: 'Sierra Sinn',
     jasminejae: 'Jasmine Jae',
     bellarose: 'Bella Rose',
+    paigetaylor: 'Paige Taylor',
     arieldemure: 'Ariel Demure',
     emmarose: 'Emma Rose',
     nataliestone: 'Natalie Stone',
@@ -242,6 +244,7 @@ export const villainBreadcrumbs = {
     suitdown: 'Suit Down',
     manmeatofsteel: 'Man Meat of Steel',
     dickmannoir: 'Dickman Noir',
+    goodbadsexy: 'The Good, The Bad and the Sexy',
 
     fukwell: 'Fukwell University',
     eurodick: 'Eurodick',
@@ -255,6 +258,7 @@ export const villainBreadcrumbs = {
     sinncity: 'Sinn City',
     yeehaw: 'Yee Haw!',
     bythebook: 'By the Book',
+    vegasbaby: 'Vegas, Baby!',
 
     bigdville: 'Big D\'Ville',
     dreamtown: 'Dream Town',

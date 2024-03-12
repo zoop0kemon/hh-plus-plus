@@ -191,6 +191,10 @@
     border-style: solid;
     border-color: #cccccc42;
 
+    &.hh-scroll {
+        height: 100%;
+    }
+
     .middle-container & {
         top: 1.5rem;
         z-index: 3;

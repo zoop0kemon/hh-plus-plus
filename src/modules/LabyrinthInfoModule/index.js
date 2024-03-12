@@ -372,7 +372,7 @@ class LabyrinthInfoModule extends CoreModule {
                 return relic_data
             })
             const $relic_panel = $(`
-            <div class="script-relics-panel">
+            <div class="script-relics-panel${window.NiceScroll ? '' : ' hh-scroll'}">
                 <div class="script-relics-grid">
                     ${relics.length ? relics.map(relic => buildRelicContainerHtml(relic)).join('') : GT.design.labyrinth_no_relics}
                 </div>
@@ -382,7 +382,7 @@ class LabyrinthInfoModule extends CoreModule {
             const $toggle = $(`<div class="script-relics-toggle"><img src="${Helpers.getCDNHost()}/labyrinth/relics_icon.png"></div>`)
             $toggle.click(() => {
                 $relic_panel.toggle()
-                $relic_panel.getNiceScroll().resize()
+                $relic_panel?.getNiceScroll?.().resize()
             })
 
             Helpers.doWhenSelectorAvailable('.player-panel .personal_info', () => {
@@ -390,7 +390,7 @@ class LabyrinthInfoModule extends CoreModule {
             })
             Helpers.doWhenSelectorAvailable('.boss-bang-panel, .buttons-container.back-button', () => {
                 $('.boss-bang-panel, .buttons-container.back-button').after($relic_panel)
-                $relic_panel.niceScroll('.script-relics-grid', {bouncescroll: false})
+                $relic_panel?.niceScroll?.('.script-relics-grid', {bouncescroll: false})
             })
         }
     }

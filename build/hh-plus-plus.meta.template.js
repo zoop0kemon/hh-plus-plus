@@ -56,7 +56,6 @@ window.HHPlusPlus={
             'Vampi': ['es'],
         }
     },
-    BMAC: 'https://www.buymeacoffee.com/zoop0kemon',
     PATREON: 'https://www.patreon.com/zoop0kemon',
     DISCORD: 'https://discord.gg/hchsquT4Er',
 };

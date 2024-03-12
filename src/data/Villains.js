@@ -579,16 +579,31 @@ export default {
             }]
         },
         {
+            key: 'virtueman',
             world: 11,
             girls: {
-                1: [],
+                1: ['125758004', '233499841', '647307160'],
                 2: [],
                 3: []
             },
             gems: [{
                 element: 'nature',
                 amount: 20,
-            }]
+            }],
+            items: ['K4']
+        },
+        {
+            world: 12,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'stone',
+                amount: 20,
+            }],
+            items: ['XP4']
         },
     ],
     PSH: [
@@ -734,7 +749,8 @@ export default {
             gems: [{
                 element: 'nature',
                 amount: 20,
-            }]
+            }],
+            items: ['K4']
         },
         {
             key: 'jasminejae',
@@ -748,7 +764,8 @@ export default {
             gems: [{
                 element: 'stone',
                 amount: 20,
-            }]
+            }],
+            items: ['XP4']
         },
         {
             key: 'bellarose',
@@ -762,18 +779,33 @@ export default {
             gems: [{
                 element: 'sun',
                 amount: 20,
+            }],
+            items: ['K4']
+        },
+        {
+            key: 'paigetaylor',
+            opponent: 14,
+            world: 20,
+            girls: {
+                1: ['832031905', '272818756', '477487889'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 25,
             }]
         },
         {
-            opponent: 14,
-            world: 19,
+            opponent: 15,
+            world: 21,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'darkness',
+                element: 'light',
                 amount: 25,
             }]
         }

@@ -15,6 +15,10 @@ a.availableGirl {
     padding-left: 20px;
     padding-right: 20px;
 
+    .scrollArea.hh-scroll {
+        height: 100%;
+    }
+
     .nicescroll-rails {
         top: 0 !important;
     }

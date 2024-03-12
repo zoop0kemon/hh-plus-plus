@@ -173,11 +173,11 @@ class HideClaimedRewardsModule extends CoreModule {
             fixWidth()
 
             const $rowScroll = $('.rewards_container_seasons')
-            $rowScroll.getNiceScroll().resize()
+            $rowScroll?.getNiceScroll?.().resize()
 
             if (shouldScroll) {
                 const left = SEASON_TIER_WIDTH * unclaimedCount
-                $rowScroll.getNiceScroll(0).doScrollLeft(Math.max(0, left - 600), 200)
+                $rowScroll?.getNiceScroll?.(0).doScrollLeft(Math.max(0, left - 600), 200)
             }
         }
         const assertShown = () => {
@@ -185,16 +185,16 @@ class HideClaimedRewardsModule extends CoreModule {
             hidden = false
             fixWidth()
             const $rowScroll = $('.rewards_container_seasons')
-            $rowScroll.getNiceScroll().resize()
+            $rowScroll?.getNiceScroll?.().resize()
         }
 
         const $rowScroll = $('.rewards_container_seasons')
-        if ($rowScroll.length && $rowScroll.getNiceScroll(0).doScrollLeft) {
+        if ($rowScroll.length && ($rowScroll?.getNiceScroll?.(0).doScrollLeft || !window.NiceScroll)) {
             assertHidden(true)
         } else {
             const observer = new MutationObserver(() => {
                 const $rowScroll = $('.rewards_container_seasons')
-                if ($rowScroll.length && $rowScroll.getNiceScroll(0).doScrollLeft) {
+                if ($rowScroll.length && ($rowScroll?.getNiceScroll?.(0).doScrollLeft || !window.NiceScroll)) {
                     observer.disconnect()
                     assertHidden(true)
                 }
@@ -258,11 +258,11 @@ class HideClaimedRewardsModule extends CoreModule {
                 $('.nc-poa-reward-pair').removeClass('script-hide-claimed')
             }
             const fixScroll = () => {
-                $('.scroll-area').getNiceScroll().resize()
+                $('.scroll-area')?.getNiceScroll?.().resize()
             }
             assertHidden()
             fixScroll()
-            $('.scroll-area').getNiceScroll(0).doScrollLeft(Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6), 100)
+            $('.scroll-area')?.getNiceScroll?.(0).doScrollLeft(Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6), 100)
             const toggle = () => {
                 if ($('.script-hide-claimed').length) {
                     assertShown()
@@ -320,7 +320,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 }
             }
             const fixScroll = () => {
-                $('.player-progression-container').getNiceScroll().resize()
+                $('.player-progression-container')?.getNiceScroll?.().resize()
             }
 
             if (styleAttr) {
@@ -406,7 +406,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     }, 1)
                 }
                 setTimeout(() => {
-                    $('.seasonal-progress-bar-section').getNiceScroll().resize()
+                    $('.seasonal-progress-bar-section')?.getNiceScroll?.().resize()
                 }, 1200)
             }
             const assertShown = () => {
@@ -419,7 +419,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     $progressBar.removeClass('no-transition')
                 }
                 setTimeout(() => {
-                    $('.seasonal-progress-bar-section').getNiceScroll().resize()
+                    $('.seasonal-progress-bar-section')?.getNiceScroll?.().resize()
                 }, 1200)
             }
 
@@ -503,7 +503,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     }, 1)
                 }
                 setTimeout(() => {
-                    $('.mega-progress-bar-section').getNiceScroll().resize()
+                    $('.mega-progress-bar-section')?.getNiceScroll?.().resize()
                 }, 1200)
             }
             const assertShown = () => {
@@ -516,7 +516,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     $progressBar.removeClass('no-transition')
                 }
                 setTimeout(() => {
-                    $('.mega-progress-bar-section').getNiceScroll().resize()
+                    $('.mega-progress-bar-section')?.getNiceScroll?.().resize()
                 }, 1200)
             }
 
@@ -600,7 +600,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     }, 1)
                 }
                 setTimeout(() => {
-                    $('.progress-bar-current').getNiceScroll().resize()
+                    $('.progress-bar-current')?.getNiceScroll?.().resize()
                 }, 1200)
             }
             const assertShown = () => {
@@ -613,7 +613,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     $progressBar.removeClass('no-transition')
                 }
                 setTimeout(() => {
-                    $('.progress-bar-current').getNiceScroll().resize()
+                    $('.progress-bar-current')?.getNiceScroll?.().resize()
                 }, 1200)
             }
 

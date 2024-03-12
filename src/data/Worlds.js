@@ -35,6 +35,7 @@ export const CxH = [
     'suitdown',
     'manmeatofsteel',
     'dickmannoir',
+    'goodbadsexy',
 ]
 
 export const PSH = [
@@ -57,6 +58,8 @@ export const PSH = [
     'yeehaw',
     '',
     'bythebook',
+    '',
+    'vegasbaby',
 ]
 
 export const TPSH = [

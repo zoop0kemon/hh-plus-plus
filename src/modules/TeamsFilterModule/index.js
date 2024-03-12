@@ -189,7 +189,7 @@ class TeamsFilterModule extends CoreModule {
         })
 
         //update scroll display
-        $('.panel-body').getNiceScroll().resize()
+        $('.panel-body')?.getNiceScroll?.().resize()
     }
 
     sortGirls() {
