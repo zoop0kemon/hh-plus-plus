@@ -373,7 +373,7 @@ class EquipManager {
 
             this.$content.append(this.$content.find('.slot-container.empty'))
             this.padWithEmptySlots()
-            this.$content.getNiceScroll().resize()
+            this.$content?.getNiceScroll?.().resize()
         }
 
         this.annotateEquipsWithFavourites()

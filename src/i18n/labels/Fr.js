@@ -347,6 +347,7 @@ export const villainBreadcrumbs = {
     suitdown: 'Sans costume',
     manmeatofsteel: 'L\'Homme au morceau d\'acier',
     dickmannoir: 'Bitmann Noir',
+    goodbadsexy: 'Le Bon, la Brute et l\'Apollon',
 
     fukwell: 'Université de Belbaise',
     eurodick: 'Eurobite',
@@ -359,6 +360,7 @@ export const villainBreadcrumbs = {
     milftown: 'Cité MILF',
     yeehaw: 'Yi Haa !',
     bythebook: 'Fin écrivain',
+    vegasbaby: 'Vegas, bébé !',
 }
 
 export const blessingSpreadsheetLink = {

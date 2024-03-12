@@ -56,7 +56,7 @@ class UpgradeInfoModule extends CoreModule {
             const equip_observer = new MutationObserver(() => {
                 $('.girl-leveler-panel .slot_girl_armor').each((i, slot) => {
                     const $slot = $(slot)
-                    const {resonance_bonuses} = $slot.data('d')
+                    const {resonance_bonuses} = JSON.parse($slot.attr('data-d'))
 
                     if (!$slot.find('.item_resonances').length && Object.keys(resonance_bonuses).length) {
                         let $item_resonanceses = $(`<div class="item_resonances"></div>`)

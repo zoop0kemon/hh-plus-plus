@@ -1,6 +1,6 @@
 {
   "name": "hh-plus-plus",
-  "version": "1.39.12",
+  "version": "1.39.13",
   "description": "Adding things here and there in the Hentai Heroes game. Also supports HHCore-based games such as GH and CxH.",
   "private": "true",
   "scripts": {
