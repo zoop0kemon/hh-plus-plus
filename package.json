@@ -4,6 +4,7 @@
   "description": "Adding things here and there in the Hentai Heroes game. Also supports HHCore-based games such as GH and CxH.",
   "private": "true",
   "scripts": {
+    "mergeUpstream": "git fetch upstream && git checkout main && git merge upstream/main",
     "build": "webpack",
     "build-dev": "webpack --mode=development",
     "build-all": "npm run build && npm run build-dev",
