@@ -182,7 +182,6 @@
     position: absolute;
     top: 4rem;
     width: 22rem;
-    height: auto;
     max-height: 26rem;
     overflow-y: auto;
     background-color: #080808f5;
@@ -190,10 +189,7 @@
     border-width: 4px;
     border-style: solid;
     border-color: #cccccc42;
-
-    &.hh-scroll {
-        height: 100%;
-    }
+    z-index: 1;
 
     .middle-container & {
         top: 1.5rem;
@@ -256,6 +252,7 @@
                 font-size: 16px;
                 font-weight: 400;
                 letter-spacing: 0.22px;
+                line-height: 16px;
                 color: #fff;
                 -webkit-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
                 -moz-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
@@ -264,14 +261,12 @@
 
                 &>span {
                     display: block;
-                    position: relative;
-                    bottom: 4px;
                     font-size: 10px;
                 }
             }
 
             .relic-description {
-                font-size: 13px;
+                font-size: 12px;
                 line-height: 1rem;
                 font-weight: 400;
                 letter-spacing: 0.22px;
@@ -280,7 +275,6 @@
                 -moz-text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
                 text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000;
                 height: 100%;
-                margin-bottom: 0.25rem;
             }
 
             .relic-infos {
@@ -349,6 +343,7 @@
                 .relic-name {
                     align-self: flex-start;
                     width: 75%;
+                    height: 2.75rem;
                 }
 
                 .relic-description {
@@ -370,12 +365,6 @@
                 }
             }
         }
-    }
-
-    .nicescroll-rails {
-        top: 0rem!important;
-        right: 5px!important;
-        z-index: unset!important;
     }
 }
 

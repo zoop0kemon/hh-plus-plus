@@ -187,9 +187,6 @@ class TeamsFilterModule extends CoreModule {
         $.each(this.arenaGirls, function(index, girlElem) {
             $.inArray(index, girlsFiltered) > -1 ? $(girlElem).show() : $(girlElem).hide()
         })
-
-        //update scroll display
-        $('.panel-body')?.getNiceScroll?.().resize()
     }
 
     sortGirls() {

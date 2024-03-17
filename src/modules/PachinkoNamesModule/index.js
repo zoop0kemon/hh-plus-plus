@@ -68,7 +68,7 @@ class PachinkoNamesModule extends CoreModule {
         const isPSH = Helpers.isPSH()
         const $panelHtml = Helpers.$(`
             <div class="availableGirls rarity-styling">
-                <div class="scrollArea${window.NiceScroll ? '' : ' hh-scroll'}">
+                <div class="scrollArea hh-scroll">
                     <div class="availableOnly">
                         ${girlList.length ? this.label('availableGirls') : ''}
                         ${girlList.map(girl => girl.name ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">????</span>').join(', ')}
@@ -82,9 +82,6 @@ class PachinkoNamesModule extends CoreModule {
         `)
 
         $('.game-rewards').before($panelHtml)
-
-        $panelHtml?.niceScroll?.('.scrollArea', { bouncescroll: false })
-        $panelHtml.find('.nicescroll-rails-vr').css('right', '5px')
     }
 }
 

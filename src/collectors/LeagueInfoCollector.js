@@ -84,7 +84,7 @@ class LeagueInfoCollector {
             let playerScore = 0
             let challengesDone = 0
             let tot_victory = 0
-            let tot_defeat = 0 
+            let tot_defeat = 0
             opponents_list.forEach(({match_history, player, player_league_points}) => {
                 const match_history_array = Object.values(match_history)[0]
 

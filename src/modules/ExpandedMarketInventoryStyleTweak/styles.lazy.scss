@@ -14,10 +14,6 @@
 
             .my-inventory-container .player-inventory-content {
                 width: 26.6rem;
-
-                .nicescroll-rails {
-                    right: 18px;
-                }
             }
 
             .bottom-container {
@@ -26,30 +22,24 @@
         }
     }
     #my-hero-tab-container {
-        .my-hero-switch-content {
-            #my-hero-equipement-tab-container,
-            #my-hero-boosters-tab-container {
-                .my-inventory-equipement-container .my-inventory .my-inventory-container {
-                    .armor,
-                    .booster {
-                        .nicescroll-rails {
-                            right: 26rem !important;
-                        }
-                    }
-                }
-            }
-        }
-
         .tab-armor,
         .tab-booster {
             .my-inventory-equipement-container .my-inventory {
                 .my-inventory-container {
                     width: 24rem !important;
 
-                    .armor,
-                    .booster {
-                        width: 24rem !important;
+                    .armor {
+                        width: 24.25rem !important;
                         max-width: unset !important;
+                    }
+
+                    .booster {
+                        width: 22.25rem !important;
+                        max-width: unset !important;
+
+                        .slot-container {
+                            margin-right: 0.5rem !important;
+                        }
                     }
                 }
             }

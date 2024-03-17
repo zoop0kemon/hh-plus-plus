@@ -55,14 +55,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             width: 100%;
-            height: auto;
+            height: 100%;
             padding-left: 10px;
             padding-right: 10px;
             gap: 10px;
-
-            &.hh-scroll {
-                height: 100%;
-            }
         }
     }
 
@@ -116,13 +112,10 @@
 
     .credits-panel {
         .credits-contents {
+            height: 100%;
             padding-left: 2rem;
             padding-right: 2rem;
             padding-bottom: 2rem;
-
-            &.hh-scroll {
-                height: 100%;
-            }
         }
 
         .changelog {
@@ -163,10 +156,6 @@
         position: absolute;
         top: 6px;
         right: 56px;
-    }
-
-    .nicescroll-rails {
-        top: 0 !important;
     }
 }
 

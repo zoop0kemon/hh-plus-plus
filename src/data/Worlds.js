@@ -82,4 +82,5 @@ export const GPSH = [
     '',
     '',
     'boysarebad',
+    'yeehawgpsh',
 ]

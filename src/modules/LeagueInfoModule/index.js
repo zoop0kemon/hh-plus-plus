@@ -464,7 +464,6 @@ class LeagueInfoModule extends CoreModule {
                 })
 
                 adjustStripes()
-                $('.league_table')?.getNiceScroll?.().resize()
             }
         }
 

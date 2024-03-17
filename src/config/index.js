@@ -204,7 +204,7 @@ class Config {
             </div>
             ${this.groups.map(({key: groupKey}) => `
             <div class="group-panel" rel="${groupKey}">
-                <div class="panel-contents${window.NiceScroll ? '' : ' hh-scroll'}">
+                <div class="panel-contents hh-scroll">
                     ${this.modules.filter(({group}) => group === groupKey).map(({configSchema}) => {
         const baseKey = this.getConfigKey(groupKey, configSchema.baseKey)
         const baseVal = this.config[baseKey]
@@ -242,7 +242,7 @@ class Config {
         const {name, author, version} = scriptInfo
 
         return `
-        <div class="credits-contents${window.NiceScroll ? '' : ' hh-scroll'}">
+        <div class="credits-contents hh-scroll">
             <p>You're running ${name} <a class="changelog" tooltip="Click to open CHANGELOG" href="${CHANGELOG}" target="_blank">v${version}</a> by ${author}</p>
             <p>Enjoying the script? Want to throw money at me for some reason? You can <a href="${PATREON}" target="_blank">support me on Patreon</a> if you'd like.</p>
             <p>Join us on <a href="${DISCORD}" target="_blank">Discord</a>!</p>
@@ -277,8 +277,8 @@ class Config {
             .prepend($creditsButton)
         $('#contains_all').append(this.$configPane)
 
-        this.$configPane.find('.group-panel')?.niceScroll?.('.panel-contents', {bouncescroll: false})
-        this.$configPane.find('.credits-panel')?.niceScroll?.('.credits-contents', {bouncescroll: false})
+        this.$configPane.find('.group-panel')
+        this.$configPane.find('.credits-panel')
         this.setupEvents()
         this.selectConfigTab(this.groups[0].key)
     }
@@ -309,7 +309,7 @@ class Config {
         $('.hh-plus-plus-config-panel .tabs h4').removeClass('selected')
         $(`.hh-plus-plus-config-panel .tabs h4[rel=${key}]`).addClass('selected')
         $('.hh-plus-plus-config-panel .group-panel').removeClass('shown')
-        $(`.hh-plus-plus-config-panel .group-panel[rel=${key}]`).addClass('shown')?.getNiceScroll?.().resize()
+        $(`.hh-plus-plus-config-panel .group-panel[rel=${key}]`).addClass('shown')
         this.creditsShown = false
     }
 
@@ -318,10 +318,10 @@ class Config {
             const key = this.currentKey
             $('.hh-plus-plus-config-panel .credits-panel').removeClass('shown')
             $(`.hh-plus-plus-config-panel .tabs h4[rel=${key}]`).addClass('selected')
-            $(`.hh-plus-plus-config-panel .group-panel[rel=${key}]`).addClass('shown')?.getNiceScroll?.().resize()
+            $(`.hh-plus-plus-config-panel .group-panel[rel=${key}]`).addClass('shown')
             this.creditsShown = false
         } else {
-            $('.hh-plus-plus-config-panel .credits-panel').addClass('shown')?.getNiceScroll?.().resize()
+            $('.hh-plus-plus-config-panel .credits-panel').addClass('shown')
             $('.hh-plus-plus-config-panel .tabs h4').removeClass('selected')
             $('.hh-plus-plus-config-panel .group-panel').removeClass('shown')
             this.creditsShown = true

@@ -208,6 +208,7 @@ export const villain = {
     mistressvenom: 'Mistress Venom',
     tristanhunter: 'Tristan Hunter',
     jimmydurano: 'Jimmy Durano',
+    luccamazzi: 'Lucca Mazzi',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -270,6 +271,7 @@ export const villainBreadcrumbs = {
     tropicalbeginnings: 'Tropical Beginnings',
     spotlight: 'Spotlight',
     boysarebad: 'Boys Are Bad',
+    yeehawgpsh: 'Yee Haw!',
 }
 
 export const market = {

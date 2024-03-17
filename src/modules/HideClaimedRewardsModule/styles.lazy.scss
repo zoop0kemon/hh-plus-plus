@@ -22,20 +22,6 @@
         display: none;
     }
 
-    .seasonal-event-panel
-        .seasonal-event-container
-        .tabs-section
-        #home_tab_container
-        .bottom-container
-        .right-part-container
-        .seasonal-tiers-section
-        .seasonal-progress-bar-section
-        .seasonal-progress-bar-tiers
-        .seasonal-tier-container
-        &.seasonal-tier {
-        display: none;
-    }
-
     .mega-event-panel
         .mega-event-container
         .tabs-section
@@ -64,5 +50,9 @@
 }
 
 .no-transition {
-    transition: none!important;
+    transition: none !important;
+}
+
+.rewards_seasons_row {
+    width: max-content !important;
 }

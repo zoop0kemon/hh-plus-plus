@@ -998,10 +998,10 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'darkness',
+                element: 'fire',
                 amount: 15
             }, {
-                element: 'light',
+                element: 'sun',
                 amount: 15
             }]
         },
@@ -1015,16 +1015,33 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'psychic',
+                element: 'darkness',
                 amount: 15
             }, {
-                element: 'water',
+                element: 'light',
                 amount: 15
             }]
         },
         {
+            key: 'luccamazzi',
             opponent: 3,
             world: 7,
+            girls: {
+                1: ['680366759', '836998610', '127881092'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 15,
+            }, {
+                element: 'water',
+                amount: 15
+            }],
+        },
+        {
+            opponent: 4,
+            world: 8,
             girls: {
                 1: [],
                 2: [],
