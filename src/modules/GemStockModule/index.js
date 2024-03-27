@@ -1,4 +1,3 @@
-/* global player_gems_amount */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -24,6 +23,7 @@ class GemStockModule extends CoreModule {
     }
 
     buildGemsTable () {
+        const {player_gems_amount} = window
         const elements = Object.keys(ELEMENTS_ICON_NAMES)
         return `
         <table class="gemStock-table">
@@ -61,7 +61,6 @@ class GemStockModule extends CoreModule {
             this.injectCSSVars()
 
             const $gemStock = this.buildGemsStockElem()
-
             const $container = $('#harem_left')
 
             $container.prepend($gemStock)

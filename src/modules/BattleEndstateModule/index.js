@@ -1,4 +1,3 @@
-/* global Hero, GT, setRounds */
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
 import CoreModule from '../CoreModule'
@@ -18,15 +17,14 @@ class BattleEndstateModule extends CoreModule {
     }
 
     run () {
-        if (this.hasRun || !this.shouldRun()) {
-            return
-        }
+        if (this.hasRun || !this.shouldRun()) {return}
 
         Helpers.onAjaxResponse(/action=do_battles_(leagues|seasons|troll|pantheon|boss_bang)/i, (respBattleData) => {
             //We already spent some combativity, let's show this to the player:
-            if(~location.search.search(/number_of_battles=\d+/i)) {
+            if (~location.search.search(/number_of_battles=\d+/i)) {
                 const nBattlesCount = parseInt(location.search.match(/number_of_battles=(\d+)/i)[1], 10)
-                if($.isNumeric(nBattlesCount)) {
+                if ($.isNumeric(nBattlesCount)) {
+                    const {shared: {Hero}} = window
                     if (Helpers.isCurrentPage('troll-battle')) {
                         Hero.update('energy_fight', Hero.energies.fight.amount - nBattlesCount, false)
                     }
@@ -50,42 +48,37 @@ class BattleEndstateModule extends CoreModule {
             let nOpponentFinalEgo = 0
 
             const nRoundsLen = arrRounds.length
-            if(nRoundsLen >= 2) {
+            if (nRoundsLen >= 2) {
                 let arrLastRounds = [arrRounds[nRoundsLen - 2], arrRounds[nRoundsLen - 1]]
-                if(!arrLastRounds[1].opponent_hit) {
+                if (!arrLastRounds[1].opponent_hit) {
                     nPlayerFinalEgo = arrLastRounds[0].opponent_hit.defender.remaining_ego
                     nOpponentFinalEgo = arrLastRounds[1].hero_hit.defender.remaining_ego
-                }
-                else if(!arrLastRounds[1].hero_hit) {
+                } else if (!arrLastRounds[1].hero_hit) {
                     nPlayerFinalEgo = arrLastRounds[1].opponent_hit.defender.remaining_ego
                     nOpponentFinalEgo = arrLastRounds[0].hero_hit.defender.remaining_ego
-                }
-                else {
+                } else {
                     nPlayerFinalEgo = arrRounds[nRoundsLen - 1].opponent_hit.defender.remaining_ego
                     nOpponentFinalEgo = arrRounds[nRoundsLen - 1].hero_hit.defender.remaining_ego
                 }
-            }
-            else {
-                if(nRoundsLen === 1) {
-                    if(!arrRounds[0].opponent_hit) {
+            } else {
+                if (nRoundsLen === 1) {
+                    if (!arrRounds[0].opponent_hit) {
                         nPlayerFinalEgo = nPlayerInitialEgo
                         nOpponentFinalEgo = arrRounds[0].hero_hit.defender.remaining_ego
-                    }
-                    else if(!arrRounds[0].hero_hit) {
+                    } else if (!arrRounds[0].hero_hit) {
                         nPlayerFinalEgo = arrRounds[0].opponent_hit.defender.remaining_ego
                         nOpponentFinalEgo = nOpponentInitialEgo
-                    }
-                    else {
+                    } else {
                         nPlayerFinalEgo = arrRounds[0].opponent_hit.defender.remaining_ego
                         nOpponentFinalEgo = arrRounds[0].hero_hit.defender.remaining_ego
                     }
-                }
-                else {
+                } else {
                     throw new Error('incorrect amount of rounds')
                 }
             }
 
             $('#new-battle-skip-btn').on('click', function() {
+                const {GT} = window
                 const $playerBar = $('.new-battle-player .new-battle-hero-ego-initial-bar')
                 const $playerDamageBar = $('.new-battle-player .new-battle-hero-ego-damage-bar')
                 const $playerHealBar = $('.new-battle-player .new-battle-hero-ego-heal-bar')
@@ -107,13 +100,14 @@ class BattleEndstateModule extends CoreModule {
 
                 const strPlayerCurEgo = $playerEgo.text().split(GT.ego)[1].replace(/[, ]/g, '')
                 let nPlayerCurEgo = nPlayerInitialEgo
-                if($.isNumeric(strPlayerCurEgo))
+                if ($.isNumeric(strPlayerCurEgo)) {
                     nPlayerCurEgo = parseInt(strPlayerCurEgo)
+                }
                 const strOpponentCurEgo = $opponentEgo.text().split(GT.ego)[1].replace(/[, ]/g, '')
                 let nOpponentCurEgo = nOpponentInitialEgo
-                if($.isNumeric(strOpponentCurEgo))
+                if ($.isNumeric(strOpponentCurEgo)) {
                     nOpponentCurEgo = parseInt(strOpponentCurEgo)
-
+                }
                 const nPlayerCompleteAtk = nOpponentCurEgo - nOpponentFinalEgo
                 const nOpponentCompleteAtk = nPlayerCurEgo - nPlayerFinalEgo
                 $playerDamageDone.text(nPlayerCompleteAtk.toString())
@@ -123,34 +117,35 @@ class BattleEndstateModule extends CoreModule {
                 const fOpponentEgoBarWidth = nOpponentFinalEgo <= 0 ? 0 : nOpponentFinalEgo / nOpponentInitialEgo * 100.0
 
                 const arrPlayerAnimationSequence = [
-                    { e: $playerBar, p: { width: fPlayerEgoBarWidth.toFixed(2) + '%' }, o: { duration: 200 } },
-                    { e: $playerDamageBar, p: { width: fPlayerEgoBarWidth.toFixed(2) + '%' }, o: { duration: 200 } },
-                    { e: $playerDamageDone, p: { opacity: [0, 1], translateY: -20, translateZ: 0 }, o: {
-                        duration: 300,
-                        sequenceQueue: false,
-                        complete: function(elm) {
-                            $playerEgo.text(GT.ego + ' ' + nPlayerFinalEgo.toString())
-                            $(elm).velocity({ translateY: 0 }, 0)
+                    {e: $playerBar, p: {width: fPlayerEgoBarWidth.toFixed(2) + '%'}, o: {duration: 200}},
+                    {e: $playerDamageBar, p: {width: fPlayerEgoBarWidth.toFixed(2) + '%'}, o: {duration: 200}},
+                    {e: $playerDamageDone, p: {opacity: [0, 1], translateY: -20, translateZ: 0}, o: {
+                            duration: 300,
+                            sequenceQueue: false,
+                            complete: function(elm) {
+                                $playerEgo.text(GT.ego + ' ' + nPlayerFinalEgo.toString())
+                                $(elm).velocity({translateY: 0}, 0)
+                            }
                         }
-                    }
                     }
                 ]
                 const arrOpponentAnimationSequence = [
-                    { e: $opponentBar, p: { width: fOpponentEgoBarWidth.toFixed(2) + '%' }, o: { duration: 200 } },
-                    { e: $opponentDamageBar, p: { width: fOpponentEgoBarWidth.toFixed(2) + '%' }, o: { duration: 200 } },
-                    { e: $opponentDamageDone, p: { opacity: [0, 1], translateY: -20, translateZ: 0 }, o: {
-                        duration: 300,
-                        sequenceQueue: false,
-                        complete: function(elm) {
-                            $opponentEgo.text(GT.ego + ' ' + nOpponentFinalEgo.toString())
-                            $(elm).velocity({ translateY: 0 }, 0)
+                    {e: $opponentBar, p: {width: fOpponentEgoBarWidth.toFixed(2) + '%'}, o: {duration: 200}},
+                    {e: $opponentDamageBar, p: {width: fOpponentEgoBarWidth.toFixed(2) + '%'}, o: {duration: 200}},
+                    {e: $opponentDamageDone, p: {opacity: [0, 1], translateY: -20, translateZ: 0}, o: {
+                            duration: 300,
+                            sequenceQueue: false,
+                            complete: function(elm) {
+                                $opponentEgo.text(GT.ego + ' ' + nOpponentFinalEgo.toString())
+                                $(elm).velocity({translateY: 0}, 0)
+                            }
                         }
-                    }
                     }
                 ]
 
                 $('.velocity-animating').velocity('stop', true)
-                setRounds([])
+                //FIX LATTER IDK
+                // setRounds([])
                 $.Velocity.RunSequence(arrPlayerAnimationSequence)
                 $.Velocity.RunSequence(arrOpponentAnimationSequence)
             })

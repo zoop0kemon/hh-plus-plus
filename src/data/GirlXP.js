@@ -1,4 +1,3 @@
-/* global HH_MAX_LEVEL */
 const MULTIPLIERS = {
     starting: 1,
     common: 1,
@@ -8,7 +7,10 @@ const MULTIPLIERS = {
     mythic: 4
 }
 
-const buildCumulativeXPForRarity = (multiplier) => Array((window.GIRL_MAX_LEVEL || HH_MAX_LEVEL) - 1).fill().map((_,i) => Math.ceil(10*multiplier*(Math.pow(1.0075,i)))).reduce((a,x,i) => {a.push(x + (i===0?0:a[a.length-1]));return a}, [])
+const buildCumulativeXPForRarity = (multiplier) => {
+    const {GIRL_MAX_LEVEL, HH_MAX_LEVEL} = window
+    return Array((GIRL_MAX_LEVEL || HH_MAX_LEVEL) - 1).fill().map((_,i) => Math.ceil(10*multiplier*(Math.pow(1.0075,i)))).reduce((a,x,i) => {a.push(x + (i===0?0:a[a.length-1]));return a}, [])
+}
 
 class GirlXP {
     constructor () {

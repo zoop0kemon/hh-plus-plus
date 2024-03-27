@@ -22,9 +22,10 @@ class LeaderboardProfilePopupsModule extends CoreModule {
         if (this.hasRun || !this.shouldRun()) {return}
 
         Helpers.defer(() => {
+            const {shared: {general: {hero_page_popup}}} = window
             $(document.body).on('click', '[sorting_id]', (e) => {
                 const id = $(e.currentTarget).attr('sorting_id')
-                window.hero_page_popup({id})
+                hero_page_popup({id})
             })
         })
 

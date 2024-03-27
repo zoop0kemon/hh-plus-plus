@@ -1,7 +1,5 @@
-/* global server_now_ts, season_end_at */
 import { lsKeys } from '../common/Constants'
 import Helpers from '../common/Helpers'
-import I18n from '../i18n'
 
 const MIGRATIONS = {
     leaguePlayers: lsKeys.LEAGUE_PLAYERS,
@@ -18,7 +16,6 @@ const MIGRATIONS = {
 
 class LeagueInfoCollector {
     static collect() {
-
         if (Helpers.isCurrentPage('leagues.html')) {
             Helpers.defer(() => {
                 LeagueInfoCollector.migrate()
@@ -138,6 +135,7 @@ class LeagueInfoCollector {
     }
 
     static clean () {
+        const {server_now_ts, season_end_at} = window
         const leagueEndTime = server_now_ts + season_end_at
         const storedEndTime = Helpers.lsGet(lsKeys.LEAGUE_TIME)
 

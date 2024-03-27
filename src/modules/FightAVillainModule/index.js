@@ -1,4 +1,3 @@
-/* global Hero, GT */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -73,8 +72,7 @@ class FightAVillainModule extends CoreModule {
         const mythicEventTrolls = Helpers.lsGet(lsKeys.MYTHIC_EVENT_VILLAINS) || []
         const girlDictionary = Helpers.getGirlDictionary()
 
-
-        const currentWorld = Hero.infos.questing.id_world
+        const {shared: {Hero: {infos: {questing: {id_world: currentWorld}}}}} = window
         const worldIcon = `${Helpers.getCDNHost()}/pictures/design/quest/ico-quest.png`
 
         const filteredVillainSet = villainsSet.filter(villain => villain.world <= currentWorld)
@@ -110,6 +108,7 @@ class FightAVillainModule extends CoreModule {
             $villainNameAndDrops.append(`<div class="menu-villain-name">${villainName}</div>`)
             const $villainDrops = $('<div class="menu-villain-drops"></div>')
             if (gems) {
+                const {GT} = window
                 gems.forEach(({element, amount}) => {
                     $villainDrops.append(`<div class="menu-villain-gem-drop-container" tooltip="${GT.design[`${element}_gem`]}"><img class="menu-villain-drop" src="${Helpers.getCDNHost()}/pictures/design/gems/${element}.png" /><span class="menu-villain-gem-drop-amount">${amount}</span></div>`)
                 })

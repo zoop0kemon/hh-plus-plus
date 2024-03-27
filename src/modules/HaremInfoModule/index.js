@@ -1,4 +1,3 @@
-/* global GIRL_MAX_LEVEL, GT, girlsDataList, awakening_requirements, Hero, server_now_ts, player_gems_amount */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -26,6 +25,7 @@ const SC_PER_AFF = 417
 const SC_PER_XP = 200
 
 const getGemCostFromAwakeningLevel = (awakeningLevel, rarity) => {
+    const {awakening_requirements} = window
     let gems = 0
     if (awakeningLevel < awakening_requirements.length) {
         gems = awakening_requirements.slice(awakeningLevel).reduce((sum, {cost}) => sum += (cost*GEM_COST_MULTIPLIERS[rarity]), 0)
@@ -67,6 +67,8 @@ class HaremInfoModule extends CoreModule {
     }
 
     aggregateStats (girls_list) {
+        const {awakening_requirements, GIRL_MAX_LEVEL} = window
+
         Object.values(girls_list).forEach((girl) => {
             if (!girl.is_owned && !this.aggregates.checked.includes(girl.id_girl)) {return}
 
@@ -115,7 +117,7 @@ class HaremInfoModule extends CoreModule {
     }
 
     buildGeneralSummary () {
-        const {high_level_girl_owned, awakening_requirements} = window
+        const {high_level_girl_owned, awakening_requirements, GIRL_MAX_LEVEL, GT} = window
         const levelCapAggregate = high_level_girl_owned.slice(1).map((girls_owned, i)=>{
             const {cap_level} = awakening_requirements[i]
             const {girls_required} = awakening_requirements[i+1]
@@ -168,6 +170,7 @@ class HaremInfoModule extends CoreModule {
     }
 
     buildUpgradeSummary () {
+        const {GT} = window
         return `
             <div class="summary-block upgrade-summary">
                 <h1>${this.label('upgrades')}</h1>
@@ -224,6 +227,7 @@ class HaremInfoModule extends CoreModule {
                 <p class="market-warning">${this.label('visitMarket', {href})}</p>
             `
         } else {
+            const {shared: {Hero}, server_now_ts, GT} = window
             const {buyableItems, sellableItems, refreshTime, refreshLevel} = marketInfo
 
             let buyableContent = ''
@@ -270,6 +274,7 @@ class HaremInfoModule extends CoreModule {
             }
 
             if (sellableItems) {
+                const {player_gems_amount} = window
                 const {xp, aff} = sellableItems
                 sellableContent = `
                     <span>${this.label('sellable')}</span>
@@ -353,6 +358,7 @@ class HaremInfoModule extends CoreModule {
             return
         }
 
+        const {girlsDataList} = window
         const girl = girlsDataList[girlId]
         const wikiLink = Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())
 
@@ -375,6 +381,7 @@ class HaremInfoModule extends CoreModule {
     }
 
     attachSceneCostsAndStats (id, $girl) {
+        const {girlsDataList, GT} = window
         const $lockedStars = $girl.find('a.later')
         if (!$lockedStars.length) {
             return

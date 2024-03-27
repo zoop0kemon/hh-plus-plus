@@ -14,7 +14,7 @@ const collectFromGirlList = (girl_list) => {
     let updated = false
 
     Object.values(girl_list).forEach((girl) => {
-        const { id_girl, name, shards, class: girl_class, rarity, nb_grades, graded2, fav_graded, graded, own, is_owned } = girl
+        const {id_girl, name, shards, class: girl_class, rarity, nb_grades, graded2, fav_graded, graded, own, is_owned} = girl
         const has_girl = own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100)
 
         const girl_data = {
@@ -46,27 +46,27 @@ const collectFromGirlList = (girl_list) => {
 const collectFromRewards = (rewards) => {
     if (rewards && rewards.data && !rewards.data.draft && rewards.data.shards) {
         girlDictionary = Helpers.getGirlDictionary()
-        rewards.data.shards.forEach(({ id_girl, value }) => {
-            upsert(id_girl, { shards: Math.min(value, 100) })
+        rewards.data.shards.forEach(({id_girl, value}) => {
+            upsert(id_girl, {shards: Math.min(value, 100)})
         })
         Helpers.setGirlDictionary(girlDictionary)
     }
 }
 
 const collectFromAjaxResponseSingular = (response) => {
-    const { rewards } = response
+    const {rewards} = response
     collectFromRewards(rewards)
 }
 const collectFromAjaxResponsePlural = (response) => {
-    const { rewards: rewardsSets } = response
+    const {rewards: rewardsSets} = response
     if (rewardsSets) {
         rewardsSets.forEach(collectFromRewards)
     }
 }
 const collectFromAjaxResponseLeagues = (response) => {
-    const { rewards } = response
-    if (!rewards) { return }
-    const { list } = rewards
+    const {rewards} = response
+    if (!rewards) {return}
+    const {list} = rewards
     if (list) {
         list.forEach(collectFromRewards)
     }
@@ -137,9 +137,9 @@ class GirlDictionaryCollector {
 
     static collectFromClubChamp() {
         const {club_champion_data} = window
-        if (!club_champion_data) { return }
-        const { shards: rewardShards } = club_champion_data.reward
-        if (!rewardShards || !rewardShards.length) { return }
+        if (!club_champion_data) {return}
+        const {shards: rewardShards} = club_champion_data.reward
+        if (!rewardShards || !rewardShards.length) {return}
 
         const {girl_class, previous_value} = rewardShards[0]
         const girl_data = Object.assign({class: girl_class, shards: previous_value}, rewardShards[0])
@@ -154,7 +154,7 @@ class GirlDictionaryCollector {
 
     static collectFromPoP() {
         const {pop_hero_girls} = window
-        if (!pop_hero_girls) { return }
+        if (!pop_hero_girls) {return}
 
         collectFromGirlList(pop_hero_girls)
     }
@@ -184,7 +184,7 @@ class GirlDictionaryCollector {
 
     static collectFromChampions() {
         Helpers.onAjaxResponse(/class=TeamBattle/i, (response) => {
-            const { end } = response
+            const {end} = response
             if (end) {
                 collectFromAjaxResponseSingular(end)
             }

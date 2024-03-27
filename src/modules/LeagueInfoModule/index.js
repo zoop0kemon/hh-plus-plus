@@ -94,13 +94,14 @@ class LeagueInfoModule extends CoreModule {
 
     fixLeagueSorting () {
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
-            // fix / adjust sorting system
-            const isColumnSortable_actual = window.isColumnSortable
-            const hook = (column_name, settings) => {
-                if (column_name === "team") {return true}
-                return isColumnSortable_actual(column_name, settings)
-            }
-            window.isColumnSortable = hook
+            // fix / adjust sorting 
+            //FIX LATTER
+            // const isColumnSortable_actual = window.isColumnSortable
+            // const hook = (column_name, settings) => {
+            //     if (column_name === "team") {return true}
+            //     return isColumnSortable_actual(column_name, settings)
+            // }
+            // window.isColumnSortable = hook
 
             const {opponents_list} = window
             if (opponents_list && opponents_list.length) {
@@ -113,7 +114,7 @@ class LeagueInfoModule extends CoreModule {
     }
 
     displaySummary ({board, promo}) {
-        const {opponents_list, season_end_at, Hero} = window
+        const {opponents_list, season_end_at, shared: {Hero}} = window
         if (opponents_list && opponents_list.length) {
             const playersTotal = opponents_list.length
             const opponentsTotal = playersTotal - 1
@@ -194,11 +195,11 @@ class LeagueInfoModule extends CoreModule {
                 }).join('')
             }
             if (promo) {
-                const {current_tier_number} = window
+                const {current_tier_number, max_league} = window
                 const {demote, nonDemote} = demotions
 
                 const canDemote = current_tier_number > 1
-                const canPromote = current_tier_number < 9
+                const canPromote = current_tier_number < max_league
 
                 const playerAtZeroPoints = playerScore === 0
                 const playerIsTop15 = playerRank <= 15
@@ -442,7 +443,7 @@ class LeagueInfoModule extends CoreModule {
                 opponents_list.forEach(({match_history, boosters, player: {team: {theme}}}, index) => {
                     const match_history_array = Object.values(match_history)[0]
 
-                    if (match_history_array) { // only care about opponents
+                    if (match_history_array) {// only care about opponents
                         let toHide = false
 
                         const challenges_done = match_history_array.filter((e) => {return e != null}).length
@@ -475,10 +476,10 @@ class LeagueInfoModule extends CoreModule {
                 $('.league_tiers').append($filter).append($filter_box)
             })
 
-            $filter.click(() => { $filter_box.toggle() })
+            $filter.click(() => {$filter_box.toggle()})
             $filter_box.find('input').each((i, input) => {
                 $(input).change((e) => {
-                    const { value, name, type } = e.target
+                    const {value, name, type} = e.target
                     if (type === 'checkbox') {
                         if ($(e.target).is(':checked')) {
                             activeFilters[name].push(value)
@@ -520,8 +521,8 @@ class LeagueInfoModule extends CoreModule {
             const $boosters = $('[column=boosters] .boosters .slot')
             $boosters.each((i, el) => {
                 const data = $(el).data('d')
-                const { usages_remaining, expiration, item } = data
-                const { rarity, default_usages, duration } = item || {}
+                const {usages_remaining, expiration, item} = data
+                const {rarity, default_usages, duration} = item || {}
                 let current = 0
                 let max = 1
                 const isMythic = rarity === 'mythic'

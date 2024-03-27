@@ -28,12 +28,10 @@ class HideClaimedRewardsModule extends CoreModule {
 
         Helpers.defer(() => {
             if (['path-of-valor', 'path-of-glory'].some(page => Helpers.isCurrentPage(page))) {
-                const {currentTier} = window
-
                 this.hideClaimedRewards({
                     scroll_area: '.potions-paths-progress-bar-tiers',
                     tier: '.potions-paths-tier',
-                    tiers_unlocked: currentTier,
+                    tiers_unlocked_var: 'currentTier',
                     is_vertical: true,
                     progress_bar: '.potions-paths-progress-bar .potions-paths-progress-bar-current',
                     girl: '.girl-preview',
@@ -43,14 +41,14 @@ class HideClaimedRewardsModule extends CoreModule {
                     }
                 })
             } else if (Helpers.isCurrentPage('season.html')) {
-                const {season_has_pass, season_tier} = window
+                const {season_has_pass} = window
                 const can_claim = season_has_pass ? 2 : 1
                 const cant_claim = season_has_pass ? 0 : 1
 
                 this.hideClaimedRewards({
                     scroll_area: '.rewards_container_seasons',
                     tier: '.rewards_pair',
-                    tiers_unlocked: season_tier,
+                    tiers_unlocked_var: 'season_tier',
                     girl: '#girls_holder',
                     hide: () => {
                         const claimable_tiers = []
@@ -70,12 +68,10 @@ class HideClaimedRewardsModule extends CoreModule {
                 this.poa()
                 this.dp()
             } else if (Helpers.isCurrentPage('seasonal')) {
-                const {mega_current_tier} = window
-
                 this.hideClaimedRewards({
                     scroll_area: '.mega-progress-bar-section',
                     tier: '.mega-tier-container',
-                    tiers_unlocked: mega_current_tier,
+                    tiers_unlocked_var: 'mega_current_tier',
                     progress_bar: '.mega-progress-bar .mega-progress-bar-current',
                     girl: '.girls-reward-container',
                     hide: () => {
@@ -84,13 +80,11 @@ class HideClaimedRewardsModule extends CoreModule {
                     }
                 })
             } else if (Helpers.isCurrentPage('member-progression')) {
-                const {current_tier} = window
-
                 this.hideClaimedRewards({
                     wait_for: '.info_text_container',
                     scroll_area: '.tiers-container',
                     tier: '.tier',
-                    tiers_unlocked: current_tier,
+                    tiers_unlocked_var: 'current_tier',
                     progress_bar: '.progress-bar .progress-bar-current',
                     girl: '.page-girl',
                     hide: () => {
@@ -104,14 +98,13 @@ class HideClaimedRewardsModule extends CoreModule {
         this.hasRun = true
     }
 
-    hideClaimedRewards ({wait_for, scroll_area, tier, tiers_unlocked, is_vertical, progress_bar, girl, hide}) {
+    hideClaimedRewards ({wait_for, scroll_area, tier, tiers_unlocked_var, is_vertical, progress_bar, girl, hide}) {
         Helpers.doWhenSelectorAvailable(wait_for ? wait_for : '.timer', () => {
             let hidden = false
             let claimable = []
             const is_horizontal = !is_vertical
             const $progressBar = progress_bar ? $(progress_bar).eq(0) : null
             const tier_size = is_horizontal ? $(tier).width() : $(tier).height()
-            tiers_unlocked = parseInt(tiers_unlocked)
 
             const assertHidden = () => {
                 claimable = hide()
@@ -128,6 +121,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 $('.script-hide-claimed').removeClass('script-hide-claimed')
                 if ($progressBar) {
                     $progressBar.addClass('no-transition')
+                    const tiers_unlocked = parseInt(window[tiers_unlocked_var])
                     const offset = tiers_unlocked ? (is_horizontal ? $(tier)[tiers_unlocked-1].offsetLeft : $(tier)[tiers_unlocked-1].offsetTop) : -tier_size/2
                     $progressBar.css(is_horizontal ? 'width' : 'height', offset + tier_size/2)
                     $progressBar[0].offsetHeight

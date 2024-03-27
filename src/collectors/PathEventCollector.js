@@ -20,11 +20,12 @@ class PathEventCollector {
     }
 
     static collectEndTime (type) {
+        const {server_now_ts} = window
         const $timer = $('.potions-paths-timer')
         let timeleft = $timer.data('time-stamp')
 
         const persist = () => {
-            const endTime = window.server_now_ts + timeleft
+            const endTime = server_now_ts + timeleft
             const lskey = LSKEYS[type]
             Helpers.lsSet(lskey, endTime)
         }

@@ -82,7 +82,7 @@ if (!window.$) {
 } else if (['/integrations/', '/index.php'].some(path => path === location.pathname) && location.hostname.includes('nutaku')) {
     // nutaku post-login home screen, redirect.
     $(document).ready(() => {
-        const {navigate} = window
+        const {shared: {general: {navigate}}} = window
         navigate('/home.html')
     })
 } else if (document.getElementById('loading-overlay')) {

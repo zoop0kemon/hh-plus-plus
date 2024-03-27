@@ -10,11 +10,9 @@ const ID_FROM_URL_REGEX = /(?<id>[0-9]+)\/ico[0-9](-[0-9]+x)?.[a-z]+(\?v=[0-9]+)
 
 const extractIdFromUrl = (url) => {
     const matches = url.match(ID_FROM_URL_REGEX)
-    if (!matches || !matches.groups) {
-        return
-    }
+    if (!matches || !matches.groups) {return}
 
-    const { groups: { id } } = matches
+    const {groups: {id}} = matches
     return id
 }
 const makeShardCount = ({ shards, name, className }) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span> ${shards}</div>`
@@ -34,7 +32,7 @@ class RewardShardsModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+        if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
@@ -60,27 +58,27 @@ class RewardShardsModule extends CoreModule {
         const girlDictionary = Helpers.getGirlDictionary()
 
         const $girlsReward = $('.slot.girl_ico')
-        if (!$girlsReward.length) { return }
+        if (!$girlsReward.length) {return}
 
         const annotate = ($girlsReward) => {
             const $girlIcos = $girlsReward.find('.girl_ico')
             $girlIcos.each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
-                if (!$img.length) { return }
+                if (!$img.length) {return}
                 const url = $img.attr('src')
 
                 const id = extractIdFromUrl(url)
-                if (!id) { return }
+                if (!id) {return}
                 const girl = girlDictionary.get(id)
                 let name, shards
                 if (girl) {
-                    ({ name, shards } = girl)
+                    ({name, shards} = girl)
                 } else {
                     shards = 0
                 }
 
-                $el.append(makeShardCount({ name, shards }))
+                $el.append(makeShardCount({name, shards}))
             })
         }
 
@@ -91,21 +89,21 @@ class RewardShardsModule extends CoreModule {
                 if ($('.slot.girl_ico .girl_ico').length) {
                     annotate($girlsReward)
                 }
-            }).observe($girlsReward[0], { childList: true })
+            }).observe($girlsReward[0], {childList: true})
         }
         new MutationObserver(() => {
             if ($('.rewards_tooltip .girl_ico').length) {
                 annotate($('.rewards_tooltip'))
             }
-        }).observe(document.body, { childList: true })
+        }).observe(document.body, {childList: true})
     }
 
     displayOnClubChampion() {
-        const { club_champion_data } = window
-        if (!club_champion_data || !club_champion_data.reward.shards) { return }
+        const {club_champion_data} = window
+        if (!club_champion_data || !club_champion_data.reward.shards) {return}
         const annotate = () => {
-            const { previous_value: shards, name } = club_champion_data.reward.shards[0]
-            $('.girl-shards-reward-wrapper .slot_girl_shards').append(makeShardCount({ shards, name }))
+            const {previous_value: shards, name} = club_champion_data.reward.shards[0]
+            $('.girl-shards-reward-wrapper .slot_girl_shards').append(makeShardCount({shards, name}))
         }
 
         Helpers.doWhenSelectorAvailable('.tabs-switcher#club-tabs', () => {
@@ -123,20 +121,20 @@ class RewardShardsModule extends CoreModule {
             $('.rewards_tooltip .girl_ico').each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
-                if (!$img.length) { return }
+                if (!$img.length) {return}
                 const url = $img.attr('src')
 
                 const id = extractIdFromUrl(url)
-                if (!id) { return }
+                if (!id) {return}
                 const girl = girlDictionary.get(id)
                 let name, shards
                 if (girl) {
-                    ({ name, shards } = girl)
+                    ({name, shards} = girl)
                 } else {
                     shards = 0
                 }
 
-                $el.append(makeShardCount({ name, shards }))
+                $el.append(makeShardCount({name, shards}))
             })
         }
 
@@ -144,7 +142,7 @@ class RewardShardsModule extends CoreModule {
             if ($('.rewards_tooltip .girl_ico').length) {
                 annotate()
             }
-        }).observe(document.body, { childList: true })
+        }).observe(document.body, {childList: true})
     }
 
     displayOnSeason() {
@@ -154,21 +152,21 @@ class RewardShardsModule extends CoreModule {
             $(selector).each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
-                if (!$img.length) { return }
+                if (!$img.length) {return}
                 const url = $img.attr('src')
 
                 const id = extractIdFromUrl(url)
-                if (!id) { return }
+                if (!id) {return}
                 const girl = girlDictionary.get(id)
                 let name, shards
                 if (girl) {
-                    ({ name, shards } = girl)
+                    ({name, shards} = girl)
                 } else {
                     shards = 0
                 }
 
                 $el.find('.shards').hide()
-                $el.append(makeShardCount({ name, shards }))
+                $el.append(makeShardCount({name, shards}))
             })
         }
 
@@ -179,7 +177,7 @@ class RewardShardsModule extends CoreModule {
             if ($('.rewards_tooltip .girl_ico').length) {
                 annotate('.rewards_tooltip .girl_ico')
             }
-        }).observe(document.body, { childList: true })
+        }).observe(document.body, {childList: true})
     }
 }
 

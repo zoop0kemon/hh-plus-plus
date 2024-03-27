@@ -51,8 +51,9 @@ class LeaderboardClubmateIndicatorsModule extends CoreModule {
         const nameColumnSelector = this.getNameColumnSelector()
 
         if (clubStatus && clubStatus.memberIds) {
+            const {shared: {Hero: {infos: {id: hero_id}}}} = window
             clubStatus.memberIds.forEach((id) => {
-                if (id === window.Hero.infos.id) {return}
+                if (id === hero_id) {return}
                 const $nickname = isLeagues ? $(`.nickname[id-member="${id}"]`) : $(`${selector} [sorting_id='${id}']`).find(nameColumnSelector)
                 $nickname.append(`<div class="script-flair script-clubmate"><span class="globalClubs_mix_icn" tooltip="${this.label('clubmate')}"/></div>`)
             })

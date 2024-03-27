@@ -9,7 +9,6 @@ const DEFAULT_STATS = {
     lost_mojo: 0,
 }
 
-/* global season_sec_untill_event_end, server_now_ts */
 class SeasonStatsCollector {
     static collect () {
         Helpers.defer(() => {
@@ -61,14 +60,13 @@ class SeasonStatsCollector {
     }
 
     static rollOverStats () {
-        const now = server_now_ts
-        let seasonEndTime = parseInt(Helpers.lsGetRaw(lsKeys.SEASON_END_TIME) || '0', 10)
+        const {server_now_ts, season_sec_untill_event_end} = window
+        const seasonEndTime = parseInt(Helpers.lsGetRaw(lsKeys.SEASON_END_TIME) || '0', 10)
 
-        if (now > seasonEndTime) {
+        if (server_now_ts > seasonEndTime && season_sec_untill_event_end) {
             Helpers.lsSetRaw(lsKeys.OLD_SEASON_STATS, Helpers.lsGetRaw(lsKeys.SEASON_STATS))
             Helpers.lsSet(lsKeys.SEASON_STATS, DEFAULT_STATS)
-            seasonEndTime = now + season_sec_untill_event_end
-            Helpers.lsSetRaw(lsKeys.SEASON_END_TIME, seasonEndTime)
+            Helpers.lsSetRaw(lsKeys.SEASON_END_TIME, server_now_ts + season_sec_untill_event_end)
         }
     }
 }

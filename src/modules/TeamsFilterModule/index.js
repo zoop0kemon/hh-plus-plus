@@ -1,4 +1,3 @@
-/* global GT */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -151,7 +150,8 @@ class TeamsFilterModule extends CoreModule {
         let filterAffCategory = $('#filter_aff_category').get(0).value
         let filterAffLvl = $('#filter_aff_lvl').get(0).value
         let filterLevelCap = $('#filter_level_cap').get(0).value
-        const haremGirls = window.availableGirls || window.owned_girls || window.girl_squad.map(g => g.member_girl)
+        const {availableGirls, owned_girls, girl_squad} = window
+        const haremGirls = availableGirls || owned_girls || girl_squad.map(g => g.member_girl)
 
         let girlsFiltered = $.map(this.girlsData, (girl, index) => {
             let matchesClass = (`${girl.class}` === filterClass) || (filterClass === 'all')
@@ -193,7 +193,8 @@ class TeamsFilterModule extends CoreModule {
         let filterSort = $('#filter_sort').get(0).value
         if (filterSort === 'mana') {filterSort = 'mana_starting'}
         if (filterSort === 'mana-generation') {filterSort = 'mana_generation'}
-        const haremGirls = window.availableGirls || window.owned_girls || window.girl_squad.map(({member_girl}) => member_girl)
+        const {availableGirls, owned_girls, girl_squad} = window
+        const haremGirls = availableGirls || owned_girls || girl_squad.map(({member_girl}) => member_girl)
         const relics = this.relics.filter(({carac}) => carac === filterSort)
 
         const sorted_caracs = []
@@ -221,6 +222,7 @@ class TeamsFilterModule extends CoreModule {
     }
 
     createFilterBox() {
+        const {GT} = window
         let totalHTML = '<div id="arena_filter_box" class="form-wrapper" style="display: none;">'
         const affectionGradeOption = grade => ({ label: this.label(`grade${grade}`), value: grade })
 

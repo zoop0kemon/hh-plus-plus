@@ -1,4 +1,3 @@
-/* global server_now_ts, Hero */
 import { lsKeys } from '../common/Constants'
 import Helpers from '../common/Helpers'
 import { BUYABLE, NEW_TYPES, SELLABLE, TYPES } from '../data/Market'
@@ -58,8 +57,9 @@ class MarketInfoCollector {
     }
 
     static collectRefreshTime () {
+        const {shared: {Hero: {infos: {level}}}, server_now_ts} = window
         marketInfo.refreshTime = server_now_ts + parseInt($('.shop_count .restock-timer').attr('data-time-stamp'), 10)
-        marketInfo.refreshLevel = Hero.infos.level
+        marketInfo.refreshLevel = level
     }
 
     static collectBuyableItems () {

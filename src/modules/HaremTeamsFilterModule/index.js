@@ -6,7 +6,7 @@ import Sheet from '../../common/Sheet'
 
 import styles from './styles.lazy.scss'
 
-const { $ } = Helpers
+const {$} = Helpers
 
 const MODULE_KEY = 'haremTeamsFilter'
 
@@ -25,7 +25,7 @@ class HaremTeamsFilterModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+        if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
@@ -56,7 +56,7 @@ class HaremTeamsFilterModule extends CoreModule {
                         observer.disconnect()
                     }
                 })
-                observer.observe($('.girls_list')[0], { childList: true })
+                observer.observe($('.girls_list')[0], {childList: true})
             }
         }
     }
@@ -77,19 +77,19 @@ class HaremTeamsFilterModule extends CoreModule {
     }
 
     doFilter(girlIds) {
-        const { harem, hh_show_filtered_girls } = window
+        const {harem, hh_show_filtered_girls} = window
         harem.haremFilter.resetFilters()
         harem.filteredGirlsIds = girlIds.map(id => +id)
         harem.filteredGirlsList = girlIds.map(id => harem.allGirls[id])
 
-        const filterData = girlIds.reduce((a, i) => { a[i] = {}; return a }, {})
+        const filterData = girlIds.reduce((a, i) => {a[i] = {}; return a}, {})
         hh_show_filtered_girls('.girls_list', filterData)
 
         harem.resetGirlsList()
         harem.loadMoreGirlsAfterCurrent()
         harem.scrollToAndOpenGirl()
 
-        Helpers.lsSet('filters', { team: girlIds })
+        Helpers.lsSet('filters', {team: girlIds})
     }
 
     createTeamsButton() {
@@ -108,7 +108,7 @@ class HaremTeamsFilterModule extends CoreModule {
             </div>
         </div>`)
         }
-        const { teamIds, teamsDict } = bdsmTeams
+        const {teamIds, teamsDict} = bdsmTeams
         return $(`
     <div style="position:relative">
         <div class="team-selection" style="display: none;">

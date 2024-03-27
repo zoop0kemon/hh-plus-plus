@@ -1,5 +1,3 @@
-/* global server_now_ts, createPageTimers, createEnergyTimer, GT */
-
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import { lsKeys } from '../../common/Constants'
@@ -12,12 +10,12 @@ import AvailableFeatures from '../../common/AvailableFeatures'
 import Sheet from '../../common/Sheet'
 import TooltipManager from '../../common/TooltipManager'
 
-const { $ } = Helpers
+const {$} = Helpers
 
 const MODULE_KEY = 'homeScreen'
 
-const makeEnergyBarHTML = ({ type, timeForSinglePoint, timeOnLoad, iconClass, currentVal, max }) => {
-    const { GT } = window
+const makeEnergyBarHTML = ({type, timeForSinglePoint, timeOnLoad, iconClass, currentVal, max}) => {
+    const {GT} = window
     return `
         <div class="energy_counter" type="${type}" id="canvas_${type}_energy">
             <div class="energy_counter_amount_container">
@@ -55,7 +53,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+        if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
@@ -87,19 +85,18 @@ class HomeScreenModule extends CoreModule {
     }
 
     addTimers() {
+        const {server_now_ts} = window
         // Market
         const marketInfo = Helpers.lsGet(lsKeys.MARKET_INFO)
         if (marketInfo) {
-            const { refreshTime } = marketInfo
+            const {refreshTime} = marketInfo
             if (refreshTime > server_now_ts) {
                 this.attachTimer('shop', refreshTime)
             }
         }
 
         const trackedTimes = Helpers.lsGet(lsKeys.TRACKED_TIMES)
-        if (!trackedTimes) {
-            return
-        }
+        if (!trackedTimes) {return}
         // Pachinko
         if (trackedTimes.gp && trackedTimes.gp > server_now_ts) {
             this.attachTimer('pachinko', trackedTimes.gp)
@@ -125,6 +122,7 @@ class HomeScreenModule extends CoreModule {
 
     attachTimer(rel, endAt) {
         if (!$(`[rel=${rel}] .additional-menu-data`).length) {
+            const {shared: {general: {createPageTimers}}, server_now_ts} = window
             const selector = this.makeLinkSelector(rel)
 
             const $container = $('<div class="additional-menu-data"></div>')
@@ -149,9 +147,10 @@ class HomeScreenModule extends CoreModule {
             $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
         }
 
-        const { champs, pantheon, labyrinth } = AvailableFeatures
+        const {champs, pantheon, labyrinth} = AvailableFeatures
 
         if (champs || pantheon || labyrinth) {
+            const {GT} = window
             const $godShortcuts = $('<div class="script-home-shortcut-container"></div>')
             if (champs) {
                 $godShortcuts.append(shortcutHtml('champs', '/champions-map.html', GT.design.Champions, 'champions_flat_icn'))
@@ -173,14 +172,14 @@ class HomeScreenModule extends CoreModule {
     }
 
     aggregateSalaries() {
-        const { GirlSalaryManager, GT, format_time_short } = window
-        const { girlsMap } = GirlSalaryManager
+        const {shared: {GirlSalaryManager, timer: {format_time_short}}, GT} = window
+        const {girlsMap} = GirlSalaryManager
 
         const aggregated = {}
         let collectableNow = 0
 
-        Object.values(girlsMap).forEach(({ readyForCollect, gData }) => {
-            const { salary, pay_in } = gData
+        Object.values(girlsMap).forEach(({readyForCollect, gData}) => {
+            const {salary, pay_in} = gData
             if (readyForCollect) {
                 collectableNow += salary
             } else {
@@ -193,22 +192,22 @@ class HomeScreenModule extends CoreModule {
 
         const payTimes = Object.keys(aggregated)
 
-        if (!payTimes.length) { return }
+        if (!payTimes.length) {return}
 
         const sortedPayTimes = payTimes.sort((a, b) => a - b)
 
         const text = `${payTimes.length > 10 ? '…' : ''}<table><tbody>${sortedPayTimes.slice(0, 10).sort((a, b) => b - a).map(time => `<tr><td>${GT.design.more_in.replace('+1', `+${I18n.nThousand(aggregated[time])} <span class="hudSC_mix_icn"></span>`)} </td><td>${format_time_short(time)}</td></tr>`).join('')}</tbody></table>`
 
-        return { aggregated, collectableNow, text }
+        return {aggregated, collectableNow, text}
     }
 
     manageSalaryTimers() {
-        const { GirlSalaryManager, GT } = window
+        const {shared: {GirlSalaryManager}, GT} = window
 
         const handleTooltip = () => {
             const aggregateSalaries = this.aggregateSalaries()
-            if (!aggregateSalaries) { return }
-            const { text } = aggregateSalaries
+            if (!aggregateSalaries) {return}
+            const {text} = aggregateSalaries
 
             const wrappedText = `<div class="script-salary-summary">${text}</div>`
 
@@ -219,7 +218,7 @@ class HomeScreenModule extends CoreModule {
                     if ($container.length) {
                         const aggregateSalaries = this.aggregateSalaries()
                         if (aggregateSalaries) {
-                            const { text } = aggregateSalaries
+                            const {text} = aggregateSalaries
                             $container.html(text)
                         } else {
                             $container.html(GT.design.full)
@@ -253,14 +252,14 @@ class HomeScreenModule extends CoreModule {
                     let leaguesListItem
                     let leagueTag
 
-                    const playerID = window.Hero.infos.id
+                    const {shared: {Hero: {infos: {id: playerID}}}} = window
 
                     const leaguesListPattern = new RegExp(`leagues_list.push\\( ?(?<leaguesListItem>{"id_player":"${playerID}".*}) ?\\);`)
                     const leagueTagPattern = /league_tag = (?<leagueTag>[1-9]);/
 
                     new DOMParser().parseFromString(data, 'text/html').querySelectorAll('script[type="text/javascript"]').forEach(element => {
                         const { textContent } = element
-                        if (!textContent) { return }
+                        if (!textContent) {return}
                         if (textContent.includes('leagues_list')) {
                             const matches = textContent.match(leaguesListPattern)
                             if (matches && matches.groups) {
@@ -275,7 +274,7 @@ class HomeScreenModule extends CoreModule {
                         }
                     })
 
-                    if (!leaguesListItem || !leagueTag) { return }
+                    if (!leaguesListItem || !leagueTag) {return}
                     const { place } = leaguesListItem
 
                     $leaguePos.append(`<div class="script-league-icon script-league-rank script-league-rank-digits-${`${place}`.length}" style="background-image: url(${Helpers.getCDNHost()}/leagues/${leagueTag}.png);">${place}</div>`)
@@ -286,9 +285,9 @@ class HomeScreenModule extends CoreModule {
 
     addReplyTimer() {
         const $messenger = $('.messenger-link')
-        if (!$messenger.length) { return }
-        const { Hero } = window
-        const { energies: { reply } } = Hero
+        if (!$messenger.length) {return}
+        const {shared: {Hero}} = window
+        const {energies: {reply}} = Hero
         if (!reply) { return }
 
         const type = 'reply'
@@ -303,6 +302,7 @@ class HomeScreenModule extends CoreModule {
                 Hero.c = {}
             }
 
+            const {shared: {timer: {createEnergyTimer}}} = window
             const selector = `.energy_counter[type="${type}"]`
             const addTimer = () => {
                 Hero.c[type] = createEnergyTimer($(selector))

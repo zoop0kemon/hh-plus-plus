@@ -22,6 +22,7 @@ class OverridePachinkoConfirmModule extends CoreModule {
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
 
+        //FIX LATTER
         const override = () => {
             if (window.HHPachinkoConfirm) {
                 window.HHPachinkoConfirm = OverriddenPachinkoConfirm

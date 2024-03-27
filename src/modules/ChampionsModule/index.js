@@ -178,7 +178,7 @@ class ChampionsModule extends CoreModule {
             Helpers.doWhenSelectorAvailable('.club_champions_timer_fight', () => {
                 const $timerFight = $('.club_champions_timer_fight')
                 if ($timerFight.length && !$('.script-round-duration-time').length) {
-                    const {format_time_short, createTimer} = window
+                    const {shared: {timer: {format_time_short, createTimer}}} = window
 
                     const durationString = `<span class="script-round-duration-time">${format_time_short(server_now_ts - start_time)}</span>`
                     const $dummyTimerTarget = $('<div class="dummy-timer-target"></div>')
@@ -305,9 +305,8 @@ class ChampionsModule extends CoreModule {
     showTicketsWhileResting () {
         const attachCount = () => {
             if (!$('.champions-bottom__ticket-amount').length) {
-                const {championData} = window
-                $('.champions-bottom__rest').css({'width': '280px'})
-                    .before(`<div class="champions-bottom__ticket-amount"><span class="ticket_icn"></span>x ${championData.champion.currentTickets}</div>`)
+                const {championData: {champion: {currentTickets}}} = window
+                $('.champions-bottom__rest').css({'width': '280px'}).before(`<div class="champions-bottom__ticket-amount"><span class="ticket_icn"></span>x ${currentTickets}</div>`)
             }
         }
         attachCount()
@@ -316,16 +315,12 @@ class ChampionsModule extends CoreModule {
 
     fasterSkipButton () {
         Helpers.onAjaxResponse(/class=TeamBattle/i, (response) => {
-            const observer = new MutationObserver(() => {
-                if ($('button.skip-button').length) {
-                    $('button.skip-button').click(() => {
-                        $('.rounds-info__counter .placeholder-num').text(response.battle.length)
-                    })
-                    $('button.skip-button').show()
-                    observer.disconnect()
-                }
+            Helpers.doWhenSelectorAvailable('button.skip-button', () => {
+                $('button.skip-button').click(() => {
+                    $('.rounds-info__counter .placeholder-num').text(response.battle.length)
+                })
+                $('button.skip-button').show()
             })
-            observer.observe($('#contains_all > section')[0], {childList: true})
         })
     }
 

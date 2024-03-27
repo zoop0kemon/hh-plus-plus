@@ -4,6 +4,8 @@ import I18n from '../../i18n'
 import VILLAINS from '../../data/Villains'
 import * as WORLDS from '../../data/Worlds'
 
+import styles from './styles.lazy.scss'
+
 const MODULE_KEY = 'villainBreadcrumbs'
 
 const breadcumbLink = (href, text) => `<a class="back" href="${Helpers.getHref(href)}">${text}<span class="mapArrowBack_flat_icn"></span></a>`
@@ -25,6 +27,9 @@ class VillainBreadcrumbsModule extends CoreModule {
 
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
+
+        styles.use()
+
         Helpers.defer(() => {
             const gameVillains = VILLAINS[Helpers.getGameKey()]
             const gameWorlds = WORLDS[Helpers.getGameKey()]

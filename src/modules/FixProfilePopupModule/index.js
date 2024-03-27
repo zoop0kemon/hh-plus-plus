@@ -29,12 +29,18 @@ class FixProfilePopupModule extends CoreModule {
     }
 
     overrideAPI () {
-        const default_hero_page_popup = window.hero_page_popup
-        window.hero_page_popup = (info) => {
-            if (info && !info.page) {
-                info.page = 'profile'
+        const default_hero_page_popup = window.shared.general.hero_page_popup
+        window.shared = {
+            ...window.shared,
+            general: {
+                ...window.shared.general,
+                hero_page_popup: (info) => {
+                    if (info && !info.page) {
+                        info.page = 'profile'
+                    }
+                    return default_hero_page_popup(info)
+                }
             }
-            return default_hero_page_popup(info)
         }
     }
 }

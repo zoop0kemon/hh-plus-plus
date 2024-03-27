@@ -18,7 +18,7 @@ class UpgradeQuickNavModule extends CoreModule {
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
 
-        this.linkUrls = { prev: {}, next: {} }
+        this.linkUrls = {prev: {}, next: {}}
     }
 
     shouldRun() {
@@ -26,18 +26,18 @@ class UpgradeQuickNavModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+        if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
         Helpers.defer(() => {
+            const {shared: {webp_utilities: {replaceImageSources}}, girl: {id_girl}} = window
             const filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
             $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
-            if (!filteredGirlIds || filteredGirlIds.length < 2) { return }
+            if (!filteredGirlIds || filteredGirlIds.length < 2) {return}
             const girlDictionary = Helpers.getGirlDictionary()
-            const currentGirlId = window.girl.id_girl
 
-            const currentIndex = filteredGirlIds.indexOf(currentGirlId)
+            const currentIndex = filteredGirlIds.indexOf(id_girl)
             if (currentIndex > -1) {
                 let previousIndex = currentIndex - 1
                 if (previousIndex < 0) {
@@ -72,7 +72,7 @@ class UpgradeQuickNavModule extends CoreModule {
                 }
             })
 
-            window.replaceImageSources()
+            replaceImageSources()
 
             // Move equipment buttons out of the way
             const $unequip = $('.equipment-left-controls #girl-equipment-unequip')

@@ -1,4 +1,3 @@
-/* global Hero, createEnergyTimer, createBarTimer, createTimer, GT, server_now_ts, format_time_short, HH_MAX_LEVEL */
 import CoreModule from '../CoreModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
@@ -9,11 +8,12 @@ import { lsKeys } from '../../common/Constants'
 import AvailableFeatures from '../../common/AvailableFeatures'
 import TooltipManager from '../../common/TooltipManager'
 
-const { $ } = Helpers
+const {$} = Helpers
 
 const MODULE_KEY = 'resourceBars'
 
-const makeEnergyBarHTML = ({ type, timeForSinglePoint, timeOnLoad, iconClass, currentVal, max, shortcutLink }) => {
+const makeEnergyBarHTML = ({type, timeForSinglePoint, timeOnLoad, iconClass, currentVal, max, shortcutLink}) => {
+    const {GT} = window
     return `
         <div class="energy_counter" type="${type}" id="canvas_${type}_energy">
             <div class="energy_counter_bar">
@@ -59,11 +59,11 @@ class ResourceBarsModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
-
-        styles.use()
+        if (this.hasRun || !this.shouldRun()) {return}
 
         Helpers.defer(() => {
+            styles.use()
+
             this.injectCSSVars()
             this.betterXP()
             this.betterMoney()
@@ -77,27 +77,22 @@ class ResourceBarsModule extends CoreModule {
             this.addBoosterStatus()
             this.overrideGlitter()
 
-            const xpObserver = new MutationObserver(() => { this.betterXP() })
-            xpObserver.observe($('[hero=xp]')[0], { childList: true })
+            const xpObserver = new MutationObserver(() => {this.betterXP()})
+            xpObserver.observe($('[hero=xp]')[0], {childList: true})
 
-            const moneyObserver = new MutationObserver(() => { this.betterMoney() })
-            moneyObserver.observe($('[hero=soft_currency]')[0], { childList: true })
+            const moneyObserver = new MutationObserver(() => {this.betterMoney()})
+            moneyObserver.observe($('[hero=soft_currency]')[0], {childList: true})
 
+            //FIX LATTER init is not longer exposed, and not sure what this does
             // Catch late tooltip inits
-            const { TooltipManager, init } = window
-            if (TooltipManager) {
-                const actualInit = TooltipManager.init.bind(TooltipManager)
-                TooltipManager.init = () => {
-                    actualInit()
-                    this.initTooltips()
-                }
-            } else if (window.init) {
-                const actualInit = init
-                window.init = () => {
-                    actualInit()
-                    this.initTooltips()
-                }
-            }
+            // const {init} = window
+            // if (window.init) {
+            //     const actualInit = init
+            //     window.init = () => {
+            //         actualInit()
+            //         this.initTooltips()
+            //     }
+            // }
         })
 
         this.hasRun = true
@@ -108,6 +103,7 @@ class ResourceBarsModule extends CoreModule {
     }
 
     initTooltips() {
+        const {shared: {Hero, timer: {format_time_short}}, GT} = window
         const types = {
             quest: 'hudEnergy_mix_icn',
             fight: 'hudBattlePts_mix_icn',
@@ -139,9 +135,9 @@ class ResourceBarsModule extends CoreModule {
                     }
                     const now = Math.round(new Date().getTime() / 1000)
                     const fullAt = now + fullIn
-                    const formattedDate = `<span class="orange">${new Date(fullAt * 1000).toLocaleTimeString(I18n.getLang(), { hour: '2-digit', minute: '2-digit' })}</span>`
+                    const formattedDate = `<span class="orange">${new Date(fullAt * 1000).toLocaleTimeString(I18n.getLang(), {hour: '2-digit', minute: '2-digit'})}</span>`
                     const formattedIn = `${GT.design.full_in}<span class="orange" rel="timer">${format_time_short(fullIn)}</span>`
-                    text = `${formattedIn}<br/>${this.label('fullAt', { time: formattedDate })}`
+                    text = `${formattedIn}<br/>${this.label('fullAt', {time: formattedDate})}`
                 }
                 return {title: '', body: text}
             })
@@ -149,17 +145,18 @@ class ResourceBarsModule extends CoreModule {
     }
 
     betterXP() {
+        const {shared: {Hero}, HH_MAX_LEVEL, GT} = window
         const $wrapper = $('[rel=xp] .bar-wrapper .over')
         if (!this.$xpContainer) {
             this.$xpContainer = $('<span class="scriptXPContainer"></span>')
             $wrapper.append(this.$xpContainer)
         }
 
-        const { level, left, cur, max } = Hero.infos.Xp
+        const {level, left, cur, max} = Hero.infos.Xp
         let leftText
         let maxText = GT.design.Max
         if (level < HH_MAX_LEVEL) {
-            leftText = this.label('xp', { xp: I18n.nThousand(left) })
+            leftText = this.label('xp', {xp: I18n.nThousand(left)})
             maxText = I18n.nThousand(max)
         }
 
@@ -173,12 +170,12 @@ class ResourceBarsModule extends CoreModule {
             $('[hero=soft_currency]').after(this.$moneyContainer)
         }
 
-        const money = Hero.currencies.soft_currency
+        const {shared: {Hero: {currencies: {soft_currency}}}} = window
         let displayAmount
-        const thousandSeparatedMoney = I18n.nThousand(money)
+        const thousandSeparatedMoney = I18n.nThousand(soft_currency)
 
-        if (money >= 1e6) {
-            displayAmount = I18n.nRounding(money, 3, 0)
+        if (soft_currency >= 1e6) {
+            displayAmount = I18n.nRounding(soft_currency, 3, 0)
             this.$moneyContainer.text(displayAmount).attr('hh_title', thousandSeparatedMoney)
         } else {
             this.$moneyContainer.text($('[hero=soft_currency]').text()).attr('hh_title', thousandSeparatedMoney)
@@ -188,9 +185,9 @@ class ResourceBarsModule extends CoreModule {
 
     addEnergyBarShortcut() {
         let shortcutLink
-
-        const questLink = Hero.infos.questing.current_url
+        const {shared: {Hero: {infos: {questing: {current_url :questLink}}}}} = window
         const sidequestStatus = Helpers.lsGet(lsKeys.SIDEQUEST_STATUS)
+
         if (questLink.includes('quest')) {
             shortcutLink = questLink
         } else if (sidequestStatus && sidequestStatus.energySpendAvailable && sidequestStatus.continueLink) {
@@ -205,15 +202,16 @@ class ResourceBarsModule extends CoreModule {
     }
 
     addAdditionalBars() {
+        const {shared: {Hero, timer: {createEnergyTimer}}} = window
         const barTypes = [
-            { type: 'kiss', feature: 'seasons', iconClass: 'hudKiss_mix_icn', shortcutLink: '/season-arena.html' },
-            { type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html' },
-            { type: 'worship', feature: 'pantheon', iconClass: 'hudWorship_mix_icn', shortcutLink: '/pantheon.html' },
+            {type: 'kiss', feature: 'seasons', iconClass: 'hudKiss_mix_icn', shortcutLink: '/season-arena.html'},
+            {type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html'},
+            {type: 'worship', feature: 'pantheon', iconClass: 'hudWorship_mix_icn', shortcutLink: '/pantheon.html'},
         ]
 
         let $elemToAppendAfter = $('header .energy_counter[type=fight]')
 
-        barTypes.forEach(({ type, feature, iconClass, shortcutLink }) => {
+        barTypes.forEach(({type, feature, iconClass, shortcutLink}) => {
             if (!AvailableFeatures[feature]) {
                 const $dummySpacer = $(`<div class="script-bar-spacer" type="${type}" id="canvas_${type}_energy"></div>`)
                 $elemToAppendAfter.after($dummySpacer)
@@ -221,9 +219,9 @@ class ResourceBarsModule extends CoreModule {
                 return
             }
 
-            const { amount, max_regen_amount, seconds_per_point, next_refresh_ts } = Hero.energies[type]
+            const {amount, max_regen_amount, seconds_per_point, next_refresh_ts} = Hero.energies[type]
 
-            const $barHTML = $(makeEnergyBarHTML({ type, iconClass, shortcutLink, currentVal: amount, max: max_regen_amount, timeForSinglePoint: seconds_per_point, timeOnLoad: next_refresh_ts }))
+            const $barHTML = $(makeEnergyBarHTML({type, iconClass, shortcutLink, currentVal: amount, max: max_regen_amount, timeForSinglePoint: seconds_per_point, timeOnLoad: next_refresh_ts}))
 
             $elemToAppendAfter.after($barHTML)
             $elemToAppendAfter = $barHTML
@@ -249,10 +247,8 @@ class ResourceBarsModule extends CoreModule {
     }
 
     addPoPTimer() {
-        if (!AvailableFeatures.pop) {
-            return
-        }
-
+        if (!AvailableFeatures.pop) {return}
+        const {shared: {timer: {createBarTimer, format_time_short}}} = window
         const times = Helpers.lsGet(lsKeys.TRACKED_TIMES)
 
         let popEndIn = 0
@@ -260,9 +256,10 @@ class ResourceBarsModule extends CoreModule {
         let formattedDate
 
         if (times && times.pop) {
+            const {server_now_ts} = window
             popEndIn = Math.max(times.pop - server_now_ts, 0)
             popDuration = times.popDuration
-            formattedDate = `<span class=&quot;orange&quot;>${new Date(times.pop * 1000).toLocaleTimeString(I18n.getLang(), { hour: '2-digit', minute: '2-digit' })}</span>`
+            formattedDate = `<span class=&quot;orange&quot;>${new Date(times.pop * 1000).toLocaleTimeString(I18n.getLang(), {hour: '2-digit', minute: '2-digit'})}</span>`
         }
 
         const inProgress = popEndIn > 0
@@ -274,8 +271,8 @@ class ResourceBarsModule extends CoreModule {
 
         const $barHTML = $(`
             <a class="script-pop-timer" href="${Helpers.getHref('/activities.html?tab=pop')}">
-                <div class="hh_bar" ${inProgress ? `tooltip="${this.label('readyAt', { time: formattedDate })}"` : ''}>
-                    <div class="text">${inProgress ? this.label('popsIn', { time: `<span>${window.format_time_short(popEndIn)}</span>` }) : this.label('popsReady')}</div>
+                <div class="hh_bar" ${inProgress ? `tooltip="${this.label('readyAt', {time: formattedDate})}"` : ''}>
+                    <div class="text">${inProgress ? this.label('popsIn', {time: `<span>${format_time_short(popEndIn)}</span>`}) : this.label('popsReady')}</div>
                     <div class="backbar borderbar">
                         <div class="frontbar ${inProgress ? 'pinkbar' : 'bluebar'}" style="width: ${barWidth}%"></div>
                     </div>
@@ -291,52 +288,55 @@ class ResourceBarsModule extends CoreModule {
 
                 $barHTML.find('.text').text(this.label('popsReady'))
                 $barHTML.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
-                if (window.notificationData && window.notificationData.activities) {
-                    window.notificationData.activities.push('reward')
-                    window.displayNotifications()
+                const {shared: {general: {displayNotifications}}, notificationData} = window
+                if (notificationData && notificationData.activities) {
+                    notificationData.activities.push('reward')
+                    displayNotifications()
                 }
             }
-            const oldMobileCheck = window.is_mobile_size
-            window.is_mobile_size = () => false
+            const oldMobileCheck = window.shared.general.is_mobile_size
+            window.shared.general.is_mobile_size = () => false
             createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
-            window.is_mobile_size = oldMobileCheck
+            window.shared.general.is_mobile_size = oldMobileCheck
         }
     }
 
     addBoosterStatus() {
-        const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || { normal: [], mythic: [] }
-        const slotCount = { normal: 4, mythic: 5 }
+        const {server_now_ts} = window
+        const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || {normal: [], mythic: []}
+        const slotCount = {normal: 4, mythic: 5}
 
-        boosterStatus.normal = boosterStatus.normal.filter(({ endAt }) => endAt > server_now_ts)
+        boosterStatus.normal = boosterStatus.normal.filter(({endAt}) => endAt > server_now_ts)
 
         Object.keys(boosterStatus).forEach(key => {
             if (boosterStatus[key].length < slotCount[key]) {
                 // fill the rest with empty
-                boosterStatus[key] = [...boosterStatus[key], ...Array(slotCount[key] - boosterStatus[key].length).fill({ empty: true })]
+                boosterStatus[key] = [...boosterStatus[key], ...Array(slotCount[key] - boosterStatus[key].length).fill({empty: true})]
             }
         })
 
         const $boosterStatusHTML = $(`<a class="script-booster-status" href="${Helpers.getHref('/shop.html?type=player-stats&subtab=booster')}"><div class="script-boosters normal"></div><div class="script-boosters mythic"></div></a>`)
 
         const buildNormalSlot = (data) => {
-            const { empty, id_item, ico, identifier, rarity, endAt } = { ...data, ...data.item }
+            const {empty, id_item, ico, identifier, rarity, endAt} = {...data, ...data.item}
             if (empty) {
                 return $('<div class="slot empty"></div>')
             }
+            const {server_now_ts} = window
             data.expiration = endAt - server_now_ts
-            const formattedDate = new Date(endAt * 1000).toLocaleTimeString(I18n.getLang(), { hour: '2-digit', minute: '2-digit' }).replace(/(\d)/g, (x) => `${x}<i></i>`)
+            const formattedDate = new Date(endAt * 1000).toLocaleTimeString(I18n.getLang(), {hour: '2-digit', minute: '2-digit'}).replace(/(\d)/g, (x) => `${x}<i></i>`)
             return $(`
-                <div class="slot ${rarity}" id_item="${id_item}" booster-item-tooltip data-d="${JSON.stringify(data).replace(/"/g, '&quot;')}" additional-tooltip-info="${JSON.stringify({ additionalText: `<span class="script-tooltip"></span>${this.label('endAt', { time: formattedDate })}` }).replace(/"/g, '&quot;')}">
+                <div class="slot ${rarity}" id_item="${id_item}" booster-item-tooltip data-d="${JSON.stringify(data).replace(/"/g, '&quot;')}" additional-tooltip-info="${JSON.stringify({additionalText: `<span class="script-tooltip"></span>${this.label('endAt', {time: formattedDate})}`}).replace(/"/g, '&quot;')}">
                     <img src="${ico || `${Helpers.getCDNHost()}/pictures/items/${identifier}.png`}"/>
                 </div>`)
         }
         const buildMythicSlot = (data) => {
-            const { empty, id_item, ico, identifier } = { ...data, ...data.item }
+            const {empty, id_item, ico, identifier} = {...data, ...data.item}
             if (empty) {
                 return $('<div class="slot mythic empty"></div>')
             }
             return $(`
-                <div class="slot mythic" id_item="${id_item}" booster-item-tooltip data-d="${JSON.stringify(data).replace(/"/g, '&quot;')}" additional-tooltip-info="${JSON.stringify({ additionalText: '<span class="script-tooltip"></span>' }).replace(/"/g, '&quot;')}">
+                <div class="slot mythic" id_item="${id_item}" booster-item-tooltip data-d="${JSON.stringify(data).replace(/"/g, '&quot;')}" additional-tooltip-info="${JSON.stringify({additionalText: '<span class="script-tooltip"></span>'}).replace(/"/g, '&quot;')}">
                     <img src="${ico || `${Helpers.getCDNHost()}/pictures/items/${identifier}.png`}"/>
                 </div>
             `)
@@ -376,6 +376,7 @@ class ResourceBarsModule extends CoreModule {
             `)
 
             if (useTimer) {
+                const {shared: {timer: {createTimer, format_time_short}}} = window
                 const onComplete = () => {
                     $wrapper.find('.slot')
                         .attr('class', 'slot empty')
@@ -431,8 +432,8 @@ class ResourceBarsModule extends CoreModule {
             return $wrapper
         }
         const buildSlotAndAddTooltip = (buildSlot, data, replaceEmpty) => {
-            const { empty, id_member_booster_equipped, usages_remaining, endAt, item } = data
-            const { rarity, default_usages, duration } = item || {}
+            const {empty, id_member_booster_equipped, usages_remaining, endAt, item} = data
+            const {rarity, default_usages, duration} = item || {}
             const $slot = buildSlot(data)
             let current = 0
             let max = 1
@@ -452,6 +453,7 @@ class ResourceBarsModule extends CoreModule {
             }
 
             if (useTimer) {
+                const {shared: {timer: {format_time_short}}} = window
                 // Correct timer when viewing tooltip
                 $slot.on('mouseenter', () => {
                     if (!$slot.hasClass('empty')) {
@@ -493,8 +495,8 @@ class ResourceBarsModule extends CoreModule {
 
         $('header .currency').before($boosterStatusHTML)
 
-        $(document).on('boosters:equipped', (event, { id_item, isMythic, new_id }) => {
-            const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || { normal: [], mythic: [] }
+        $(document).on('boosters:equipped', (event, {id_item, isMythic, new_id}) => {
+            const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || {normal: [], mythic: []}
 
             const newBoosterData = boosterStatus[isMythic ? 'mythic' : 'normal'].find(data => parseInt(data.id_item) === parseInt(id_item) && (new_id && parseInt(data.id_member_booster_equipped) === parseInt(new_id)))
 
@@ -512,7 +514,7 @@ class ResourceBarsModule extends CoreModule {
         })
 
         $(document).on('boosters:updated-mythic', () => {
-            const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || { normal: [], mythic: [] }
+            const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || {normal: [], mythic: []}
 
             const boostersByIdmi = {}
             boosterStatus.mythic.forEach(data => boostersByIdmi[data.id_member_booster_equipped] = data)
@@ -525,7 +527,7 @@ class ResourceBarsModule extends CoreModule {
                     $elem.find('.slot').attr('class', 'slot mythic empty').empty().attr('data-d', '').attr('tooltip-id', '').attr('id_item', '')
                     $elem.find('.progress').css('transform', 'rotate(0deg)')
                 } else {
-                    const { item: { default_usages }, usages_remaining } = updatedData
+                    const {item: {default_usages}, usages_remaining} = updatedData
                     const percentage = Math.min(usages_remaining / default_usages, 1)
                     const firstHalf = Math.min(percentage, 0.5) * 2
                     const secondHalf = Math.max(percentage - 0.5, 0) * 2
@@ -553,95 +555,116 @@ class ResourceBarsModule extends CoreModule {
         new MutationObserver(() => {
             // Nasty hack. Wish there was a better way of setting a custom class on a tooltip
             $('.hh_tooltip_new:has(.script-tooltip)').addClass('script-booster-status-item')
-        }).observe(document.body, { childList: true })
+        }).observe(document.body, {childList: true})
     }
 
     overrideGlitter() {
-        const { is_mobile_size, star_glitter } = window
-        window.glitter_me = (field) => {
-            let x, y, w, h
-            switch (field) {
-            case 'soft_currency':
-                if (is_mobile_size()) {
-                    x = '780px'
-                    y = '14px'
-                    w = 100
-                    h = 30
-                } else {
-                    x = '800px'
-                    y = '6px'
-                    w = 90
-                    h = 30
+        const {shared: {animations: {glitter_me}, general: {is_mobile_size}}} = window
+
+        window.shared = {
+            ...window.shared,
+            animations: {
+                ...window.shared.animations,
+                glitter_me: (field) => {
+                    const is_mobile_sized = is_mobile_size()
+                    glitter_me(field)
+
+                    let x, y, w, h
+                    switch (field) {
+                    case 'soft_currency':
+                        if (is_mobile_sized) {
+                            x = 780
+                            y = 14
+                            w = 100
+                            h = 30
+                        } else {
+                            x = 800
+                            y = 6
+                            w = 90
+                            h = 30
+                        }
+                        break
+                    case 'hard_currency':
+                        if (is_mobile_sized) {
+                            x = 780
+                            y = 38
+                            w = 100
+                            h = 30
+                        } else {
+                            x = 800
+                            y = 20
+                            w = 90
+                            h = 30
+                        }
+                        break
+                    case 'energy_quest':
+                        if (is_mobile_sized) {
+                            x = 240
+                            y = 10
+                            w = 80
+                            h = 60
+                        } else {
+                            x = '150px'
+                            y = '8px'
+                            w = 90
+                            h = 40
+                        }
+                        break
+                    case 'energy_battle':
+                        if (is_mobile_sized) {
+                            x = 340
+                            y = 10
+                            w = 80
+                            h = 60
+                        } else {
+                            x = 270
+                            y = 8
+                            w = 90
+                            h = 40
+                        }
+                        break
+                    case 'xp':
+                        if (is_mobile_sized) {
+                            x = 0
+                            y = 0
+                            w = 1040
+                            h = 14
+                        } else {
+                            x = 0
+                            y = 0
+                            w = 1040
+                            h = 14
+                        }
+                        break
+                    default:
+                        return
+                    }
+
+                    const $glitter = $('.glitter-svg').last()
+                    const old_w = parseInt($glitter.attr('width'))
+                    const old_h = parseInt($glitter.attr('height'))
+
+                    $glitter.css('left', x)
+                    $glitter.css('top', y)
+                    $glitter.attr('width', w)
+                    $glitter.attr('height', h)
+                    if (w != old_w || h != old_h) {
+                        const size_coef = h < 30 ? 0.6 : (h > 100 ? 2 : 1)
+                        const old_size_coef = old_h < 30 ? 0.6 : (old_h > 100 ? 2 : 1)
+
+                        $glitter.find('>g>g').each((i, el) => {
+                            const transform = $(el).attr('transform')
+                            const translations = transform.match(/translate\(([^)]+)\)/)[1].split(',').map(n => parseFloat(n))
+                            translations[0] *= w / old_w
+                            translations[1] *= h / old_h
+                            const old_scale = parseFloat(transform.match(/scale\(([^)]+)\)/)[1])
+                            const scale = old_scale * (size_coef / old_size_coef)
+
+                            $(el).attr('transform', transform.replace(/translate\(([^)]+)\)/, `translate(${translations.join(',')})`).replace(/scale\(([^)]+)\)/, `scale(${scale})`))
+                        })
+                    }
                 }
-                break
-            case 'hard_currency':
-                if (is_mobile_size()) {
-                    x = '780px'
-                    y = '38px'
-                    w = 100
-                    h = 30
-                } else {
-                    x = '800px'
-                    y = '20px'
-                    w = 90
-                    h = 30
-                }
-                break
-            case 'energy_quest':
-                if (is_mobile_size()) {
-                    x = '240px'
-                    y = '10px'
-                    w = 80
-                    h = 60
-                } else {
-                    x = '150px'
-                    y = '8px'
-                    w = 90
-                    h = 40
-                }
-                break
-            case 'energy_battle':
-                if (is_mobile_size()) {
-                    x = '340px'
-                    y = '10px'
-                    w = 80
-                    h = 60
-                } else {
-                    x = '270px'
-                    y = '8px'
-                    w = 90
-                    h = 40
-                }
-                break
-            case 'xp':
-                if (is_mobile_size()) {
-                    x = '0px'
-                    y = '0px'
-                    w = 1040
-                    h = 14
-                } else {
-                    x = '0px'
-                    y = '0px'
-                    w = 1040
-                    h = 14
-                }
-                break
-            case 'affection':
-                x = '680px'
-                y = '260px'
-                w = 140
-                h = 40
-                break
-            case 'xp_shop':
-                x = '680px'
-                y = '240px'
-                w = 140
-                h = 40
-                break
-            default:
-                return
             }
-            new star_glitter(x, y, w, h)
         }
     }
 }

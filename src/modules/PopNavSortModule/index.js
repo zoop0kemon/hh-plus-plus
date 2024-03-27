@@ -41,7 +41,8 @@ class PopNavSortModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            if (window.pop_data) {
+            const {pop_data} = window
+            if (pop_data) {
                 this.sortPoPs()
 
                 const {location} = window
@@ -116,7 +117,6 @@ class PopNavSortModule extends CoreModule {
         if (!currentPoPId) {return}
 
         const {pop_data, pop_hero_girls} = window
-
         const currentPoP = pop_data[currentPoPId]
         const {status, girls} = currentPoP
         let girlsToAnnotate = girls

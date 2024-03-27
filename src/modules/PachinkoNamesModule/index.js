@@ -1,4 +1,3 @@
-/* global pachinkoDef */
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
 import CoreModule from '../CoreModule'
@@ -21,12 +20,12 @@ class PachinkoNamesModule extends CoreModule {
     }
 
     run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+        if (this.hasRun || !this.shouldRun()) {return}
         styles.use()
 
         Helpers.defer(() => {
+            const {pachinkoDef} = window
             const girlDictionary = Helpers.getGirlDictionary()
-
             this.girlLists = {}
 
             pachinkoDef.forEach(({ type, content }) => {

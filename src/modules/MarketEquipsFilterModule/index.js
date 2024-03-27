@@ -7,11 +7,11 @@ import styles from './styles.lazy.scss'
 import Sheet from '../../common/Sheet'
 import EquipManager from './EquipManager'
 
-const { $ } = Helpers
+const {$} = Helpers
 const MODULE_KEY = 'marketEquipsFilter'
 
 class MarketEquipsFilterModule extends CoreModule {
-    constructor() {
+    constructor () {
         super({
             baseKey: MODULE_KEY,
             label: I18n.getModuleLabel('config', MODULE_KEY),
@@ -20,16 +20,14 @@ class MarketEquipsFilterModule extends CoreModule {
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
     }
 
-    shouldRun() {
+    shouldRun () {
         return Helpers.isCurrentPage('shop') || Helpers.isCurrentPage('mythic-equipment-upgrade')
     }
 
-    run() {
-        if (this.hasRun || !this.shouldRun()) { return }
+    run () {
+        if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
-
-
 
         Helpers.defer(() => {
             this.injectCSSVars()
@@ -57,7 +55,7 @@ class MarketEquipsFilterModule extends CoreModule {
                     },
                 ]
             }
-            containers.forEach(({ $container, name, skipFilter }) => {
+            containers.forEach(({$container, name, skipFilter}) => {
                 const manager = new EquipManager($container, name, skipFilter)
                 manager.init()
             })

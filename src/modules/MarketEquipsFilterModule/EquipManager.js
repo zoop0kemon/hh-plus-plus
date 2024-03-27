@@ -34,7 +34,7 @@ class EquipManager {
     }
 
     init() {
-        const { materials_items, player_inventory } = window
+        const {materials_items, player_inventory} = window
 
         const initialArmor = materials_items || player_inventory.armor
 
@@ -77,7 +77,7 @@ class EquipManager {
                     observer.disconnect()
                 }
             })
-            observer.observe(this.$container[0], { childList: true, subtree: true })
+            observer.observe(this.$container[0], {childList: true, subtree: true})
         }
 
         if (!this.skipFilter) {
@@ -87,7 +87,7 @@ class EquipManager {
 
     setupHooks() {
         Helpers.onAjaxResponse(/action=market_equip_armor/, (response) => {
-            const { unequipped_armor } = response
+            const {unequipped_armor} = response
             const equipped_armor = $('#my-hero-equipement-tab-container .slot.selected').data('d')
 
             const idToRemove = EquipHelpers.makeEquipKey(equipped_armor)
@@ -113,9 +113,9 @@ class EquipManager {
             this.reconsileAfterNextDOMChange()
         })
         const collectFromLazyLoad = (response, annotateOnly) => {
-            const { items } = response
+            const {items} = response
 
-            if (!items || !items.length) { return }
+            if (!items || !items.length) {return}
 
             items.forEach(item => {
                 const key = EquipHelpers.makeEquipKey(item)
@@ -138,10 +138,10 @@ class EquipManager {
 
         Helpers.onAjaxResponse(/action=market_sell/, (response, opt) => {
             const searchParams = new URLSearchParams(opt.data)
-            const mappedParams = ['type', 'id_item'].map(key => ({ [key]: searchParams.get(key) })).reduce((a, b) => Object.assign(a, b), {})
-            const { type, id_item } = mappedParams
+            const mappedParams = ['type', 'id_item'].map(key => ({[key]: searchParams.get(key)})).reduce((a, b) => Object.assign(a, b), {})
+            const {type, id_item} = mappedParams
 
-            if (!type === 'armor') { return }
+            if (!type === 'armor') {return}
 
             const key = this.keysForIds[id_item]
 
@@ -161,12 +161,12 @@ class EquipManager {
         })
         Helpers.onAjaxResponse(/action=market_buy/, (response, opt) => {
             const searchParams = new URLSearchParams(opt.data)
-            const mappedParams = ['type', 'id_item'].map(key => ({ [key]: searchParams.get(key) })).reduce((a, b) => Object.assign(a, b), {})
-            const { type } = mappedParams
-            const { item_ids } = response
+            const mappedParams = ['type', 'id_item'].map(key => ({[key]: searchParams.get(key)})).reduce((a, b) => Object.assign(a, b), {})
+            const {type} = mappedParams
+            if (!type === 'armor') {return}
+            const {item_ids} = response
 
-            if (!type === 'armor') { return }
-
+            const {shared: {Hero: {infos: {id: hero_id}}}} = window
             const $slotsToRemove = []
 
             Object.entries(item_ids).forEach(([index, id_item]) => {
@@ -184,7 +184,7 @@ class EquipManager {
                     const data = $slot.data('d')
                     if (!data.id_member_armor) {
                         data.id_member_armor = id_item
-                        data.id_member = window.Hero.infos.id
+                        data.id_member = hero_id
                         $slotsToRemove.push($slot)
                     }
                     const key = EquipHelpers.makeEquipKey(data)
@@ -215,7 +215,7 @@ class EquipManager {
         new MutationObserver(() => {
             this.reconcileElements(this.name === 'upgrade')
             this.checkSelection()
-        }).observe(this.$content[0], { subtree: true, attributes: true, attributeFilter: ['class'] })
+        }).observe(this.$content[0], {subtree: true, attributes: true, attributeFilter: ['class']})
 
         FavouritesManager.onUpdate(() => {
             this.updateVisibleIdsForFilter()
@@ -227,12 +227,12 @@ class EquipManager {
             const $upgradeButton = this.$container.find('button#level-up')
             new MutationObserver(() => {
                 const disabled = $upgradeButton.prop('disabled')
-                if (disabled) { return }
+                if (disabled) {return}
 
                 if (this.$container.find('.selected [data-is-favourite=true]').length) {
                     $upgradeButton.prop('disabled', true)
                 }
-            }).observe($upgradeButton[0], { attributes: true, attributeFilter: ['disabled'] })
+            }).observe($upgradeButton[0], {attributes: true, attributeFilter: ['disabled']})
         }
     }
 
@@ -251,7 +251,7 @@ class EquipManager {
                 observer.disconnect()
             }
         })
-        observer.observe(this.$content[0], { childList: true })
+        observer.observe(this.$content[0], {childList: true})
     }
 
     attachFilterButtonAndPanel() {
@@ -260,11 +260,11 @@ class EquipManager {
 
         this.$container.append($btn).append($panel)
 
-        $btn.click(() => { $panel.find('.equip_filter_box').toggle() })
+        $btn.click(() => {$panel.find('.equip_filter_box').toggle()})
 
         $panel.find('input').each((i, input) => {
             $(input).change((e) => {
-                const { value, name } = e.target
+                const {value, name} = e.target
                 this.activeFilter[name.replace(`${this.name}-`, '')] = value
                 this.updateVisibleIdsForFilter()
                 this.reconcileElements()
@@ -281,7 +281,7 @@ class EquipManager {
         this.$container.find('.slot:not(.empty)').each((i, slot) => {
             const $slot = $(slot)
 
-            const { changed: equipChanged } = this.assertEquipAnnotatedWithKey($slot)
+            const {changed: equipChanged} = this.assertEquipAnnotatedWithKey($slot)
 
             changed |= equipChanged
         })
@@ -317,7 +317,7 @@ class EquipManager {
     }
 
     updateFavouritesAnnotationsForKeys(keys) {
-        const favouriteKeys = keys.map(key => ({ [key]: this.favouriteKeys[key] })).reduce((a, b) => Object.assign(a, b), {})
+        const favouriteKeys = keys.map(key => ({[key]: this.favouriteKeys[key]})).reduce((a, b) => Object.assign(a, b), {})
         const favouritesStatus = FavouritesManager.areFavourites(Object.values(favouriteKeys))
 
         keys.forEach(key => {
@@ -345,7 +345,7 @@ class EquipManager {
         this.$content.find('.slot:not(.empty)').each((i, slot) => {
             const $slot = $(slot)
 
-            const { key } = this.assertEquipAnnotatedWithKey($slot)
+            const {key} = this.assertEquipAnnotatedWithKey($slot)
 
             if (!annotateOnly) {
                 const $parent = $slot.parent()
@@ -360,7 +360,7 @@ class EquipManager {
 
         if (!annotateOnly) {
             this.allEquipIdsInOrder.forEach(key => {
-                if (!this.visibleEquipIds.includes(key)) { return }
+                if (!this.visibleEquipIds.includes(key)) {return}
                 const $slot = this.elementCache[key]
 
                 if (!$slot || !$slot.length) {
@@ -416,11 +416,10 @@ class EquipManager {
 
     checkSelection() {
         const $selected = this.$content.find('.slot.selected')
-
-        if (!$selected.length) { return }
+        if (!$selected.length) {return}
 
         const $sellButton = this.$container.find('button[rel=sell]')
-        if (!$sellButton.length) { return }
+        if (!$sellButton.length) {return}
 
         if (JSON.parse($selected.attr('data-is-favourite'))) {
             $sellButton.attr('disabled', 'disabled')

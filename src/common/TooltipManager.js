@@ -19,6 +19,7 @@ class TooltipManager {
             })
         } else if (window.tooltips) {
             // New
+            //FIX LATTER maybe they'll re expose it
             window.tooltips[selector] = callback
             window.addEventHandlers(selector)
         }

@@ -167,7 +167,7 @@ class BoosterStatusCollector {
     }
 
     static collectFromHeroUpdate() {
-        const originalHeroUpdate = window.Hero.update.bind(window.Hero)
+        const originalHeroUpdate = window.shared.Hero.update.bind(window.shared.Hero)
         const hookedUpdate = (field, value, add) => {
             if (field === 'xp') {
                 const boosterStatus = Helpers.lsGet(lsKeys.BOOSTER_STATUS) || DEFAULT_BOOSTERS
@@ -175,7 +175,7 @@ class BoosterStatusCollector {
                 const travelMemories = boosterStatus.mythic.find(({item: {identifier}}) => identifier==='MB6')
 
                 if (travelMemories) {
-                    const {cur: oldValue, level} = window.Hero.infos.Xp
+                    const {shared: {Hero: {infos: {Xp: {cur: oldValue, level}}}}} = window
 
                     let atmBonus = 0.05
                     if (level < 300) {
@@ -196,7 +196,7 @@ class BoosterStatusCollector {
 
             return originalHeroUpdate(field, value, add)
         }
-        window.Hero.update = hookedUpdate
+        window.shared.Hero.update = hookedUpdate
     }
 
     static collectFromMarket () {

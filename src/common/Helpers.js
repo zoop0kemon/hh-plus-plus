@@ -1,4 +1,3 @@
-/* global IMAGES_URL, HH_UNIVERSE, girls_requirement_amount, high_level_girl_owned, awakening_requirements */
 import { lsKeys } from './Constants'
 
 let isHH
@@ -22,6 +21,7 @@ class Helpers {
     }
     static getCDNHost () {
         if (!cdnHost) {
+            const {IMAGES_URL} = window
             cdnHost = IMAGES_URL
         }
         return cdnHost
@@ -42,7 +42,6 @@ class Helpers {
         }
         return isHH
     }
-
     static isGH() {
         if (isGH === undefined) {
             isGH = [
@@ -52,7 +51,6 @@ class Helpers {
         }
         return isGH
     }
-
     static isCxH() {
         if (isCxH === undefined) {
             isCxH = [
@@ -139,6 +137,7 @@ class Helpers {
 
     static isNutakuKobans () {
         if (typeof isNutakuKobans === 'undefined') {
+            const {HH_UNIVERSE} = window
             isNutakuKobans = HH_UNIVERSE === 'nutaku'
         }
         return isNutakuKobans
@@ -166,7 +165,6 @@ class Helpers {
 
         return girlDictionary
     }
-
     static setGirlDictionary (updated) {
         girlDictionary = updated
         Helpers.lsSet(lsKeys.GIRL_DICTIONARY, Array.from(girlDictionary))
@@ -232,20 +230,21 @@ class Helpers {
     }
 
     static getAwakeningThreshold () {
+        const {girls_requirement_amount, high_level_girl_owned, awakening_requirements} = window
         let awakeningThreshold
         let currentThreshold
         let currentThresholdOwned
         let currentThresholdMin
         let awakeningLevel
 
-        if (window.girls_requirement_amount) {
+        if (girls_requirement_amount) {
             const thresholds = Object.keys(girls_requirement_amount)
             currentThreshold = thresholds.find(threshold => girls_requirement_amount[threshold] > high_level_girl_owned[threshold])
             if (currentThreshold) {
                 currentThresholdOwned = high_level_girl_owned[currentThreshold]
                 currentThresholdMin = girls_requirement_amount[currentThreshold]
             }
-        } else if (window.awakening_requirements) {
+        } else if (awakening_requirements) {
             const thresholdIndex = awakening_requirements.findIndex(({girls_required}, i) => girls_required > high_level_girl_owned[i])
             if (thresholdIndex > 0) {
                 currentThreshold = awakening_requirements[thresholdIndex-1].cap_level

@@ -7,7 +7,7 @@ class Season {
     }
 
     extract() {
-        const { opponents, hero_data, caracs_per_opponent } = window
+        const {opponents, hero_data, caracs_per_opponent} = window
         const opponent_data = opponents[this.idOpponent - 1].player
         const opponentId = opponent_data.id_fighter
 

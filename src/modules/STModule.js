@@ -1,4 +1,5 @@
 import HHModule from './HHModule'
+import Helpers from '../common/Helpers'
 
 class STModule extends HHModule {
     constructor (props) {
@@ -11,7 +12,9 @@ class STModule extends HHModule {
             return
         }
 
-        this.styles.use()
+        Helpers.defer(() => {
+            this.styles.use()
+        })
 
         this.hasRun = true
     }

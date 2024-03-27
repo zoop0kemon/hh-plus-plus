@@ -30,26 +30,26 @@ class AvailableFeatures {
         if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {
             return false
         }
-        return window.Hero.infos.level >= 15
+        return window.shared.Hero.infos.level >= 15
     }
 
     get leagues () {
-        return window.Hero.infos.level >= 20
+        return window.shared.Hero.infos.level >= 20
     }
 
     get seasons () {
-        const {Hero: {infos: {questing: {id_quest, id_world}}}} = window
+        const {shared: {Hero: {infos: {questing: {id_quest, id_world}}}}} = window
         return id_world > 1 || id_quest > ((Helpers.isCxH() || Helpers.isTPSH() ||  Helpers.isGPSH()) ? 1030 : (Helpers.isPSH() ? 1060 : 4))
     }
 
     get pop () {
-        const {Hero: {infos: {questing: {id_world}}}} = window
+        const {shared: {Hero: {infos: {questing: {id_world}}}}} = window
         return !Helpers.isHoH() && ((Helpers.isHH() || Helpers.isGH()) ? id_world >= 4 : id_world >= 3)
     }
 
     get champs () {
         if (Helpers.isHoH()) {return false}
-        const {Hero: {infos: {questing: {id_quest}}}} = window
+        const {shared: {Hero: {infos: {questing: {id_quest}}}}} = window
         if (id_quest < (Helpers.isCxH() ? 3060 : ((Helpers.isPSH() || Helpers.isTPSH()) ? 2040 : (Helpers.isGPSH() ? 2010 : 320)))) {
             return false
         }

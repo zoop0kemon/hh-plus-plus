@@ -50,7 +50,7 @@ class ContestRewardsModule extends CoreModule {
 
     displayRewardSums () {
         const $contestPanel = $('.over_bunny.over_panel')
-        const { contests, buildSlot } = window
+        const {contests, shared: {reward: {buildSlot}}} = window
         const contests_data = contests.finished
         let rewards_data = {
             rewards: [],
@@ -129,7 +129,7 @@ class ContestRewardsModule extends CoreModule {
     }
 
     displayExpiration () {
-        const {contests, GT, createTimer} = window
+        const {contests, GT, shared: {timer: {createTimer}}} = window
 
         $('.contest .contest_header.ended').each((i, contest_header) => {
             const $contest_header = $(contest_header)

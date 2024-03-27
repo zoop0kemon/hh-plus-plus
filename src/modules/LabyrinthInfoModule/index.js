@@ -44,7 +44,8 @@ class LabyrinthInfoModule extends CoreModule {
             if (fixPower) {
                 this.normalizePower()
             }
-            this.improveGirlTooltip()
+            //FIX LATTER
+            // this.improveGirlTooltip()
             this.addGirlIcons()
             this.addGirlOrder()
             this.addRelicsMenu()
@@ -359,7 +360,7 @@ class LabyrinthInfoModule extends CoreModule {
 
     addRelicsMenu () {
         if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth-pre-battle')) {
-            const {buildRelicContainerHtml, GT} = window
+            const {labyrinth: {labyrinth: {buildRelicContainerHtml}}, GT} = window
             const relics_trimed = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
             const relics = relics_trimed.map((relic) => {
                 const {identifier, rarity, bonus, girl} = relic

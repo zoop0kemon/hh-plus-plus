@@ -1,4 +1,3 @@
-/* global Hero, heroStatsPrices */
 import { lsKeys } from '../../common/Constants'
 import Helpers from '../../common/Helpers'
 import Sheet from '../../common/Sheet'
@@ -55,6 +54,7 @@ class MarketInfoModule extends CoreModule {
     }
 
     updateStats () {
+        const {shared: {Hero}, heroStatsPrices, market_inventory} = window
         const equips = []
         const boosters = []
 
@@ -122,7 +122,7 @@ class MarketInfoModule extends CoreModule {
                 clubStat,
             }
 
-            if (!window.market_inventory) {
+            if (!market_inventory) {
                 //old market, old tooltips
                 if (!this.$tooltips[carac]) {
                     this.$tooltips[carac] = $(`<div class="statToolTip" rel="${key}"></div>`)
@@ -181,7 +181,8 @@ class MarketInfoModule extends CoreModule {
     }
 
     updateItems () {
-        if (window.market_inventory) {
+        const {market_inventory} = window
+        if (market_inventory) {
             // new market, nothing to update
             return
         }
@@ -205,7 +206,8 @@ class MarketInfoModule extends CoreModule {
     }
 
     updateEquips () {
-        if (window.market_inventory) {
+        const {market_inventory} = window
+        if (market_inventory) {
             // new market, nothing to update
             return
         }
@@ -232,7 +234,8 @@ class MarketInfoModule extends CoreModule {
             if (!response.success) {return}
             const search = new URLSearchParams(xhr.data)
             const carac = caracKey(search.get('carac'))
-            if (!window.market_inventory) {
+            const {market_inventory, shared: {Hero}} = window
+            if (market_inventory) {
                 const value = response[carac]
 
                 Hero.infos[carac] = value
@@ -255,7 +258,8 @@ class MarketInfoModule extends CoreModule {
         $(document).on('market:inventory-updated', () => this.updateItems())
         $(document).on('market:equips-updated', () => this.updateEquips())
 
-        if (window.market_inventory) {
+        const {market_inventory} = window
+        if (market_inventory) {
             // new market, new tooltips
             CLASSES.forEach(carac => {
                 const selector = `.my-hero-stats [hero=carac${carac}] [carac=${carac}]`
