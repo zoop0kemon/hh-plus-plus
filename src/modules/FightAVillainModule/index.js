@@ -27,9 +27,8 @@ class FightAVillainModule extends CoreModule {
     }
 
     run () {
-        if (this.hasRun) {
-            return
-        }
+        if (this.hasRun) {return}
+
         styles.use()
 
         Helpers.defer(() => {
@@ -72,7 +71,7 @@ class FightAVillainModule extends CoreModule {
         const mythicEventTrolls = Helpers.lsGet(lsKeys.MYTHIC_EVENT_VILLAINS) || []
         const girlDictionary = Helpers.getGirlDictionary()
 
-        const {shared: {Hero: {infos: {questing: {id_world: currentWorld}}}}} = window
+        const {Hero: {infos: {questing: {id_world: currentWorld}}}} = window.shared ? window.shared : window
         const worldIcon = `${Helpers.getCDNHost()}/pictures/design/quest/ico-quest.png`
 
         const filteredVillainSet = villainsSet.filter(villain => villain.world <= currentWorld)

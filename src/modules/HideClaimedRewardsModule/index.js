@@ -54,10 +54,10 @@ class HideClaimedRewardsModule extends CoreModule {
                         const claimable_tiers = []
                         $('.rewards_pair').each((i, el) => {
                             const claimed = $(el).find('.reward_wrapper.reward_claimed').length
-                            const unclaimed = $(el).find('.reward_wrapper.reward_is_claimable').length
+                            const claimable = $(el).find('.reward_wrapper.reward_is_claimable').length
                             if (claimed === can_claim) {
                                 $(el).addClass('script-hide-claimed')
-                            } else if (unclaimed > cant_claim) {
+                            } else if (claimable > cant_claim) {
                                 claimable_tiers.push(el)
                             }
                         })
@@ -65,8 +65,33 @@ class HideClaimedRewardsModule extends CoreModule {
                     }
                 })
             } else if (Helpers.isCurrentPage('event.html')) {
-                this.poa()
-                this.dp()
+                const {current_event: {can_participate, type}} = window
+                if (can_participate) {
+                    if (type === 'path_event') {
+                        this.hideClaimedRewards({
+                            scroll_area: '.scroll-area.poa',
+                            tier: '.nc-poa-reward-pair',
+                            tiers_unlocked_var: 'next_tier', // off by one, but not needed since no progress bar
+                            girl: '#poa-content .girls',
+                            hide: () => {
+                                const claimable_tiers = []
+                                $('.nc-poa-reward-pair').each((i, el) => {
+                                    const claimed = $(el).find('.nc-poa-reward-container.claimed').length
+                                    const claimable = $(el).find('.nc-poa-reward-container.claimable').length
+
+                                    if (claimable > 0) {
+                                        claimable_tiers.push(el)
+                                    } else if (claimed > 0) {
+                                        $(el).addClass('script-hide-claimed')
+                                    }
+                                })
+                                return claimable_tiers
+                            }
+                        })
+                    } else if ($('a.active[href*="?tab=dp_event_"]').length) {
+                        this.dp()
+                    }
+                }
             } else if (Helpers.isCurrentPage('seasonal')) {
                 this.hideClaimedRewards({
                     scroll_area: '.mega-progress-bar-section',
@@ -170,38 +195,6 @@ class HideClaimedRewardsModule extends CoreModule {
                 }
             })
             observer.observe($(scroll_area)[0], {attributes: true, attributeFilter: ['class'], subtree: true})
-        })
-    }
-
-    poa () {
-        if (!$('a.active[href*="?tab=path_event_"]').length || $('#nc-poa-no-participation').length) {return}
-
-        Helpers.doWhenSelectorAvailable('.nc-poa-reward-pair', () => {
-            const {bonus_rewards_unlocked} = window
-
-            const assertHidden = () => {
-                $('.nc-poa-reward-pair').each((i, el) => {
-                    const $free = $(el).find('.nc-poa-free-reward')
-                    const $pass = $(el).find('.nc-poa-locked-reward')
-                    if ( $free.hasClass('claimed') && ( $pass.hasClass('claimed') || !bonus_rewards_unlocked)) {
-                        $(el).addClass('script-hide-claimed')
-                    }
-                })
-            }
-            const assertShown = () => {
-                $('.nc-poa-reward-pair').removeClass('script-hide-claimed')
-            }
-
-            assertHidden()
-            //$('.scroll-area')?.getNiceScroll?.(0).doScrollLeft(Math.max(0, $('.nc-poa-reward-pair').eq(next_tier-1).offset().left - ($('.nc-poa-reward-pair').width()+16)*6), 100)
-            const toggle = () => {
-                if ($('.script-hide-claimed').length) {
-                    assertShown()
-                } else {
-                    assertHidden()
-                }
-            }
-            $('#poa-content .girls').click(()=>{toggle()})
         })
     }
     

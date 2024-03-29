@@ -96,12 +96,14 @@ class LeagueInfoModule extends CoreModule {
         Helpers.doWhenSelectorAvailable('.league_table .data-list', () => {
             // fix / adjust sorting 
             //FIX LATTER
-            // const isColumnSortable_actual = window.isColumnSortable
-            // const hook = (column_name, settings) => {
-            //     if (column_name === "team") {return true}
-            //     return isColumnSortable_actual(column_name, settings)
-            // }
-            // window.isColumnSortable = hook
+            if (window.isColumnSortable) {
+                const isColumnSortable_actual = window.isColumnSortable
+                const hook = (column_name, settings) => {
+                    if (column_name === "team") {return true}
+                    return isColumnSortable_actual(column_name, settings)
+                }
+                window.isColumnSortable = hook
+            }
 
             const {opponents_list} = window
             if (opponents_list && opponents_list.length) {
@@ -114,7 +116,8 @@ class LeagueInfoModule extends CoreModule {
     }
 
     displaySummary ({board, promo}) {
-        const {opponents_list, season_end_at, shared: {Hero}} = window
+        const {Hero} = window.shared ? window.shared : window
+        const {opponents_list, season_end_at} = window
         if (opponents_list && opponents_list.length) {
             const playersTotal = opponents_list.length
             const opponentsTotal = playersTotal - 1

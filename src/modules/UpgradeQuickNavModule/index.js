@@ -31,7 +31,8 @@ class UpgradeQuickNavModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            const {shared: {webp_utilities: {replaceImageSources}}, girl: {id_girl}} = window
+            const {replaceImageSources} = window.shared ? window.shared.webp_utilities : window
+            const {girl: {id_girl}} = window
             const filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
             $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
             if (!filteredGirlIds || filteredGirlIds.length < 2) {return}

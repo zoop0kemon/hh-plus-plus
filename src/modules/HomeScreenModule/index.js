@@ -122,7 +122,8 @@ class HomeScreenModule extends CoreModule {
 
     attachTimer(rel, endAt) {
         if (!$(`[rel=${rel}] .additional-menu-data`).length) {
-            const {shared: {general: {createPageTimers}}, server_now_ts} = window
+            const {createPageTimers} = window.shared ? window.shared.general : window
+            const {server_now_ts} = window
             const selector = this.makeLinkSelector(rel)
 
             const $container = $('<div class="additional-menu-data"></div>')
@@ -172,7 +173,9 @@ class HomeScreenModule extends CoreModule {
     }
 
     aggregateSalaries() {
-        const {shared: {GirlSalaryManager, timer: {format_time_short}}, GT} = window
+        const {format_time_short} = window.shared ? window.shared.timer : window
+        const {GirlSalaryManager} = window.shared ? window.shared : window
+        const {GT} = window
         const {girlsMap} = GirlSalaryManager
 
         const aggregated = {}
@@ -202,7 +205,8 @@ class HomeScreenModule extends CoreModule {
     }
 
     manageSalaryTimers() {
-        const {shared: {GirlSalaryManager}, GT} = window
+        const {GirlSalaryManager} = window.shared ? window.shared : window
+        const {GT} = window
 
         const handleTooltip = () => {
             const aggregateSalaries = this.aggregateSalaries()
@@ -252,7 +256,7 @@ class HomeScreenModule extends CoreModule {
                     let leaguesListItem
                     let leagueTag
 
-                    const {shared: {Hero: {infos: {id: playerID}}}} = window
+                    const {Hero: {infos: {id: playerID}}} = window.shared ? window.shared : window
 
                     const leaguesListPattern = new RegExp(`leagues_list.push\\( ?(?<leaguesListItem>{"id_player":"${playerID}".*}) ?\\);`)
                     const leagueTagPattern = /league_tag = (?<leagueTag>[1-9]);/
@@ -286,7 +290,7 @@ class HomeScreenModule extends CoreModule {
     addReplyTimer() {
         const $messenger = $('.messenger-link')
         if (!$messenger.length) {return}
-        const {shared: {Hero}} = window
+        const {Hero} = window.shared ? window.shared : window
         const {energies: {reply}} = Hero
         if (!reply) { return }
 
@@ -302,7 +306,7 @@ class HomeScreenModule extends CoreModule {
                 Hero.c = {}
             }
 
-            const {shared: {timer: {createEnergyTimer}}} = window
+            const {createEnergyTimer} = window.shared ? window.shared.timer : window
             const selector = `.energy_counter[type="${type}"]`
             const addTimer = () => {
                 Hero.c[type] = createEnergyTimer($(selector))

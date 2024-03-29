@@ -166,7 +166,7 @@ class EquipManager {
             if (!type === 'armor') {return}
             const {item_ids} = response
 
-            const {shared: {Hero: {infos: {id: hero_id}}}} = window
+            const {Hero: {infos: {id: hero_id}}} = window.shared ? window.shared : window
             const $slotsToRemove = []
 
             Object.entries(item_ids).forEach(([index, id_item]) => {

@@ -25,6 +25,7 @@ class ContestRewardsModule extends CoreModule {
 
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
+
         styles.use()
 
         Helpers.defer(() => {
@@ -50,7 +51,8 @@ class ContestRewardsModule extends CoreModule {
 
     displayRewardSums () {
         const $contestPanel = $('.over_bunny.over_panel')
-        const {contests, shared: {reward: {buildSlot}}} = window
+        const {buildSlot} = window.shared ? window.shared.reward : window
+        const {contests} = window
         const contests_data = contests.finished
         let rewards_data = {
             rewards: [],
@@ -129,7 +131,8 @@ class ContestRewardsModule extends CoreModule {
     }
 
     displayExpiration () {
-        const {contests, GT, shared: {timer: {createTimer}}} = window
+        const {createTimer} = window.shared ? window.shared.timer : window
+        const {contests, GT} = window
 
         $('.contest .contest_header.ended').each((i, contest_header) => {
             const $contest_header = $(contest_header)

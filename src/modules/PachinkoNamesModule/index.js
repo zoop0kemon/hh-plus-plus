@@ -21,6 +21,7 @@ class PachinkoNamesModule extends CoreModule {
 
     run() {
         if (this.hasRun || !this.shouldRun()) {return}
+
         styles.use()
 
         Helpers.defer(() => {

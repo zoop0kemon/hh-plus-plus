@@ -178,7 +178,7 @@ class ChampionsModule extends CoreModule {
             Helpers.doWhenSelectorAvailable('.club_champions_timer_fight', () => {
                 const $timerFight = $('.club_champions_timer_fight')
                 if ($timerFight.length && !$('.script-round-duration-time').length) {
-                    const {shared: {timer: {format_time_short, createTimer}}} = window
+                    const {format_time_short, createTimer} = window.shared ? window.shared.timer : window
 
                     const durationString = `<span class="script-round-duration-time">${format_time_short(server_now_ts - start_time)}</span>`
                     const $dummyTimerTarget = $('<div class="dummy-timer-target"></div>')

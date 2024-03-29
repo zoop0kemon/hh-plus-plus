@@ -12,9 +12,7 @@ class STModule extends HHModule {
             return
         }
 
-        Helpers.defer(() => {
-            this.styles.use()
-        })
+        this.styles.use()
 
         this.hasRun = true
     }

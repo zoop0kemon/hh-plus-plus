@@ -39,6 +39,7 @@ class MarketInfoModule extends CoreModule {
 
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
+
         styles.use()
 
         Helpers.defer(() => {
@@ -54,7 +55,8 @@ class MarketInfoModule extends CoreModule {
     }
 
     updateStats () {
-        const {shared: {Hero}, heroStatsPrices, market_inventory} = window
+        const {Hero} = window.shared ? window.shared : window
+        const {heroStatsPrices, market_inventory} = window
         const equips = []
         const boosters = []
 
@@ -234,7 +236,8 @@ class MarketInfoModule extends CoreModule {
             if (!response.success) {return}
             const search = new URLSearchParams(xhr.data)
             const carac = caracKey(search.get('carac'))
-            const {market_inventory, shared: {Hero}} = window
+            const {Hero} = window.shared ? window.shared : window
+            const {market_inventory} = window
             if (market_inventory) {
                 const value = response[carac]
 

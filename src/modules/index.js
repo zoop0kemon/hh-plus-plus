@@ -22,7 +22,7 @@ export {default as BlessingSpreadsheetLinkModule} from './BlessingSpreadsheetLin
 export {default as HomeScreenIconsModule} from './HomeScreenIconsModule'
 export {default as HomeScreenOrderModule} from './HomeScreenOrderModule'
 export {default as HomeScreenOldishModule} from './HomeScreenOldishModule'
-//export {default as OverridePachinkoConfirmModule} from './OverridePachinkoConfirmModule'
+export {default as OverridePachinkoConfirmModule} from './OverridePachinkoConfirmModule'
 export {default as SidequestCompletionMarkersModule} from './SidequestCompletionMarkersModule'
 export {default as CensorModeModule} from './CensorModeModule'
 export {default as FixProfilePopupModule} from './FixProfilePopupModule'

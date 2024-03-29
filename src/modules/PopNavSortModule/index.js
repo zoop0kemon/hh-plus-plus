@@ -82,10 +82,10 @@ class PopNavSortModule extends CoreModule {
         if (!currentPoPId) {return}
 
         const {pop_data} = window
-        const availablePerms = ['1', '2', '3'].filter(id => !pop_data[id].locked)
+        const availablePerms = Object.values(pop_data).filter(({id_places_of_power, locked}) => id_places_of_power<=3 && !locked)
 
         const completeSortedIdList = [
-            ...availablePerms,
+            ...availablePerms.map(({id_places_of_power}) => `${id_places_of_power}`),
             ...this.sortedPopIds
         ]
 

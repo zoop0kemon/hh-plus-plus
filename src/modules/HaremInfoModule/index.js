@@ -227,7 +227,8 @@ class HaremInfoModule extends CoreModule {
                 <p class="market-warning">${this.label('visitMarket', {href})}</p>
             `
         } else {
-            const {shared: {Hero}, server_now_ts, GT} = window
+            const {Hero} = window.shared ? window.shared : window
+            const {server_now_ts, GT} = window
             const {buyableItems, sellableItems, refreshTime, refreshLevel} = marketInfo
 
             let buyableContent = ''

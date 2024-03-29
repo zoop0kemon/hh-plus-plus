@@ -61,9 +61,9 @@ class ResourceBarsModule extends CoreModule {
     run() {
         if (this.hasRun || !this.shouldRun()) {return}
 
-        Helpers.defer(() => {
-            styles.use()
+        styles.use()
 
+        Helpers.defer(() => {
             this.injectCSSVars()
             this.betterXP()
             this.betterMoney()
@@ -85,14 +85,14 @@ class ResourceBarsModule extends CoreModule {
 
             //FIX LATTER init is not longer exposed, and not sure what this does
             // Catch late tooltip inits
-            // const {init} = window
-            // if (window.init) {
-            //     const actualInit = init
-            //     window.init = () => {
-            //         actualInit()
-            //         this.initTooltips()
-            //     }
-            // }
+            const {init} = window
+            if (window.init) {
+                const actualInit = init
+                window.init = () => {
+                    actualInit()
+                    this.initTooltips()
+                }
+            }
         })
 
         this.hasRun = true
@@ -103,7 +103,9 @@ class ResourceBarsModule extends CoreModule {
     }
 
     initTooltips() {
-        const {shared: {Hero, timer: {format_time_short}}, GT} = window
+        const {Hero} = window.shared ? window.shared : window
+        const {format_time_short} = window.shared ? window.shared.timer : window
+        const {GT} = window
         const types = {
             quest: 'hudEnergy_mix_icn',
             fight: 'hudBattlePts_mix_icn',
@@ -145,7 +147,8 @@ class ResourceBarsModule extends CoreModule {
     }
 
     betterXP() {
-        const {shared: {Hero}, HH_MAX_LEVEL, GT} = window
+        const {Hero} = window.shared ? window.shared : window
+        const {HH_MAX_LEVEL, GT} = window
         const $wrapper = $('[rel=xp] .bar-wrapper .over')
         if (!this.$xpContainer) {
             this.$xpContainer = $('<span class="scriptXPContainer"></span>')
@@ -170,7 +173,7 @@ class ResourceBarsModule extends CoreModule {
             $('[hero=soft_currency]').after(this.$moneyContainer)
         }
 
-        const {shared: {Hero: {currencies: {soft_currency}}}} = window
+        const {Hero: {currencies: {soft_currency}}} = window.shared ? window.shared : window
         let displayAmount
         const thousandSeparatedMoney = I18n.nThousand(soft_currency)
 
@@ -185,7 +188,7 @@ class ResourceBarsModule extends CoreModule {
 
     addEnergyBarShortcut() {
         let shortcutLink
-        const {shared: {Hero: {infos: {questing: {current_url :questLink}}}}} = window
+        const {Hero: {infos: {questing: {current_url :questLink}}}} = window.shared ? window.shared : window
         const sidequestStatus = Helpers.lsGet(lsKeys.SIDEQUEST_STATUS)
 
         if (questLink.includes('quest')) {
@@ -202,7 +205,8 @@ class ResourceBarsModule extends CoreModule {
     }
 
     addAdditionalBars() {
-        const {shared: {Hero, timer: {createEnergyTimer}}} = window
+        const {Hero} = window.shared ? window.shared : window
+        const {createEnergyTimer} = window.shared ? window.shared.timer : window
         const barTypes = [
             {type: 'kiss', feature: 'seasons', iconClass: 'hudKiss_mix_icn', shortcutLink: '/season-arena.html'},
             {type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html'},
@@ -248,7 +252,7 @@ class ResourceBarsModule extends CoreModule {
 
     addPoPTimer() {
         if (!AvailableFeatures.pop) {return}
-        const {shared: {timer: {createBarTimer, format_time_short}}} = window
+        const {createBarTimer, format_time_short} = window.shared ? window.shared.timer : window
         const times = Helpers.lsGet(lsKeys.TRACKED_TIMES)
 
         let popEndIn = 0
@@ -288,16 +292,25 @@ class ResourceBarsModule extends CoreModule {
 
                 $barHTML.find('.text').text(this.label('popsReady'))
                 $barHTML.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
-                const {shared: {general: {displayNotifications}}, notificationData} = window
+                const {displayNotifications} = window.shared ? window.shared.general : window
+                const {notificationData} = window
                 if (notificationData && notificationData.activities) {
                     notificationData.activities.push('reward')
                     displayNotifications()
                 }
             }
-            const oldMobileCheck = window.shared.general.is_mobile_size
-            window.shared.general.is_mobile_size = () => false
-            createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
-            window.shared.general.is_mobile_size = oldMobileCheck
+
+            if (window.shared) {
+                const oldMobileCheck = window.shared.general.is_mobile_size
+                window.shared.general.is_mobile_size = () => false
+                createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
+                window.shared.general.is_mobile_size = oldMobileCheck
+            } else {
+                const oldMobileCheck = window.is_mobile_size
+                window.is_mobile_size = () => false
+                createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
+                window.is_mobile_size = oldMobileCheck
+            }
         }
     }
 
@@ -376,7 +389,7 @@ class ResourceBarsModule extends CoreModule {
             `)
 
             if (useTimer) {
-                const {shared: {timer: {createTimer, format_time_short}}} = window
+                const {createTimer, format_time_short} = window.shared ? window.shared.timer : window
                 const onComplete = () => {
                     $wrapper.find('.slot')
                         .attr('class', 'slot empty')
@@ -453,7 +466,7 @@ class ResourceBarsModule extends CoreModule {
             }
 
             if (useTimer) {
-                const {shared: {timer: {format_time_short}}} = window
+                const {format_time_short} = window.shared ? window.shared.timer : window
                 // Correct timer when viewing tooltip
                 $slot.on('mouseenter', () => {
                     if (!$slot.hasClass('empty')) {
@@ -559,112 +572,119 @@ class ResourceBarsModule extends CoreModule {
     }
 
     overrideGlitter() {
-        const {shared: {animations: {glitter_me}, general: {is_mobile_size}}} = window
+        const {glitter_me} = window.shared ? window.shared.animations : window
+        const {is_mobile_size} = window.shared ? window.shared.general : window
 
-        window.shared = {
-            ...window.shared,
-            animations: {
-                ...window.shared.animations,
-                glitter_me: (field) => {
-                    const is_mobile_sized = is_mobile_size()
-                    glitter_me(field)
+        const glitter_me_hook = (field) => {
+            const is_mobile_sized = is_mobile_size()
+            glitter_me(field)
 
-                    let x, y, w, h
-                    switch (field) {
-                    case 'soft_currency':
-                        if (is_mobile_sized) {
-                            x = 780
-                            y = 14
-                            w = 100
-                            h = 30
-                        } else {
-                            x = 800
-                            y = 6
-                            w = 90
-                            h = 30
-                        }
-                        break
-                    case 'hard_currency':
-                        if (is_mobile_sized) {
-                            x = 780
-                            y = 38
-                            w = 100
-                            h = 30
-                        } else {
-                            x = 800
-                            y = 20
-                            w = 90
-                            h = 30
-                        }
-                        break
-                    case 'energy_quest':
-                        if (is_mobile_sized) {
-                            x = 240
-                            y = 10
-                            w = 80
-                            h = 60
-                        } else {
-                            x = '150px'
-                            y = '8px'
-                            w = 90
-                            h = 40
-                        }
-                        break
-                    case 'energy_battle':
-                        if (is_mobile_sized) {
-                            x = 340
-                            y = 10
-                            w = 80
-                            h = 60
-                        } else {
-                            x = 270
-                            y = 8
-                            w = 90
-                            h = 40
-                        }
-                        break
-                    case 'xp':
-                        if (is_mobile_sized) {
-                            x = 0
-                            y = 0
-                            w = 1040
-                            h = 14
-                        } else {
-                            x = 0
-                            y = 0
-                            w = 1040
-                            h = 14
-                        }
-                        break
-                    default:
-                        return
-                    }
+            let x, y, w, h
+            switch (field) {
+            case 'soft_currency':
+                if (is_mobile_sized) {
+                    x = 780
+                    y = 14
+                    w = 100
+                    h = 30
+                } else {
+                    x = 800
+                    y = 6
+                    w = 90
+                    h = 30
+                }
+                break
+            case 'hard_currency':
+                if (is_mobile_sized) {
+                    x = 780
+                    y = 38
+                    w = 100
+                    h = 30
+                } else {
+                    x = 800
+                    y = 20
+                    w = 90
+                    h = 30
+                }
+                break
+            case 'energy_quest':
+                if (is_mobile_sized) {
+                    x = 240
+                    y = 10
+                    w = 80
+                    h = 60
+                } else {
+                    x = '150px'
+                    y = '8px'
+                    w = 90
+                    h = 40
+                }
+                break
+            case 'energy_battle':
+                if (is_mobile_sized) {
+                    x = 340
+                    y = 10
+                    w = 80
+                    h = 60
+                } else {
+                    x = 270
+                    y = 8
+                    w = 90
+                    h = 40
+                }
+                break
+            case 'xp':
+                if (is_mobile_sized) {
+                    x = 0
+                    y = 0
+                    w = 1040
+                    h = 14
+                } else {
+                    x = 0
+                    y = 0
+                    w = 1040
+                    h = 14
+                }
+                break
+            default:
+                return
+            }
 
-                    const $glitter = $('.glitter-svg').last()
-                    const old_w = parseInt($glitter.attr('width'))
-                    const old_h = parseInt($glitter.attr('height'))
+            const $glitter = $('.glitter-svg').last()
+            const old_w = parseInt($glitter.attr('width'))
+            const old_h = parseInt($glitter.attr('height'))
 
-                    $glitter.css('left', x)
-                    $glitter.css('top', y)
-                    $glitter.attr('width', w)
-                    $glitter.attr('height', h)
-                    if (w != old_w || h != old_h) {
-                        const size_coef = h < 30 ? 0.6 : (h > 100 ? 2 : 1)
-                        const old_size_coef = old_h < 30 ? 0.6 : (old_h > 100 ? 2 : 1)
+            $glitter.css('left', x)
+            $glitter.css('top', y)
+            $glitter.attr('width', w)
+            $glitter.attr('height', h)
+            if (w != old_w || h != old_h) {
+                const size_coef = h < 30 ? 0.6 : (h > 100 ? 2 : 1)
+                const old_size_coef = old_h < 30 ? 0.6 : (old_h > 100 ? 2 : 1)
 
-                        $glitter.find('>g>g').each((i, el) => {
-                            const transform = $(el).attr('transform')
-                            const translations = transform.match(/translate\(([^)]+)\)/)[1].split(',').map(n => parseFloat(n))
-                            translations[0] *= w / old_w
-                            translations[1] *= h / old_h
-                            const old_scale = parseFloat(transform.match(/scale\(([^)]+)\)/)[1])
-                            const scale = old_scale * (size_coef / old_size_coef)
+                $glitter.find('>g>g').each((i, el) => {
+                    const transform = $(el).attr('transform')
+                    const translations = transform.match(/translate\(([^)]+)\)/)[1].split(',').map(n => parseFloat(n))
+                    translations[0] *= w / old_w
+                    translations[1] *= h / old_h
+                    const old_scale = parseFloat(transform.match(/scale\(([^)]+)\)/)[1])
+                    const scale = old_scale * (size_coef / old_size_coef)
 
-                            $(el).attr('transform', transform.replace(/translate\(([^)]+)\)/, `translate(${translations.join(',')})`).replace(/scale\(([^)]+)\)/, `scale(${scale})`))
-                        })
-                    }
+                    $(el).attr('transform', transform.replace(/translate\(([^)]+)\)/, `translate(${translations.join(',')})`).replace(/scale\(([^)]+)\)/, `scale(${scale})`))
+                })
+            }
+        }
+
+        if (window.shared) {
+            window.shared = {
+                ...window.shared,
+                animations: {
+                    ...window.shared.animations,
+                    glitter_me: glitter_me_hook
                 }
             }
+        } else {
+            window.glitter_me = glitter_me_hook
         }
     }
 }

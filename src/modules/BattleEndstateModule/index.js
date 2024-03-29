@@ -24,7 +24,7 @@ class BattleEndstateModule extends CoreModule {
             if (~location.search.search(/number_of_battles=\d+/i)) {
                 const nBattlesCount = parseInt(location.search.match(/number_of_battles=(\d+)/i)[1], 10)
                 if ($.isNumeric(nBattlesCount)) {
-                    const {shared: {Hero}} = window
+                    const {Hero} = window.shared ? window.shared : window
                     if (Helpers.isCurrentPage('troll-battle')) {
                         Hero.update('energy_fight', Hero.energies.fight.amount - nBattlesCount, false)
                     }
@@ -145,7 +145,9 @@ class BattleEndstateModule extends CoreModule {
 
                 $('.velocity-animating').velocity('stop', true)
                 //FIX LATTER IDK
-                // setRounds([])
+                if (window.setRounds) {
+                    setRounds([])
+                }
                 $.Velocity.RunSequence(arrPlayerAnimationSequence)
                 $.Velocity.RunSequence(arrOpponentAnimationSequence)
             })
