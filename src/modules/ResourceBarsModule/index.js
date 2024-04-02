@@ -310,9 +310,9 @@ class ResourceBarsModule extends CoreModule {
 
             if (window.shared) {
                 const oldMobileCheck = window.shared.general.is_mobile_size
-                window.shared.general.is_mobile_size = () => false
+                //window.shared.general.is_mobile_size = () => false
                 createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
-                window.shared.general.is_mobile_size = oldMobileCheck
+                //window.shared.general.is_mobile_size = oldMobileCheck
             } else {
                 const oldMobileCheck = window.is_mobile_size
                 window.is_mobile_size = () => false

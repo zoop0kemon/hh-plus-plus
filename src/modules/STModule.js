@@ -8,13 +8,19 @@ class STModule extends HHModule {
     }
 
     run () {
-        if (!this.shouldRun() || this.hasRun) {
-            return
-        }
+        if (!this.shouldRun() || this.hasRun) {return}
 
+        if (!this.hasRunExtra) {
+            this.runExtra()
+        }
         this.styles.use()
 
         this.hasRun = true
+        this.hasRunExtra = true
+    }
+
+    runExtra () {
+        // NO-OP
     }
 
     tearDown () {

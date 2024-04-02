@@ -23,9 +23,7 @@ class CompactResourceSummaryStyleTweak extends STModule {
         return true
     }
 
-    run (props) {
-        super.run(props)
-
+    runExtra () {
         Helpers.defer(() => {
             Helpers.onAjaxResponse(/action=hero_get_resources/, (response) => {
                 const observer = new MutationObserver(() => {
