@@ -113,6 +113,7 @@ class MarketInfoModule extends CoreModule {
             }
 
             this.toolipData.caracs[carac] = {
+                carac,
                 key,
                 unboughtStat,
                 unspent,
@@ -137,9 +138,12 @@ class MarketInfoModule extends CoreModule {
     }
 
     buildCaracTooltipHtml(data) {
-        const {unboughtStat, unspent, spent, baseStat, boughtStat, equipStat, boosterStat, clubStat} = data
+        const {carac, unboughtStat, unspent, spent, baseStat, boughtStat, equipStat, boosterStat, clubStat} = data
+        const {GT} = window
 
         return `
+            ${GT.caracs[carac]}
+            <hr/>
             <table class="statToolTipTable">
                 <tbody>
                     <tr><td>${this.label('pointsUnbought')} :</td><td>${I18n.nThousand(unboughtStat)}</td></tr>
@@ -232,21 +236,14 @@ class MarketInfoModule extends CoreModule {
 
     setupHooks () {
         // Purchase stat points
-        Helpers.onAjaxResponse(/action=update_stats/, (response, xhr) => {
+        Helpers.onAjaxResponse(/action=hero_update_stats/, (response, xhr) => {
             if (!response.success) {return}
             const search = new URLSearchParams(xhr.data)
-            const carac = caracKey(search.get('carac'))
+            const carac = search.get('carac')
             const {Hero} = window.shared ? window.shared : window
-            const {market_inventory} = window
-            if (market_inventory) {
-                const value = response[carac]
+            const nb = +search.get('nb')
 
-                Hero.infos[carac] = value
-            } else {
-                const nb = +search.get('nb')
-
-                Hero.infos[carac] += nb
-            }
+            Hero.infos[carac] += nb
         })
 
         // Observe change (after side-effects have run)
@@ -264,8 +261,32 @@ class MarketInfoModule extends CoreModule {
         const {market_inventory} = window
         if (market_inventory) {
             // new market, new tooltips
+
+            // prevent default class tooltips
+            Helpers.doWhenSelectorAvailable('.my-hero-stats [carac]', () => {
+                $('.my-hero-stats [carac]').each((i, el) => {
+                    const carac = parseInt($(el).attr('carac'))
+                    if (carac) {
+                        $(el).attr('carac', `carac-${carac}`)
+                    }
+                })
+            })
+            // fix def caracs tooltips
+            Helpers.doWhenSelectorAvailable('button[rel=buy-stats-multiplier]', () => {
+                const fixDefCarac = () => {
+                    Helpers.doWhenSelectorAvailable('.bonus-given-container [carac*="def"]:not([carac="defense"])', () => {
+                        $('.bonus-given-container [carac*="def"]').attr('carac', 'defense')
+                    })
+                }
+                
+                fixDefCarac()
+                $('button[rel=buy-stats-multiplier]').on('click', () => {
+                    fixDefCarac()
+                })
+            })
+
             CLASSES.forEach(carac => {
-                const selector = `.my-hero-stats [hero=carac${carac}] [carac=${carac}]`
+                const selector = `.price-upgrade-container [carac=carac-${carac}], .my-hero-stats [hero=carac${carac}] [carac=carac-${carac}]`
                 const title = $(selector).attr('hh_title')
                 $(selector).removeAttr('hh_title')
                 $(selector).removeAttr('tooltip')
@@ -307,6 +328,9 @@ class MarketInfoModule extends CoreModule {
 
     injectCSSVars () {
         Sheet.registerVar('info-icon', `url(${Helpers.getCDNHost()}/design/ic_info.svg)`)
+        Sheet.registerVar('script-class-icon-hc', `url('${Helpers.getCDNHost()}/pictures/misc/items_icons/1.png')`)
+        Sheet.registerVar('script-class-icon-ch', `url('${Helpers.getCDNHost()}/pictures/misc/items_icons/2.png')`)
+        Sheet.registerVar('script-class-icon-kh', `url('${Helpers.getCDNHost()}/pictures/misc/items_icons/3.png')`)
     }
 }
 

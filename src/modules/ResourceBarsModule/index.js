@@ -83,7 +83,6 @@ class ResourceBarsModule extends CoreModule {
             const moneyObserver = new MutationObserver(() => {this.betterMoney()})
             moneyObserver.observe($('[hero=soft_currency]')[0], {childList: true})
 
-            //FIX LATTER init is not longer exposed, and not sure what this does
             // Catch late tooltip inits
             const {init} = window
             if (window.init) {
@@ -110,19 +109,16 @@ class ResourceBarsModule extends CoreModule {
             quest: 'hudEnergy_mix_icn',
             fight: 'hudBattlePts_mix_icn',
             kiss: 'hudKiss_mix_icn',
-            challenge: 'hudChallenge_mix_icn',
-            worship: 'hudWorship_mix_icn'
+            challenge: 'hudChallenge_mix_icn, .energy_counter .energy_challenge_icn',
+            worship: 'hudWorship_mix_icn',
+            reply: 'energy_reply_icn'
         }
 
         Object.entries(types).forEach(([type, icon]) => {
-            const selector = `header .energy_counter .${icon}`
-
-            $('body').off('touchstart', selector)
-            $('body').off('touchend', selector)
-            $('body').off('touchcancel', selector)
-
-            $('body').off('mouseenter', selector)
-            $('body').off('mouseleave', selector)
+            const attribute = `energy-${type}-tooltip`
+            // prevent default tooltip
+            $(`[${attribute}]`).removeAttr(attribute)
+            const selector = `.energy_counter .${icon}`
 
             TooltipManager.initTooltipType(selector, () => {
                 let text
@@ -144,6 +140,18 @@ class ResourceBarsModule extends CoreModule {
                 return {title: '', body: text}
             })
         })
+
+        // catch any late default tooltips
+        const observer = new MutationObserver(() => {
+            Object.keys(types).forEach(type => {
+                const attribute = `energy-${type}-tooltip`
+                if ($(`[${attribute}]`).length) {
+                    console.log('removing late tooltips')
+                    $(`[${attribute}]`).removeAttr(attribute)
+                }
+            })
+        })
+        observer.observe(document.documentElement, {childList: true, subtree: true})
     }
 
     betterXP() {

@@ -6,6 +6,8 @@ import { RELIC_BONUSES } from '../../data/Relics'
 import styles from './styles.lazy.scss'
 import { lsKeys } from '../../common/Constants'
 
+const {$} = Helpers
+
 const MODULE_KEY = 'labyrinth'
 
 const CLASS_NAMES = {
@@ -362,16 +364,38 @@ class LabyrinthInfoModule extends CoreModule {
 
     addRelicsMenu () {
         if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth-pre-battle')) {
-            const {buildRelicContainerHtml} = window.labyrinth ? window.labyrinth.labyrinth : window
-            if (!buildRelicContainerHtml) {return}
             const {GT} = window
+            const buildRelicContainerHtml = (relic) => {
+                const {buildGirlTooltipData} = window.shared ? window.shared.team_block_builder : window
+                const {identifier, type, rarity, bonus, girl} = relic
+                const relic_icon = RELIC_BONUSES[identifier] ? RELIC_BONUSES[identifier]?.element : false
+                const {remaining_ego_percent, member_girl} = girl || {}
+
+                return `
+                <div class="relic-container ${rarity}-relic${type === 'girl' ? ' large-card' : ''}">
+                    <div class="relic-name">${GT.design[`${identifier}_name`]} <span>${GT.design[`girls_rarity_${rarity}`]}</span></div>
+                    <div class="relic-description">${GT.design[`${identifier}_description`].replace("[percent_chance]", bonus)}</div>
+                    <div class="relic-infos">
+                        ${type === 'team' && relic_icon ? `
+                        <div class="team-relic-icon">
+                            <span class="${relic_icon}_element_relic_icn" tooltip="${GT.design[`${relic_icon}_flavor_element`]}"></span>
+                        </div>` : ''}
+                        ${type === 'girl' && girl ? `
+                        <span>${member_girl.girl.name}</span>
+                        <img class="girl-image rarity-background ${member_girl.girl.rarity}" src="${member_girl.ico}" data-new-girl-tooltip="${buildGirlTooltipData(member_girl)}"/>
+                        <div class="ego-bar-container">
+                            <span>${remaining_ego_percent > 0 ? `${remaining_ego_percent}%` : GT.design.tired}</span>
+                            <div class="ego-fill" style="width:${remaining_ego_percent}%;"></div>
+                        </div>` : ''}
+                    </div>
+                </div>`
+            }
+
             const relics_trimed = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
             const relics = relics_trimed.map((relic) => {
                 const {identifier, rarity, bonus, girl} = relic
                 const type = identifier.match(/[a-z]+/g)[0]
-                const title = GT.design[`${relic.identifier}_name`]
-                const description = GT.design[`${relic.identifier}_description`]
-                const relic_data = {identifier, rarity, type, bonus, title, description}
+                const relic_data = {identifier, rarity, type, bonus}
                 if (girl) {relic_data.girl = girl}
 
                 return relic_data

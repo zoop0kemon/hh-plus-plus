@@ -29,7 +29,7 @@ class ContestRewardsModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            Helpers.doWhenSelectorAvailable('.left_part .scroll_area', () => {
+            Helpers.doWhenSelectorAvailable('#contests .left_part .scroll_area', () => {
                 this.displayRewardSums()
                 this.displayExpiration()
 
@@ -42,7 +42,7 @@ class ContestRewardsModule extends CoreModule {
                     }
                 })
 
-                observer.observe($('.left_part .scroll_area')[0],{attributes: false, childList: true, subtree: false})
+                observer.observe($('#contests .left_part .scroll_area')[0], {attributes: false, childList: true, subtree: false})
             })
         })
 
@@ -50,7 +50,7 @@ class ContestRewardsModule extends CoreModule {
     }
 
     displayRewardSums () {
-        const $contestPanel = $('.over_bunny.over_panel')
+        const $contestPanel = $('#contests .over_bunny.over_panel')
         const {buildSlot} = window.shared ? window.shared.reward : window
         const {contests} = window
         const contests_data = contests.finished
@@ -60,19 +60,20 @@ class ContestRewardsModule extends CoreModule {
         }
 
         contests_data.forEach((contest) => {
-            // Object.values(contest.rewards).forEach((reward_bracket) => {
+            // Object.values(contest.rewards).forEach((reward_bracket) => { // For Testing
             if ($(`.contest[id_contest="${contest.id_contest}"]`).length) {
-                const {data: reward_data, drops} = contest.reward
+                const {data: reward_data, drops} = contest.reward // reward_bracket
 
                 if (reward_data.rewards) {
                     reward_data.rewards.forEach((reward) => {
                         const type = reward.type
                         const sum_reward = rewards_data.rewards.find((e) => {
                             const type_matches = e.type === type
+                            const orb_matches = type === 'orbs' && type_matches ? e.orbs_type === reward.orbs_type : true
                             const gem_matches = type === 'gems' && type_matches ? e.gem_type === reward.gem_type : true
                             const item_matches = type === 'item' && type_matches ? e.value.item.id_item === reward.value.item.id_item : true
                             const armor_matches = type === 'armor' && type_matches ? e.value.rarity === reward.value.rarity : true
-                            return type_matches && gem_matches && item_matches && armor_matches
+                            return type_matches && orb_matches && gem_matches && item_matches && armor_matches
                         })
 
                         if (sum_reward) {
@@ -107,7 +108,7 @@ class ContestRewardsModule extends CoreModule {
                         }
                     })
                 }
-            }
+            }//)
         })
 
         rewards_data.rewards.forEach((reward) => {

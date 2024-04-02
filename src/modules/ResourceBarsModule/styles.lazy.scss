@@ -1,12 +1,8 @@
 @import "../../common/mixins.scss";
 @import "../../common/constants.scss";
 
-body > div > header {
+body > div#contains_all > header {
     padding-top: 8px;
-
-    img.new_notif {
-        top: 8px;
-    }
 
     [type="fight"] + div.currency {
         // FOUC prevention
@@ -20,6 +16,10 @@ body > div > header {
         @media #{$mediaMobile} {
             margin-left: 0px;
             margin-right: 15px;
+        }
+
+        img.new_notif {
+            top: 8px;
         }
     }
 
@@ -365,7 +365,7 @@ body > div > header {
     }
 }
 
-body > div > header > div.energy_counter {
+body > div#contains_all > header > div.energy_counter {
     a {
         text-decoration: none;
     }
@@ -517,7 +517,7 @@ body > div > header > div.energy_counter {
     }
 }
 
-body > div > header > div.script-bar-spacer {
+body > div#contains_all > header > div.script-bar-spacer {
     margin: 12px 0 0 27px;
 
     &[type="kiss"],
@@ -542,11 +542,11 @@ body > div > header > div.script-bar-spacer {
     }
 }
 
-#contains_all > nav > [rel="open"] {
+body > div#contains_all > nav > [rel="open"] {
     top: 12px;
 }
 
-body#hh_comix > div > header div[rel="xp"] {
+body#hh_comix > div#contains_all > header div[rel="xp"] {
     div[rel="level"] div[hero="level"] {
         margin-top: 17px !important;
     }
@@ -564,7 +564,7 @@ body#hh_comix > div > header div[rel="xp"] {
 }
 
 @media #{$mediaMobile} {
-    body > div > header {
+    body > div#contains_all > header {
         & > a.hh_logo,
         a#chat_btn,
         & > div[rel="avatar"] {
@@ -752,12 +752,12 @@ body#hh_comix > div > header div[rel="xp"] {
         }
     }
 
-    #contains_all > nav > [rel="open"] {
+    body > div#contains_all > nav > [rel="open"] {
         height: 60px;
         width: 60px;
     }
 
-    body#hh_comix > div > header div[rel="xp"] {
+    body#hh_comix > div#contains_all > header div[rel="xp"] {
         div[rel="level"] {
             top: 8px;
 

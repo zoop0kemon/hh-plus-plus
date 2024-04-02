@@ -6,6 +6,7 @@ class Sheet {
     static get() {
         if (!sheet) {
             const style = document.createElement('style')
+            style.setAttribute('class', 'script-style-vars')
             document.head.appendChild(style);
             ({sheet} = style)
         }

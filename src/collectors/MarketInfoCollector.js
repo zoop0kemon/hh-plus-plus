@@ -58,8 +58,8 @@ class MarketInfoCollector {
 
     static collectRefreshTime () {
         const {Hero: {infos: {level}}} = window.shared ? window.shared : window 
-        const {server_now_ts} = window
-        marketInfo.refreshTime = server_now_ts + parseInt($('.shop_count .restock-timer').attr('data-time-stamp'), 10)
+        const {server_now_ts, restock_time} = window
+        marketInfo.refreshTime = server_now_ts + restock_time
         marketInfo.refreshLevel = level
     }
 
@@ -124,8 +124,8 @@ class MarketInfoCollector {
             value: 0
         }
 
-        $(`#inventory .${TYPES[type]} .slot:not(.empty), #${NEW_TYPES[type]}-tab-container #player-inventory .slot-container:not(.empty) .slot`).each((i, slot) => {
-            const {count: countStr, quantity: quantityStr, item, value, price_sell} = $(slot).data('d')
+        window.player_inventory[TYPES[type]].forEach(slot => {
+            const {count: countStr, quantity: quantityStr, item, value, price_sell} = slot
 
             const count = castInt(countStr || quantityStr)
             items.count += count

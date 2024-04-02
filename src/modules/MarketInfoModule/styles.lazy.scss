@@ -1,5 +1,11 @@
 @import "../../common/constants.scss";
 
+$classIcons: (
+    "1": var(--script-class-icon-hc),
+    "2": var(--script-class-icon-ch),
+    "3": var(--script-class-icon-kh),
+);
+
 .marketInfoIcon {
     height: 18px;
     width: 18px;
@@ -24,6 +30,12 @@
                 }
             }
         }
+    }
+}
+
+@each $carac in $classes {
+    .my-hero-stats [carac="carac-#{$carac}"]::before {
+        background-image: map-get($classIcons, $carac);
     }
 }
 

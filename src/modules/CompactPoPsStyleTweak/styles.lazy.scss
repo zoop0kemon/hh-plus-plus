@@ -55,141 +55,143 @@ $rewardBGSizes: (
     shard: 28px 28px,
 );
 
-.pop_thumb_title {
-    display: none;
-}
-
-.pop_thumb > img {
-    border-radius: 0;
-    position: relative;
-    top: -27px;
-    z-index: -1;
-    float: left;
-}
-
-.pop_thumb.pop_thumb_greyed_out > img {
-    top: 0px;
-}
-
-.pop_thumb_progress_bar {
-    margin-top: 25px;
-}
-
-#pop .pop_list .pop_list_scrolling_area {
-    .pop_thumb {
-        & > .pop_thumb_space {
-            height: 60px;
-            display: block !important;
-        }
-
-        &.pop_thumb_active[status="pending_reward"] > .pop_thumb_space {
-            top: -137px;
-            position: relative;
-        }
-
-        & > .pop_thumb_level {
-            top: -102px;
-        }
+.activities-container {
+    .pop_thumb_title {
+        display: none;
     }
 
-    .pop_thumb_selected .pop_thumb_progress_bar,
-    .pop_thumb > .pop_thumb_progress_bar {
-        background-color: unset;
-        text-shadow: rgb(0, 0, 0) 1px 1px 0px, rgb(0, 0, 0) -1px 1px 0px, rgb(0, 0, 0) -1px -1px 0px,
-            rgb(0, 0, 0) 1px -1px 0px;
+    .pop_thumb > img {
+        border-radius: 0;
+        position: relative;
+        top: -27px;
+        z-index: -1;
+        float: left;
     }
 
-    .pop_thumb_selected {
-        box-shadow: 0px 0px 7px 1px;
-        color: #f90;
+    .pop_thumb.pop_thumb_greyed_out > img {
+        top: 0px;
     }
 
-    .pop_thumb_container {
-        min-height: 99px;
-        .pop_thumb_expanded,
-        .pop_thumb_active,
+    .pop_thumb_progress_bar {
+        margin-top: 25px;
+    }
+
+    #pop .pop_list .pop_list_scrolling_area {
+        .pop_thumb {
+            & > .pop_thumb_space {
+                height: 60px;
+                display: block !important;
+            }
+
+            &.pop_thumb_active[status="pending_reward"] > .pop_thumb_space {
+                top: -137px;
+                position: relative;
+            }
+
+            & > .pop_thumb_level {
+                top: -102px;
+            }
+        }
+
+        .pop_thumb_selected .pop_thumb_progress_bar,
+        .pop_thumb > .pop_thumb_progress_bar {
+            background-color: unset;
+            text-shadow: rgb(0, 0, 0) 1px 1px 0px, rgb(0, 0, 0) -1px 1px 0px, rgb(0, 0, 0) -1px -1px 0px,
+                rgb(0, 0, 0) 1px -1px 0px;
+        }
+
+        .pop_thumb_selected {
+            box-shadow: 0px 0px 7px 1px;
+            color: #f90;
+        }
+
+        .pop_thumb_container {
+            min-height: 99px;
+            .pop_thumb_expanded,
+            .pop_thumb_active,
+            .pop_thumb_greyed_out {
+                height: 99px;
+                background: linear-gradient(0deg, #00000087, transparent);
+            }
+        }
+
         .pop_thumb_greyed_out {
             height: 99px;
-            background: linear-gradient(0deg, #00000087, transparent);
+            .pop_thumb_title {
+                display: block;
+                margin-top: 0px;
+            }
+        }
+
+        .pop_thumb_active > button {
+            position: relative;
+            top: -44px;
+        }
+
+        .collect_notif {
+            margin-top: -88px;
+            margin-left: 74px;
+        }
+
+        @each $id, $carac, $reward in $pops {
+            .pop_thumb[pop_id="#{$id}"] {
+                & > .pop_thumb_space {
+                    &:before {
+                        background-image: map-get($classIcons, $carac);
+                    }
+
+                    &:after {
+                        background-image: map-get($rewardIcons, $reward);
+                        @if map-has-key($rewardBGSizes, $reward) {
+                            background-size: map-get($rewardBGSizes, $reward) !important;
+                        }
+                    }
+                }
+
+                @if map-has-key($rewardBorders, $reward) {
+                    $color: map-get($rewardBorders, $reward);
+                    border-color: $color;
+                    color: $color;
+                }
+            }
         }
     }
 
-    .pop_thumb_greyed_out {
-        height: 99px;
-        .pop_thumb_title {
-            display: block;
-            margin-top: 0px;
-        }
-    }
-
-    .pop_thumb_active > button {
+    [rel="pop_thumb_info"] {
         position: relative;
         top: -44px;
     }
 
-    .collect_notif {
-        margin-top: -88px;
-        margin-left: 74px;
+    .pop_thumb > .pop_thumb_space:before {
+        content: " ";
+        display: block;
+        position: relative;
+        height: 24px;
+        width: 24px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        top: 0px;
+        left: 0px;
+        margin-bottom: -24px;
+        background-color: #290f16;
+        border: 2px solid #290f16;
     }
 
-    @each $id, $carac, $reward in $pops {
-        .pop_thumb[pop_id="#{$id}"] {
-            & > .pop_thumb_space {
-                &:before {
-                    background-image: map-get($classIcons, $carac);
-                }
-
-                &:after {
-                    background-image: map-get($rewardIcons, $reward);
-                    @if map-has-key($rewardBGSizes, $reward) {
-                        background-size: map-get($rewardBGSizes, $reward) !important;
-                    }
-                }
-            }
-
-            @if map-has-key($rewardBorders, $reward) {
-                $color: map-get($rewardBorders, $reward);
-                border-color: $color;
-                color: $color;
-            }
-        }
+    .pop_thumb > .pop_thumb_space:after {
+        content: " ";
+        display: block;
+        position: relative;
+        height: 24px;
+        width: 24px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        top: 0px;
+        left: 24px;
+        margin-bottom: -24px;
+        background-color: #290f16;
+        border: 2px solid #290f16;
+        border-bottom-right-radius: 5px;
     }
-}
-
-[rel="pop_thumb_info"] {
-    position: relative;
-    top: -44px;
-}
-
-.pop_thumb > .pop_thumb_space:before {
-    content: " ";
-    display: block;
-    position: relative;
-    height: 24px;
-    width: 24px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    top: 0px;
-    left: 0px;
-    margin-bottom: -24px;
-    background-color: #290f16;
-    border: 2px solid #290f16;
-}
-
-.pop_thumb > .pop_thumb_space:after {
-    content: " ";
-    display: block;
-    position: relative;
-    height: 24px;
-    width: 24px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    top: 0px;
-    left: 24px;
-    margin-bottom: -24px;
-    background-color: #290f16;
-    border: 2px solid #290f16;
-    border-bottom-right-radius: 5px;
 }

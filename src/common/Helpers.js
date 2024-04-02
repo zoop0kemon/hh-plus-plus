@@ -271,6 +271,10 @@ class Helpers {
 
     static runDeferred () {
         $(document).ready(() => {
+            // temp fix for style load order issues
+            $('style.script-styles').insertAfter('style#fixed_size_auto')
+            $('style:not(.script-styles)').insertAfter('style#fixed_size_auto')
+
             deferred.forEach(callback => {
                 try {
                     callback()

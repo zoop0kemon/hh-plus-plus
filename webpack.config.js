@@ -29,7 +29,7 @@ const config = {
             {
                 test: /\.lazy\.scss$/i,
                 use: [
-                    { loader: 'style-loader', options: { injectType: 'lazyStyleTag' } },
+                    { loader: 'style-loader', options: { injectType: 'lazyStyleTag', attributes: { class: 'script-styles' } } },
                     'css-loader',
                     'sass-loader',
                 ],

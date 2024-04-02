@@ -50,18 +50,26 @@ class CompactResourceSummaryStyleTweak extends STModule {
                                 $(`.hero-currency:has(.${currency}_icn)>p`).text(`x${I18n.nThousand(+amount)}`)
                             }
                         })
+                        $('.hero-currency:has(.scrolls_common_icn)').before('<div class="line-break"></div>')
 
+                        let total_gems = 0
                         Object.values(response.gems).forEach((gem, index) => {
                             $('.hero-gem>p').eq(index).text(`x${I18n.nThousand(+gem.amount)}`)
+                            total_gems += +gem.amount
                         })
+                        $('.hero-gems-container>p').append(`<span class="total-gems"><span class="gem_all_icn"></span>x${I18n.nThousand(total_gems)}</span>`)
 
+                        let total_orbs = 0
                         Object.values(response.orbs).forEach((orb, index) => {
                             $('.hero-orb>p').eq(index).text(`x${I18n.nThousand(+orb)}`)
+                            total_orbs += +orb
                         })
+                        $('.hero-orbs-container>p').append(`<span class="total-orbs">x${I18n.nThousand(total_orbs)}</span>`)
 
                         Object.values(response.progressions).forEach((progression, index) => {
                             $('.hero-progression>p').eq(index).text(`x${I18n.nThousand(+progression)}`)
                         })
+                        $('.hero-progression:has(.daily_goals_potion_icn)').after('<div class="line-break"></div>')
 
                         observer.disconnect()
                     }
