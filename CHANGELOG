@@ -1,4 +1,5 @@
-1.39.18: Fixing temp fix for style load order messing up other scripts and bug causing style tweak code to run more than once with other script.
+1.39.19: Fixing applying relics stats to girl tooltips, adding labyrinth shortcut for GPsH and TPsH, and other bug fixes.
+1.39.18: Fixing temp fix for style load order messing up other scripts and bug causing style tweak code to run more than once with other scripts.
 1.39.17: Pre-empting update for bundler changes to tooltips and style load order, fixing various bugs, and updating patrons list for April.
 1.39.16: Fixing script for revert to bundler change and other bug fixes
 1.39.15: Fixing script for game bundler change

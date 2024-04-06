@@ -2,18 +2,15 @@
 
 .gemStock {
     display: block;
-    position: absolute;
+    height: 25px;
+    width: 25px;
     background-size: contain;
-    height: 34px;
-    width: 34px;
-    z-index: 15;
     background-image: var(--gem-stock-icon);
-    top: 5px;
-    right: -435px;
+    transform: scale(1.25);
+    margin-right: 1.5rem;
 
     @media #{$mediaMobile} {
-        top: 32px;
-        right: -650px;
+        margin-top: 36px;
     }
 
     &-table img {

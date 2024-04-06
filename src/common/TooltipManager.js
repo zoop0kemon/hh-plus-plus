@@ -34,14 +34,13 @@ class TooltipManager {
             window.addEventListener('contextmenu', (e) => {
                 e.preventDefault()
             })
-            const delay = 0
-            const longpress = 800
+            let delay = 0
             $('body').on('touchstart', selector, (event) => {
                 TooltipManager.close()
                 delay = setTimeout(() => {
                     const $target = $(event.currentTarget)
                     TooltipManager.createTooltip($target, callback($target))
-                }, longpress)
+                }, 800)
             })
             $('body').on('touchend', () => {
                 if (delay) {
@@ -163,7 +162,7 @@ class TooltipManager {
         if ($bounds_scale_match[1]) {
             $html.width($html.width() + 2)
             // applyScale
-            const scale_string = `scale("${bounds_scale}")`
+            const scale_string = `scale(${bounds_scale})`
             $html.css('transform', scale_string)
             $html.css('-moz-transform', scale_string)
             $html.css('-webkit-transform', scale_string)

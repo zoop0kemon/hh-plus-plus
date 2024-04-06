@@ -146,7 +146,6 @@ class ResourceBarsModule extends CoreModule {
             Object.keys(types).forEach(type => {
                 const attribute = `energy-${type}-tooltip`
                 if ($(`[${attribute}]`).length) {
-                    console.log('removing late tooltips')
                     $(`[${attribute}]`).removeAttr(attribute)
                 }
             })
@@ -275,11 +274,7 @@ class ResourceBarsModule extends CoreModule {
         }
 
         const inProgress = popEndIn > 0
-
-        let barWidth = 100
-        if (inProgress) {
-            barWidth = 100 * (popDuration - popEndIn) / popDuration
-        }
+        const barWidth = inProgress ? 100 * (popDuration - popEndIn) / popDuration : 100
 
         const $barHTML = $(`
             <a class="script-pop-timer" href="${Helpers.getHref('/activities.html?tab=pop')}">
@@ -300,19 +295,16 @@ class ResourceBarsModule extends CoreModule {
 
                 $barHTML.find('.text').text(this.label('popsReady'))
                 $barHTML.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
-                const {displayNotifications} = window.shared ? window.shared.general : window
-                const {notificationData} = window
-                if (notificationData && notificationData.activities) {
-                    notificationData.activities.push('reward')
-                    displayNotifications()
-                }
+                // const {displayNotifications} = window.shared ? window.shared.general : window
+                // const {notificationData} = window
+                // if (notificationData && notificationData.activities) {
+                //     notificationData.activities.push('reward')
+                //     displayNotifications()
+                // }
             }
 
             if (window.shared) {
-                const oldMobileCheck = window.shared.general.is_mobile_size
-                //window.shared.general.is_mobile_size = () => false
                 createBarTimer($barHTML, popEndIn, popDuration, {onComplete: onComplete}).startTimer()
-                //window.shared.general.is_mobile_size = oldMobileCheck
             } else {
                 const oldMobileCheck = window.is_mobile_size
                 window.is_mobile_size = () => false

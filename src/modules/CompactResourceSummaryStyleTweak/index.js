@@ -26,6 +26,7 @@ class CompactResourceSummaryStyleTweak extends STModule {
     runExtra () {
         Helpers.defer(() => {
             Helpers.onAjaxResponse(/action=hero_get_resources/, (response) => {
+                if (!this.hasRun) {return}
                 const observer = new MutationObserver(() => {
                     if ($('#hero_resources_popup').length) {
 

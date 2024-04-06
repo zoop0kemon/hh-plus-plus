@@ -19,7 +19,7 @@ class BattleEndstateModule extends CoreModule {
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
 
-        Helpers.onAjaxResponse(/action=do_battles_(leagues|seasons|troll|pantheon|boss_bang)/i, (respBattleData) => {
+        Helpers.onAjaxResponse(/action=do_battles_(leagues|seasons|troll|pantheon|boss_bang)/i, (response) => {
             //We already spent some combativity, let's show this to the player:
             if (~location.search.search(/number_of_battles=\d+/i)) {
                 const nBattlesCount = parseInt(location.search.match(/number_of_battles=(\d+)/i)[1], 10)
@@ -40,16 +40,20 @@ class BattleEndstateModule extends CoreModule {
                 }
             }
 
-            const arrRounds = respBattleData.rounds
+            // const {hero_fighter, opponent_fighter} = window
+            const {rounds, battle_result} = response
+            const playerWon = battle_result === 'hero_won'
 
             const nPlayerInitialEgo = $('.new-battle-player .new-battle-hero-ego-value').data('total-ego')
             const nOpponentInitialEgo = $('.new-battle-opponent .new-battle-hero-ego-value').data('total-ego')
-            let nPlayerFinalEgo = 0
-            let nOpponentFinalEgo = 0
+            const {attacker, defender} = rounds.at(-1)[playerWon ? 'hero_hit' : 'opponent_hit']
+            const nPlayerFinalEgo = playerWon ? attacker.remaining_ego : defender.remaining_ego
+            const nOpponentFinalEgo = playerWon ? defender.remaining_ego : attacker.remaining_ego
 
-            const nRoundsLen = arrRounds.length
+            /* Seems to be built on assumtions that are no longer true with tier 5 skills
+            const nRoundsLen = rounds.length
             if (nRoundsLen >= 2) {
-                let arrLastRounds = [arrRounds[nRoundsLen - 2], arrRounds[nRoundsLen - 1]]
+                const arrLastRounds = [rounds[nRoundsLen - 2], rounds[nRoundsLen - 1]]
                 if (!arrLastRounds[1].opponent_hit) {
                     nPlayerFinalEgo = arrLastRounds[0].opponent_hit.defender.remaining_ego
                     nOpponentFinalEgo = arrLastRounds[1].hero_hit.defender.remaining_ego
@@ -57,27 +61,25 @@ class BattleEndstateModule extends CoreModule {
                     nPlayerFinalEgo = arrLastRounds[1].opponent_hit.defender.remaining_ego
                     nOpponentFinalEgo = arrLastRounds[0].hero_hit.defender.remaining_ego
                 } else {
-                    nPlayerFinalEgo = arrRounds[nRoundsLen - 1].opponent_hit.defender.remaining_ego
-                    nOpponentFinalEgo = arrRounds[nRoundsLen - 1].hero_hit.defender.remaining_ego
+                    nPlayerFinalEgo = rounds[nRoundsLen - 1].opponent_hit.defender.remaining_ego
+                    nOpponentFinalEgo = rounds[nRoundsLen - 1].hero_hit.defender.remaining_ego
+                }
+            } else if (nRoundsLen === 1) {
+                if (!rounds[0].opponent_hit) {
+                    nPlayerFinalEgo = nPlayerInitialEgo
+                    nOpponentFinalEgo = rounds[0].hero_hit.defender.remaining_ego
+                } else if (!rounds[0].hero_hit) {
+                    nPlayerFinalEgo = rounds[0].opponent_hit.defender.remaining_ego
+                    nOpponentFinalEgo = nOpponentInitialEgo
+                } else {
+                    nPlayerFinalEgo = rounds[0].opponent_hit.defender.remaining_ego
+                    nOpponentFinalEgo = rounds[0].hero_hit.defender.remaining_ego
                 }
             } else {
-                if (nRoundsLen === 1) {
-                    if (!arrRounds[0].opponent_hit) {
-                        nPlayerFinalEgo = nPlayerInitialEgo
-                        nOpponentFinalEgo = arrRounds[0].hero_hit.defender.remaining_ego
-                    } else if (!arrRounds[0].hero_hit) {
-                        nPlayerFinalEgo = arrRounds[0].opponent_hit.defender.remaining_ego
-                        nOpponentFinalEgo = nOpponentInitialEgo
-                    } else {
-                        nPlayerFinalEgo = arrRounds[0].opponent_hit.defender.remaining_ego
-                        nOpponentFinalEgo = arrRounds[0].hero_hit.defender.remaining_ego
-                    }
-                } else {
-                    throw new Error('incorrect amount of rounds')
-                }
-            }
+                throw new Error('incorrect amount of rounds')
+            }*/
 
-            $('#new-battle-skip-btn').on('click', function() {
+            $('#new-battle-skip-btn').on('click', () => {
                 const {GT} = window
                 const $playerBar = $('.new-battle-player .new-battle-hero-ego-initial-bar')
                 const $playerDamageBar = $('.new-battle-player .new-battle-hero-ego-damage-bar')

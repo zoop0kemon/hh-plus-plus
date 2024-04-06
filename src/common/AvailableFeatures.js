@@ -67,7 +67,7 @@ class AvailableFeatures {
     }
 
     get labyrinth () {
-        if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {
+        if (Helpers.isHoH()) {
             return false
         }
         return countGirls(true) >= 14

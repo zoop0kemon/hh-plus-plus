@@ -46,10 +46,7 @@ class LabyrinthInfoModule extends CoreModule {
             if (fixPower) {
                 this.normalizePower()
             }
-            //FIX LATTER
-            if (window.displayPvpV4Caracs) {
-             this.improveGirlTooltip()
-            }
+            this.improveGirlTooltip()
             this.addGirlIcons()
             this.addGirlOrder()
             this.addRelicsMenu()
@@ -99,66 +96,42 @@ class LabyrinthInfoModule extends CoreModule {
     }
 
     improveGirlTooltip () {
-        const GIRL_CONTAINERS = [{
-            page: 'labyrinth.html',
-            selectors: ['.girl-container', '.relic-infos .girl-image'],
-            attributes: ['id', 'src']
-        }, {
-            page: 'labyrinth-battle',
-            selectors: ['.container-hero .team-member-container'],
-            attributes: ['id'],
-        }, {
-            page: 'labyrinth-pre-battle',
-            selectors: ['.player-panel .team-member-container', '.relic-infos .girl-image'],
-            attributes: ['data-girl-id', 'src'],
-        }, {
-            page: 'edit-labyrinth-team',
-            selectors: ['.team-member-container', '.harem-girl-container', '.relic-infos .girl-image'],
-            attributes: ['data-girl-id', 'id_girl', 'src'],
-        }]
         const RELIC_KEYS = Object.keys(RELIC_BONUSES)
         const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)) || []
 
-        const actual = window.displayPvpV4Caracs
-        const hook = (...args) => {
-            const ret = actual(...args)
-            try {
-                const $stats = $(`<div class="script-carac-warpper">${ret}</div>`)
-
-                const {selectors, attributes} = GIRL_CONTAINERS.find(e => Helpers.isCurrentPage(e.page)) || {selectors: []}
-                selectors.forEach((selector, i) => {
-                    const $container = $(`${selector}:hover`)
-                    if ($container.length) {
-                        const girl_id = parseInt($container.attr(attributes[i]).match(/\d+/)[0])
-                        const {battle_caracs, element_data: {type: girl_element}} = args[0]
-                        const bonus_caracs = {}
-
-                        relics.forEach(({identifier, bonus, girl}) => {
-                            const type = identifier.match(/[a-z]+/g)[0]
-                            const {carac, element} = RELIC_BONUSES[identifier]
-                            const girl_matches = type === 'girl' ? girl.id_girl === girl_id : true
-                            const element_matches = element ? element === girl_element : true
-
-                            if (girl_matches && element_matches) {
-                                const bonus_carac = Math.ceil(battle_caracs[carac] * (bonus/100))
-                                bonus_caracs[carac] = (bonus_caracs[carac] || 0) + bonus_carac
-                            }
-                        })
-
-                        Object.entries(bonus_caracs).forEach(([carac, bonus]) => {
-                            const $stat = $stats.find(`span[carac="${carac === 'defense' ? 'def0' : carac}"]`)
-                            $stat.addClass('relic-attribute')
-                            $stat.html(I18n.nThousand(battle_caracs[carac] + bonus))
-                        })
-                    }
-                })
-
-                return $stats.html()
-            } catch {
-                return ret
+        $('body').on('mouseenter touchstart', '[data-new-girl-tooltip]', (event) => {
+            const $target = $(event.currentTarget)
+            if ((Helpers.isCurrentPage('labyrinth-pre-battle') && $target.closest('.opponent-panel').length) ||
+                (Helpers.isCurrentPage('labyrinth-battle') && $target.closest('.container-opponent').length)) {
+                // No relics for the opponent
+                return
             }
-        }
-        window.displayPvpV4Caracs = hook
+            const girl_id = parseInt($target.attr('src').match(/girls\/(\d+)/)[1])
+            const {battle_caracs, element_data: {type: girl_element}} = JSON.parse($target.attr('data-new-girl-tooltip'))
+            const bonus_caracs = {}
+
+            relics.forEach(({identifier, bonus, girl}) => {
+                const type = identifier.match(/[a-z]+/g)[0]
+                const {carac, element} = RELIC_BONUSES[identifier]
+                const girl_matches = type === 'girl' ? girl.id_girl === girl_id : true
+                const element_matches = element ? element === girl_element : true
+
+                if (girl_matches && element_matches) {
+                    const bonus_carac = Math.ceil(battle_caracs[carac] * (bonus/100))
+                    bonus_caracs[carac] = (bonus_caracs[carac] || 0) + bonus_carac
+                }
+            })
+
+            Helpers.doWhenSelectorAvailable('body > .new_girl_tooltip', () => {
+                const $stats = $('body > .new_girl_tooltip .stats-wrapper .caracs')
+
+                Object.entries(bonus_caracs).forEach(([carac, bonus]) => {
+                    const $stat = $stats.find(`span[carac="${carac === 'defense' ? 'def0' : carac}"]`)
+                    $stat.addClass('relic-attribute')
+                    $stat.html(I18n.nThousand(battle_caracs[carac] + bonus))
+                })
+            })
+        })
     }
 
     addGirlIcons () {

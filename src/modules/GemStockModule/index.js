@@ -61,9 +61,20 @@ class GemStockModule extends CoreModule {
             this.injectCSSVars()
 
             const $gemStock = this.buildGemsStockElem()
-            const $container = $('#harem_left')
 
-            $container.prepend($gemStock)
+            Helpers.onAjaxResponse(/action=get_girl&/i, (response) => {
+                if (response.girl.is_owned) {
+                    // wait for #harem_right to be built/updated and then attach
+                    const observer = new MutationObserver(() => {
+                        if (!$('#gems-and-token-container .gemStock').length) {
+                            $('#gems-and-token-container').prepend($gemStock)
+                            observer.disconnect()
+                        }
+                    })
+
+                    observer.observe($('#harem_right')[0], {childList: true, subtree: true})
+                }
+            })
         })
 
         this.hasRun = true
