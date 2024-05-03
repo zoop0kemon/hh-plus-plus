@@ -8,7 +8,7 @@ const MODULE_KEY = 'homeScreenIcons'
 
 const FEATURE_ICONS = {
     map: '/pictures/design/menu/map.svg',
-    'sex-god-path': '/design/menu/ic_champions.svg',
+    'god-path': '/design/menu/ic_champions.svg',
     harem: '/pictures/design/harem.svg',
     activities: '/design/menu/missions.svg',
     shop: '/design/menu/shop.svg',

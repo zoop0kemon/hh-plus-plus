@@ -8,8 +8,8 @@
 
 import Helpers from './Helpers'
 
-const countGirls = (allGrades=false) => {
-    const girlDictionary = Helpers.getGirlDictionary()
+const countGirls = async (allGrades=false) => {
+    const girlDictionary = await Helpers.getGirlDictionary()
     if (!girlDictionary) {
         return 0
     }
@@ -49,28 +49,28 @@ class AvailableFeatures {
         return !Helpers.isHoH() && ((Helpers.isHH() || Helpers.isGH()) ? id_world >= 4 : id_world >= 3)
     }
 
-    get champs () {
+    async champs () {
         if (Helpers.isHoH()) {return false}
         const {Hero: {infos: {questing: {id_quest}}}} = window.shared ? window.shared : window
         if (id_quest < (Helpers.isCxH() ? 3060 : ((Helpers.isPSH() || Helpers.isTPSH()) ? 2040 : (Helpers.isGPSH() ? 2010 : 320)))) {
             return false
         }
 
-        return countGirls() >= 10
+        return await countGirls() >= 10
     }
 
-    get clubs () {
+    async clubs () {
         if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {
             return false
         }
-        return countGirls() >= 15
+        return await countGirls() >= 15
     }
 
-    get labyrinth () {
+    async labyrinth () {
         if (Helpers.isHoH()) {
             return false
         }
-        return countGirls(true) >= 14
+        return await countGirls(true) >= 14
     }
 }
 

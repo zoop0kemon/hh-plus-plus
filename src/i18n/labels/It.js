@@ -318,9 +318,10 @@ export const teamsFilter = {
     grade4: '4 stelle',
     grade5: '5 stelle',
     grade6: '6 stelle',
-    searchedBlessedAttributes: 'Benedizioni',
-    blessedAttributes: `${gameConfig.Ragazze} benedett${gameConfig.e}`,
-    nonBlessedAttributes: `${gameConfig.Ragazze} non benedett${gameConfig.e}`,
+    searchedBlessed: 'Benedizioni',
+    blessed: `${gameConfig.Ragazze} benedett${gameConfig.e}`,
+    nonBlessed: `${gameConfig.Ragazze} non benedett${gameConfig.e}`,
+    searchedSkillTier: 'Livello Abilità',
 }
 
 export const champions = {

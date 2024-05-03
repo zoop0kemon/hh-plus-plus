@@ -34,11 +34,31 @@
 
                 &.filter-by-element-form,
                 &.world-filter,
-                &.event-filter {
+                &.event-filter,
+                &.filter-by-checkbox {
                     grid-column: 1/3;
                     width: 21rem;
                     max-width: 21rem;
                     margin: 0;
+                }
+
+                &.filter-by-element-form {
+                    margin-bottom: -0.5rem;
+                }
+
+                &.filter-by-checkbox {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .head-group {
+                        display: none;
+                    }
+
+                    .checkbox-group {
+                        width: auto;
+                        column-gap: 0.25rem;
+                        margin: 0px;
+                    }
                 }
 
                 &.world-filter,
@@ -62,6 +82,17 @@
 
                 .select-group {
                     .selectric-wrapper {
+                        &.selectric-open {
+                            z-index: unset;
+
+                            & > .selectric {
+                                z-index: 14;
+                            }
+                            & > div {
+                                z-index: 999;
+                            }
+                        }
+
                         .selectric {
                             height: 28px;
                             padding-left: 0.5rem;
@@ -73,8 +104,8 @@
                                 line-height: 28px;
 
                                 &>span {
-                                    width: 30px;
-                                    height: 30px;
+                                    width: 1.5rem;
+                                    height: 1.5rem;
                                     background-size: cover;
                                     background-position: 0px 0px;
                                 }
@@ -87,15 +118,19 @@
                             }
                         }
 
-                        .selectric-items li {
-                            padding: 0 0.5rem;
-                            max-height: 30px;
-                    
-                            &>span {
-                                width: 30px;
-                                height: 30px;
-                                background-size: cover;
-                                background-position: 0px 0px;
+                        .selectric-items {
+                            height: unset;
+
+                            li {
+                                height: 1.5rem;
+                                padding: 0 0.5rem;
+                        
+                                &>span {
+                                    width: 1.5rem;
+                                    height: 1.5rem;
+                                    background-size: cover;
+                                    background-position: 0px 0px;
+                                }
                             }
                         }
                     }
@@ -117,10 +152,23 @@
                         margin: 0;
                     }
                 
-                    .check-btn.shards-state,
+                    .check-btn.shards-state {
+                        height: 2rem;
+                        width: unset;
+                        min-width: 3rem;
+                        padding: 0px;
+
+                        .shards_bar_wrapper .shards p {
+                            font-size: 12px;
+                            margin-left: -1.125rem;
+                            margin-right: 0.5rem;
+                        }
+                    }
+
                     .check-btn.carac-state {
                         height: 2rem;
-                        min-width: 7rem;
+                        width: 2.5rem;
+                        min-width: 2.5rem;
                 
                         &::before {
                             width: 1.5rem;

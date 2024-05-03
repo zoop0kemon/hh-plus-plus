@@ -108,6 +108,7 @@ class LabyrinthInfoModule extends CoreModule {
             }
             const girl_id = parseInt($target.attr('src').match(/girls\/(\d+)/)[1])
             const {battle_caracs, element_data: {type: girl_element}} = JSON.parse($target.attr('data-new-girl-tooltip'))
+            if (!battle_caracs) {return}
             const bonus_caracs = {}
 
             relics.forEach(({identifier, bonus, girl}) => {

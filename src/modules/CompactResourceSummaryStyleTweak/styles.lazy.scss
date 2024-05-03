@@ -1,39 +1,71 @@
+@import "../../common/constants.scss";
+
 #popups #hero_resources_popup {
     .hero-resources-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 0.5rem 3rem;
 
-        .hero-energies-container,
-        .hero-gems-container {
+        .hero-energies-container {
             grid-column-start: 1;
-            grid-column-end: 10;
-        }
+            grid-column-end: 11;
 
-        .hero-orbs-container {
-            grid-column-start: 2;
-            grid-column-end: 9;
+            & > div.hero-energies {
+                padding-top: 0.5rem;
 
-            .hero-orb:has(.orb_icon.o_v4) {
-                order: 1
-            }
+                .hero-energy {
+                    margin-bottom: 0.5rem;
 
-            .hero-orb:has(span[class^="orb_icon o_eq"]),
-            .hero-orb:has(span[class^="orb_icon o_m"]) {
-                order: 2
+                    @media #{$mediaMobile} {
+                        width: 12rem;
+                        margin-right: 1rem;
+                    }
+                }
             }
         }
 
         .hero-currencies-container {
             grid-column-start: 1;
             grid-column-end: 7;
+
+            .hero-currency:has(.hudHC_mix_icn, .hudSC_mix_icn, .frames_icn, .ticket_icn) {
+                order: -1;
+            }
+
+            .hero-currency:has(span[class^="scrolls_"]) {
+                order: 2;
+            }
         }
 
         .hero-progressions-container {
             grid-column-start: 7;
-            grid-column-end: 10;
+            grid-column-end: 11;
             grid-row-start: 2;
-            grid-row-end: 2;
+            grid-row-end: 3;
+        }
+
+        
+        .hero-gems-container {
+            grid-column-start: 1;
+            grid-column-end: 6;
+        }
+
+        .hero-orbs-container {
+            grid-column-start: 6;
+            grid-column-end: 11;
+        }
+
+        .hero-gems-container > div .hero-gem,
+        .hero-orbs-container > div .hero-orb {
+            min-width: 6rem;
+        }
+
+        .hero-currencies-container > div,
+        .hero-gems-container > div,
+        .hero-orbs-container > div,
+        .hero-progressions-container > div {
+            justify-content: space-evenly;
+            align-content: space-evenly;
         }
 
         .hero-currencies-container > div .hero-currency,
@@ -45,24 +77,10 @@
             padding: 0;
         }
 
-        .hero-gems-container > div .hero-gem,
-        .hero-orbs-container > div .hero-orb {
-            min-width: 6rem;
-        }
-
-        .hero-energies-container > div.hero-energies .hero-energy {
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-currencies-container > div,
-        .hero-gems-container > div,
-        .hero-orbs-container > div,
-        .hero-progressions-container > div {
-            justify-content: space-between;
-        }
-
         .hero-currencies,
         .hero-progressions {
+            column-gap: 2rem;
+
             .line-break {
                 width: 100%;
             }
@@ -71,10 +89,6 @@
         .hero-gems-container p .total-gems,
         .hero-orbs-container p .total-orbs {
             margin-left: 1rem;
-        }
-
-        #hero_resources_popup .hero-resources-container .hero-energies-container > div.hero-energies {
-            padding-top: 0.5rem;
         }
     }
 }

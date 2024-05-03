@@ -361,11 +361,11 @@ export const teamsFilter = {
     searchedElement: 'Element',
     searchedRarity: 'Rarity',
     levelRange: 'Level range',
-    levelCap: 'Level cap',
+    levelCap: 'Level Cap',
     levelCap_capped: 'Capped',
     levelCap_uncapped: 'Uncapped',
-    searchedAffCategory: 'Affection category',
-    searchedAffLevel: 'Affection level',
+    searchedAffCategory: 'Affection Category',
+    searchedAffLevel: 'Affection Level',
     grade0: '0 stars',
     grade1: '1 star',
     grade2: '2 stars',
@@ -373,9 +373,10 @@ export const teamsFilter = {
     grade4: '4 stars',
     grade5: '5 stars',
     grade6: '6 stars',
-    searchedBlessedAttributes: 'Blessings',
-    blessedAttributes: `Blessed ${gameConfig.girl}s`,
-    nonBlessedAttributes: `Non-blessed ${gameConfig.girl}s`,
+    searchedBlessed: 'Blessings',
+    blessed: `Blessed ${gameConfig.girl}s`,
+    nonBlessed: `Non-blessed ${gameConfig.girl}s`,
+    searchedSkillTier: 'Skill Tier',
 }
 
 export const champions = {

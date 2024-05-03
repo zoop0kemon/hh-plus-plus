@@ -266,9 +266,9 @@ export const teamsFilter = {
     grade4: '4 звезды',
     grade5: '5 звезд',
     grade6: '6 звезд',
-    searchedBlessedAttributes: 'Благословения',//TODO No official name for Blessings yet
-    blessedAttributes: `Благословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
-    nonBlessedAttributes: `Неблагословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
+    searchedBlessed: 'Благословения',//TODO No official name for Blessings yet
+    blessed: `Благословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
+    nonBlessed: `Неблагословленные ${gameConfig.девушки}`,//TODO No official name for Blessings yet
 }
 
 export const champions = {

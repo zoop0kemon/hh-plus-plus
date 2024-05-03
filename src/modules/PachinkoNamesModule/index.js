@@ -24,22 +24,22 @@ class PachinkoNamesModule extends CoreModule {
 
         styles.use()
 
-        Helpers.defer(() => {
+        Helpers.defer(async () => {
             const {pachinkoDef} = window
-            const girlDictionary = Helpers.getGirlDictionary()
+            const girlDictionary = await Helpers.getGirlDictionary()
             this.girlLists = {}
 
-            pachinkoDef.forEach(({ type, content }) => {
+            pachinkoDef.forEach(({type, content}) => {
                 const rewardGirls = (content && content.rewards && content.rewards.girl_shards && content.rewards.girl_shards.plain_data) || []
                 const poolGirls = (content && content.girls_pool && content.girls_pool.girl_shards && content.girls_pool.girl_shards.plain_data) || []
-                const girlList = rewardGirls.map(({ id_girl }) => ({ ...girlDictionary.get(`${id_girl}`), id_girl }))
-                const girlPool = poolGirls.map(({ id_girl }) => ({ ...girlDictionary.get(`${id_girl}`), id_girl }))
-                this.girlLists[type] = { girlList, girlPool }
+                const girlList = rewardGirls.map(({id_girl}) => ({...girlDictionary.get(`${id_girl}`), id_girl}))
+                const girlPool = poolGirls.map(({id_girl}) => ({...girlDictionary.get(`${id_girl}`), id_girl}))
+                this.girlLists[type] = {girlList, girlPool}
             })
 
             const deferredAttachment = () => {
                 const observer = new MutationObserver(() => this.applyPanel())
-                observer.observe($('.playing-zone')[0], { attributes: true })
+                observer.observe($('.playing-zone')[0], {attributes: true})
 
                 this.applyPanel()
             }
@@ -53,7 +53,7 @@ class PachinkoNamesModule extends CoreModule {
                         deferredAttachment()
                     }
                 })
-                pachinkoReadyObserver.observe($('#pachinko_whole')[0], { childList: true })
+                pachinkoReadyObserver.observe($('#pachinko_whole')[0], {childList: true})
             }
         })
 
@@ -62,16 +62,17 @@ class PachinkoNamesModule extends CoreModule {
 
     applyPanel() {
         const type = $('.playing-zone').attr('type-panel')
-        const { girlList, girlPool } = this.girlLists[type]
+        const {girlList, girlPool} = this.girlLists[type]
 
-        const isCxH = Helpers.isCxH()
-        const isPSH = Helpers.isPSH()
         const $panelHtml = Helpers.$(`
             <div class="availableGirls rarity-styling">
                 <div class="scrollArea hh-scroll">
                     <div class="availableOnly">
                         ${girlList.length ? this.label('availableGirls') : ''}
-                        ${girlList.map(girl => girl.name ? `<${isCxH || isPSH ? 'span' : `a href="${Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())}" target="_blank"`} class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</${isCxH || isPSH ? 'span' : 'a'}>` : '<span class="unknownGirl">????</span>').join(', ')}
+                        ${girlList.map(({name, id_girl, rarity}) => {
+                            const wikiLink = Helpers.getWikiLink(name, id_girl, I18n.getLang())
+                            return name ? `<${!wikiLink ? 'span' : `a href="${wikiLink}" target="_blank"`} class="availableGirl ${rarity}-text">${name.replace(' ', ' ')}</${!wikiLink ? 'span' : 'a'}>` : '<span class="unknownGirl">????</span>'
+                        }).join(', ')}
                     </div>
                     <div class="fullPool">
                         ${girlPool.length ? this.label('poolGirls') : ''}

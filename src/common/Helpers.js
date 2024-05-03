@@ -9,7 +9,7 @@ let isTPSH
 let isGPSH
 let isNutakuKobans
 let cdnHost
-let girlDictionary
+let girlDictionaryPromise
 let teamsDictionary
 let platform
 
@@ -157,18 +157,73 @@ class Helpers {
         return `@media only screen and (min-width: 1026px) {${rule}}`
     }
 
-    static getGirlDictionary() {
-        if (!girlDictionary) {
-            const girlDictArray = Helpers.lsGet(lsKeys.GIRL_DICTIONARY)
-            girlDictionary = girlDictArray ? new Map(girlDictArray) : new Map()
+    static b64encode (buffer) {
+        const bytes = new Uint8Array(buffer)
+        let binary = ''
+        for (let i=0;i<bytes.byteLength;i++) {
+            binary += String.fromCharCode(bytes[i])
+        }
+        return window.btoa(binary)
+    }
+    static b64decode (str) {
+        const binary_string = window.atob(str)
+        const len = binary_string.length
+        const bytes = new Uint8Array(new ArrayBuffer(len))
+        for (let i=0;i<len;i++) {
+            bytes[i] = binary_string.charCodeAt(i)
         }
 
-        return girlDictionary
+        return bytes
     }
-    static setGirlDictionary (updated) {
-        girlDictionary = updated
-        Helpers.lsSet(lsKeys.GIRL_DICTIONARY, Array.from(girlDictionary))
-        $(window).trigger('girl-dictionary:updated')
+    static async loadGirlDictionary () {
+        const rawDict = Helpers.lsGetRaw(lsKeys.GIRL_DICTIONARY)
+
+        if (rawDict == null) {
+            return new Map()
+        } else if (rawDict[0] === '[') {
+            // old version
+            const girlDictArray = JSON.parse(rawDict)
+            return girlDictArray ? new Map(girlDictArray) : new Map()
+        } else {
+            // new compressed version
+            const stream = new Blob([Helpers.b64decode(rawDict)], {type: 'application/json'}).stream()
+            return await new Response(stream.pipeThrough(new DecompressionStream('gzip'))).blob().then(blob => blob.text().then(blob_text => {
+                const girlDictArray = JSON.parse(blob_text)
+                return girlDictArray ? new Map(girlDictArray) : new Map()
+            }))
+        }
+    }
+
+    static async getGirlDictionary () {
+        if (!girlDictionaryPromise) {
+            girlDictionaryPromise = this.loadGirlDictionary()
+        }
+        return await girlDictionaryPromise
+    }
+    static async setGirlDictionary (girlDictionary ) {
+        await girlDictionaryPromise
+        // Clean up for an old error
+        girlDictionary.forEach((girl, girl_id) => {
+            if (typeof girl_id !== 'string') {
+                girlDictionary.delete(girl_id)
+            }
+        })
+        girlDictionaryPromise = new Promise(resolve => resolve(girlDictionary))
+        const girlDictJSON = JSON.stringify(Array.from(girlDictionary))
+
+        // Helpers.lsSetRaw(lsKeys.GIRL_DICTIONARY, girlDictJSON)
+        // $(document).trigger('girl-dictionary:updated')
+
+        const stream = new Blob([girlDictJSON], {type: 'application/json'}).stream()
+        new Response(stream.pipeThrough(new CompressionStream('gzip'))).blob().then(blob => blob.arrayBuffer()).then(buffer => {
+            const compressedBase64 = Helpers.b64encode(buffer)
+            // const old_size = (girlDictJSON.length * 2)/1024
+            // const new_size = (compressedBase64.length * 2)/1024
+            // console.log(`${old_size} -> ${new_size}`)
+
+            Helpers.lsSetRaw(lsKeys.GIRL_DICTIONARY, compressedBase64)
+            $(document).trigger('girl-dictionary:updated')
+        })
     }
 
     static getTeamsDictionary() {
@@ -221,11 +276,15 @@ class Helpers {
 
         if (Helpers.isGH()) {
             wikiLink = `https://harem-battle.club/wiki/Gay-Harem/GH:${name}`
-        } else if (lang === 'en') {
-            wikiLink = `https://harem-battle.club/wiki/Harem-Heroes/HH:${name}`
-        } else {
-            wikiLink = `http://hentaiheroes.go.yj.fr/?id=${id}`
+        } else if (Helpers.isHH()) {
+            if (lang === 'en') {
+                wikiLink = `https://harem-battle.club/wiki/Harem-Heroes/HH:${name}`
+            } else {
+                wikiLink = `http://hentaiheroes.go.yj.fr/?id=${id}`
+            }
         }
+        // undefined if doesn't have a wiki, will include link to the spreadsheet elsewhere
+
         return wikiLink
     }
 

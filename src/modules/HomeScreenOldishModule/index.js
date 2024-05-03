@@ -36,9 +36,9 @@ class HomeScreenOldishModule extends CoreModule {
     prepClasses () {
         $('.quest-container:has([rel=map])').addClass('position-quest')
 
-        let $sexGodPath = $('.quest-container:has([rel=sex-god-path])')
+        let $sexGodPath = $('.quest-container:has([rel=god-path])')
         if (!$sexGodPath.length) {
-            $sexGodPath = $('[rel=sex-god-path]')
+            $sexGodPath = $('[rel=god-path]')
         }
         $sexGodPath.addClass('position-sex-god-path')
 

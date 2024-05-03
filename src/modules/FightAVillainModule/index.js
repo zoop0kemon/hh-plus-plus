@@ -42,9 +42,9 @@ class FightAVillainModule extends CoreModule {
                 this.$overlay.removeClass('shown')
             })
             Helpers.doWhenSelectorAvailable('#contains_all > header [type=fight] .bar-wrapper', () => {
-                $('#contains_all > header [type=fight] .bar-wrapper').click(() => {
+                $('#contains_all > header [type=fight] .bar-wrapper').click(async () => {
                     if (!this.$container) {
-                        const $menu = this.buildMenu()
+                        const $menu = await this.buildMenu()
                         this.$container = $('<div class="script-fight-a-villain-menu-container fixed_scaled"></div>')
                         this.$container.append($menu)
                         $('body').append(this.$container)
@@ -64,12 +64,12 @@ class FightAVillainModule extends CoreModule {
         Sheet.registerVar('E', `"${this.label('event')[0]}"`)
     }
 
-    buildMenu () {
+    async buildMenu () {
         const villainsSet = VILLAINS[Helpers.getGameKey()]
 
         const eventTrolls = Helpers.lsGet(lsKeys.EVENT_VILLAINS) || []
         const mythicEventTrolls = Helpers.lsGet(lsKeys.MYTHIC_EVENT_VILLAINS) || []
-        const girlDictionary = Helpers.getGirlDictionary()
+        const girlDictionary = await Helpers.getGirlDictionary()
 
         const {Hero: {infos: {questing: {id_world: currentWorld}}}} = window.shared ? window.shared : window
         const worldIcon = `${Helpers.getCDNHost()}/pictures/design/quest/ico-quest.png`

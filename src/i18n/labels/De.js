@@ -280,9 +280,10 @@ export const teamsFilter = {
     grade4: '4 Sterne',
     grade5: '5 Sterne',
     grade6: '6 Sterne',
-    searchedBlessedAttributes: 'Segnungen',
-    blessedAttributes: `Gesegnete ${gameConfig.Mädchen}`,
-    nonBlessedAttributes: `Nicht gesegnete ${gameConfig.Mädchen}`,
+    searchedBlessed: 'Segnungen',
+    blessed: `Gesegnete ${gameConfig.Mädchen}`,
+    nonBlessed: `Nicht gesegnete ${gameConfig.Mädchen}`,
+    searchedSkillTier: 'Fähigkeitenstufe',
 }
 
 export const champions = {

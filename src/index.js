@@ -24,6 +24,7 @@ const runScript = () => {
 
     // base modules
     GirlDictionaryCollector.collect()
+    HaremFilterCollector.collect()
     TeamsCollector.collect()
     EventVillainsCollector.collect()
     SeasonStatsCollector.collect()
@@ -35,7 +36,6 @@ const runScript = () => {
     ClubStatusCollector.collect()
     SidequestStatusCollector.collect()
     PathEventCollector.collect()
-    HaremFilterCollector.collect()
 
     TableAnnotation.run()
 
@@ -73,6 +73,7 @@ const runScript = () => {
         runModules: config.runModules.bind(config),
         loadConfig: config.loadConfig.bind(config),
     }
+    $(document).trigger('hh++-bdsm:loaded')
 }
 
 if (!window.$) {

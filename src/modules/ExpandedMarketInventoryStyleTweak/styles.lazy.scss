@@ -1,3 +1,5 @@
+@import "../../common/constants.scss";
+
 #contains_all #shops .shop-container .content-container {
     #books-tab-container,
     #boosters-tab-container,
@@ -7,9 +9,13 @@
             #player-inventory-container .market-girl-container {
                 margin-top: -3.5rem;
                 position: absolute;
-                right: 5.5rem;
+                right: 6.5rem;
                 overflow: hidden;
                 height: 9rem;
+
+                @media #{$mediaMobile} {
+                    margin-top: -4.25rem;
+                }
             }
 
             .my-inventory-container .player-inventory-content {

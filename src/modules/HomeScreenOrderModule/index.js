@@ -20,12 +20,12 @@ const CHANGES = [
         after: 'leaderboard',
     },
     {
-        rel: 'sex-god-path',
+        rel: 'god-path',
         after: 'shop',
     },
     {
         rel: 'clubs',
-        after: 'sex-god-path',
+        after: 'god-path',
     }
 ]
 

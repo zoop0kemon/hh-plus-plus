@@ -60,10 +60,10 @@ class HomeScreenModule extends CoreModule {
         Helpers.defer(() => {
             this.injectCSSVars()
             this.addTimers()
-            this.addShortcuts()
             this.forceActivitiesTab()
             this.manageSalaryTimers()
             this.addReplyTimer()
+            this.addShortcuts()
 
             // if (leaguePos) {
             //     this.addLeaguePos()
@@ -107,7 +107,7 @@ class HomeScreenModule extends CoreModule {
         const has_available = !!champ_times.find(({available}) => available)
         const shortest_champ = champ_times.filter(({available, time}) => (has_available ? available : !available) && time).sort((a, b) => a.time-b.time)[0]?.time
         if (shortest_champ && shortest_champ > server_now_ts) {
-            this.attachTimer('sex-god-path', shortest_champ)
+            this.attachTimer('god-path', shortest_champ)
         }
 
         // Club Champ
@@ -135,7 +135,7 @@ class HomeScreenModule extends CoreModule {
         }
     }
 
-    addShortcuts() {
+    async addShortcuts() {
         const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${Helpers.getHref(href)}" tooltip hh_title="${title}"><div class="${iconClass}"></div></a>`
 
         // Club champ
@@ -148,7 +148,9 @@ class HomeScreenModule extends CoreModule {
             $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
         }
 
-        const {champs, pantheon, labyrinth} = AvailableFeatures
+        const {pantheon} = AvailableFeatures
+        const champs = await AvailableFeatures.champs()
+        const labyrinth = await AvailableFeatures.labyrinth()
 
         if (champs || pantheon || labyrinth) {
             const {GT} = window
@@ -164,7 +166,12 @@ class HomeScreenModule extends CoreModule {
             }
 
             const $wrapper = $('<div class="quest-container"></div>')
-            $('a[rel="sex-god-path"]').wrap($wrapper).after($godShortcuts)
+            const $sexGodPath = $('a[rel="god-path"]')
+            if ($sexGodPath.hasClass('position-sex-god-path')) { // position class for legacy home screen module, class moved here because of async delay
+                $sexGodPath.removeClass('position-sex-god-path')
+                $wrapper.addClass('position-sex-god-path')
+            }
+            $sexGodPath.wrap($wrapper).after($godShortcuts)
         }
     }
 

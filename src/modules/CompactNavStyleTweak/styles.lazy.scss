@@ -9,6 +9,7 @@
         padding: 18px 10px;
         display: grid;
         grid-template-columns: 1fr 1fr;
+        z-index: 999;
 
         & > a {
             width: auto;

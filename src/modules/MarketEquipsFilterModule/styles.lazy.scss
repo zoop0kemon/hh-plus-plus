@@ -1,3 +1,5 @@
+@import "../../common/constants.scss";
+
 label.equip_filter {
     background: transparent;
     position: absolute;
@@ -5,10 +7,18 @@ label.equip_filter {
 
     #my-hero-equipement-tab-container & {
         top: 6rem;
+
+        @media #{$mediaMobile} {
+            top: 4.25rem;
+        }
     }
 
     #equipement-tab-container .right-container & {
-        top: 62px;
+        top: 3.75rem;
+
+        @media #{$mediaMobile} {
+            top: 3rem;
+        }
     }
 
     input {
@@ -55,12 +65,20 @@ label.equip_filter {
     }
 
     #my-hero-equipement-tab-container & {
-        top: 4rem;
+        top: 3.5rem;
         left: 8rem;
 
+        @media #{$mediaMobile} {
+            top: 2.25rem;
+        }
+
         &.resonance {
-            top: 7rem;
+            top: 6.5rem;
             left: 1rem;
+
+            @media #{$mediaMobile} {
+                top: 5.25rem;
+            }
         }
     }
 
@@ -68,9 +86,17 @@ label.equip_filter {
         top: 3rem;
         left: 31.25rem;
 
+        @media #{$mediaMobile} {
+            top: 2.25rem;
+        }
+
         &.resonance {
             top: 6rem;
             left: 24.25rem;
+
+            @media #{$mediaMobile} {
+                top: 5.25rem;
+            }
         }
     }
 

@@ -42,82 +42,94 @@ class HaremInfoModule extends CoreModule {
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
 
-        this.aggregates = {
-            checked: [],
-            girls: 0,
-            scPerHour: 0,
-            scCollectAll: 0,
-            unlockedScenes: 0,
-            totalScenes: 0,
-            levelSum: 0,
-            rarities: RARITIES.reduce((acc, rarity) => {acc[rarity] = 0; return acc}, {}),
-            caracs: {1: 0, 2: 0, 3: 0},
-            elements: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
-            xpToCap: 0,
-            xpToMax: 0,
-            gems: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
-            aff: 0,
-            affSC: 0,
-            affHC: 0,
-        }
+        this.aggregates = {}
     }
 
     shouldRun () {
         return Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')
     }
 
-    aggregateStats (girls_list) {
-        const {awakening_requirements, GIRL_MAX_LEVEL} = window
-
-        Object.values(girls_list).forEach((girl) => {
-            if (!girl.is_owned && !this.aggregates.checked.includes(girl.id_girl)) {return}
-
-            const {salary, salaries, rarity, class: carac, element, graded, nb_grades, level, awakening_level, id_girl} = girl
-            const max_grade = parseInt(nb_grades, 10)
-            const level_cap = awakening_requirements[awakening_level].cap_level
-
-            this.aggregates.checked.push(id_girl)
-            this.aggregates.scCollectAll += salary
-            this.aggregates.rarities[rarity]++
-            this.aggregates.caracs[carac]++
-            this.aggregates.elements[element]++
-            this.aggregates.girls++
-            this.aggregates.scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
-            this.aggregates.unlockedScenes += graded
-            this.aggregates.totalScenes += max_grade
-            this.aggregates.levelSum += parseInt(level)
-            if (graded < max_grade) {
-                this.aggregates.aff += Math.max(Affection[rarity].totalAff(max_grade) - girl.affection, 0)
-                let currentGradeSC = 0,
-                    currentGradeHC = 0
-                if (girl.graded > 0) {
-                    currentGradeSC = Affection[rarity].totalSC(girl.graded)
-                    currentGradeHC = Affection[rarity].totalHC(girl.graded)
-                }
-                this.aggregates.affSC += Affection[rarity].totalSC(max_grade) - currentGradeSC
-                const hcDiff = Affection[rarity].totalHC(max_grade) - currentGradeHC
-                this.aggregates.affHC += Helpers.isNutakuKobans() ? Math.ceil(hcDiff / 6) : hcDiff
+    async aggregateStats (type) {
+        const girlDictionary = await Helpers.getGirlDictionary()
+        const {GIRL_MAX_LEVEL} = window
+        const aggregate_types = ['all', 'filtered']
+        const aggregates = {}
+        aggregate_types.forEach(key => {
+            aggregates[key] = {
+                girls: 0,
+                caracs: {1: 0, 2: 0, 3: 0},
+                elements: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
+                rarities: RARITIES.reduce((acc, rarity) => {acc[rarity] = 0; return acc}, {}),
+                levelSum: 0,
+                unlockedScenes: 0,
+                totalScenes: 0,
+                scPerHour: 0,
+                scCollectAll: 0,
+                aff: 0,
+                affSC: 0,
+                affHC: 0,
+                xpToCap: 0,
+                xpToMax: 0,
+                gems: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
             }
-
-            this.aggregates.xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - girl.xp, 0)
-            this.aggregates.xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - girl.xp, 0)
-
-            this.aggregates.gems[element] += getGemCostFromAwakeningLevel(awakening_level, rarity)
         })
+
+        girlDictionary.forEach((girl) => {
+            const {shards, class: carac, element, rarity, grade, salaries} = girl
+            if (shards === 100 && [carac, element, rarity, grade, salaries].every(key => key !== undefined)) {
+                const {level, affection, xp} = girl
+                let {graded, salary, level_cap} = girl
+                graded = graded || 0
+                salary = salary || salaries.split('|')[graded].split(',')[0]
+                level_cap = level_cap || 250
+
+                aggregate_types.forEach(key => {
+                    aggregates[key].girls++
+                    aggregates[key].caracs[carac]++
+                    aggregates[key].elements[element]++
+                    aggregates[key].rarities[rarity]++
+                    aggregates[key].levelSum += level || 1
+                    aggregates[key].unlockedScenes += graded
+                    aggregates[key].totalScenes += grade
+                    aggregates[key].scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
+                    aggregates[key].scCollectAll += salary
+                    if (graded < grade) {
+                        aggregates[key].aff += Math.max(Affection[rarity].totalAff(grade) - (affection || 0), 0)
+                        let currentGradeSC = 0,
+                            currentGradeHC = 0
+                        if (graded > 0) {
+                            currentGradeSC = Affection[rarity].totalSC(graded)
+                            currentGradeHC = Affection[rarity].totalHC(graded)
+                        }
+                        aggregates[key].affSC += Affection[rarity].totalSC(grade) - currentGradeSC
+                        const hcDiff = Affection[rarity].totalHC(grade) - currentGradeHC
+                        aggregates[key].affHC += Helpers.isNutakuKobans() ? Math.ceil(hcDiff / 6) : hcDiff
+                    }
+                    aggregates[key].xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - (xp || 0), 0)
+                    aggregates[key].xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - (xp || 0), 0)
+                    aggregates[key].gems[element] += getGemCostFromAwakeningLevel((level_cap-250)/50, rarity)
+                })
+            } else if (shards === 100) {
+                console.log(`Error: missing info for ${girl.name}`)
+            }
+        })
+
+        return aggregates
     }
 
-    buildStatsDisplay () {
+    buildStatsDisplay (type) {
         return $(`
             <div class="harem-info-panel">
-                ${this.buildGeneralSummary()}
-                ${this.buildUpgradeSummary()}
+                ${this.buildGeneralSummary(type)}
+                ${this.buildUpgradeSummary(type)}
                 ${this.buildMarketSummary()}
             </div>
         `)
     }
 
-    buildGeneralSummary () {
+    buildGeneralSummary (type) {
         const {high_level_girl_owned, awakening_requirements, GIRL_MAX_LEVEL, GT} = window
+        const {girls, caracs, elements, rarities, levelSum, unlockedScenes, totalScenes, scPerHour, scCollectAll} = this.aggregates[type]
         const levelCapAggregate = high_level_girl_owned.slice(1).map((girls_owned, i)=>{
             const {cap_level} = awakening_requirements[i]
             const {girls_required} = awakening_requirements[i+1]
@@ -130,27 +142,27 @@ class HaremInfoModule extends CoreModule {
         return `
             <div class="summary-block general-summary">
                 <h1>${this.label('haremStats')}</h1>
-                <div>${this.aggregates.girls} <span class="clubGirl_mix_icn"></span></div>
+                <div>${I18n.nThousand(girls)} <span class="clubGirl_mix_icn"></span></div>
                 <ul class="summary-grid caracs-summary">
-                    ${Object.entries(this.aggregates.caracs).map(([carac, count]) => `<li><span tooltip="${GT.caracs[carac]}"><span carac="${carac}"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
+                    ${Object.entries(caracs).map(([carac, count]) => `<li><span tooltip="${GT.caracs[carac]}"><span carac="${carac}"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
                 </ul>
                 <ul class="summary-grid elements-summary">
-                    ${Object.entries(this.aggregates.elements).map(([element, count]) => `<li><span tooltip="${GT.design[`${element}_flavor_element`]}"><span class="${element}_element_icn"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
+                    ${Object.entries(elements).map(([element, count]) => `<li><span tooltip="${GT.design[`${element}_flavor_element`]}"><span class="${element}_element_icn"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
                 </ul>
                 <ul class="summary-grid rarity-summary">
-                    ${Object.entries(this.aggregates.rarities).map(([rarity, count]) => `<li><span tooltip="${GT.design[`girls_rarity_${rarity}`]}"><span class="rarity-icon slot ${rarity}"><span class="initial">${GT.design[`girls_rarity_${rarity}`][0].normalize('NFD').replace(/[\u0300-\u036f]/g, '')}</span></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
+                    ${Object.entries(rarities).map(([rarity, count]) => `<li><span tooltip="${GT.design[`girls_rarity_${rarity}`]}"><span class="rarity-icon slot ${rarity}"><span class="initial">${GT.design[`girls_rarity_${rarity}`][0].normalize('NFD').replace(/[\u0300-\u036f]/g, '')}</span></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
                 </ul>
                 <ul class="summary-grid xp-aff-summary">
                     <li>
                         <span tooltip="${this.label('haremLevel')}">
                             <span class="xp-aff-label">${GT.design.Lvl}</span>
-                            <span>${I18n.nThousand(this.aggregates.levelSum)}<br>/ ${I18n.nThousand(GIRL_MAX_LEVEL * this.aggregates.girls)}</span>
+                            <span>${I18n.nThousand(levelSum)}<br>/ ${I18n.nThousand(GIRL_MAX_LEVEL * girls)}</span>
                         </span>
                     </li>
                     <li>
                         <span tooltip="${this.label('unlockedScenes')}">
                             <span class="xp-aff-label unlocked-scenes-icon" style="background-image:url(${Helpers.getCDNHost()}/design_v2/affstar.png);"></span>
-                            <span>${I18n.nThousand(this.aggregates.unlockedScenes)}<br>/ ${I18n.nThousand(this.aggregates.totalScenes)}</span>
+                            <span>${I18n.nThousand(unlockedScenes)}<br>/ ${I18n.nThousand(totalScenes)}</span>
                         </span>
                     </li>
                 </ul>
@@ -158,7 +170,7 @@ class HaremInfoModule extends CoreModule {
                     <li>
                         <span tooltip="${this.label('income')}">
                             <span class="salary-label"><span class="hudSC_mix_icn"></span></span>
-                            <span>${I18n.nThousand(this.aggregates.scPerHour)} / ${GT.time.h}<br>${I18n.nThousand(this.aggregates.scCollectAll)} / ${GT.design.harem_collect}</span>
+                            <span>${I18n.nThousand(scPerHour)} / ${GT.time.h}<br>${I18n.nThousand(scCollectAll)} / ${GT.design.harem_collect}</span>
                         </span>
                     </li>
                 </ul>
@@ -169,8 +181,9 @@ class HaremInfoModule extends CoreModule {
         `
     }
 
-    buildUpgradeSummary () {
+    buildUpgradeSummary (type) {
         const {GT} = window
+        const {aff, affSC, affHC, xpToCap, xpToMax, gems} = this.aggregates[type]
         return `
             <div class="summary-block upgrade-summary">
                 <h1>${this.label('upgrades')}</h1>
@@ -179,13 +192,13 @@ class HaremInfoModule extends CoreModule {
                     <li>
                         <span tooltip="${GT.design.Affection}">
                             <span class="affection-label" style="background-image:url(${Helpers.getCDNHost()}/design/ic_gifts_gray.svg)"></span>
-                            <span class="cost-value">${I18n.nThousand(this.aggregates.aff)} ${GT.design.Aff}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(this.aggregates.aff * SC_PER_AFF)})</span>
+                            <span class="cost-value">${I18n.nThousand(aff)} ${GT.design.Aff}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(aff * SC_PER_AFF)})</span>
                         </span>
                     </li>
                     <li>
                         <span tooltip="${this.label('affectionScenes')}">
                             <span class="affection-label" style="background-image:url(${Helpers.getCDNHost()}/design_v2/affstar.png)"></span>
-                            <span class="cost-value">${this.label('or', {left: `<span class="hudSC_mix_icn"></span> ${I18n.nThousand(this.aggregates.affSC)}<br>`, right: `<span class="hudHC_mix_icn"></span> ${I18n.nThousand(this.aggregates.affHC)}`})}</span>
+                            <span class="cost-value">${this.label('or', {left: `<span class="hudSC_mix_icn"></span> ${I18n.nThousand(affSC)}<br>`, right: `<span class="hudHC_mix_icn"></span> ${I18n.nThousand(affHC)}`})}</span>
                         </span>
                     </li>
                 </ul>
@@ -195,7 +208,7 @@ class HaremInfoModule extends CoreModule {
                     <li>
                         <span tooltip="${GT.design.Experience}">
                             <span class="affection-label" style="background-image:url(${Helpers.getCDNHost()}/design/ic_books_gray.svg)"></span>
-                            <span class="cost-value">${I18n.nThousand(this.aggregates.xpToCap)} ${GT.design.XP}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(this.aggregates.xpToCap * SC_PER_XP)})</span>
+                            <span class="cost-value">${I18n.nThousand(xpToCap)} ${GT.design.XP}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(xpToCap * SC_PER_XP)})</span>
                         </span>
                     </li>
                 </ul>
@@ -205,12 +218,12 @@ class HaremInfoModule extends CoreModule {
                         <li>
                             <span tooltip="${GT.design.Experience}">
                                 <span class="affection-label" style="background-image:url(${Helpers.getCDNHost()}/design/ic_books_gray.svg)"></span>
-                                <span class="cost-value">${I18n.nThousand(this.aggregates.xpToMax)} ${GT.design.XP}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(this.aggregates.xpToMax * SC_PER_XP)})</span>
+                                <span class="cost-value">${I18n.nThousand(xpToMax)} ${GT.design.XP}<br>(<span class="hudSC_mix_icn"></span> ${I18n.nThousand(xpToMax * SC_PER_XP)})</span>
                             </span>
                         </li>
                     </ul>
                     <ul class="summary-grid gems-summary">
-                        ${Object.entries(this.aggregates.gems).map(([element, count]) => `<li><span tooltip="${GT.design[`${element}_gem`]}"><span class="gem-icon" style="background-image: url(${Helpers.getCDNHost()}/pictures/design/gems/${element}.png)"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
+                        ${Object.entries(gems).map(([element, count]) => `<li><span tooltip="${GT.design[`${element}_gem`]}"><span class="gem-icon" style="background-image: url(${Helpers.getCDNHost()}/pictures/design/gems/${element}.png)"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
                     </ul>
                 </div>
             </div>
@@ -325,7 +338,7 @@ class HaremInfoModule extends CoreModule {
         const $prev_panel = $('#harem_left .harem-info-panel')
         if ($prev_panel.length) {
             const prev_classes = $prev_panel.attr('class')
-            $prev_panel.html($panel.html()).addClass(prev_classes)
+            $prev_panel.html($panel.addClass(prev_classes).html())
             return
         }
 
@@ -349,52 +362,38 @@ class HaremInfoModule extends CoreModule {
         })
     }
 
-    attachWikiLink (girlId, $girl) {
-        if (Helpers.isCxH()) {
-            // CxH doesn't have a wiki, will include link to the spreadsheet elsewhere
-            return
-        }
-        if (Helpers.isPSH()) {
-            // No wiki or spreadsheet for PH yet
-            return
-        }
+    attachWikiLink (id_girl, girl, $girl) {
+        const {shards, name} = girl
+        const wikiLink = Helpers.getWikiLink(name, id_girl, I18n.getLang())
+        if (!wikiLink) {return}
 
-        const {girlsDataList} = window
-        const girl = girlsDataList[girlId]
-        const wikiLink = Helpers.getWikiLink(girl.name, girl.id_girl, I18n.getLang())
-
-        if (!girl.is_owned) {
-            const $existingLink = $girl.find('.WikiLinkDialogbox > a')
-            if ($existingLink.length) {
-                $existingLink.attr('href', wikiLink)
-            } else {
-                $girl.find('.middle_part.missing_girl .dialog-box').append(`<div class="WikiLinkDialogbox"><a href="${wikiLink}" target="_blank">${this.label('wikiPage', {name: girl.name})}</a></div>`)
-            }
-        }
-        if (girl.is_owned) {
+        if (shards === 100) {
             const $existingLink = $girl.find('.WikiLink a')
             if ($existingLink.length) {
                 $existingLink.attr('href', wikiLink)
             } else {
                 $girl.find('.middle_part h3').wrap(`<div class="WikiLink"><a href="${wikiLink}" target="_blank"></a></div>`)
             }
+        } else {
+            const $existingLink = $girl.find('.WikiLinkDialogbox > a')
+            if ($existingLink.length) {
+                $existingLink.attr('href', wikiLink)
+            } else {
+                $girl.find('.middle_part.missing_girl .dialog-box').append(`<div class="WikiLinkDialogbox"><a href="${wikiLink}" target="_blank">${this.label('wikiPage', {name})}</a></div>`)
+            }
         }
     }
 
-    attachSceneCostsAndStats (id, $girl) {
-        const {girlsDataList, GT} = window
+    attachSceneCostsAndStats (girl, $girl) {
+        const {GT} = window
         const $lockedStars = $girl.find('a.later')
-        if (!$lockedStars.length) {
-            return
-        }
-
-        const girl = girlsDataList[id]
-        $lockedStars.each((_,el) => {
+        if (!$lockedStars.length) {return}
+        $lockedStars.each((_, el) => {
             const $el = $(el)
             const index = $el.index()
-            const {rarity} = girl
+            const {rarity, affection} = girl
 
-            const remainingAffection = Affection[rarity].totalAff(index + 1) - girl.affection
+            const remainingAffection = Affection[rarity].totalAff(index + 1) - affection
             const {sc, hc} = Affection[rarity].steps[index]
             const hcMultiplier = Helpers.isNutakuKobans() ? 1/6 : 1
 
@@ -409,9 +408,11 @@ class HaremInfoModule extends CoreModule {
         })
     }
 
-    onGirlSelectionChanged(id, $girl) {
-        this.attachWikiLink(id, $girl)
-        this.attachSceneCostsAndStats(id, $girl)
+    async onGirlSelectionChanged(id, $girl) {
+        const girlDictionary = await Helpers.getGirlDictionary()
+        const girl = girlDictionary.get(`${id}`)
+        this.attachWikiLink(id, girl, $girl)
+        this.attachSceneCostsAndStats(girl, $girl)
     }
 
     run () {
@@ -420,20 +421,16 @@ class HaremInfoModule extends CoreModule {
         styles.use()
 
         Helpers.defer(() => {
-            Helpers.onAjaxResponse(/action=get_girls_list/i, (response) => {
-                this.aggregateStats(response.girls_list)
-                this.attachToPage(this.buildStatsDisplay())
+            $(document).on('girl-dictionary:updated', async () => {
+                this.aggregates = await this.aggregateStats()
+                this.attachToPage(this.buildStatsDisplay('all'))
             })
 
             const checkSelectionChange = () => {
                 const $girl = $('#harem_right [girl]')
-                if (!$girl.length) {
-                    return
-                }
+                if (!$girl.length) {return}
                 const girlId = $girl.attr('girl')
-                if (this.currentGirlId === girlId) {
-                    return
-                }
+                if (this.currentGirlId === girlId) {return}
                 this.currentGirlId = girlId
                 this.onGirlSelectionChanged(girlId, $girl)
             }

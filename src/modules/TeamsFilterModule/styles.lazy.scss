@@ -2,7 +2,7 @@
 
 #arena_filter_box {
     position: absolute;
-    width: 400px;
+    width: 21.25rem;
     z-index: 99;
     border-radius: 8px 10px 10px 8px;
     background-color: #1e261e;
@@ -10,7 +10,7 @@
     padding: 5px;
     border: 1px solid #ffa23e;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 0 0.5rem;
     text-align: start;
 
     .change-team-panel & {
@@ -34,49 +34,76 @@
         top: 20px;
     }
 
-    &.form-wrapper > .form-control {
-        & > .select-group .selectric-items {
+    &.form-wrapper > .form-control > .select-group {
+        .selectric-open {
+            z-index: unset;
+
+            & > .selectric {
+                z-index: 14;
+            }
+            & > div {
+                z-index: 999;
+            }
+        }
+        .selectric-items {
             height: auto;
 
             li {
                 height: auto;
-                padding-top: 0;
-                padding-bottom: 0;
+                line-height: 1.5rem;
+                padding: 0 0.5rem;
 
                 & > span {
                     height: auto;
                     width: auto;
                     &[carac] {
-                        padding-right: 10px;
+                        margin-right: 0.5rem;
+
+                        &::before {
+                            height: 1.5rem;
+                            width: 1.5rem;
+                        }
                     }
                 }
-                .element-icon, .girl-power-icon {
-                    height: 30px;
-                    width: 30px;
+                .element-icon, .girl-power-icon, [role-tooltip] {
+                    height: 1.25rem;
+                    width: 1.25rem;
                     background-size: contain;
                     background-position: center;
-                    margin-right: 10px;
-                }
-                &:first-of-type {
-                    padding-left: 5px;
+                    margin-right: 0.5rem;
                 }
             }
         }
-        & > .select-group .selectric {
-            width: 189px;
-        }
-        &.script-filter-element > .select-group .selectric-items {
-            li {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
+        .selectric {
+            width: 10rem;
         }
     }
 }
 
 .change-team-panel, .team-pool-selection-container {
-    & #filter_girls {
+    #filter_girls {
         display: none;
+    }
+
+    .panel-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .script-girl-count {
+            font-size: 16px;
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+.labyrinth-panel .labyrinth-container .squad-container {
+    .script-girl-count {
+        margin-left: 1rem;
+    }
+
+    .girl-grid {
+        align-content: start;
     }
 }
 

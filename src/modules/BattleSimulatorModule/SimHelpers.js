@@ -80,12 +80,12 @@ class SimHelpers {
         return bonus_multiplier + (teamGirlSynergyBonusesMissing ? counts[element]*team_bonus_per_girl : 0)
     }
 
-    static calculateSynergiesFromTeamMemberElements(elements, ignorePassives) {
+    static async calculateSynergiesFromTeamMemberElements(elements, ignorePassives) {
         const counts = SimHelpers.countElementsInTeam(elements)
 
         // Only care about those not included in the stats already: fire, stone and water
         // Assume max harem synergy
-        const girlDictionary = Helpers.getGirlDictionary()
+        const girlDictionary = await Helpers.getGirlDictionary()
         const girlCount = girlDictionary.size || 800
         const girlsPerElement = Math.min(girlCount / 8, 100)
 

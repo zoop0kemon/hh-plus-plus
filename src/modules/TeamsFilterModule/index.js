@@ -76,6 +76,12 @@ class TeamsFilterModule extends CoreModule {
                     }
                 })
                 if (this.isLabyrinth) {
+                    $('#filter_role').selectric({
+                        optionsItemBuilder: (itemData) => {
+                            const {element, text} = itemData
+                            return element.val().length && element.val() !== 'all' ? `<span role-tooltip="${element.val()}" class="girl_role_${element.val()}_icn"></span>${text}` : text
+                        }
+                    })
                     $('#filter_sort').selectric({
                         optionsItemBuilder: (itemData) => {
                             const {element, text} = itemData
@@ -83,14 +89,17 @@ class TeamsFilterModule extends CoreModule {
                         }
                     })
                 }
-                const otherFields = ['aff_category', 'aff_lvl', 'blessed_attributes', 'level_cap']
+                const otherFields = ['skill_tier', 'aff_category', 'aff_lvl', 'blessed', 'level_cap']
                 otherFields.forEach(field => $(`#filter_${field}`).selectric())
     
                 this.updateFilterGirlData()
+                $('h3.panel-title').append(`<span class="script-girl-count">(<span class="filtered-count"></span>${I18n.nThousand(this.arenaGirls.length)})</span>`)
                 this.createFilterEvents()
+
                 if (this.isLabyrinthMain) {
                     const observer = new MutationObserver(() => {
                         this.updateFilterGirlData()
+                        $('.squad-container .text-title').append(`<span class="script-girl-count"><span class="filtered-count"></span>${I18n.nThousand(this.arenaGirls.length)}</span>`)
                         this.filterGirls()
                     })
                     observer.observe($(selector)[0], {childList: true})
@@ -123,11 +132,13 @@ class TeamsFilterModule extends CoreModule {
         const doFilter = () => {
             this.filterGirls()
         }
-        $('#filter_class').on('change', doFilter)
-        $('#filter_element').on('change', doFilter)
-        $('#filter_rarity').on('change', doFilter)
         $('#filter_name').get(0).oninput = doFilter
-        $('#filter_blessed_attributes').on('change', doFilter)
+        $('#filter_element').on('change', doFilter)
+        $('#filter_role').on('change', doFilter)
+        $('#filter_rarity').on('change', doFilter)
+        $('#filter_class').on('change', doFilter)
+        $('#filter_blessed').on('change', doFilter)
+        $('#filter_skill_tier').on('change', doFilter)
         $('#filter_aff_category').on('change', doFilter)
         $('#filter_aff_lvl').on('change', doFilter)
         $('#filter_level_cap').on('change', doFilter)
@@ -141,52 +152,49 @@ class TeamsFilterModule extends CoreModule {
     }
 
     filterGirls() {
-        let filterClass = $('#filter_class').get(0).value
-        let filterElement = $('#filter_element').get(0).value
-        let filterRarity = $('#filter_rarity').get(0).value
-        let filterName = $('#filter_name').get(0).value
-        let nameRegex = new RegExp(filterName, 'i')
-        let filterBlessedAttributes = $('#filter_blessed_attributes').get(0).value
-        let filterAffCategory = $('#filter_aff_category').get(0).value
-        let filterAffLvl = $('#filter_aff_lvl').get(0).value
-        let filterLevelCap = $('#filter_level_cap').get(0).value
         const {availableGirls, owned_girls, girl_squad} = window
         const haremGirls = availableGirls || owned_girls || girl_squad.map(g => g.member_girl)
+        const filterName = $('#filter_name').get(0).value
+        const nameRegex = new RegExp(filterName, 'i')
+        const filterElement = $('#filter_element').get(0).value
+        const filterRole = $('#filter_role')?.get(0)?.value || 'all'
+        const filterRarity = $('#filter_rarity').get(0).value
+        const filterClass = $('#filter_class').get(0).value
+        const filterBlessed = $('#filter_blessed').get(0).value
+        const filterSkillTier = $('#filter_skill_tier').get(0).value
+        const filterAffCategory = $('#filter_aff_category').get(0).value
+        const filterAffLvl = $('#filter_aff_lvl').get(0).value
+        const filterLevelCap = $('#filter_level_cap')?.get(0)?.value || 'all'
 
-        let girlsFiltered = $.map(this.girlsData, (girl, index) => {
-            let matchesClass = (`${girl.class}` === filterClass) || (filterClass === 'all')
-            const {element_data} = girl
-            let matchesElement = (element_data.type === filterElement) || filterElement === 'all'
-            let matchesRarity = (girl.rarity === filterRarity) || (filterRarity === 'all')
-            const {name} = girl
-            let matchesName = (name.search(nameRegex) > -1)
-            let matchesBlessedAttributes
-            switch (filterBlessedAttributes) {
-            case 'blessed_attributes':
-                matchesBlessedAttributes = !!girl.blessed_attributes
-                break
-            case 'non_blessed_attributes':
-                matchesBlessedAttributes = !girl.blessed_attributes
-                break
-            case 'all':
-                matchesBlessedAttributes = (filterBlessedAttributes === 'all')
-                break
+        let girlsFilteredCount = 0
+        const girlsFiltered = $.map(this.girlsData, (girl, index) => {
+            const {name, element_data, role_data, rarity, class: girl_class, blessed_attributes, caracs, blessed_caracs, skill_tiers_info, graded2} = girl
+            const {level, level_cap} = haremGirls[index]
+            const $grade = $(graded2)
+
+            const matchesName = (name.search(nameRegex) > -1)
+            const matchesElement = (filterElement === 'all') || (element_data.type === filterElement)
+            const matchesRole = (filterRole === 'all') || (`${role_data?.id}` === filterRole)
+            const matchesRarity = (filterRarity === 'all') || (rarity === filterRarity)
+            const matchesClass = (filterClass === 'all') || (`${girl_class}` === filterClass)
+            const matchesBlessed = (filterBlessed === 'all') || ((filterBlessed === 'blessed') === (!!blessed_attributes || (!!blessed_caracs && blessed_caracs.carac1 > caracs.carac1)))
+            const matchesSkillTier = (filterSkillTier === 'all') || (skill_tiers_info[filterSkillTier]?.skill_points_used > 0)
+            const matchesAffCategory = (filterAffCategory === 'all') || (`${$grade.length}` === filterAffCategory)
+            const matchesAffLvl = (filterAffLvl === 'all') || (`${$grade.filter('g:not(.grey):not(.green)').length}` === filterAffLvl)
+            const matchesLevelCap = (filterLevelCap === 'all') || ((filterLevelCap === 'capped') === (level === level_cap))
+
+            if (matchesName && matchesElement && matchesRole && matchesRarity && matchesClass && matchesBlessed && matchesSkillTier && matchesAffCategory && matchesAffLvl && matchesLevelCap) {
+                girlsFilteredCount++
+                return index
+            } else {
+                return null
             }
-
-            const $grade = $(girl.graded2)
-            const affectionCategory = `${$grade.length}`
-            const affectionLvl = `${$grade.filter('g:not(.grey):not(.green)').length}`
-            let matchesAffCategory = (affectionCategory === filterAffCategory) || (filterAffCategory === 'all')
-            let matchesAffLvl = (affectionLvl === filterAffLvl) || (filterAffLvl === 'all')
-            const isCapped = haremGirls[index].level === haremGirls[index].level_cap
-            let matchesLevelCap = (filterLevelCap === 'all') || (filterLevelCap === 'capped' && isCapped) || (filterLevelCap === 'uncapped' && !isCapped)
-
-            return (matchesClass && matchesElement && matchesRarity && matchesName && matchesBlessedAttributes && matchesAffCategory && matchesAffLvl && matchesLevelCap) ? index : null
         })
 
         $.each(this.arenaGirls, function(index, girlElem) {
             $.inArray(index, girlsFiltered) > -1 ? $(girlElem).show() : $(girlElem).hide()
         })
+        $('.script-girl-count>.filtered-count').text(this.arenaGirls.length != girlsFilteredCount ? `${I18n.nThousand(girlsFilteredCount)}/` : '')
     }
 
     sortGirls() {
@@ -232,23 +240,56 @@ class TeamsFilterModule extends CoreModule {
             placeholder: this.label('girlName'),
             value: ''
         })
-        totalHTML += Snippets.selectInput({
-            id: 'filter_class',
-            label: this.label('searchedClass'),
-            options: [1,2,3].map(option => ({label: !Helpers.isCurrentPage('labyrinth') ? GT.caracs[option] : GT.design[`class_${CLASS_NAMES[option]}`], value: option})),
-            className: 'script-filter-carac'
-        })
+        if (this.isLabyrinth) {
+            const LABELS = ['carac_ego', 'carac_harmony', 'damage', 'carac_def', 'carac_starting_mana', 'carac_mana_generation', 'pvp_battle_speed']
+
+            totalHTML += Snippets.selectInput({
+                id: 'filter_sort',
+                label: GT.design.haremdex_sort_by,
+                options: ['ego', 'chance', 'damage', 'defense', 'mana', 'mana-generation', 'speed'].map((option, index) => ({label: GT.design[LABELS[index]], value: option})),
+                className: 'script-filter-sort',
+                default_text: GT.design.caracs_sum
+            })
+        } else {
+            totalHTML += '<div class="empty-form"></div>'
+        }
         totalHTML += Snippets.selectInput({
             id: 'filter_element',
             label: this.label('searchedElement'),
             options: ELEMENTS.map(option => ({label: GT.design[`${option}_flavor_element`], value: option})),
             className: 'script-filter-element'
         })
+        if (this.isLabyrinth) {
+            totalHTML += Snippets.selectInput({
+                id: 'filter_role',
+                label: GT.design.girl_role,
+                options: [4,10,9,3].map(option => ({label: GT.design[`girl_role_${option}_name`], value: option})),
+                className: 'script-filter-role'
+            })
+        }
         totalHTML += Snippets.selectInput({
             id: 'filter_rarity',
             label: this.label('searchedRarity'),
             options: RARITIES.map(option => ({label: GT.design[`girls_rarity_${option}`], value: option})),
             className: 'script-filter-rarity rarity-styling'
+        })
+        totalHTML += Snippets.selectInput({
+            id: 'filter_class',
+            label: this.label('searchedClass'),
+            options: [1,2,3].map(option => ({label: !this.isLabyrinth ? GT.caracs[option] : GT.design[`class_${CLASS_NAMES[option]}`], value: option})),
+            className: 'script-filter-carac'
+        })
+        totalHTML += Snippets.selectInput({
+            id: 'filter_blessed',
+            label: this.label('searchedBlessed'),
+            options: [{value: 'blessed', label: this.label('blessed')}, {value: 'non_blessed', label: this.label('nonBlessed')}],
+            className: 'script-filter-blessing'
+        })
+        totalHTML += Snippets.selectInput({
+            id: 'filter_skill_tier',
+            label: this.label('searchedSkillTier'),
+            options: [1,2,3,4,5].map(option => ({label: `${option<5 ? '≥ ' : ''}${GT.design.tier} ${option}`, value: option})),
+            className: 'script-filter-skill_tier'
         })
         totalHTML += Snippets.selectInput({
             id: 'filter_aff_category',
@@ -262,27 +303,12 @@ class TeamsFilterModule extends CoreModule {
             options: ['0','1','2','3','4','5','6'].map(affectionGradeOption),
             className: 'script-filter-aff-level'
         })
-        totalHTML += Snippets.selectInput({
-            id: 'filter_blessed_attributes',
-            label: this.label('searchedBlessedAttributes'),
-            options: [{value: 'blessed_attributes', label: this.label('blessedAttributes')}, {value: 'non_blessed_attributes', label: this.label('nonBlessedAttributes')}],
-            className: 'script-filter-blessing'
-        })
-        totalHTML += Snippets.selectInput({
-            id: 'filter_level_cap',
-            label: this.label('levelCap'),
-            options: ['capped', 'uncapped'].map(option => ({label: this.label(`levelCap_${option}`), value: option})),
-            className: 'script-filter-level-cap'
-        })
-        if (this.isLabyrinth) {
-            const LABELS = ['carac_ego', 'carac_harmony', 'damage', 'carac_def', 'carac_starting_mana', 'carac_mana_generation', 'pvp_battle_speed']
-
+        if (!Helpers.isCurrentPage('labyrinth-pool-select')) {
             totalHTML += Snippets.selectInput({
-                id: 'filter_sort',
-                label: GT.design.haremdex_sort_by,
-                options: ['ego', 'chance', 'damage', 'defense', 'mana', 'mana-generation', 'speed'].map((option, index) => ({label: GT.design[LABELS[index]], value: option})),
-                className: 'script-filter-sort',
-                default_text: GT.design.caracs_sum
+                id: 'filter_level_cap',
+                label: this.label('levelCap'),
+                options: ['capped', 'uncapped'].map(option => ({label: this.label(`levelCap_${option}`), value: option})),
+                className: 'script-filter-level-cap'
             })
         }
 

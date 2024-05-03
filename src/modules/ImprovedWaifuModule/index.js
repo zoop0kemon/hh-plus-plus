@@ -29,13 +29,13 @@ class ImprovedWaifuModule extends CoreModule {
 
         styles.use()
 
-        Helpers.defer(() => {
+        Helpers.defer(async () => {
             if (Helpers.isCurrentPage('home.html')) {
                 const {waifu} = window
                 let waifuInfo = Helpers.lsGet(lsKeys.WAIFU_INFO) || {girls:{}}
                 let cycle = waifuInfo.cycle || false
                 let mode = waifuInfo.mode || 'All'
-                let ids = this.getIds(waifuInfo, mode)
+                let ids = await this.getIds(waifuInfo, mode)
                 let girl_id = waifuInfo.girl_id || waifu.id_girl.toString()
                 if (cycle) {
                     let temp_id = girl_id
@@ -58,7 +58,7 @@ class ImprovedWaifuModule extends CoreModule {
                     waifuInfo.girls[girl_id] = {}
                 }
                 let girlInfo = waifuInfo.girls[girl_id]
-                const girlDictionary = Helpers.getGirlDictionary()
+                const girlDictionary = await Helpers.getGirlDictionary()
                 let dictGirl = girlDictionary.get(girl_id)
                 if (!dictGirl) {
                     console.log(this.label('warningMaxGrade', {id: girl_id}))
@@ -333,8 +333,8 @@ class ImprovedWaifuModule extends CoreModule {
                     this.saveWaifuInfo(waifuInfo)
                 })
 
-                $random_waifu.click(() => {
-                    ids = this.getIds(waifuInfo, mode)
+                $random_waifu.click(async () => {
+                    ids = await this.getIds(waifuInfo, mode)
                     let temp_id = girl_id
                     if (ids.length == 1) {
                         temp_id = ids[0]
@@ -399,7 +399,7 @@ class ImprovedWaifuModule extends CoreModule {
             } else if (Helpers.isCurrentPage('waifu.html')) {
                 let waifuInfo = Helpers.lsGet(lsKeys.WAIFU_INFO)
                 if (!waifuInfo) {return}
-                let favs = this.getIds(waifuInfo, 'Favorite', false)
+                let favs = await this.getIds(waifuInfo, 'Favorite', false)
 
                 $('.harem-girl-container').each((index) => {
                     let $girl_container = $('.harem-girl-container').eq(index)
@@ -432,8 +432,8 @@ class ImprovedWaifuModule extends CoreModule {
         this.hasRun = true
     }
 
-    getIds (waifuInfo, mode, defaultAll=true) {
-        const girlDictionary = Helpers.getGirlDictionary()
+    async getIds (waifuInfo, mode, defaultAll=true) {
+        const girlDictionary = await Helpers.getGirlDictionary()
         let ids = []
         if (mode == 'Favorite') {
             ids = Object.entries(waifuInfo.girls).filter(([key, value]) => value.fav).map(([key]) => (key))
@@ -441,9 +441,8 @@ class ImprovedWaifuModule extends CoreModule {
                 return ids
             }
         }
-        girlDictionary.forEach((girl, id) => {
-            const {shards} = girl
-            if (shards === 100 && typeof id === 'string') {
+        girlDictionary.forEach(({shards}, id) => {
+            if (shards === 100) {
                 ids.push(id)
             }
         })

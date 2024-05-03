@@ -128,10 +128,11 @@ class Season {
         }
 
         $gridWrapper.find('.matchRating').remove()
-        const { rewards } = opponents[this.idOpponent - 1].rewards
-        const pointsReward = rewards.find(({ type }) => type === 'victory_points')
+        const {opponents, hero_data: {current_season_mojo}} = window
+        const {rewards} = opponents[this.idOpponent - 1].rewards
+        const pointsReward = rewards.find(({type}) => type === 'victory_points')
         const points = parseInt(pointsReward.value)
-        const expected = result.win * points - (1 - result.win) * Math.max(40 - points, 1)
+        const expected = result.win * points - (1 - result.win) * Math.min(current_season_mojo < 7300 ? 10 : 40, Math.max(40 - points, 1))
         const pointClass = expected > 15 ? 'plus' : expected < 0 ? 'minus' : 'close'
         $gridWrapper.append(`<span class="matchRating"><span class="${result.scoreClass}">${I18n.nRounding(100 * result.win, 2, -1)}%</span><br/><span class="${pointClass}">E[<span cur="victory_points"></span>]=${I18n.nRounding(expected, 1, -1)}</span></span>`)
     }

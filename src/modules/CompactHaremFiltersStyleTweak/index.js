@@ -22,6 +22,22 @@ class CompactHaremFiltersStyleTweak extends STModule {
     shouldRun () {
         return Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')
     }
+
+    runExtra () {
+        if (!this.shouldRun()) {return}
+
+        Helpers.defer(() => {
+            const getDropdown = (selector_class) => {
+                return $(`.form-control:has([for="${selector_class}"])`).eq(0)
+            }
+
+            Helpers.doWhenSelectorAvailable('.form-control', () => {
+                $('.form-control').last().addClass('filter-by-checkbox').insertAfter('.form-control.filter-by-element-form')
+                getDropdown('pose').before(getDropdown('role')).before(getDropdown('equipment')).after(getDropdown('zodiac'))
+                getDropdown('level_cap').after(getDropdown('affection_cap')).after(getDropdown('rarity'))
+            })
+        })
+    }
 }
 
 export default CompactHaremFiltersStyleTweak

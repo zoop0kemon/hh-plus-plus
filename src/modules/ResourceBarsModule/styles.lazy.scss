@@ -4,6 +4,10 @@
 body > div#contains_all > header {
     padding-top: 8px;
 
+    .new_notif.chat_btn_notif  {
+        top: 8px;
+    }
+
     [type="fight"] + div.currency {
         // FOUC prevention
         margin-left: 437px;
@@ -108,10 +112,10 @@ body > div#contains_all > header {
     }
 
     .promo_quest_discount_text {
-        left: 122px;
+        left: 130px;
 
         @media #{$mediaMobile} {
-            left: 188px;
+            left: 186px;
         }
     }
 
@@ -546,16 +550,6 @@ body > div#contains_all > nav > [rel="open"] {
     top: 12px;
 }
 
-body#hh_comix > div#contains_all > header div[rel="xp"] {
-    div[rel="level"] div[hero="level"] {
-        margin-top: 17px !important;
-    }
-
-    .bar-wrapper .over span {
-        font-weight: 400 !important;
-    }
-}
-
 .script-booster-status-item {
     .season_rewards_tier_info,
     .item-price {
@@ -577,7 +571,7 @@ body#hh_comix > div#contains_all > header div[rel="xp"] {
         }
 
         div[rel="xp"] div[rel="level"] {
-            left: 135px;
+            left: 122px;
             top: 4px;
 
             & > div {
@@ -755,16 +749,6 @@ body#hh_comix > div#contains_all > header div[rel="xp"] {
     body > div#contains_all > nav > [rel="open"] {
         height: 60px;
         width: 60px;
-    }
-
-    body#hh_comix > div#contains_all > header div[rel="xp"] {
-        div[rel="level"] {
-            top: 8px;
-
-            div[hero="level"] {
-                margin-top: 40px !important;
-            }
-        }
     }
 }
 

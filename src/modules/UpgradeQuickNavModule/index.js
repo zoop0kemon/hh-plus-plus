@@ -30,13 +30,13 @@ class UpgradeQuickNavModule extends CoreModule {
 
         styles.use()
 
-        Helpers.defer(() => {
+        Helpers.defer(async () => {
             const {replaceImageSources} = window.shared ? window.shared.webp_utilities : window
             const {girl: {id_girl}} = window
             const filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
             $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
             if (!filteredGirlIds || filteredGirlIds.length < 2) {return}
-            const girlDictionary = Helpers.getGirlDictionary()
+            const girlDictionary = await Helpers.getGirlDictionary()
 
             const currentIndex = filteredGirlIds.indexOf(id_girl)
             if (currentIndex > -1) {

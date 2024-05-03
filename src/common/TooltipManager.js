@@ -11,7 +11,7 @@ class TooltipManager {
         $('body').off('mouseleave', selector)
 
         if (window.tooltips) {
-            // not avliable with new bundler, maybe they'll re expose it
+            // not available with new bundler, maybe they'll re expose it
             window.tooltips[selector] = callback
             window.addEventHandlers(selector)
         } else {
@@ -136,7 +136,7 @@ class TooltipManager {
         }
         $html.css('top', `${tooltip_y}px`)
         let tooltip_x = 0
-        var type = target.y <= tooltip_y ? 'top' : 'bottom'
+        const type = target.y <= tooltip_y ? 'top' : 'bottom'
         if (target.x + target.width + own.width < bounds.x + bounds.width) {
             tooltip_x = target.x + target.width
             $html.addClass('align-right')

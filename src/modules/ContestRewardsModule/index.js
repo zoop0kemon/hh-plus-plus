@@ -102,7 +102,7 @@ class ContestRewardsModule extends CoreModule {
                         const sum_girl = rewards_data.shards.find(e => e.id_girl == girl.id_girl)
 
                         if (sum_girl) {
-                            sum_girl.value += girl.value
+                            sum_girl.value += girl.value - girl.previous_value
                         } else {
                             rewards_data.shards.push(JSON.parse(JSON.stringify(girl)))
                         }

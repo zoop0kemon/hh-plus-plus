@@ -295,12 +295,6 @@ class ResourceBarsModule extends CoreModule {
 
                 $barHTML.find('.text').text(this.label('popsReady'))
                 $barHTML.find('.pinkbar').addClass('bluebar').removeClass('pinkbar')
-                // const {displayNotifications} = window.shared ? window.shared.general : window
-                // const {notificationData} = window
-                // if (notificationData && notificationData.activities) {
-                //     notificationData.activities.push('reward')
-                //     displayNotifications()
-                // }
             }
 
             if (window.shared) {

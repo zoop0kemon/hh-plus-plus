@@ -54,11 +54,10 @@ class RewardShardsModule extends CoreModule {
         this.hasRun = true
     }
 
-    displayOnPreBattle() {
-        const girlDictionary = Helpers.getGirlDictionary()
-
+    async displayOnPreBattle() {
         const $girlsReward = $('.slot.girl_ico')
         if (!$girlsReward.length) {return}
+        const girlDictionary = await Helpers.getGirlDictionary()
 
         const annotate = ($girlsReward) => {
             const $girlIcos = $girlsReward.find('.girl_ico')
@@ -116,8 +115,8 @@ class RewardShardsModule extends CoreModule {
     }
 
     displayOnPachinko() {
-        const annotate = () => {
-            const girlDictionary = Helpers.getGirlDictionary()
+        const annotate = async () => {
+            const girlDictionary = await Helpers.getGirlDictionary()
             $('.rewards_tooltip .girl_ico').each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
@@ -145,8 +144,8 @@ class RewardShardsModule extends CoreModule {
         }).observe(document.body, {childList: true})
     }
 
-    displayOnSeason() {
-        const girlDictionary = Helpers.getGirlDictionary()
+    async displayOnSeason() {
+        const girlDictionary = await Helpers.getGirlDictionary()
 
         const annotate = (selector) => {
             $(selector).each((i, el) => {

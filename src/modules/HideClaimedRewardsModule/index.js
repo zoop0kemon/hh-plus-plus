@@ -88,8 +88,18 @@ class HideClaimedRewardsModule extends CoreModule {
                                 return claimable_tiers
                             }
                         })
-                    } else if ($('a.active[href*="?tab=dp_event_"]').length) {
-                        this.dp()
+                    } else if (type === 'dp_event') {
+                        this.hideClaimedRewards({
+                            scroll_area: '.player-progression-container',
+                            tier: '.tier-container',
+                            tiers_unlocked_var: 'current_tier',
+                            progress_bar: '.dp-progress-bar .dp-progress-bar-current',
+                            girl: '.right-container',
+                            hide: () => {
+                                $('.tier-container:has(.claimed-reward-tick.display-block)').addClass('script-hide-claimed')
+                                return $('.tier-container:has([rel="reward-claim"]:not(.hidden):not([style="display: none;"]))').toArray()
+                            }
+                        })
                     }
                 }
             } else if (Helpers.isCurrentPage('seasonal')) {
@@ -195,94 +205,6 @@ class HideClaimedRewardsModule extends CoreModule {
                 }
             })
             observer.observe($(scroll_area)[0], {attributes: true, attributeFilter: ['class'], subtree: true})
-        })
-    }
-    
-    dp () {
-        if (!$('a.active[href*="?tab=dp_event_"]').length || $('#nc-poa-no-participation').length) {return}
-
-        Helpers.doWhenSelectorAvailable('.tiers-progression', () => {
-            let hidden = false
-            let $groupsToHide = $('.tier-container:has(.claimed-reward-tick.display-block)')
-            let $groupsRemaining = $('.tier-container:has([rel="reward-claim"]:not(.hidden):not([style="display: none;"]))')
-            const widthPattern = /width: ?(?<existingLength>[0-9.a-z%]+);?/
-            let existingLengthStr
-            let newLength
-            const $progressBar = $('.dp-progress-bar .dp-progress-bar-current')
-            const styleAttr = $progressBar.attr('style')
-
-            const assertHidden = () => {
-                $groupsToHide = $('.tier-container:has(.claimed-reward-tick.display-block)')
-                $groupsRemaining = $('.tier-container:has([rel="reward-claim"]:not(.hidden):not([style="display: none;"]))')
-                hidden = true
-                if ($groupsToHide.length == 0) {return}
-
-                $groupsToHide.addClass('script-hide-claimed')
-                if (styleAttr) {
-                    setTimeout(() => {
-                        if ($groupsRemaining.length) {
-                            newLength = $groupsRemaining.last().find('.tier-level')[0].offsetLeft
-                        } else {
-                            newLength = 0
-                        }
-                        $progressBar.addClass('no-transition')
-                        $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${newLength}px;`))
-                        $progressBar[0].offsetHeight
-                        $progressBar.removeClass('no-transition')
-                    }, 1)
-                }
-            }
-            const assertShown = () => {
-                $('.tier-container').removeClass('script-hide-claimed')
-                hidden = false
-                if (styleAttr) {
-                    $progressBar.addClass('no-transition')
-                    $progressBar.attr('style', styleAttr.replace(widthPattern, `width:${existingLengthStr};`))
-                    $progressBar[0].offsetHeight
-                    $progressBar.removeClass('no-transition')
-                }
-            }
-
-            if (styleAttr) {
-                const matches = styleAttr.match(widthPattern)
-                if (matches && matches.groups) {
-                    existingLengthStr = matches.groups.existingLength
-                } 
-            }
-            assertHidden()
-            $('.player-progression-container').stop(true).animate({
-                scrollLeft: Math.max(0, newLength - 150)
-            }, 100)
-            const toggle = () => {
-                if (hidden) {
-                    assertShown()
-                } else {
-                    assertHidden()
-                }
-            }
-
-            const observer = new MutationObserver((mutations) => {
-                if (!hidden) {return}
-                let shouldUpdate = false
-                mutations.forEach(mutation => {
-                    if (mutation.type === 'attributes') {
-                        const {attributeName, target} = mutation
-                        if (attributeName === 'class' && !$(target).hasClass('dp-progress-bar-current')) {
-                            const tier = $(target).closest('.tier-container')[0]
-                            if (($(tier).find('[rel="reward-claim"]').css('display') == 'none') && !$groupsToHide.toArray().includes(tier)) {
-                                shouldUpdate = true
-                            }
-                        }
-                    }
-                })
-
-                if (shouldUpdate) {
-                    assertHidden()
-                }
-            })
-            observer.observe($('.tiers-progression')[0], {attributes: true, attributeFilter: ['class'], subtree: true})
-
-            $('.right-container').click(()=>{toggle()})
         })
     }
 }
