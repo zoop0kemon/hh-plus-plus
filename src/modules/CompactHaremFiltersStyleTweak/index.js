@@ -20,7 +20,7 @@ class CompactHaremFiltersStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')
+        return (Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')
     }
 
     runExtra () {

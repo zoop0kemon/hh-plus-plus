@@ -271,7 +271,6 @@ class Helpers {
     static getWikiLink (name, id, lang) {
         name = name.replaceAll('/', '-')
         name = name.replaceAll('’', '')
-
         let wikiLink
 
         if (Helpers.isGH()) {
@@ -284,7 +283,6 @@ class Helpers {
             }
         }
         // undefined if doesn't have a wiki, will include link to the spreadsheet elsewhere
-
         return wikiLink
     }
 

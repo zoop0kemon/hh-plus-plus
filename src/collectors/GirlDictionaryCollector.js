@@ -248,11 +248,11 @@ class GirlDictionaryCollector {
                 const {availableGirls} = window
                 collectFromGirlList(availableGirls)
             } else if (Helpers.isCurrentPage('waifu.html')) {
-                const {girlsDataList} = window
-                collectFromGirlList(girlsDataList)
+                const {girls_data_list} = window
+                collectFromGirlList(girls_data_list)
             }
             // Data for unowned or owned girls
-            if (Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')) {
+            if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) {
                 Helpers.onAjaxResponse(/action=get_girls_list/i, ({girls_list}) => {
                     collectFromGirlList(girls_list)
                 })

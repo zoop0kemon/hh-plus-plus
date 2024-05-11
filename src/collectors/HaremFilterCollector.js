@@ -4,7 +4,7 @@ import Helpers from '../common/Helpers'
 class HaremFilterCollector {
     static collect() {
         Helpers.defer(async () => {
-            if (Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')) {
+            if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) {
                 const girlDictionary = await Helpers.getGirlDictionary()
                 const default_list = []
                 girlDictionary.forEach(({shards}, girl_id) => {

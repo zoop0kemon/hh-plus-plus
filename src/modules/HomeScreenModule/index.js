@@ -104,10 +104,9 @@ class HomeScreenModule extends CoreModule {
 
         // Champions
         const champ_times = Object.values(trackedTimes.champs)
-        const has_available = !!champ_times.find(({available}) => available)
-        const shortest_champ = champ_times.filter(({available, time}) => (has_available ? available : !available) && time).sort((a, b) => a.time-b.time)[0]?.time
-        if (shortest_champ && shortest_champ > server_now_ts) {
-            this.attachTimer('god-path', shortest_champ)
+        const shortest_time = champ_times.filter(({time}) => time && time > server_now_ts).sort((a, b) => a.time-b.time)[0]?.time
+        if (shortest_time) {
+            this.attachTimer('god-path', shortest_time)
         }
 
         // Club Champ

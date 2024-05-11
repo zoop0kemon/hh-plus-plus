@@ -46,7 +46,7 @@ class HaremInfoModule extends CoreModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('harem') && !Helpers.isCurrentPage('hero')
+        return (Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')
     }
 
     async aggregateStats (type) {

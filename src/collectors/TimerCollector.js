@@ -132,13 +132,14 @@ class TimerCollector {
             const matches = href.match(idExtractRegex)
             if (!matches || !matches.groups) {return}
             const {groups: {id}} = matches
-            const champ = {
-                available: times.champs[id] ? times.champs[id].available : true
-            }
-
             const $timer = $el.find('.champion-rest-timer')
-            if ($timer.length) {
-                champ.time = server_now_ts + parseInt($timer.attr('data-time'))
+            const time = $timer.length ? parseInt($timer.attr('data-time')) : 0
+
+            const champ = {
+                available: times.champs[id] ? times.champs[id].available : time < 15*60
+            }
+            if (time > 0) {
+                champ.time = server_now_ts + time
             }
 
             times.champs[id] = champ

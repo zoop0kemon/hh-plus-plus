@@ -17,7 +17,7 @@ class MoneyAnimationStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('harem')
+        return (Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')
     }
 }
 

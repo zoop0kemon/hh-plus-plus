@@ -1,332 +1,340 @@
 @import "../../common/constants.scss";
 @import "../../common/mixins.scss";
 
-.harem-info-panel {
-    display: none;
-    background-color: #080808f5;
-    color: #fff;
-    font-family: Tahoma, Arial, sans-serif;
-    font-weight: 400;
-    position: absolute;
-    bottom: 50px;
-    left: 10px;
-    z-index: 20;
-    border-radius: 5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #cccccc42;
-    padding: 16px;
-    grid-gap: 10px;
-    grid-template-columns: auto auto auto;
-
-    .summary-block {
-        display: inline-block;
-        width: 274px;
-
-        &.general-summary {
-            width: 310px;
-        }
-    }
-
-    &.visible {
-        display: grid;
-    }
-
-    h1 {
-        font-size: 1.2em;
-    }
-
-    &-toggle {
-        display: block;
+#harem_whole {
+    .harem-info-panel {
+        display: none;
+        background-color: #080808f5;
+        color: #fff;
+        font-family: Tahoma, Arial, sans-serif;
+        font-weight: 400;
         position: absolute;
-        height: 32px;
-        width: 32px;
-        background-size: contain;
-        bottom: 15px;
-        left: 6px;
-        cursor: pointer;
+        bottom: 50px;
+        left: 10px;
+        z-index: 20;
+        border-radius: 5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #cccccc42;
+        padding: 16px;
+        grid-gap: 10px;
+        grid-template-columns: auto auto auto;
 
-        &:hover {
-            filter: drop-shadow(0px 0px 1px gold);
-        }
-    }
-
-    .to-max-label {
-        margin-top: -6px;
-    }
-
-    .summary-grid {
-        display: grid;
-        grid-gap: 6px;
-        list-style: none;
-        padding-left: 0px;
-        margin-block-end: 0px;
-
-        li {
+        .summary-block {
             display: inline-block;
-            background: #cccccc42;
-            border-radius: 5px;
-            padding-right: 7px;
-            line-height: 20px;
-            margin-left: 10px;
+            width: 274px;
 
-            & > span {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-left: -10px;
+            &.general-summary {
+                width: 310px;
             }
         }
 
-        @each $element in $elements {
-            .#{$element}_element_icn {
-                display: inline-block;
-                width: 20px;
-                height: 20px;
-                background-size: contain;
-                background-repeat: no-repeat;
+        &.visible {
+            display: grid;
+        }
+
+        h1 {
+            font-size: 1.2em;
+        }
+
+        &-toggle {
+            display: block;
+            position: absolute;
+            height: 32px;
+            width: 32px;
+            background-size: contain;
+            bottom: 15px;
+            left: 6px;
+            cursor: pointer;
+
+            &:hover {
+                filter: drop-shadow(0px 0px 1px gold);
             }
         }
 
-        [carac]::before {
-            width: 20px;
-            height: 20px;
+        .to-max-label {
+            margin-top: -6px;
         }
 
-        .rarity-icon {
-            display: inline-block;
-            height: 20px;
-            width: 20px;
-            font-family: "Carter One", "Alegreya Sans", Montserrat;
+        .summary-grid {
+            display: grid;
+            grid-gap: 6px;
+            list-style: none;
+            padding-left: 0px;
+            margin-block-end: 0px;
 
-            &.starting {
-                background-color: #ccc;
-            }
-
-            .initial {
-                display: inline-block;
-                width: 100%;
-                text-align: center;
-                line-height: 20px;
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                vertical-align: middle;
-                color: #fff;
-                @include text-stroke-hack;
-            }
-        }
-
-        &.caracs-summary {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-        &.rarity-summary {
-            grid-auto-flow: column;
-            grid-template-rows: auto auto;
-        }
-        &.elements-summary {
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
-        &.level-caps-summary {
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            font-size: 14px;
             li {
-                margin-left: 0px;
-                padding-left: 7px;
-                line-height: 18px;
+                display: inline-block;
+                background: #cccccc42;
+                border-radius: 5px;
+                padding-right: 7px;
+                line-height: 20px;
+                margin-left: 10px;
+
                 & > span {
-                    margin-left: 0px;
-                    display: inline-block;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-left: -10px;
                 }
             }
 
-            .level-cap {
-                font-family: "Carter One", "Alegreya Sans", Montserrat;
-                line-height: 12px;
-            }
-
-            .required-girls {
-                font-size: 0.6em;
-                vertical-align: baseline;
-            }
-
-            .level-cap-unlocked {
-                color: #00ff06;
-            }
-        }
-        &.xp-aff-summary {
-            grid-template-columns: 1fr 1fr;
-            .xp-aff-label {
-                display: inline-block;
-                height: 20px;
-                padding-left: 7px;
-                font-family: "Carter One", "Alegreya Sans", Montserrat;
-
-                &.unlocked-scenes-icon {
-                    height: 40px;
-                    width: 40px;
+            @each $element in $elements {
+                .#{$element}_element_icn {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
                     background-size: contain;
                     background-repeat: no-repeat;
                 }
             }
-            li {
-                margin-left: 0px;
-                & > span {
+
+            span[carac] {
+                &::before {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                @media #{$mediaMobile} {
+                    display: unset;
+                }
+            }
+
+            .rarity-icon {
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+                font-family: "Carter One", "Alegreya Sans", Montserrat;
+
+                &.starting {
+                    background-color: #ccc;
+                }
+
+                .initial {
+                    display: inline-block;
+                    width: 100%;
+                    text-align: center;
+                    line-height: 20px;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    vertical-align: middle;
+                    color: #fff;
+                    @include text-stroke-hack;
+                }
+            }
+
+            &.caracs-summary {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            &.rarity-summary {
+                grid-auto-flow: column;
+                grid-template-rows: auto auto;
+            }
+            &.elements-summary {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+            &.level-caps-summary {
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                font-size: 14px;
+                li {
                     margin-left: 0px;
-                    & > span:last-child {
-                        text-align: right;
+                    padding-left: 7px;
+                    line-height: 18px;
+                    & > span {
+                        margin-left: 0px;
+                        display: inline-block;
+                    }
+                }
+
+                .level-cap {
+                    font-family: "Carter One", "Alegreya Sans", Montserrat;
+                    line-height: 12px;
+                }
+
+                .required-girls {
+                    font-size: 0.6em;
+                    vertical-align: baseline;
+                }
+
+                .level-cap-unlocked {
+                    color: #00ff06;
+                }
+            }
+            &.xp-aff-summary {
+                grid-template-columns: 1fr 1fr;
+                .xp-aff-label {
+                    display: inline-block;
+                    height: 20px;
+                    padding-left: 7px;
+                    font-family: "Carter One", "Alegreya Sans", Montserrat;
+
+                    &.unlocked-scenes-icon {
+                        height: 40px;
+                        width: 40px;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                    }
+                }
+                li {
+                    margin-left: 0px;
+                    & > span {
+                        margin-left: 0px;
+                        & > span:last-child {
+                            text-align: right;
+                        }
                     }
                 }
             }
-        }
-        &.salary-summary {
-            grid-template-columns: 1fr;
-            .salary-label {
-                .hudSC_mix_icn {
+            &.salary-summary {
+                grid-template-columns: 1fr;
+                .salary-label {
+                    .hudSC_mix_icn {
+                        height: 40px;
+                        width: 40px;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                    }
+                }
+                li {
+                    margin-left: 0px;
+                    & > span {
+                        margin-left: 0px;
+                    }
+                }
+            }
+            &.upgrade-costs {
+                grid-template-columns: 1fr;
+                margin-block-start: 0.3em;
+                margin-block-end: 0.5em;
+
+                .cost-value {
+                    text-align: right;
+
+                    .hudSC_mix_icn,
+                    .hudHC_mix_icn {
+                        display: inline-block;
+                        height: 18px;
+                        width: 18px;
+                        background-size: contain;
+                    }
+                }
+
+                .affection-label {
+                    display: inline-block;
                     height: 40px;
                     width: 40px;
                     background-size: contain;
                     background-repeat: no-repeat;
                 }
-            }
-            li {
-                margin-left: 0px;
-                & > span {
+
+                li {
                     margin-left: 0px;
+                    & > span {
+                        margin-left: 0px;
+                    }
                 }
             }
-        }
-        &.upgrade-costs {
-            grid-template-columns: 1fr;
-            margin-block-start: 0.3em;
-            margin-block-end: 0.5em;
+            &.gems-summary,
+            &.gems-stock {
+                grid-auto-flow: column;
+                grid-template-rows: repeat(4, 1fr);
+                margin-block-start: 0px;
 
-            .cost-value {
-                text-align: right;
-
-                .hudSC_mix_icn,
-                .hudHC_mix_icn {
+                .gem-icon {
                     display: inline-block;
-                    height: 18px;
-                    width: 18px;
+                    height: 20px;
+                    width: 20px;
                     background-size: contain;
                 }
             }
-
-            .affection-label {
-                display: inline-block;
-                height: 40px;
-                width: 40px;
-                background-size: contain;
-                background-repeat: no-repeat;
+            &.gems-stock {
+                margin-block-end: 1em;
             }
+        }
+        .to-max-combi .upgrade-costs {
+            margin-block-end: 6px;
+        }
 
-            li {
-                margin-left: 0px;
-                & > span {
-                    margin-left: 0px;
+        .restock-info,
+        .market-warning {
+            color: #aaa;
+            font-size: 10px;
+            margin-block-start: 0.3em;
+        }
+
+        .slot {
+            border: none;
+        }
+    }
+
+    #harem_left {
+        z-index: 1; // Force new stacking context
+    }
+
+    .harem-info-overlay-bg {
+        display: none;
+        width: 100vw;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 19;
+
+        &.visible {
+            display: block;
+        }
+    }
+
+    .WikiLinkDialogbox a {
+        text-decoration: none;
+        color: #24a0ff !important;
+    }
+
+    #harem_right .WikiLink a {
+        text-decoration: none;
+        &:hover h3 {
+            text-shadow: 0 0 2px #000, 0 0 4px #fff;
+        }
+    }
+
+    .scene-costs-tooltip {
+        [cur]::before {
+            height: 18px;
+            width: 18px;
+        }
+
+        .hudSC_mix_icn,
+        .hudHC_mix_icn {
+            display: inline-block;
+            height: 18px;
+            width: 18px;
+            background-size: contain;
+        }
+    }
+
+    #harem_left .buttons_container {
+        justify-content: center;
+        gap: 1rem;
+
+        #collect_all_container {
+            min-width: 125px;
+            margin: unset;
+
+            @media #{$mediaMobile} {
+                width: 11rem;
+
+                #collect_nothing {
+                    line-height: 1.25;
                 }
             }
         }
-        &.gems-summary,
-        &.gems-stock {
-            grid-auto-flow: column;
-            grid-template-rows: repeat(4, 1fr);
-            margin-block-start: 0px;
 
-            .gem-icon {
-                display: inline-block;
-                height: 20px;
-                width: 20px;
-                background-size: contain;
-            }
+        #unequip_all_container {
+            min-width: unset;
+            width: 80px;
+            margin: unset;
+            line-height: 1.25;
         }
-        &.gems-stock {
-            margin-block-end: 1em;
-        }
-    }
-    .to-max-combi .upgrade-costs {
-        margin-block-end: 6px;
-    }
-
-    .restock-info,
-    .market-warning {
-        color: #aaa;
-        font-size: 10px;
-        margin-block-start: 0.3em;
-    }
-
-    .slot {
-        border: none;
-    }
-}
-
-#harem_left {
-    z-index: 1; // Force new stacking context
-}
-
-.harem-info-overlay-bg {
-    display: none;
-    width: 100vw;
-    height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 19;
-
-    &.visible {
-        display: block;
-    }
-}
-
-#harem_whole .WikiLinkDialogbox a {
-    text-decoration: none;
-    color: #24a0ff !important;
-}
-
-#harem_right .WikiLink a {
-    text-decoration: none;
-    &:hover h3 {
-        text-shadow: 0 0 2px #000, 0 0 4px #fff;
-    }
-}
-
-.scene-costs-tooltip {
-    [cur]::before {
-        height: 18px;
-        width: 18px;
-    }
-
-    .hudSC_mix_icn,
-    .hudHC_mix_icn {
-        display: inline-block;
-        height: 18px;
-        width: 18px;
-        background-size: contain;
-    }
-}
-
-#harem_left .buttons_container {
-    justify-content: center;
-    gap: 1rem;
-
-    #collect_all_container {
-        min-width: 125px;
-        margin: unset;
-
-        @media #{$mediaMobile} {
-            width: 11rem;
-
-            #collect_nothing {
-                line-height: 1.25;
-            }
-        }
-    }
-
-    #unequip_all_container {
-        min-width: unset;
-        width: 80px;
-        margin: unset;
-        line-height: 1.25;
     }
 }
