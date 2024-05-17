@@ -80,7 +80,7 @@ class PachinkoNamesModule extends CoreModule {
                     </div>
                     <div class="fullPool">
                         ${girlPool.length ? this.label('poolGirls') : ''}
-                        ${girlPool.map(girl => girl.name ? `<a href="${Helpers.getHref(`/harem/${girl.id_girl}`)}" class="availableGirl ${girl.rarity}-text">${girl.name.replace(' ', ' ')}</a>` : '<span class="unknownGirl">????</span>').join(', ')}
+                        ${girlPool.map(({name, id_girl, rarity}) => name ? `<a href="${Helpers.getHref(`/characters/${id_girl}`)}" class="availableGirl ${rarity}-text">${name.replace(' ', ' ')}</a>` : '<span class="unknownGirl">????</span>').join(', ')}
                     </div>
                 </div>
             </div>

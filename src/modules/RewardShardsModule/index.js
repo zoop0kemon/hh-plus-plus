@@ -15,7 +15,7 @@ const extractIdFromUrl = (url) => {
     const {groups: {id}} = matches
     return id
 }
-const makeShardCount = ({ shards, name, className }) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span> ${shards}</div>`
+const makeShardCount = ({shards, name, className}) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span> ${shards}</div>`
 
 class RewardShardsModule extends CoreModule {
     constructor() {
@@ -70,12 +70,8 @@ class RewardShardsModule extends CoreModule {
                 const id = extractIdFromUrl(url)
                 if (!id) {return}
                 const girl = girlDictionary.get(id)
-                let name, shards
-                if (girl) {
-                    ({name, shards} = girl)
-                } else {
-                    shards = 0
-                }
+                const name = girl?.name || '????'
+                const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                 $el.append(makeShardCount({name, shards}))
             })
@@ -126,12 +122,8 @@ class RewardShardsModule extends CoreModule {
                 const id = extractIdFromUrl(url)
                 if (!id) {return}
                 const girl = girlDictionary.get(id)
-                let name, shards
-                if (girl) {
-                    ({name, shards} = girl)
-                } else {
-                    shards = 0
-                }
+                const name = girl?.name || '????'
+                const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                 $el.append(makeShardCount({name, shards}))
             })
@@ -157,12 +149,8 @@ class RewardShardsModule extends CoreModule {
                 const id = extractIdFromUrl(url)
                 if (!id) {return}
                 const girl = girlDictionary.get(id)
-                let name, shards
-                if (girl) {
-                    ({name, shards} = girl)
-                } else {
-                    shards = 0
-                }
+                const name = girl?.name || '????'
+                const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                 $el.find('.shards').hide()
                 $el.append(makeShardCount({name, shards}))

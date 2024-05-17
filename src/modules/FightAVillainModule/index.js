@@ -129,14 +129,9 @@ class FightAVillainModule extends CoreModule {
 
                 tierGirls.forEach((girlId) => {
                     const girl = girlDictionary.get(girlId)
-                    let name, rarity, shards
-                    if (girl) {
-                        ({name, rarity, shards} = girl)
-                    } else {
-                        name = 'Unknown',
-                        rarity = DEFAULT_TIER_RARITY[tier]
-                        shards = '?'
-                    }
+                    const name = girl?.name || '????'
+                    const rarity = girl?.rarity || DEFAULT_TIER_RARITY[tier]
+                    const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                     const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${girlId}/ico0-300x.webp`
 
@@ -148,13 +143,8 @@ class FightAVillainModule extends CoreModule {
             })
             event_girls.forEach(({id, rarity}) => {
                 const girl = girlDictionary.get(id)
-                let name, shards
-                if (girl) {
-                    ({name, shards} = girl)
-                } else {
-                    name = 'Unknown',
-                    shards = '?'
-                }
+                const name = girl?.name || '????'
+                const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                 const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${id}/ico0-300x.webp`
 

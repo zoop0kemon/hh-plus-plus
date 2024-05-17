@@ -1,4 +1,5 @@
 import {
+    BlessingsCollector,
     BoosterStatusCollector,
     ClubStatusCollector,
     EventVillainsCollector,
@@ -24,6 +25,7 @@ const runScript = () => {
 
     // base modules
     GirlDictionaryCollector.collect()
+    BlessingsCollector.collect()
     HaremFilterCollector.collect()
     TeamsCollector.collect()
     EventVillainsCollector.collect()

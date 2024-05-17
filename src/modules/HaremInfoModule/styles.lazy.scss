@@ -130,6 +130,7 @@
             &.rarity-summary {
                 grid-auto-flow: column;
                 grid-template-rows: auto auto;
+                grid-template-columns: 1fr 1fr 1fr;
             }
             &.elements-summary {
                 grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -239,6 +240,7 @@
             &.gems-stock {
                 grid-auto-flow: column;
                 grid-template-rows: repeat(4, 1fr);
+                grid-template-columns: 1fr 1fr;
                 margin-block-start: 0px;
 
                 .gem-icon {
@@ -298,21 +300,6 @@
         }
     }
 
-    .scene-costs-tooltip {
-        [cur]::before {
-            height: 18px;
-            width: 18px;
-        }
-
-        .hudSC_mix_icn,
-        .hudHC_mix_icn {
-            display: inline-block;
-            height: 18px;
-            width: 18px;
-            background-size: contain;
-        }
-    }
-
     #harem_left .buttons_container {
         justify-content: center;
         gap: 1rem;
@@ -336,5 +323,20 @@
             margin: unset;
             line-height: 1.25;
         }
+    }
+}
+
+.scene-costs-tooltip {
+    [cur]::before {
+        height: 18px;
+        width: 18px;
+    }
+
+    .hudSC_mix_icn,
+    .hudHC_mix_icn {
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        background-size: contain;
     }
 }

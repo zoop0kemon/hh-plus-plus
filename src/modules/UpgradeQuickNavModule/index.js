@@ -8,9 +8,24 @@ import { lsKeys } from '../../common/Constants'
 const MODULE_KEY = 'upgradeQuickNav'
 
 const RESOURCE_TYPES = ['experience', 'affection', 'equipment', 'skills', 'teams']
+const DEFAULT_BASE_SUM = {
+    'starting': 78,
+    'common': 75,
+    'rare': 85,
+    'epic': 93,
+    'legendary': 100,
+    'mythic': 102,
+}
+
+const calculateGirlPower = (girl) => {
+    const {caracs, rarity, level, graded} = girl
+    const baseSum = caracs?.reduce((a, b) => a+b, 0) || DEFAULT_BASE_SUM[rarity] || 100
+    return baseSum * (level || 1) * (10 + 3*(graded || 0))
+    // blessings, armor, skills?
+}
 
 class UpgradeQuickNavModule extends CoreModule {
-    constructor() {
+    constructor () {
         super({
             baseKey: MODULE_KEY,
             label: I18n.getModuleLabel('config', MODULE_KEY),
@@ -21,24 +36,28 @@ class UpgradeQuickNavModule extends CoreModule {
         this.linkUrls = {prev: {}, next: {}}
     }
 
-    shouldRun() {
+    shouldRun () {
         return Helpers.isCurrentPage('/girl/')
     }
 
-    run() {
+    run () {
         if (this.hasRun || !this.shouldRun()) {return}
 
         styles.use()
 
         Helpers.defer(async () => {
-            const {replaceImageSources} = window.shared ? window.shared.webp_utilities : window
-            const {girl: {id_girl}} = window
-            const filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
+            this.girlDictionary = await Helpers.getGirlDictionary()
+            let filteredGirlIds = Helpers.lsGet(lsKeys.HAREM_FILTER_IDS)
+            if (!filteredGirlIds.length) {
+                filteredGirlIds = this.getFilteredGirlList()
+            }
             $('#skills .girl-skills-avatar').wrap('<div class="script-girl-avatar"></div>')
             if (!filteredGirlIds || filteredGirlIds.length < 2) {return}
-            const girlDictionary = await Helpers.getGirlDictionary()
+            const {replaceImageSources} = window.shared ? window.shared.webp_utilities : window
+            const {girl: {id_girl}} = window
 
             const currentIndex = filteredGirlIds.indexOf(id_girl)
+            let previousGirlId, nextGirlId
             if (currentIndex > -1) {
                 let previousIndex = currentIndex - 1
                 if (previousIndex < 0) {
@@ -50,25 +69,28 @@ class UpgradeQuickNavModule extends CoreModule {
                     nextIndex -= filteredGirlIds.length
                 }
 
-                this.previousGirlId = filteredGirlIds[previousIndex]
-                this.nextGirlId = filteredGirlIds[nextIndex]
+                previousGirlId = filteredGirlIds[previousIndex]
+                nextGirlId = filteredGirlIds[nextIndex]
             } else {
-                this.previousGirlId = filteredGirlIds[0]
-                this.nextGirlId = filteredGirlIds[filteredGirlIds.length - 1]
+                previousGirlId = filteredGirlIds[filteredGirlIds.length - 1]
+                nextGirlId = filteredGirlIds[0]
             }
 
-            this.previousGirl = girlDictionary.get(`${this.previousGirlId}`)
-            this.nextGirl = girlDictionary.get(`${this.nextGirlId}`)
+            const previousGirl = this.girlDictionary.get(`${previousGirlId}`)
+            const nextGirl = this.girlDictionary.get(`${nextGirlId}`)
 
             RESOURCE_TYPES.forEach((resource) => {
-                const $prev = this.buildAvatarHtml(this.previousGirlId, this.previousGirl, 'prev', resource)
-                const $next = this.buildAvatarHtml(this.nextGirlId, this.nextGirl, 'next', resource)
+                const $prev = this.buildAvatarHtml(previousGirlId, previousGirl, 'prev', resource)
+                const $next = this.buildAvatarHtml(nextGirlId, nextGirl, 'next', resource)
 
-                if (resource == 'skills') {
+                switch (resource) {
+                case 'skills':
                     $(`#${resource} .girl-skills-avatar`).before($prev).after($next)
-                } if (resource == 'teams') {
+                    break
+                case 'teams':
                     $(`#${resource}`).append($prev).append($next)
-                } else {
+                    break
+                default:
                     $(`#${resource} .girl-avatar`).prepend($prev).append($next)
                 }
             })
@@ -84,11 +106,79 @@ class UpgradeQuickNavModule extends CoreModule {
         this.hasRun = true
     }
 
-    buildAvatarHtml(id, {pose}, className, resource) {
+    buildAvatarHtml (id, {pose}, className, resource) {
         const imgType = resource == 'equipment' ? 'ico' : 'ava'
-
         const girlImage = `<img girl-${imgType}-src="${Helpers.getCDNHost()}/pictures/girls/${id}/${imgType}${pose}.png"/>`
         return $(`<a class="script-quicknav-${className}" resource="${resource}" href="${Helpers.getHref(`/girl/${id}?resource=${resource}`)}">${girlImage}</a>`)
+    }
+
+    getFilteredGirlList () {
+        const filters = Helpers.lsGet('filters')
+        const sort_by = Helpers.lsGetRaw('sort_by')
+        const sort_by_direction = Helpers.lsGetRaw('sort_by_direction')
+        const {level_range} = filters
+        const min_level = parseInt(level_range?.match(/^\d+/)?.[0] || 1)
+        const max_level = parseInt(level_range?.match(/-(\d+)/)?.[1] || min_level)
+
+        const girls = []
+        this.girlDictionary.forEach((girl, girl_id) => {
+            const {shards} = girl
+            if (shards === 100) {
+                const {name, element, class: carac, rarity, grade, role, armor, figure, zodiac, eye_colors, hair_colors} = girl
+                let {level, level_cap, graded} = girl
+                level = level || 1
+                level_cap = level_cap || 250
+                graded = graded || 0
+
+                let girlMaches = true
+                girlMaches &= !filters.name || name.search(new RegExp(filters.name, 'i')) > -1
+                girlMaches &= !filters.element?.length || filters.element.includes(element)
+                girlMaches &= !filters.shards?.length || filters.shards.includes('100')
+                girlMaches &= !filters.class?.length || filters.class.map(carac => parseInt(carac)).includes(carac)
+                girlMaches &= !filters.level_range || (level >= min_level && level <= max_level)
+                girlMaches &= !filters.level_cap || filters.level_cap === 'all' || (filters.level_cap === 'capped') === (level === level_cap)
+                girlMaches &= !filters.rarity || filters.rarity === 'all' || filters.rarity === rarity
+                girlMaches &= !filters.affection_cap || filters.affection_cap === 'all' || (filters.affection_cap === 'capped') === (grade === graded)
+                girlMaches &= !filters.max_affection_grade || filters.max_affection_grade === 'all' || parseInt(filters.max_affection_grade) === grade
+                girlMaches &= !filters.current_affection_grade || filters.current_affection_grade === 'all' || parseInt(filters.current_affection_grade) === graded
+                girlMaches &= !filters.role || filters.role === 'all' || parseInt(filters.role) === role
+                girlMaches &= !filters.equipment || filters.equipment === 'all' || (filters.equipment === 'equipped') === (!!armor?.length)
+                girlMaches &= !filters.pose || filters.pose === 'all' || parseInt(filters.pose) === figure
+                girlMaches &= !filters.zodiac || filters.zodiac === 'all' || filters.zodiac === zodiac
+                girlMaches &= !filters.eye_color || filters.eye_color === 'all' || eye_colors?.includes(filters.eye_color)
+                girlMaches &= !filters.hair_color || filters.hair_color === 'all' || hair_colors?.includes(filters.hair_color)
+
+                if (girlMaches) {
+                    girls.push({girl_id, ...girl})
+                }
+            }
+        })
+        girls.sort((a, b) => {
+            const direction = sort_by_direction === 'asc' ? 1 : -1
+            let delta
+            switch (sort_by) {
+            case 'date_recruited':
+                delta = a.date_added - b.date_added
+                break
+            case 'level':
+                delta = a.level - b.level
+                break
+            case 'power':
+                delta = calculateGirlPower(a) - calculateGirlPower(b)
+                break
+            case 'grade':
+                delta = a.graded - b.graded || a.grade - b.grade
+                break
+            case 'name':
+                delta = a.name.localeCompare(b.name)
+                break
+            default:
+                delta = a.date_added - b.date_added
+            }
+            return direction * delta || (parseInt(a.girl_id) - parseInt(b.girl_id))
+        })
+
+        return girls.map(({girl_id}) => parseInt(girl_id))
     }
 }
 

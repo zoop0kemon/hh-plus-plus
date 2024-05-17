@@ -42,73 +42,90 @@ class HaremInfoModule extends CoreModule {
         })
         this.label = I18n.getModuleLabel.bind(this, MODULE_KEY)
 
-        this.aggregates = {}
+        this.aggregates
     }
 
     shouldRun () {
         return (Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')
     }
 
-    async aggregateStats (type) {
+    async aggregateStats () {
         const girlDictionary = await Helpers.getGirlDictionary()
         const {GIRL_MAX_LEVEL} = window
-        const aggregate_types = ['all', 'filtered']
-        const aggregates = {}
-        aggregate_types.forEach(key => {
-            aggregates[key] = {
-                girls: 0,
-                caracs: {1: 0, 2: 0, 3: 0},
-                elements: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
-                rarities: RARITIES.reduce((acc, rarity) => {acc[rarity] = 0; return acc}, {}),
-                levelSum: 0,
-                unlockedScenes: 0,
-                totalScenes: 0,
-                scPerHour: 0,
-                scCollectAll: 0,
-                aff: 0,
-                affSC: 0,
-                affHC: 0,
-                xpToCap: 0,
-                xpToMax: 0,
-                gems: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
-            }
-        })
+        const aggregates = {
+            totalGirls: 0,
+            girls: 0,
+            caracs: {1: 0, 2: 0, 3: 0},
+            elements: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
+            rarities: RARITIES.reduce((acc, rarity) => {acc[rarity] = 0; return acc}, {}),
+            levelSum: 0,
+            unlockedScenes: 0,
+            totalScenes: 0,
+            scPerHour: 0,
+            scCollectAll: 0,
+            aff: 0,
+            affSC: 0,
+            affHC: 0,
+            xpToCap: 0,
+            xpToMax: 0,
+            gems: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
+        }
+        const filters = Helpers.lsGet('filters')
+        const {level_range} = filters
+        const min_level = parseInt(level_range?.match(/^\d+/)?.[0] || 1)
+        const max_level = parseInt(level_range?.match(/-(\d+)/)?.[1] || min_level)
 
         girlDictionary.forEach((girl) => {
             const {shards, class: carac, element, rarity, grade, salaries} = girl
             if (shards === 100 && [carac, element, rarity, grade, salaries].every(key => key !== undefined)) {
-                const {level, affection, xp} = girl
-                let {graded, salary, level_cap} = girl
+                const {name, affection, xp, role, armor, figure, zodiac, eye_colors, hair_colors} = girl
+                let {graded, salary, level, level_cap} = girl
                 graded = graded || 0
                 salary = salary || salaries.split('|')[graded].split(',')[0]
+                level = level || 1
                 level_cap = level_cap || 250
 
-                aggregate_types.forEach(key => {
-                    aggregates[key].girls++
-                    aggregates[key].caracs[carac]++
-                    aggregates[key].elements[element]++
-                    aggregates[key].rarities[rarity]++
-                    aggregates[key].levelSum += level || 1
-                    aggregates[key].unlockedScenes += graded
-                    aggregates[key].totalScenes += grade
-                    aggregates[key].scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
-                    aggregates[key].scCollectAll += salary
+                let girlMaches = true
+                girlMaches &= !filters.name || name.search(new RegExp(filters.name, 'i')) > -1
+                girlMaches &= !filters.element?.length || filters.element.includes(element)
+                girlMaches &= !filters.shards?.length || filters.shards.includes('100')
+                girlMaches &= !filters.class?.length || filters.class.map(carac => parseInt(carac)).includes(carac)
+                girlMaches &= !filters.level_range || (level >= min_level && level <= max_level)
+                girlMaches &= !filters.level_cap || filters.level_cap === 'all' || (filters.level_cap === 'capped') === (level === level_cap)
+                girlMaches &= !filters.rarity || filters.rarity === 'all' || filters.rarity === rarity
+                girlMaches &= !filters.affection_cap || filters.affection_cap === 'all' || (filters.affection_cap === 'capped') === (grade === graded)
+                girlMaches &= !filters.max_affection_grade || filters.max_affection_grade === 'all' || parseInt(filters.max_affection_grade) === grade
+                girlMaches &= !filters.current_affection_grade || filters.current_affection_grade === 'all' || parseInt(filters.current_affection_grade) === graded
+                girlMaches &= !filters.role || filters.role === 'all' || parseInt(filters.role) === role
+                girlMaches &= !filters.equipment || filters.equipment === 'all' || (filters.equipment === 'equipped') === (!!armor?.length)
+                girlMaches &= !filters.pose || filters.pose === 'all' || parseInt(filters.pose) === figure
+                girlMaches &= !filters.zodiac || filters.zodiac === 'all' || filters.zodiac === zodiac
+                girlMaches &= !filters.eye_color || filters.eye_color === 'all' || eye_colors?.includes(filters.eye_color)
+                girlMaches &= !filters.hair_color || filters.hair_color === 'all' || hair_colors?.includes(filters.hair_color)
+
+                aggregates.totalGirls++
+                if (girlMaches) {
+                    aggregates.girls++
+                    aggregates.caracs[carac]++
+                    aggregates.elements[element]++
+                    aggregates.rarities[rarity]++
+                    aggregates.levelSum += level
+                    aggregates.unlockedScenes += graded
+                    aggregates.totalScenes += grade
+                    aggregates.scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
+                    aggregates.scCollectAll += salary
                     if (graded < grade) {
-                        aggregates[key].aff += Math.max(Affection[rarity].totalAff(grade) - (affection || 0), 0)
-                        let currentGradeSC = 0,
-                            currentGradeHC = 0
-                        if (graded > 0) {
-                            currentGradeSC = Affection[rarity].totalSC(graded)
-                            currentGradeHC = Affection[rarity].totalHC(graded)
-                        }
-                        aggregates[key].affSC += Affection[rarity].totalSC(grade) - currentGradeSC
+                        aggregates.aff += Math.max(Affection[rarity].totalAff(grade) - (affection || 0), 0)
+                        const currentGradeSC = graded > 0 ? Affection[rarity].totalSC(graded) : 0
+                        const currentGradeHC = graded > 0 ? Affection[rarity].totalHC(graded) : 0
+                        aggregates.affSC += Affection[rarity].totalSC(grade) - currentGradeSC
                         const hcDiff = Affection[rarity].totalHC(grade) - currentGradeHC
-                        aggregates[key].affHC += Helpers.isNutakuKobans() ? Math.ceil(hcDiff / 6) : hcDiff
+                        aggregates.affHC += Helpers.isNutakuKobans() ? Math.ceil(hcDiff / 6) : hcDiff
                     }
-                    aggregates[key].xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - (xp || 0), 0)
-                    aggregates[key].xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - (xp || 0), 0)
-                    aggregates[key].gems[element] += getGemCostFromAwakeningLevel((level_cap-250)/50, rarity)
-                })
+                    aggregates.xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - (xp || 0), 0)
+                    aggregates.xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - (xp || 0), 0)
+                    aggregates.gems[element] += getGemCostFromAwakeningLevel((level_cap-250)/50, rarity)
+                }
             } else if (shards === 100) {
                 console.log(`Error: missing info for ${girl.name}`)
             }
@@ -117,19 +134,19 @@ class HaremInfoModule extends CoreModule {
         return aggregates
     }
 
-    buildStatsDisplay (type) {
+    buildStatsDisplay () {
         return $(`
             <div class="harem-info-panel">
-                ${this.buildGeneralSummary(type)}
-                ${this.buildUpgradeSummary(type)}
+                ${this.buildGeneralSummary()}
+                ${this.buildUpgradeSummary()}
                 ${this.buildMarketSummary()}
             </div>
         `)
     }
 
-    buildGeneralSummary (type) {
+    buildGeneralSummary () {
         const {high_level_girl_owned, awakening_requirements, GIRL_MAX_LEVEL, GT} = window
-        const {girls, caracs, elements, rarities, levelSum, unlockedScenes, totalScenes, scPerHour, scCollectAll} = this.aggregates[type]
+        const {girls, totalGirls, caracs, elements, rarities, levelSum, unlockedScenes, totalScenes, scPerHour, scCollectAll} = this.aggregates
         const levelCapAggregate = high_level_girl_owned.slice(1).map((girls_owned, i)=>{
             const {cap_level} = awakening_requirements[i]
             const {girls_required} = awakening_requirements[i+1]
@@ -142,7 +159,7 @@ class HaremInfoModule extends CoreModule {
         return `
             <div class="summary-block general-summary">
                 <h1>${this.label('haremStats')}</h1>
-                <div>${I18n.nThousand(girls)} <span class="clubGirl_mix_icn"></span></div>
+                <div>${I18n.nThousand(girls)}${girls !== totalGirls ? `/${I18n.nThousand(totalGirls)}` : ''} <span class="clubGirl_mix_icn"></span></div>
                 <ul class="summary-grid caracs-summary">
                     ${Object.entries(caracs).map(([carac, count]) => `<li><span tooltip="${GT.caracs[carac]}"><span carac="${carac}"></span><span>${I18n.nThousand(count)}</span></span></li>`).join('')}
                 </ul>
@@ -181,9 +198,9 @@ class HaremInfoModule extends CoreModule {
         `
     }
 
-    buildUpgradeSummary (type) {
+    buildUpgradeSummary () {
         const {GT} = window
-        const {aff, affSC, affHC, xpToCap, xpToMax, gems} = this.aggregates[type]
+        const {aff, affSC, affHC, xpToCap, xpToMax, gems} = this.aggregates
         return `
             <div class="summary-block upgrade-summary">
                 <h1>${this.label('upgrades')}</h1>
@@ -423,14 +440,18 @@ class HaremInfoModule extends CoreModule {
         Helpers.defer(() => {
             $(document).on('girl-dictionary:updated', async () => {
                 this.aggregates = await this.aggregateStats()
-                this.attachToPage(this.buildStatsDisplay('all'))
+                this.attachToPage(this.buildStatsDisplay())
+            })
+            Helpers.onAjaxResponse(/action=get_girls_list/i, async () => {
+                // only to run if no girls from filter, since girl dict won't be updated.
+                this.aggregates = await this.aggregateStats()
+                this.attachToPage(this.buildStatsDisplay())
             })
 
             const checkSelectionChange = () => {
                 const $girl = $('#harem_right [girl]')
                 if (!$girl.length) {return}
                 const girlId = $girl.attr('girl')
-                if (this.currentGirlId === girlId) {return}
                 this.currentGirlId = girlId
                 this.onGirlSelectionChanged(girlId, $girl)
             }

@@ -56,6 +56,7 @@ export const lsKeys = {
     CONFIG:                     lsKey('Config'),
     GIRL_DICTIONARY:            lsKey('GirlDictionary'),
     TEAMS_DICTIONARY:           lsKey('TeamsDictionary'),
+    BLESSINGS:                  lsKey('Blessings'),
     EVENT_VILLAINS:             lsKey('EventVillains'),
     EVENT_TIME:                 lsKey('EventTime'),
     MYTHIC_EVENT_VILLAINS:      lsKey('MythicEventVillains'),

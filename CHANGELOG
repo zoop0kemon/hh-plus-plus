@@ -1,4 +1,5 @@
-1.49.1: Updating harem page url, improving total resource count for upgrade page module, and some bug fixes
+1.40.2: Fixing upgrade quick nav when using filtered harem girl list, updating harem info to only show stats for currently filtered girls, and improving handling of incomplete girl dictionary data.
+1.40.1: Updating harem page url, improving total resource count for upgrade page module, and some bug fixes
 1.40.0: Updating girl dictionary, fixing harem info module, adding role and skill filters to team filter module, fixing style issues on mobile and CxH, and various other bug fixes.
 1.39.19: Fixing applying relics stats to girl tooltips, adding labyrinth shortcut for GPsH and TPsH, and other bug fixes.
 1.39.18: Fixing temp fix for style load order messing up other scripts and bug causing style tweak code to run more than once with other scripts.
