@@ -29,19 +29,21 @@ class SortDailyMissionsModule extends CoreModule {
         if (this.hasRun || !this.shouldRun()) {return}
 
         Helpers.defer(() => {
-            const missions = $('.mission_object:not(.legendary)').toArray().sort((a, b) => {
-                const aDuration = parseInt(JSON.parse($(a).attr('data-d')).duration)
-                const bDuration = parseInt(JSON.parse($(b).attr('data-d')).duration)
-                return !reverse ? aDuration - bDuration : bDuration - aDuration
-            })
-            const $eventMissions = $('.mission_object.legendary')
+            Helpers.doWhenSelectorAvailable('.missions_wrap', () => {
+                const missions = $('.mission_object:not(.legendary)').toArray().sort((a, b) => {
+                    const aDuration = parseInt(JSON.parse($(a).attr('data-d')).duration)
+                    const bDuration = parseInt(JSON.parse($(b).attr('data-d')).duration)
+                    return !reverse ? aDuration - bDuration : bDuration - aDuration
+                })
+                const $eventMissions = $('.mission_object.legendary')
 
-            let $elToAfter = $eventMissions.length ? $eventMissions.last() : $('.mission_object').eq(0)
+                let $elToAfter = $eventMissions.length ? $eventMissions.last() : $('.mission_object').eq(0)
 
-            missions.forEach(mission => {
-                const $nextEl = mission
-                $elToAfter.after($nextEl)
-                $elToAfter = $nextEl
+                missions.forEach(mission => {
+                    const $nextEl = mission
+                    $elToAfter.after($nextEl)
+                    $elToAfter = $nextEl
+                })
             })
         })
 

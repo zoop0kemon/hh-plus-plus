@@ -23,33 +23,33 @@ const collectWeekInfo = (week, time) => {
         const $description = $(`<p>${description}</p>`)
 
         const week_of_raw = WEEK_OF_THE.find(translation => title.match(new RegExp(`^${translation} `, 'i')))
-        const attribute_raw = title.match(new RegExp(`^${week_of_raw} (.*)`, 'i'))?.at(1)
-        const category_raw = $description.find('.blessing-condition').text().match(new RegExp(`^(.*) ${attribute_raw}`, 'i'))?.at(1)
+        const value_raw = title.match(new RegExp(`^${week_of_raw} (.*)`, 'i'))?.at(1)
+        const key_raw = $description.find('.blessing-condition').text().match(new RegExp(`^(.*) ${value_raw}`, 'i'))?.at(1)
 
-        let key = Object.entries(CATEGORY_KEYS).find(category => GT.design[category[1]] === category_raw)?.at(0)
-        if (!key && GIRL_FAV_POS.some(transltion => transltion === category_raw)) {
+        let key = Object.entries(CATEGORY_KEYS).find(category => GT.design[category[1]] === key_raw)?.at(0)
+        if (!key && GIRL_FAV_POS.some(transltion => transltion === key_raw)) {
             key = 'figure'
         }
         let value
         switch (key) {
         case 'eye_colors':
         case 'hair_colors':
-            value = Object.entries(GT.colors).find(color => color[1] === attribute_raw)?.at(0)
+            value = Object.entries(GT.colors).find(color => color[1] === value_raw)?.at(0)
             break
         case 'zodiac':
-            value = Object.entries(GT.zodiac).find(zodiac => zodiac[1] === attribute_raw)?.at(0)
+            value = Object.entries(GT.zodiac).find(zodiac => zodiac[1] === value_raw)?.at(0)
             break
         case 'figure':
-            const fig_index = GT.figures.indexOf(attribute_raw)
+            const fig_index = GT.figures.indexOf(value_raw)
             if (fig_index > -1) {
                 value = fig_index
             }
             break
         case 'rarity':
-            value = RARITIES.find(rarity => GT.design[`girls_rarity_${rarity}`] === attribute_raw)
+            value = RARITIES.find(rarity => GT.design[`girls_rarity_${rarity}`] === value_raw)
             break
         case 'element':
-            value = ELEMENTS.find(element => GT.design[`${element}_flavor_element`] === attribute_raw)
+            value = ELEMENTS.find(element => GT.design[`${element}_flavor_element`] === value_raw)
             break
         }
         const bonus = parseInt($description.find('.blessing-bonus').text().match(/\d+/)?.at(0))
@@ -78,13 +78,13 @@ class BlessingsCollector {
             const {server_now_ts} = window
             // handle rollover
             if (server_now_ts > blessings?.next?.ends_at) {
-                blessings.current = blessings.next
                 blessings.next = {}
 
                 Helpers.lsSet(lsKeys.BLESSINGS, blessings)
             }
             if (server_now_ts > blessings?.current?.ends_at) {
-                blessings.current = {}
+                blessings.current = blessings?.next || {}
+                blessings.next = {}
 
                 Helpers.lsSet(lsKeys.BLESSINGS, blessings)
             }

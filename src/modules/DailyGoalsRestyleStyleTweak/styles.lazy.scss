@@ -1,6 +1,7 @@
 @import "../../common/constants.scss";
 
-.activities-container #daily_goals .daily-goals-row {
+.activities-container #daily_goals .daily-goals-row,
+.activities-container #daily_goals .daily-goals-container {
     .daily-goals-left-part {
         width: 62.5rem;
 

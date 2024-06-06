@@ -1,3 +1,4 @@
+1.40.3: Fixing activities related modules, updating home screen pachinko timer to include mythic and equipment pachinko, and other bug fixes.
 1.40.2: Fixing upgrade quick nav when using filtered harem girl list, updating harem info to only show stats for currently filtered girls, and improving handling of incomplete girl dictionary data.
 1.40.1: Updating harem page url, improving total resource count for upgrade page module, and some bug fixes
 1.40.0: Updating girl dictionary, fixing harem info module, adding role and skill filters to team filter module, fixing style issues on mobile and CxH, and various other bug fixes.

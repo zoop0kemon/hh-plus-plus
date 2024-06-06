@@ -34,10 +34,10 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true}={})
                 zodiac: zodiac ? Object.keys(zodiacs).find(key => zodiacs[key] === zodiac.substring(3)) : undefined,
                 grade_offsets: grade_offset_values
             }
-            if (!blessed_attributes) { // base stats only available for unblessed girls
+            if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) { // base stats only available for unblessed girls
                 const {carac1, carac2, carac3} = girl
                 const caracs = [carac1, carac2, carac3]
-                if (caracs.every(carac => Number.isInteger(carac))) {
+                if (caracs.every(carac => Number.isInteger(carac) && carac<100)) {
                     girl_data.caracs = caracs
                 }
             }

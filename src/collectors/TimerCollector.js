@@ -6,7 +6,7 @@ const defaultTimes = {
     popDuration: 0,
     champs: {},
     clubChamp: 0,
-    gp: 0,
+    pachinko: [],
 }
 
 const loadTimes = () => {
@@ -63,28 +63,29 @@ class TimerCollector {
     static collectPachinkoTime() {
         const times = loadTimes()
 
-        const {server_now_ts, pachinkoVar} = window
-        const {next_game} = pachinkoVar
+        const {server_now_ts, pachinkoVar: {next_mythic_game, next_great_game, next_equipment_game}} = window
 
-        if (next_game <= 86400) {// (Old behavior) When updated in real time, it's set to a full millisecond timestamp instead of seconds until...
-            times.gp = server_now_ts + next_game
-        }
+        times.pachinko = [
+            {type: 'mythic', time: next_mythic_game + server_now_ts},
+            {type: 'great', time: next_great_game + server_now_ts},
+            {type: 'equipment', time: next_equipment_game + server_now_ts}
+        ]
 
         saveTimes(times)
     }
     static collectRealtimePachinkoUpdateFromAjax() {
-        Helpers.onAjaxResponse(/action=play/, (response, opt) => {
-            if (response.success) {
+        Helpers.onAjaxResponse(/class=Pachinko&action=play/, (response, opt) => {
+            const {next_mythic_free, next_equip_free, next_game} = response
+            const next_free = next_mythic_free || next_equip_free || next_game
+            if (next_free) {
                 const searchParams = new URLSearchParams(opt.data)
                 const {pachinkoDef} = window
                 const type = pachinkoDef.find(o => o.id == searchParams.get('what').slice(-1)).type
-                const games = searchParams.get('how_many')
+                const times = loadTimes()
+                const pachinko_time_index = times.pachinko.findIndex(pachinko => pachinko.type === type)
 
-                if (type == 'great' && games == 1 && response.next_game) {
-                    const times = loadTimes()
-                    
-                    times.gp = Math.round(new Date().getTime()/1000) + response.next_game
-
+                if (pachinko_time_index > -1) {
+                    times.pachinko[pachinko_time_index] = {type, time: Math.round(new Date().getTime()/1000) + next_free}
                     saveTimes(times)
                 }
             }

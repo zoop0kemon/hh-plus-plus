@@ -98,8 +98,9 @@ class HomeScreenModule extends CoreModule {
         const trackedTimes = Helpers.lsGet(lsKeys.TRACKED_TIMES)
         if (!trackedTimes) {return}
         // Pachinko
-        if (trackedTimes.gp && trackedTimes.gp > server_now_ts) {
-            this.attachTimer('pachinko', trackedTimes.gp)
+        const pachinko_time = trackedTimes?.pachinko?.filter(({time}) => time).sort((a, b) => a.time-b.time)[0]?.time
+        if (pachinko_time) {
+            this.attachTimer('pachinko', pachinko_time)
         }
 
         // Champions

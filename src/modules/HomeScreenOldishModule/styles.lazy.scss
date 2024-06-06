@@ -219,13 +219,13 @@
             justify-content: flex-start;
             position: absolute;
             bottom: -12px;
-            left: 90px;
+            left: 10px;
             width: 39rem;
 
             .box-container .waifu-buttons-container {
                 position: absolute;
                 bottom: 0px;
-                right: 40px !important;
+                right: -40px !important;
             }
         }
     }

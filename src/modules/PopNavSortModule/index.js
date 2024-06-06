@@ -50,12 +50,14 @@ class PopNavSortModule extends CoreModule {
                 const currentPoPId = searchParams.get('index')
 
                 if (currentPoPId) {
-                    this.addQuickNav(currentPoPId)
-                    this.displayGirlClasses(currentPoPId)
-
-                    new MutationObserver(() => {
+                    Helpers.doWhenSelectorAvailable('.pop_right_part .grid_view', () => {
+                        this.addQuickNav(currentPoPId)
                         this.displayGirlClasses(currentPoPId)
-                    }).observe($('.pop_right_part .grid_view')[0], {childList: true})
+
+                        new MutationObserver(() => {
+                            this.displayGirlClasses(currentPoPId)
+                        }).observe($('.pop_right_part .grid_view')[0], {childList: true})
+                    })
                 }
             }
         })
@@ -69,12 +71,14 @@ class PopNavSortModule extends CoreModule {
         const sortedPopIds = sortPopIds(popIds)
         this.sortedPopIds = sortedPopIds
 
-        let $elToAfter = $('.pop_thumb_container:has([pop_id="3"])')
+        Helpers.doWhenSelectorAvailable('.pop_thumb_container', () => {
+            let $elToAfter = $('.pop_thumb_container:has([pop_id="3"])')
 
-        sortedPopIds.forEach(id => {
-            const $nextEl = $(`.pop_thumb_container:has([pop_id="${id}"])`)
-            $elToAfter.after($nextEl)
-            $elToAfter = $nextEl
+            sortedPopIds.forEach(id => {
+                const $nextEl = $(`.pop_thumb_container:has([pop_id="${id}"])`)
+                $elToAfter.after($nextEl)
+                $elToAfter = $nextEl
+            })
         })
     }
 

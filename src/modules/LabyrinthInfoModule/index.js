@@ -59,7 +59,7 @@ class LabyrinthInfoModule extends CoreModule {
     }
 
     normalizePower () {
-        if (Helpers.isCurrentPage('labyrinth-pool-select') || Helpers.isCurrentPage('edit-labyrinth-team')) {
+        if (Helpers.isCurrentPage('labyrinth-pool-select')) {// || Helpers.isCurrentPage('edit-labyrinth-team')) {
             const {owned_girls, availableGirls} = window
             const game_girls = owned_girls || availableGirls
             const girl_powers = []

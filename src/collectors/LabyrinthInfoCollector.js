@@ -119,8 +119,8 @@ class LabyrinthInfoCollector {
                         if (availableGirls) {
                             const girl = availableGirls.find(girl => girl.id_girl == id_girl)
                             if (girl) {
-                                const {remaining_ego, level, caracs, blessed_caracs, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp, class: g_class, rarity, name, element_data: {type}} = girl
-                                const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+                                const {remaining_ego, level, battle_caracs, graded2, ico, class: g_class, rarity, name, element_data: {type}} = girl
+                                const {member_girl: {caracs, blessed_caracs, skill_tiers_info}} = relic_girl
 
                                 relic_girl.member_girl = {
                                     level,

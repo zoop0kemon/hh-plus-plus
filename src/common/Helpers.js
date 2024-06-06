@@ -374,6 +374,14 @@ class Helpers {
 
         return url
     }
+
+    static calculateGirlPower (girl) {
+        const {caracs, rarity, level, graded, equips, skills} = girl
+        const blessings = Helpers.lsGet(lsKeys.BLESSINGS) || {}
+
+        const baseSum = caracs?.reduce((a, b) => a+b, 0) || DEFAULT_BASE_SUM[rarity] || 100
+        return baseSum * (level || 1) * (10 + 3*(graded || 0))
+    }
 }
 
 export default Helpers

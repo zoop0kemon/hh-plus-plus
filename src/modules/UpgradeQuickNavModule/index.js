@@ -133,7 +133,6 @@ class UpgradeQuickNavModule extends CoreModule {
                 let girlMaches = true
                 girlMaches &= !filters.name || name.search(new RegExp(filters.name, 'i')) > -1
                 girlMaches &= !filters.element?.length || filters.element.includes(element)
-                girlMaches &= !filters.shards?.length || filters.shards.includes('100')
                 girlMaches &= !filters.class?.length || filters.class.map(carac => parseInt(carac)).includes(carac)
                 girlMaches &= !filters.level_range || (level >= min_level && level <= max_level)
                 girlMaches &= !filters.level_cap || filters.level_cap === 'all' || (filters.level_cap === 'capped') === (level === level_cap)
@@ -149,7 +148,16 @@ class UpgradeQuickNavModule extends CoreModule {
                 girlMaches &= !filters.hair_color || filters.hair_color === 'all' || hair_colors?.includes(filters.hair_color)
 
                 if (girlMaches) {
-                    girls.push({girl_id, ...girl})
+                    const {date_added} = girl
+                    girls.push({
+                        girl_id: parseInt(girl_id),
+                        date_added: date_added || 0,
+                        level,
+                        power: calculateGirlPower(girl),
+                        grade: grade || 3,
+                        graded,
+                        name
+                    })
                 }
             }
         })
@@ -164,7 +172,7 @@ class UpgradeQuickNavModule extends CoreModule {
                 delta = a.level - b.level
                 break
             case 'power':
-                delta = calculateGirlPower(a) - calculateGirlPower(b)
+                delta = a.power - b.power
                 break
             case 'grade':
                 delta = a.graded - b.graded || a.grade - b.grade
@@ -175,10 +183,10 @@ class UpgradeQuickNavModule extends CoreModule {
             default:
                 delta = a.date_added - b.date_added
             }
-            return direction * delta || (parseInt(a.girl_id) - parseInt(b.girl_id))
+            return direction * delta || (a.girl_id - b.girl_id)
         })
 
-        return girls.map(({girl_id}) => parseInt(girl_id))
+        return girls.map(({girl_id}) => girl_id)
     }
 }
 
