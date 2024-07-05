@@ -172,6 +172,7 @@ export const villain = {
     werebunnypolice: 'WereBunny Police',
     auga: 'Auga',
     gross: 'Gross',
+    harriet: 'Harriet',
     edward: 'Edward',
     edernas: 'Edernas',
     maro: 'Maro',
@@ -209,6 +210,7 @@ export const villain = {
     tristanhunter: 'Tristan Hunter',
     jimmydurano: 'Jimmy Durano',
     luccamazzi: 'Lucca Mazzi',
+    andrewstark: 'Andrew Stark',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -234,6 +236,7 @@ export const villainBreadcrumbs = {
     weresquidisland: 'WereSquid Island',
     haremtournament: 'The Harem Tournament',
     gemskingdomprovince: 'Gems Kingdom Province',
+    nudecity: 'Nude City',
 
     begincitycxh: 'Begin City',
     heroacademy: 'Hero Academy',
@@ -272,6 +275,7 @@ export const villainBreadcrumbs = {
     spotlight: 'Spotlight',
     boysarebad: 'Boys Are Bad',
     yeehawgpsh: 'Yee Haw!',
+    dreamvalleynot: 'Dream Valley Not',
 }
 
 export const market = {

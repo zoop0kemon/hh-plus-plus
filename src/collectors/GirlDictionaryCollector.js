@@ -8,15 +8,16 @@ const upsert = (id, data) => {
     girlDictionary.set(`${id}`, upsert)
 }
 
-const collectFromGirlList = async (girl_list, {trusted=true, could_own=true}={}) => {
+const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, base_stats=false}={}) => {
     girlDictionary = await Helpers.getGirlDictionary()
     let updated = false
     const {GT: {zodiac: zodiacs}} = window
+    //const blessings = {} //Helpers.lsGet(lsKeys.BLESSINGS) || {}
 
     Object.values(girl_list).forEach((girl) => {
         const {id_girl, name} = girl
         if (id_girl && name) {
-            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, salaries, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, blessed_attributes, grade_offset_values} = girl
+            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values} = girl
             const has_girl = could_own && (own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100))
 
             const girl_data = { // Data for owned or unowned girls
@@ -27,16 +28,25 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true}={})
                 element: element ? element : element_data?.type,
                 class: parseInt(girl_class, 10),
                 role: parseInt(id_role, 10),
-                salaries,
                 figure: figure ? parseInt(figure, 10) : (position_img ? parseInt(position_img.match(/\d+/g)[0], 10) : undefined),
                 eye_colors: eye_color1 || eye_color2 ? [eye_color1, eye_color2].filter(color => !!color) : undefined,
                 hair_colors: hair_color1 || hair_color2 ? [hair_color1, hair_color2].filter(color => !!color) : undefined,
                 zodiac: zodiac ? Object.keys(zodiacs).find(key => zodiacs[key] === zodiac.substring(3)) : undefined,
                 grade_offsets: grade_offset_values
             }
-            if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) { // base stats only available for unblessed girls
+            if (base_stats) {
                 const {carac1, carac2, carac3} = girl
-                const caracs = [carac1, carac2, carac3]
+                let caracs = [carac1, carac2, carac3]
+                if (base_stats === 'reverse' && blessings?.current) { // WIP
+                    console.log(caracs)
+                    const blessing_bonuses = blessings.current.blessings.map(({key, value, bonus}) => girl_data?.[key] === value ? bonus : 0)
+
+                    caracs = caracs.map(carac => {
+                        carac = blessing_bonuses.reduce((a, bonus) => a/(1 + bonus/100), carac)
+                        return carac
+                    })
+                    console.log(caracs)
+                }
                 if (caracs.every(carac => Number.isInteger(carac) && carac<100)) {
                     girl_data.caracs = caracs
                 }
@@ -254,10 +264,10 @@ class GirlDictionaryCollector {
             // Data for unowned or owned girls
             if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) {
                 Helpers.onAjaxResponse(/action=get_girls_list/i, ({girls_list}) => {
-                    collectFromGirlList(girls_list)
+                    collectFromGirlList(girls_list, {base_stats: true})
                 })
                 Helpers.onAjaxResponse(/action=get_girl&/i, ({girl}) => {
-                    collectFromGirlList([{...girl, ...girl.girl}])
+                    collectFromGirlList([{...girl, ...girl.girl}], {base_stats: true})
                 })
 
                 Helpers.onAjaxResponse(/action=show_specific_girl_grade/i, updateFavPose)
@@ -280,7 +290,7 @@ class GirlDictionaryCollector {
                 const {opponent_fighter} = window
                 const {team} = opponent_fighter.player || opponent_fighter
                 const girls = team.girls.map(girl => girl.girl)
-                collectFromGirlList(girls, {trusted: false, could_own: false})
+                collectFromGirlList(girls, {trusted: false, could_own: false, base_stats: true})
             } else if (Helpers.isCurrentPage('season-arena')) {
                 const {opponents} = window
                 const girls = []
@@ -289,7 +299,7 @@ class GirlDictionaryCollector {
                         girls.push(girl)
                     }
                 }))
-                collectFromGirlList(girls, {trusted: false, could_own: false})
+                collectFromGirlList(girls, {trusted: false, could_own: false, base_stats: true})
             } else if (Helpers.isCurrentPage('season.html')) {
                 const {seasons_girls} = window
                 const girls = seasons_girls.map(girl => {

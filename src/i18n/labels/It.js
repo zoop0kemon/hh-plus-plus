@@ -387,6 +387,7 @@ export const villainBreadcrumbs = {
     weresquidisland: 'Isola dei Calamari Mannari',
     haremtournament: 'Il Torneo dell\'Harem',
     gemskingdomprovince: 'Provincia del Regno delle Gemme',
+    nudecity: 'Città Nuda',
 }
 
 export const blessingSpreadsheetLink = {

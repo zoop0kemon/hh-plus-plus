@@ -72,7 +72,7 @@ class HideClaimedRewardsModule extends CoreModule {
                             scroll_area: '.scroll-area.poa',
                             tier: '.nc-poa-reward-pair',
                             tiers_unlocked_var: 'next_tier', // off by one, but not needed since no progress bar
-                            girl: '#poa-content .girls',
+                            girl: '#poa-content .girls .girl-avatar',
                             hide: () => {
                                 const claimable_tiers = []
                                 $('.nc-poa-reward-pair').each((i, el) => {
@@ -94,7 +94,7 @@ class HideClaimedRewardsModule extends CoreModule {
                             tier: '.tier-container',
                             tiers_unlocked_var: 'current_tier',
                             progress_bar: '.dp-progress-bar .dp-progress-bar-current',
-                            girl: '.right-container',
+                            girl: '.right-container [class*="girl-avatar"]',
                             hide: () => {
                                 $('.tier-container:has(.claimed-reward-tick.display-block)').addClass('script-hide-claimed')
                                 return $('.tier-container:has([rel="reward-claim"]:not(.hidden):not([style="display: none;"]))').toArray()

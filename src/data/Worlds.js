@@ -18,6 +18,7 @@ export const HH = [
     'weresquidisland',
     'haremtournament',
     'gemskingdomprovince',
+    'nudecity',
 ]
 
 export const GH = HH
@@ -83,4 +84,7 @@ export const GPSH = [
     '',
     'boysarebad',
     'yeehawgpsh',
+    '',
+    '',
+    'dreamvalleynot',
 ]

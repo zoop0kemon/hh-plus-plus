@@ -12,6 +12,9 @@
             font-size: 0.75rem;
             margin-top: 0;
             height: 78%;
+            &.height-for-ad {
+                height: 55%;
+            }
 
             .daily-goals-objective {
                 width: auto;

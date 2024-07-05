@@ -375,10 +375,24 @@ class Helpers {
         return url
     }
 
-    static calculateGirlPower (girl) {
-        const {caracs, rarity, level, graded, equips, skills} = girl
+    static calculateGirlStats (girl, sum=true) {
+        const {caracs, rarity, level, graded, equips, class: g_class, skills} = girl
         const blessings = Helpers.lsGet(lsKeys.BLESSINGS) || {}
+        const blessing_bonuses = blessings?.current?.blessings?.map(({key, value, bonus}) => girl?.[key] === value ? bonus : 0) || []
 
+        const stats = caracs.map((carac, index) => {
+            const from_equips = equips?.reduce((a, equip) => a+equip.caracs[`carac${index+1}`], 0) || 0
+            const skills_flat = skills?.[index+1 === g_class ? 3 : 5]?.flat_value || 0
+
+            let carac_stat = carac/10 * (level || 1) * (1 + 0.3*(graded || 0)) + from_equips + skills_flat
+            if (index+1 === g_class && skills?.[4]) {
+                carac_stat *= 1 + skills[4].percentage_value/100
+            }
+
+            return blessing_bonuses.reduce((a, bonus) => a*(1 + bonus/100), carac_stat)
+        })
+        return sum ? stats.reduce((a,b) => a+b) : stats
+        // what to do if no base caracs found...
         const baseSum = caracs?.reduce((a, b) => a+b, 0) || DEFAULT_BASE_SUM[rarity] || 100
         return baseSum * (level || 1) * (10 + 3*(graded || 0))
     }

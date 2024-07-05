@@ -30,3 +30,17 @@
         opacity: 1;
     }
 }
+
+#contests.height-for-ad {
+    .contests-container .right_part .info {
+        h5 {
+            margin-top: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .over_bunny {
+            height: auto;
+            line-height: 16px;
+        }
+    }
+}

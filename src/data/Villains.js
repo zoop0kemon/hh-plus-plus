@@ -237,14 +237,27 @@ export default {
             }]
         },
         {
+            key: 'harriet',
             world: 19,
+            girls: {
+                1: ['280313988', '641009897', '275226156'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'nature',
+                amount: 25,
+            }]
+        },
+        {
+            world: 20,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'nature',
+                element: 'stone',
                 amount: 25,
             }]
         },
@@ -1040,10 +1053,11 @@ export default {
             }],
         },
         {
+            key: 'andrewstark',
             opponent: 4,
-            world: 8,
+            world: 10,
             girls: {
-                1: [],
+                1: ['446246345', '182117271', '712652761', '350309796', '361432643', '390918673', '426008459', '590934200', '599355011', '848616605', '921769175'],
                 2: [],
                 3: []
             },
@@ -1053,6 +1067,19 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15
+            }],
+        },
+        {
+            opponent: 5,
+            world: 11,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 20,
             }],
         }
     ]

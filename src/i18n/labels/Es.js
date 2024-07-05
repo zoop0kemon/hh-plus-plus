@@ -353,6 +353,7 @@ export const villainBreadcrumbs = {
     weresquidisland: 'Isla WereSquid',
     haremtournament: 'El Torneo del Harem',
     gemskingdomprovince: 'Provincia del Reino de las Gemas',
+    nudecity: 'Chudad Nudista',
 }
 
 export const blessingSpreadsheetLink = {

@@ -23,6 +23,7 @@ const GEM_COST_MULTIPLIERS = {
 }
 const SC_PER_AFF = 417
 const SC_PER_XP = 200
+const SALARY_TIMES = [30, 90, 270, 420, 420, 420, 420]
 
 const getGemCostFromAwakeningLevel = (awakeningLevel, rarity) => {
     const {awakening_requirements} = window
@@ -76,12 +77,12 @@ class HaremInfoModule extends CoreModule {
         const max_level = parseInt(level_range?.match(/-(\d+)/)?.[1] || min_level)
 
         girlDictionary.forEach((girl) => {
-            const {shards, class: carac, element, rarity, grade, salaries} = girl
-            if (shards === 100 && [carac, element, rarity, grade, salaries].every(key => key !== undefined)) {
+            const {shards, class: carac, element, rarity, grade} = girl
+            if (shards === 100 && [carac, element, rarity, grade].every(key => key !== undefined)) {
                 const {name, affection, xp, role, armor, figure, zodiac, eye_colors, hair_colors} = girl
                 let {graded, salary, level, level_cap} = girl
                 graded = graded || 0
-                salary = salary || salaries.split('|')[graded].split(',')[0]
+                salary = salary || 0
                 level = level || 1
                 level_cap = level_cap || 250
 
@@ -112,7 +113,7 @@ class HaremInfoModule extends CoreModule {
                     aggregates.levelSum += level
                     aggregates.unlockedScenes += graded
                     aggregates.totalScenes += grade
-                    aggregates.scPerHour += Math.round(salary / (salaries.split('|')[graded].split(',')[1] / 60))
+                    aggregates.scPerHour += Math.round(salary / (SALARY_TIMES[graded] / 60))
                     aggregates.scCollectAll += salary
                     if (graded < grade) {
                         aggregates.aff += Math.max(Affection[rarity].totalAff(grade) - (affection || 0), 0)

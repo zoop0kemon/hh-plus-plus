@@ -337,6 +337,7 @@ export const villainBreadcrumbs = {
     weresquidisland: 'L\'île des Poulpes Garous',
     haremtournament: 'Le Tournoi de Harem',
     gemskingdomprovince: 'Province des Gemmes',
+    nudecity: 'La Cité Nue',
 
     begincitycxh: 'Préludeville',
     heroacademy: 'Académie des Héros',
