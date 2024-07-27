@@ -1,3 +1,4 @@
+1.40.5: Fixing team filter module and adding equipment filter. Adding temp fix to labyrinth info module for missing girl data and adding timer for end of labyrinth season. Various other bug fixes.
 1.40.4: Adding HH world 19 data and GPSH world 5 data. Fixing style issues with ads in the activities page and partial fixes for girl dictionary collector for base stats.
 1.40.3: Fixing activities related modules, updating home screen pachinko timer to include mythic and equipment pachinko, and other bug fixes.
 1.40.2: Fixing upgrade quick nav when using filtered harem girl list, updating harem info to only show stats for currently filtered girls, and improving handling of incomplete girl dictionary data.

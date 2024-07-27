@@ -1,4 +1,5 @@
 import Helpers from '../common/Helpers'
+import { lsKeys } from '../common/Constants'
 
 let girlDictionary
 
@@ -17,7 +18,7 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
     Object.values(girl_list).forEach((girl) => {
         const {id_girl, name} = girl
         if (id_girl && name) {
-            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values} = girl
+            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values, caracs} = girl
             const has_girl = could_own && (own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100))
 
             const girl_data = { // Data for owned or unowned girls
@@ -36,19 +37,19 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
             }
             if (base_stats) {
                 const {carac1, carac2, carac3} = girl
-                let caracs = [carac1, carac2, carac3]
+                let base_caracs = [carac1, carac2, carac3]
                 if (base_stats === 'reverse' && blessings?.current) { // WIP
-                    console.log(caracs)
+                    console.log(base_caracs)
                     const blessing_bonuses = blessings.current.blessings.map(({key, value, bonus}) => girl_data?.[key] === value ? bonus : 0)
 
-                    caracs = caracs.map(carac => {
+                    base_caracs = base_caracs.map(carac => {
                         carac = blessing_bonuses.reduce((a, bonus) => a/(1 + bonus/100), carac)
                         return carac
                     })
-                    console.log(caracs)
+                    console.log(base_caracs)
                 }
-                if (caracs.every(carac => Number.isInteger(carac) && carac<100)) {
-                    girl_data.caracs = caracs
+                if (base_caracs.every(carac => Number.isInteger(carac) && carac<100)) {
+                    girl_data.base_caracs = base_caracs
                 }
             }
             if (has_girl && trusted) { // player mutable
@@ -91,6 +92,9 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
                         if (s_name) {girl_skill.name = s_name}
                         girl_data.skills[skill_id] = girl_skill
                     })
+                }
+                if (caracs) {
+                    girl_data.caracs = Object.values(caracs)
                 }
             }
 
@@ -264,6 +268,7 @@ class GirlDictionaryCollector {
             // Data for unowned or owned girls
             if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) {
                 Helpers.onAjaxResponse(/action=get_girls_list/i, ({girls_list}) => {
+                    girls_list.forEach(girl => girl.shards = girl.shards || 0)
                     collectFromGirlList(girls_list, {base_stats: true})
                 })
                 Helpers.onAjaxResponse(/action=get_girl&/i, ({girl}) => {

@@ -8,21 +8,6 @@ import { lsKeys } from '../../common/Constants'
 const MODULE_KEY = 'upgradeQuickNav'
 
 const RESOURCE_TYPES = ['experience', 'affection', 'equipment', 'skills', 'teams']
-const DEFAULT_BASE_SUM = {
-    'starting': 78,
-    'common': 75,
-    'rare': 85,
-    'epic': 93,
-    'legendary': 100,
-    'mythic': 102,
-}
-
-const calculateGirlPower = (girl) => {
-    const {caracs, rarity, level, graded} = girl
-    const baseSum = caracs?.reduce((a, b) => a+b, 0) || DEFAULT_BASE_SUM[rarity] || 100
-    return baseSum * (level || 1) * (10 + 3*(graded || 0))
-    // blessings, armor, skills?
-}
 
 class UpgradeQuickNavModule extends CoreModule {
     constructor () {
@@ -124,7 +109,7 @@ class UpgradeQuickNavModule extends CoreModule {
         this.girlDictionary.forEach((girl, girl_id) => {
             const {shards} = girl
             if (shards === 100) {
-                const {name, element, class: carac, rarity, grade, role, armor, figure, zodiac, eye_colors, hair_colors} = girl
+                const {name, element, class: carac, rarity, grade, role, equips, figure, zodiac, eye_colors, hair_colors} = girl
                 let {level, level_cap, graded} = girl
                 level = level || 1
                 level_cap = level_cap || 250
@@ -141,7 +126,7 @@ class UpgradeQuickNavModule extends CoreModule {
                 girlMaches &= !filters.max_affection_grade || filters.max_affection_grade === 'all' || parseInt(filters.max_affection_grade) === grade
                 girlMaches &= !filters.current_affection_grade || filters.current_affection_grade === 'all' || parseInt(filters.current_affection_grade) === graded
                 girlMaches &= !filters.role || filters.role === 'all' || parseInt(filters.role) === role
-                girlMaches &= !filters.equipment || filters.equipment === 'all' || (filters.equipment === 'equipped') === (!!armor?.length)
+                girlMaches &= !filters.equipment || filters.equipment === 'all' || (filters.equipment === 'equipped') === (!!equips?.length)
                 girlMaches &= !filters.pose || filters.pose === 'all' || parseInt(filters.pose) === figure
                 girlMaches &= !filters.zodiac || filters.zodiac === 'all' || filters.zodiac === zodiac
                 girlMaches &= !filters.eye_color || filters.eye_color === 'all' || eye_colors?.includes(filters.eye_color)
@@ -153,7 +138,7 @@ class UpgradeQuickNavModule extends CoreModule {
                         girl_id: parseInt(girl_id),
                         date_added: date_added || 0,
                         level,
-                        power: calculateGirlPower(girl),
+                        power: Helpers.calculateGirlStats(girl),
                         grade: grade || 3,
                         graded,
                         name

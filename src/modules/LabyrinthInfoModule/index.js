@@ -42,7 +42,7 @@ class LabyrinthInfoModule extends CoreModule {
 
         styles.use()
 
-        Helpers.defer(() => {
+        Helpers.defer(async () => {
             if (fixPower) {
                 this.normalizePower()
             }
@@ -53,25 +53,39 @@ class LabyrinthInfoModule extends CoreModule {
             if (Helpers.isCurrentPage('labyrinth-battle')) {
                 this.fasterSkipButton()
             }
+            if (Helpers.isCurrentPage('labyrinth.html')) {
+                this.addSeasonTimer()
+            }
         })
 
         this.hasRun = true
     }
 
-    normalizePower () {
-        if (Helpers.isCurrentPage('labyrinth-pool-select')) {// || Helpers.isCurrentPage('edit-labyrinth-team')) {
+    async normalizePower () {
+        if (Helpers.isCurrentPage('labyrinth-pool-select') || Helpers.isCurrentPage('edit-labyrinth-team')) {
+            const is_pool = Helpers.isCurrentPage('labyrinth-pool-select')
             const {owned_girls, availableGirls} = window
             const game_girls = owned_girls || availableGirls
             const girl_powers = []
-            game_girls.forEach((girl) => {
-                const {id_girl, caracs_sum, blessed_caracs} = girl
-                const power = caracs_sum ? caracs_sum : Object.values(blessed_caracs).reduce((a,b) => a+b)
-                girl.power_display = power
-                girl_powers.push({id_girl, power})
-            })
+            if (is_pool) {
+                game_girls.forEach((girl) => {
+                    const {id_girl, caracs_sum, blessed_caracs} = girl
+                    const power = caracs_sum ? caracs_sum : Object.values(blessed_caracs).reduce((a,b) => a+b)
+                    girl.power_display = power
+                    girl_powers.push({id_girl, power})
+                })
+            } else {
+                // temp fix for missing girl data on page
+                const girlDictionary = await Helpers.getGirlDictionary()
+                game_girls.forEach((girl) => {
+                    const {id_girl} = girl
+                    const power = Helpers.calculateGirlStats(girlDictionary.get(`${id_girl}`))
+                    girl.power_display = power
+                    girl_powers.push({id_girl, power})
+                })
+            }
             girl_powers.sort((a, b) => b.power - a.power)
 
-            const is_pool = Helpers.isCurrentPage('labyrinth-pool-select')
             const grid_selector = is_pool ? '.girl-grid' : '.harem-panel-girls'
             const container_selector = is_pool ? '.girl-container' : '.harem-girl-container'
             const power_selector = is_pool ? '.girl-power-number' : '.girl-power-icon>span'
@@ -95,7 +109,7 @@ class LabyrinthInfoModule extends CoreModule {
         }
     }
 
-    improveGirlTooltip () {
+    async improveGirlTooltip () {
         const RELIC_KEYS = Object.keys(RELIC_BONUSES)
         const relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)) || []
 
@@ -133,6 +147,36 @@ class LabyrinthInfoModule extends CoreModule {
                 })
             })
         })
+
+        // temp fix for missing girl data on page
+        if (Helpers.isCurrentPage('edit-labyrinth-team')) {
+            const {availableGirls} = window
+            const girlDictionary = await Helpers.getGirlDictionary()
+
+            availableGirls.forEach((girl) => {
+                const {id_girl, blessing_bonuses} = girl
+                const {skill_tiers} = girlDictionary.get(`${id_girl}`)
+                const $girl = $(`.harem-girl-container[id_girl="${id_girl}"] [data-new-girl-tooltip]`)
+                const tooltip_data = JSON.parse($girl.attr('data-new-girl-tooltip'))
+
+                tooltip_data.blessed_caracs = {}
+                tooltip_data.blessed_attributes = Object.keys(blessing_bonuses)
+                if (skill_tiers) {
+                    const skill_tiers_info = {}
+                    skill_tiers.forEach((skill_points_used, tier) => {
+                        tier++
+                        skill_tiers_info[tier] = {
+                            tier,
+                            skill_points_used,
+                            icon: 'active_skills',
+                            icon_path: '/images/pictures/design/girl_skills/active_skills_icon.png'
+                        }
+                    })
+                    tooltip_data.skill_tiers_info = skill_tiers_info
+                }
+                $girl.attr('data-new-girl-tooltip', JSON.stringify(tooltip_data))
+            })
+        }
     }
 
     addGirlIcons () {
@@ -405,6 +449,23 @@ class LabyrinthInfoModule extends CoreModule {
                 // })
                 $('#new-battle-skip-btn').show()
             })
+        })
+    }
+
+    addSeasonTimer () {
+        const {createTimer} = window.shared ? window.shared.timer : window
+        const {server_now_ts} = window
+        const {labyrinth_cycle: {cycle_end, labyrinth_season: {event_end}}} = labyrinth_data
+
+        const timezone_offset = Date.parse(cycle_end)/1000 - server_now_ts - cycle_end_in_seconds
+        const season_end = Date.parse(event_end)/1000 - server_now_ts - timezone_offset
+
+        Helpers.doWhenSelectorAvailable('.floor-title .floor-name', () => {
+            const $timerTarget = $('<span class="season_timer"></span>')
+            $('.floor-title .floor-name').text(`${$('.floor-title .floor-name').text()} `).append($timerTarget)
+
+            const onComplete = ()  => {}
+            createTimer($timerTarget, season_end, {onComplete: onComplete}).startTimer()
         })
     }
 }
