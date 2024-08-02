@@ -6,6 +6,8 @@ class HaremFilterCollector {
         Helpers.defer(() => {
             if ((Helpers.isCurrentPage('characters') || Helpers.isCurrentPage('harem')) && !Helpers.isCurrentPage('hero')) {
                 Helpers.lsSet(lsKeys.HAREM_FILTER_IDS, [])
+                const {filters: {eye_colors, hair_colors}} = window
+                Helpers.lsSet(lsKeys.HAREM_FILTER_COLORS, {eye_colors, hair_colors})
             }
             if (Helpers.isCurrentPage('teams')) {
                 const {teams_data} = window

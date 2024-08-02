@@ -33,8 +33,9 @@ class CompactHaremFiltersStyleTweak extends STModule {
 
             Helpers.doWhenSelectorAvailable('.form-control', () => {
                 $('.form-control').last().addClass('filter-by-checkbox').insertAfter('.form-control.filter-by-element-form')
-                getDropdown('pose').before(getDropdown('role')).before(getDropdown('equipment')).after(getDropdown('zodiac'))
                 getDropdown('level_cap').after(getDropdown('affection_cap')).after(getDropdown('rarity'))
+                getDropdown('pose').before(getDropdown('role')).before(getDropdown('equipment')).after(getDropdown('zodiac'))
+                getDropdown('origin').before(getDropdown('lively_scenes'))
             })
         })
     }

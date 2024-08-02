@@ -125,7 +125,7 @@ class TeamsFilterModule extends CoreModule {
     createFilterEvents() {
         $('#arena_filter').on('click', () => {
             if (typeof this.arenaGirls === 'undefined' || typeof this.girlsData === 'undefined') {return}
-            let currentBoxDisplay = $('#arena_filter_box').css('display')
+            const currentBoxDisplay = $('#arena_filter_box').css('display')
             $('#arena_filter_box').css('display', currentBoxDisplay === 'none' ? 'grid' : 'none')
         })
 

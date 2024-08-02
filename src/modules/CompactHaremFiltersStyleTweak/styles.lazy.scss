@@ -73,6 +73,7 @@
                 .input-group input {
                     height: 28px;
                     padding-left: 0.5rem;
+                    padding-top: 0.25rem;
                     font-size: 12px;
 
                     &[icon=search] {
@@ -112,9 +113,9 @@
                             }
 
                             &>b {
-                                top: 0px!important;
-                                background-size: 1.5rem!important;
-                                height: 100%!important;
+                                top: 0px;
+                                background-size: 1.5rem;
+                                height: 100%;
                             }
                         }
 
@@ -124,7 +125,7 @@
                             li {
                                 height: 1.5rem;
                                 padding: 0 0.5rem;
-                        
+
                                 &>span {
                                     width: 1.5rem;
                                     height: 1.5rem;

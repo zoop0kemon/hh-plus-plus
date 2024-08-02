@@ -1,25 +1,35 @@
-.girl-leveler-panel .girl-leveler-container {
-    .girl-section .girl-avatar, #skills .script-girl-avatar {
-        display: flex;
-        flex-direction: row;
+.girl-leveler-panel {
+    .girl-leveler-header .girl-info .girl-upper-info {
+        margin-left: 3rem;
     }
 
-    .girl-section .girl-avatar {
-        position: relative;
-        align-items: center;
-    }
-
-    #skills {
-        .script-girl-avatar {
-            position: absolute;
-            align-items: flex-start;
-            justify-content: center;
-            width: 24.5rem;
-            left: 3.5rem;
+    .girl-leveler-container {
+        .girl-section .girl-avatar, #skills .script-girl-avatar {
+            display: flex;
+            flex-direction: row;
         }
 
-        .girl-skills-avatar {
-            position: unset;
+        .girl-section .girl-avatar {
+            position: relative;
+            align-items: center;
+        }
+
+        #skills {
+            .script-girl-avatar {
+                position: absolute;
+                align-items: flex-start;
+                justify-content: center;
+                width: 24.5rem;
+                left: 3.5rem;
+            }
+
+            .girl-skills-avatar {
+                position: unset;
+            }
+        }
+
+        #teams .no_team {
+            position: relative;
         }
     }
 }
@@ -91,4 +101,146 @@
 
 #skills #reset_skills {
     z-index: 1;
+}
+
+#harem_filter {
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+
+    .filter_mix_icn {
+        display: block;
+        height: 32px;
+        width: 24px;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: var(--filter-icon);
+        margin: auto;
+    }
+}
+
+#harem_filter_box {
+    position: absolute;
+    left: 0.5rem;
+    top: 3rem;
+    width: 21.25rem;
+    z-index: 99;
+    border-radius: 8px 10px 10px 8px;
+    background-color: #1e261e;
+    box-shadow: rgba(255, 255, 255, 0.73) 0px 0px;
+    padding: 5px;
+    border: 1px solid #ffa23e;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0 0.5rem;
+    text-align: start;
+
+    &.form-wrapper {
+        .reset-filters-container {
+            grid-column: 1/3;
+            height: 1.5rem;
+
+            .blue_button_L {
+                width: 100%;
+                padding: 0px;
+            }
+        }
+
+        .form-control {
+            margin: 0;
+
+            .select-group {
+                .selectric-open {
+                    z-index: unset;
+
+                    & > .selectric {
+                        z-index: 14;
+                    }
+                    & > div {
+                        z-index: 999;
+                    }
+                }
+                .selectric-items {
+                    height: auto;
+
+                    li {
+                        height: auto;
+                        line-height: 1.5rem;
+                        padding: 0 0.5rem;
+
+                        &>span {
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            background-size: cover;
+                            background-position: 0px 0px;
+                        }
+                    }
+                }
+                .selectric {
+                    width: 10rem;
+                    height: 28px;
+                    
+                    &>.label {
+                        height: 28px;
+                        font-size: 12px;
+                        line-height: 30px;
+
+                        &>span {
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            background-size: cover;
+                            background-position: 0px 0px;
+                        }
+                    }
+
+                    &>b {
+                        top: 0px;
+                        background-size: 1.5rem;
+                        height: 100%;
+                    }
+                }
+            }
+
+            .input-group input {
+                height: 28px;
+                padding-left: 0.5rem;
+                padding-top: 0.25rem;
+                font-size: 12px;
+
+                &[icon=search] {
+                    background-size: 1.5rem;
+                }
+            }
+
+            .checkbox-group {
+                width: unset;
+                margin: 0;
+            }
+
+            &.filter-by-element-form {
+                grid-column: 1/3;
+        
+                .checkbox-group {
+                    width: 100%;
+                    margin-bottom: 0;
+        
+                    .check-btn.element-state {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 38px;
+                        height: 38px;
+        
+                        .element-icn {
+                            background-size: 27px;
+                            margin: -3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
