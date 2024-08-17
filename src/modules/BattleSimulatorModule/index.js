@@ -48,7 +48,7 @@ class BattleSimulatorModule extends CoreModule {
 
             if (Helpers.isCurrentPage('leagues.html')) {
                 Helpers.doWhenSelectorAvailable('.league_table .data-list', async () => {
-                    const {opponents_list} = window
+                    const {opponents_list, GT} = window
                     if (opponents_list && opponents_list.length) {
                         const player_data = await this.getLeaguePlayerData()
                         if (player_data) {
@@ -73,7 +73,7 @@ class BattleSimulatorModule extends CoreModule {
                                 if (theme_elements.length) {
                                     theme_elements.forEach((theme_element) => {
                                         const {ico_url, flavor} = theme_element
-                                        $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${flavor}">`)
+                                        $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${GT.design[flavor]}">`)
                                     })
                                 } else {
                                     $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)

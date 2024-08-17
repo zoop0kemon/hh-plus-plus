@@ -138,7 +138,7 @@ class FightAVillainModule extends CoreModule {
                     const showShards = shards === '?' || shards < 100
 
                     allGirlsObtained &= !showShards
-                    $villainBottomRow.append(`<div class="girl_ico tier${tier}${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
+                    $villainBottomRow.append(`<div class="girl_ico tier${tier}${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span>${shards}</div>` : '' }</div>`)
                 })
             })
             event_girls.forEach(({id, rarity}) => {
@@ -149,7 +149,7 @@ class FightAVillainModule extends CoreModule {
                 const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${id}/ico0-300x.webp`
 
                 const showShards = shards === '?' || shards < 100
-                $villainBottomRow.append(`<div class="girl_ico event${showShards ? '' : 'obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span>${shards}</div>` : '' }</div>`)
+                $villainBottomRow.append(`<div class="girl_ico event${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span>${shards}</div>` : '' }</div>`)
             })
 
             if (allGirlsObtained) {

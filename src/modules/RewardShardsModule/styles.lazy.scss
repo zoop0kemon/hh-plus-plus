@@ -1,9 +1,9 @@
 .script-shard-count {
-    font-size: 0.75rem;
-    display: block;
-    text-align: center;
-    width: 100%;
     position: absolute;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 0.75rem;
     bottom: -0.125rem;
     color: #80058b;
     text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff;
@@ -13,13 +13,24 @@
         top: -0.1875rem;
     }
 
-    .shard {
+    .shard_icn {
         height: 1rem;
         width: 1rem;
-        margin-left: -0.25rem!important;
-        display: inline-block!important;
         background-size: 140%;
         background-position: center;
+        position: relative;
+        left: unset;
+        top: unset;
+    }
+
+    .rewards_list & {
+        left: 0;
+        font-size: 0.6rem;
+
+        .shard_icn {
+            width: 0.8rem;
+            background-size: 150%;
+        }
     }
 
     #pre-battle #opponent-panel .fighter-rewards .pantheon-rewards & {
@@ -27,25 +38,38 @@
     }
 }
 
-#season-arena .player_team_block.opponent .opponent_rewards {
-    .rewards_list:has(.slot.girl_ico) {
-        .slot {
-            &.slot_season_affection_girl .season_xp_girl>span:nth-child(2),
-            &.slot_season_xp_girl .season_affection_girl>span:nth-child(2) {
-                font-size: 0.6rem;
-                line-height: 0.75rem;
-            }
-            &.slot.girl_ico {
-                overflow: visible;
-            }
-        }
-    }
-}
-
 .rewards_tooltip .slot.girl_ico {
     overflow: visible;
 }
 
-.player_team_block .opponent_rewards .rewards_list .slot .slot:has(.girl_ico) {
-    overflow: visible!important;
+.player_team_block .opponent_rewards .rewards_list .slot.scroling_animation  {
+    &.girl_ico .slot {
+        overflow: visible!important;
+    }
+
+    &.one_icon .scroling_wrapper {
+        animation: none;
+    }
+
+    .scroling_wrapper {
+        padding: 0% 10%;
+
+        .slot {
+            pointer-events: unset;
+        }
+    }
+
+    #season-arena & .scroling_wrapper {
+        padding: 0% 0%;
+    }
+}
+
+@keyframes script_rewards_scrolling {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(50%);
+    }
 }

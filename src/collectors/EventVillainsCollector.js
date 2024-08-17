@@ -32,22 +32,21 @@ class EventVillainsCollector {
     }
 
     static collectFromEvent(eventTimeKey, eventVillainsKey) {
-        const {event_girls, event_data: {seconds_until_event_end}, server_now_ts} = window
+        const {event_girls, id_event, event_data: {seconds_until_event_end}, server_now_ts} = window
         const eventEndTime = server_now_ts + seconds_until_event_end
         Helpers.lsSetRaw(eventTimeKey, eventEndTime)
 
         const eventTrolls = []
-
         event_girls.forEach(girl => {
-            const { id_girl: id, source, rarity } = girl
-            if (source.name !== 'event_troll') {
-                return
-            }
-            const sourceUrl = source.anchor_source.url
+            const {id_girl: id, source, source_list, rarity} = girl
+            const cur_source = source_list?.event_troll?.find(event => event.group.id == id_event) || source
+            if (cur_source.name !== 'event_troll') {return}
+
+            const sourceUrl = cur_source.anchor_source.url
             const matches = sourceUrl.match(/id_opponent=([0-9]+)/)
             if (matches) {
                 const troll = matches[1]
-                eventTrolls.push({ id: `${id}`, troll, rarity })
+                eventTrolls.push({id: `${id}`, troll, rarity})
             }
         })
         Helpers.lsSet(eventVillainsKey, eventTrolls)

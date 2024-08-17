@@ -151,7 +151,7 @@ class ChampionsModule extends CoreModule {
         
                         const $cellHTML = $(`
                             <div>${I18n.nThousand(impression)}</div>
-                            <div>${I18n.nRounding(percentage * 100, 2, 0)}% / <span class="shard"></span> x ${shards}</div>
+                            <div>${I18n.nRounding(percentage * 100, 2, 0)}% / <span class="shard_icn"></span> x ${shards}</div>
                         `)
 
                         $members_challenges_table.find('.data-row.body-row').eq(index).children().last().empty().append($cellHTML)

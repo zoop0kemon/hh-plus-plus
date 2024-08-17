@@ -508,7 +508,7 @@ class LeagueInfoModule extends CoreModule {
                     if (theme_elements.length) {
                         theme_elements.forEach((theme_element) => {
                             const {ico_url, flavor} = theme_element
-                            $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${flavor}">`)
+                            $icons.push(`<img class="team-theme icon" src="${ico_url}" tooltip="${GT.design[flavor]}">`)
                         })
                     } else {
                         $icons.push(`<img class="team-theme icon" src="${Helpers.getCDNHost()}/pictures/girls_elements/Multicolored.png" tooltip="${GT.design.balanced_theme_flavor}">`)

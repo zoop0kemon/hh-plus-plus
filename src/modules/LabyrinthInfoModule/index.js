@@ -189,7 +189,7 @@ class LabyrinthInfoModule extends CoreModule {
                     const $icon = `<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`
                     if (Helpers.isCurrentPage('labyrinth-battle')) {
                         const {element_data: {ico_url, type, flavor}} = girl
-                        const $element_icon = `<img class="icon hexagon-girl-element" src="${ico_url}" element="${type}" tooltip="${flavor}">`
+                        const $element_icon = `<img class="icon hexagon-girl-element" src="${ico_url}" element="${type}" tooltip="${GT.design[flavor]}">`
 
                         const $girl_icons = $('<div class="girl-icons"></div>').append($icon, $element_icon)
                         $(el).prepend($girl_icons)
@@ -213,7 +213,7 @@ class LabyrinthInfoModule extends CoreModule {
                     const girl = JSON.parse($(el).find('.girl-image').attr('data-new-girl-tooltip'))
                     const $class_icon = `<div carac="${girl.class}" tooltip="${GT.design[`class_${CLASS_NAMES[girl.class]}`]}" class="icon caracs"></div>`
                     const {flavor, ico_url} = girl.element_data
-                    const $element_icon = `<div class="icon element" tooltip="${flavor}"><img src="${ico_url}"></div>`
+                    const $element_icon = `<div class="icon element" tooltip="${GT.design[flavor]}"><img src="${ico_url}"></div>`
                     $(el).append($class_icon, $element_icon)
                 }
             })

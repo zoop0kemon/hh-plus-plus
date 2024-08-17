@@ -15,7 +15,7 @@ const extractIdFromUrl = (url) => {
     const {groups: {id}} = matches
     return id
 }
-const makeShardCount = ({shards, name, className}) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard"></span> ${shards}</div>`
+const makeShardCount = ({shards, name, className}) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span> ${shards}</div>`
 
 class RewardShardsModule extends CoreModule {
     constructor() {
@@ -38,7 +38,10 @@ class RewardShardsModule extends CoreModule {
 
         Helpers.defer(() => {
             if (Helpers.isCurrentPage('pre-battle')) {
-                Helpers.doWhenSelectorAvailable('.rewards_list', this.displayOnPreBattle)
+                Helpers.doWhenSelectorAvailable('.rewards_list', () => {
+                    this.displayOnPreBattle()
+                    this.fixRewardScroll()
+                })
             }
             if (Helpers.isCurrentPage('clubs')) {
                 this.displayOnClubChampion()
@@ -47,7 +50,10 @@ class RewardShardsModule extends CoreModule {
                 this.displayOnPachinko()
             }
             if (Helpers.isCurrentPage('season-arena')) {
-                Helpers.doWhenSelectorAvailable('.rewards_list', this.displayOnSeason)
+                Helpers.doWhenSelectorAvailable('.rewards_list', () => {
+                    this.displayOnSeason()
+                    this.fixRewardScroll()
+                })
             }
         })
 
@@ -165,6 +171,15 @@ class RewardShardsModule extends CoreModule {
                 annotate('.rewards_tooltip .girl_ico')
             }
         }).observe(document.body, {childList: true})
+    }
+
+    fixRewardScroll() {
+        $('.rewards_list .scroling_animation:not(.one_icon) .scroling_wrapper').each((i, el) => {
+            $(el).children().clone().appendTo($(el))
+            setTimeout(() => {
+                $(el).css('animation-name', 'script_rewards_scrolling')
+            }, 100)
+        })
     }
 }
 

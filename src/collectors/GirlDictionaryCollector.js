@@ -339,9 +339,10 @@ class GirlDictionaryCollector {
                 Helpers.onAjaxResponse(/action=event_market_buy/i, ({rewards}) => collectFromAjaxResponseSingular(rewards))
             }
             // To track shard progress
-            if (Helpers.isCurrentPage('battle')) {
+            if (['battle', 'season-arena', 'leagues'].some(page => Helpers.isCurrentPage(page))) {
                 Helpers.onAjaxResponse(/action=do_battles_(leagues|seasons|troll|pantheon)/i, collectFromAjaxResponseSingular)
-            } else if (Helpers.isCurrentPage('pachinko')) {
+            }
+            if (Helpers.isCurrentPage('pachinko')) {
                 Helpers.onAjaxResponse(/action=play/i, collectFromAjaxResponseSingular)
                 Helpers.onAjaxResponse(/action=claim/i, collectFromAjaxResponseSingular)
             } else if (Helpers.isCurrentPage('activities')) {
