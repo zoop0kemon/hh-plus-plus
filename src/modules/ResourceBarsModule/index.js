@@ -223,7 +223,7 @@ class ResourceBarsModule extends CoreModule {
         let $elemToAppendAfter = $('header .energy_counter[type=fight]')
 
         barTypes.forEach(({type, feature, iconClass, shortcutLink}) => {
-            if (!AvailableFeatures[feature]) {
+            if (!AvailableFeatures[feature] || !Hero.energies[type]) {
                 const $dummySpacer = $(`<div class="script-bar-spacer" type="${type}" id="canvas_${type}_energy"></div>`)
                 $elemToAppendAfter.after($dummySpacer)
                 $elemToAppendAfter = $dummySpacer

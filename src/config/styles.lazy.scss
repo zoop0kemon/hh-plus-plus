@@ -35,6 +35,13 @@
     border-image-source: var(--config-border-image-source);
     box-shadow: var(--config-panel-box-shadow);
 
+    .tabs {
+        display: flex;
+        height: 2.5rem;
+        max-width: 48rem;
+        white-space: nowrap;
+    }
+
     &.shown {
         display: block;
     }

@@ -167,6 +167,7 @@ export const villain = {
     pandorawitch: 'Sorcière Pandora',
     werebunnypolice: 'Police des Lapines-Garous',
     asaakira: 'Directrice Asa Akira',
+    thehoodedheroine: 'L\'héroïne encapuchonnée',
     fallback: 'Monde {{world}} troll',
 }
 
@@ -363,6 +364,7 @@ export const villainBreadcrumbs = {
     yeehaw: 'Yi Haa !',
     bythebook: 'Fin écrivain',
     vegasbaby: 'Vegas, bébé !',
+    showdownstrip: 'Face à face sur le Strip',
 }
 
 export const blessingSpreadsheetLink = {

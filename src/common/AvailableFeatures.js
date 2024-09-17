@@ -1,10 +1,10 @@
 // Pantheon - level 15
-// Champs - 10 girls at 3-grade and above and world 3 scroll 5
+// Champs - 10 girls at 3-grade
 // Leagues - level 20
 // Seasons - world 1 scroll 4
 // PoPs - world 4
 // Clubs - 15 girls
-// Labyrinth - 14 girls (all grades)
+// Labyrinth - 7 girls (all grades)
 
 import Helpers from './Helpers'
 
@@ -27,9 +27,7 @@ const countGirls = async (allGrades=false) => {
 
 class AvailableFeatures {
     get pantheon () {
-        if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {
-            return false
-        }
+        if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {return false}
         const {Hero: {infos: {level}}} = window.shared ? window.shared : window
         return level >= 15
     }
@@ -51,26 +49,17 @@ class AvailableFeatures {
 
     async champs () {
         if (Helpers.isHoH()) {return false}
-        const {Hero: {infos: {questing: {id_quest}}}} = window.shared ? window.shared : window
-        if (id_quest < (Helpers.isCxH() ? 3060 : ((Helpers.isPSH() || Helpers.isTPSH()) ? 2040 : (Helpers.isGPSH() ? 2010 : 320)))) {
-            return false
-        }
-
         return await countGirls() >= 10
     }
 
     async clubs () {
-        if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {
-            return false
-        }
+        if (Helpers.isHoH()) {return false}
         return await countGirls() >= 15
     }
 
     async labyrinth () {
-        if (Helpers.isHoH()) {
-            return false
-        }
-        return await countGirls(true) >= 14
+        if (Helpers.isHoH()) {return false}
+        return await countGirls(true) >= 7
     }
 }
 

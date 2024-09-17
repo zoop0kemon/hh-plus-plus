@@ -199,7 +199,7 @@ class Config {
 
     buildConfigPaneContent () {
         return $(`
-            <div class="tabs">
+            <div class="tabs hh-scroll">
                 ${this.groups.map(({key, name}) => `<h4 class="${key}" rel="${key}">${name}</h4>`).join('')}
             </div>
             ${this.groups.map(({key: groupKey}) => `

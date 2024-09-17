@@ -119,7 +119,7 @@ class TeamsFilterModule extends CoreModule {
         this.arenaGirls = Helpers.isCurrentPage('team') ?  $('.harem-panel div.harem-girl-container') : ($(`${this.isLabyrinthMain ? '.squad-container' : '.girl-grid'} .girl-container`))
 
         const girlDictionary = await Helpers.getGirlDictionary()
-        this.girlsData = $.map(this.arenaGirls, (girl) => girlDictionary.get($(girl).attr('id_girl')))
+        this.girlsData = $.map(this.arenaGirls, (girl) => girlDictionary.get($(girl).attr(this.isLabyrinthMain ? 'id' : 'id_girl')))
     }
 
     createFilterEvents() {

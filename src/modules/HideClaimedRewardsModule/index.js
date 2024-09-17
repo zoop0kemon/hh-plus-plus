@@ -34,7 +34,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     tiers_unlocked_var: 'currentTier',
                     is_vertical: true,
                     progress_bar: '.potions-paths-progress-bar .potions-paths-progress-bar-current',
-                    girl: '.girl-preview .avatar',
+                    girl: '.girl-preview .avatar, .girl-preview .animated-girl-display',
                     hide: () => {
                         $('.potions-paths-tier:not(.unclaimed):has(.claimed-slot)').addClass('script-hide-claimed')
                         return $('.potions-paths-tier.unclaimed').toArray()
@@ -49,7 +49,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     scroll_area: '.rewards_container_seasons',
                     tier: '.rewards_pair',
                     tiers_unlocked_var: 'season_tier',
-                    girl: '#girls_holder .girl_block',
+                    girl: '#girls_holder .girl_block, #girls_holder .animated-girl-display',
                     hide: () => {
                         const claimable_tiers = []
                         $('.rewards_pair').each((i, el) => {
@@ -72,7 +72,7 @@ class HideClaimedRewardsModule extends CoreModule {
                             scroll_area: '.scroll-area.poa',
                             tier: '.nc-poa-reward-pair',
                             tiers_unlocked_var: 'next_tier', // off by one, but not needed since no progress bar
-                            girl: '#poa-content .girls .girl-avatar',
+                            girl: '#poa-content .girls .girl-avatar, #poa-content .girls .animated-girl-display',
                             hide: () => {
                                 const claimable_tiers = []
                                 $('.nc-poa-reward-pair').each((i, el) => {
@@ -108,7 +108,7 @@ class HideClaimedRewardsModule extends CoreModule {
                     tier: '.mega-tier-container',
                     tiers_unlocked_var: 'mega_current_tier',
                     progress_bar: '.mega-progress-bar .mega-progress-bar-current',
-                    girl: '.girls-reward-container .avatar',
+                    girl: '.girls-reward-container .avatar, .girls-reward-container .animated-girl-display',
                     hide: () => {
                         $('.mega-tier-container:has(.claimed):not(:has([rel="claim"]))').addClass('script-hide-claimed')
                         return $('.mega-tier-container:has([rel="claim"])').toArray()

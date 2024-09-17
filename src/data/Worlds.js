@@ -61,6 +61,9 @@ export const PSH = [
     'bythebook',
     '',
     'vegasbaby',
+    '',
+    '',
+    'showdownstrip',
 ]
 
 export const TPSH = [

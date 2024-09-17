@@ -71,7 +71,7 @@ class HaremInfoModule extends CoreModule {
             xpToMax: 0,
             gems: ELEMENTS.reduce((acc, element) => {acc[element] = 0; return acc}, {}),
         }
-        const filters = Helpers.lsGet('filters')
+        const filters = Helpers.lsGet('filters') || {}
         const {level_range} = filters
         const min_level = parseInt(level_range?.match(/^\d+/)?.[0] || 1)
         const max_level = parseInt(level_range?.match(/-(\d+)/)?.[1] || min_level)

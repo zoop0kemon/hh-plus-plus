@@ -810,15 +810,29 @@ export default {
             }]
         },
         {
+            key: 'thehoodedheroine',
             opponent: 15,
-            world: 21,
+            world: 23,
+            girls: {
+                1: ['814814392', '660703295', '450943401'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'light',
+                amount: 25,
+            }]
+        },
+        {
+            opponent: 16,
+            world: 25,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'light',
+                element: 'psychic',
                 amount: 25,
             }]
         }

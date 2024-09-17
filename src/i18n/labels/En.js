@@ -201,6 +201,7 @@ export const villain = {
     jasminejae: 'Jasmine Jae',
     bellarose: 'Bella Rose',
     paigetaylor: 'Paige Taylor',
+    thehoodedheroine: 'The Hooded Heroine',
     arieldemure: 'Ariel Demure',
     emmarose: 'Emma Rose',
     nataliestone: 'Natalie Stone',
@@ -263,6 +264,7 @@ export const villainBreadcrumbs = {
     yeehaw: 'Yee Haw!',
     bythebook: 'By the Book',
     vegasbaby: 'Vegas, Baby!',
+    showdownstrip: 'Showdown on the Strip',
 
     bigdville: 'Big D\'Ville',
     dreamtown: 'Dream Town',
