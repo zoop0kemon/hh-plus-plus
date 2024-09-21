@@ -18,3 +18,28 @@
         text-decoration: underline;
     }
 }
+
+#common-popups .popup_wrapper #blessings_popup .blessings_wrapper {
+    padding: 1rem;
+    height: auto;
+    max-height: 31.24rem;
+
+    .active-blessings-list {
+        display: flex;
+
+        .active-blessing:not(:first-child) {
+            margin-top: unset;
+            margin-left: 0.5rem;
+        }
+
+        .content-container {
+            .title-container h4 {
+                font-size: 1.2rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+        }
+    }
+}

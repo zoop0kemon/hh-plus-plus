@@ -12,6 +12,7 @@ img[src*="/pictures/design/payments"],
 img[src*="/pictures/design/el_teams-girls.png"],
 img[src*="/pictures/design/sultry_mysteries/static.png"],
 img[src*="/pictures/design/hero_leveling_girl.png"],
+img[src*="/pictures/design/labyrinth/team_icon.png"],
 img[src*="/pictures/misc/events"],
 img[src*="/pictures/misc/places_of_power"],
 img[src*="/pictures/misc/missions"],
@@ -24,16 +25,17 @@ img[src*="/pictures/pantheon/"],
 img[src*="/img/quests/"],
 img[src*="/leagues/"],
 img[src*="/images/members/"],
-#popups #popup_news .news_thumb .news_thumb_pic,
-#popups #popup_news .news_page_content .news_page_pic,
-#popups #scene_popup,
-#popups #no_HC .product-background.integrated,
-#popups #no_HC .product-background.standalone,
-#popups #no_HC .product-offer-background-container,
+#common-popups #news_details_popup .news_page_content .news_page_pic,
+#common-popups #scene_popup,
+#common-popups #no_HC .product-background.integrated,
+#common-popups #no_HC .product-background.standalone,
+#common-popups #no_HC .product-offer-background-container,
 #contests > div > div.left_part > .scroll_area > .contest > .contest_header {
     filter: blur(20px) !important;
 }
 
-#popups #no_HC .bundle-offer-container.treasure-bg {
-    background-image: none;
+#common-popups #popup_news .news_thumb .news_thumb_pic,
+#common-popups #no_HC .bundle-offer-container.treasure-bg,
+#common-popups #no_HC .mc-card-container .rewards-container {
+    background-image: none !important;
 }

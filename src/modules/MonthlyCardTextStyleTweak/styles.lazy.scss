@@ -1,24 +1,7 @@
-#popups #no_HC .monthly_card {
-    .product-info {
-        line-height: 19px;
+#common-popups #no_HC .content-container.monthly_card .bundle-container .mc-card-container .rewards-container .reward div {
+    margin-bottom: 0.15rem;
 
-        .hard_currency_icn {
-            max-width: 5%;
-        }
-        .energy_kiss_icn,
-        .energy_quest_icn,
-        .energy_fight_icn,
-        .energy_challenge_icn,
-        .energy_worship_icn {
-            max-width: 6%;
-            height: 19px;
-        }
-        .g_a_icn {
-            max-width: 6%;
-            height: 19px;
-        }
-    }
-    .product-normal-price {
-        bottom: 78px;
+    [class*="_icn"]{
+        width: 16px;
     }
 }

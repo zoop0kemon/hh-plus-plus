@@ -73,7 +73,7 @@ class CompactResourceSummaryStyleTweak extends STModule {
                         observer.disconnect()
                     }
                 })
-                observer.observe($('#popups')[0], {childList: true})
+                observer.observe($('#common-popups')[0], {childList: true})
             })
         })
     }

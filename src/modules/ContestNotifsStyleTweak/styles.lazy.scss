@@ -1,11 +1,10 @@
-#popups,
+#toast-popups,
 #sliding-popups {
     #objective_popup {
-        left: unset;
+        right: unset;
+        left: 0px;
 
         .noti_box {
-            left: 0px;
-            right: unset;
             border-radius: 0 0.5rem 0.5rem 0;
             padding: 0.25rem 0.5rem 0.25rem 1rem;
 

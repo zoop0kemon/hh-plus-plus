@@ -33,7 +33,12 @@ class BlessingSpreadsheetLinkModule extends CoreModule {
 
             if (href) {
                 const $sheet_link = $(`<a class="script-blessing-spreadsheet-link" target="_blank" href="${href}"><span class="nav_grid_icn"></span><span>${this.label('name', {maintainer})}</span></a>`)
-                $('#popup_blessings .blessings_wrapper').append($sheet_link)
+
+                Helpers.onAjaxResponse(/action=get_girls_blessings/i, () => {
+                    Helpers.doWhenSelectorAvailable('#blessings_popup .blessings_wrapper', () => {
+                        $('#blessings_popup .blessings_wrapper').append($sheet_link)
+                    })
+                })
             }
         })
 
