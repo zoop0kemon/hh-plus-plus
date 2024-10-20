@@ -351,6 +351,7 @@ export const villainBreadcrumbs = {
     manmeatofsteel: 'L\'Homme au morceau d\'acier',
     dickmannoir: 'Bitmann Noir',
     goodbadsexy: 'Le Bon, la Brute et l\'Apollon',
+    cockraiser: 'La BDH',
 
     fukwell: 'Université de Belbaise',
     eurodick: 'Eurobite',

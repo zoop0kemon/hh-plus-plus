@@ -188,6 +188,7 @@ export const villain = {
     alexa: 'Alexa Sl’thor',
     dklong: 'D’Klong',
     virtueman: 'Virtue Man',
+    asmodea: 'Asmodea',
     asaakira: 'Headmistress Asa Akira',
     sammyjayne: 'Sammy Jayne',
     ivywinters: 'Ivy Winters',
@@ -208,6 +209,8 @@ export const villain = {
     janieblade: 'Janie Blade',
     nikkinort: 'Nikki Nort',
     mistressvenom: 'Mistress Venom',
+    ceoramona: 'CEO Ramona',
+    mamabee: 'Mama Bee',
     tristanhunter: 'Tristan Hunter',
     jimmydurano: 'Jimmy Durano',
     luccamazzi: 'Lucca Mazzi',
@@ -250,6 +253,7 @@ export const villainBreadcrumbs = {
     manmeatofsteel: 'Man Meat of Steel',
     dickmannoir: 'Dickman Noir',
     goodbadsexy: 'The Good, The Bad and the Sexy',
+    cockraiser: 'Cockraiser',
 
     fukwell: 'Fukwell University',
     eurodick: 'Eurodick',
@@ -272,6 +276,8 @@ export const villainBreadcrumbs = {
     corporatecock: 'Corporate Cock',
     cumcam: 'Cum Cam',
     campcock: 'Camp Cock',
+    ukhun: 'UK, Hun?',
+    showgirls: 'Showgirls',
 
     tropicalbeginnings: 'Tropical Beginnings',
     spotlight: 'Spotlight',

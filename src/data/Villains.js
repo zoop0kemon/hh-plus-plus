@@ -606,9 +606,10 @@ export default {
             items: ['K4']
         },
         {
+            key: 'asmodea',
             world: 12,
             girls: {
-                1: [],
+                1: ['994555359', '705713849', '973778141'],
                 2: [],
                 3: []
             },
@@ -617,6 +618,19 @@ export default {
                 amount: 20,
             }],
             items: ['XP4']
+        },
+        {
+            world: 13,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'sun',
+                amount: 20,
+            }],
+            items: ['K4']
         },
     ],
     PSH: [
@@ -1002,15 +1016,43 @@ export default {
             }]
         },
         {
+            key: 'ceoramona',
             opponent: 7,
             world: 9,
+            girls: {
+                1: ['741311311', '552252588', '577205682'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 20,
+            }]
+        },
+        {
+            key: 'mamabee',
+            opponent: 8,
+            world: 11,
+            girls: {
+                1: ['692804877', '984917842', '581358076'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 20,
+            }]
+        },
+        {
+            opponent: 9,
+            world: 12,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'psychic',
+                element: 'fire',
                 amount: 20,
             }]
         }

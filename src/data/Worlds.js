@@ -37,6 +37,7 @@ export const CxH = [
     'manmeatofsteel',
     'dickmannoir',
     'goodbadsexy',
+    'cockraiser',
 ]
 
 export const PSH = [
@@ -76,6 +77,9 @@ export const TPSH = [
     'corporatecock',
     'cumcam',
     'campcock',
+    'ukhun',
+    '',
+    'showgirls',
 ]
 
 export const GPSH = [
