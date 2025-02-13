@@ -383,7 +383,7 @@ class Helpers {
             const {level, graded, equips, class: g_class, skills} = girl
             const blessings = Helpers.lsGet(lsKeys.BLESSINGS) || {}
             const blessing_bonuses = blessings?.current?.blessings?.map(({key, value, bonus}) => 
-                (girl?.[key] === value) || (key === 'rarity' && value === 'common' && girl?.[key] === 'starting') ? bonus : 0) || []
+                (key.includes('colors') ? girl?.[key]?.includes(value) : girl?.[key] === value) || (key === 'rarity' && value === 'common' && girl?.[key] === 'starting') ? bonus : 0) || []
 
             stats = base_caracs.map((carac, index) => {
                 const from_equips = equips?.reduce((a, equip) => a+equip.caracs[`carac${index+1}`], 0) || 0

@@ -250,14 +250,29 @@ export default {
             }]
         },
         {
-            world: 20,
+            key: 'darthexcitor',
+            opponent: 19,
+            world: 21,
+            girls: {
+                1: ['410383467', '931778650', '968097691'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'stone',
+                amount: 25,
+            }]
+        },
+        {
+            opponent: 20,
+            world: 22,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'stone',
+                element: 'sun',
                 amount: 25,
             }]
         },
@@ -1126,15 +1141,29 @@ export default {
             }],
         },
         {
+            key: 'seanandbryce',
             opponent: 5,
             world: 11,
+            girls: {
+                1: ['284712878', '913932535', '352737504'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 20,
+            }],
+        },
+        {
+            opponent: 6,
+            world: 12,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'darkness',
+                element: 'light',
                 amount: 20,
             }],
         }

@@ -114,6 +114,7 @@ class PopNavSortModule extends CoreModule {
             $quickNavContainer.append(`<a href="${href}" class="back_button"><span class="pop-quick-nav-${name} townForward_flat_icn"></span></a>`)
         })
 
+        $quickNavContainer.children().eq(0).after($('[rel=pop_auto_assign]'))
         $('.pop_right_part').append($quickNavContainer)
     }
 

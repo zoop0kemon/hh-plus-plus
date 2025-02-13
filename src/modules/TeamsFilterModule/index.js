@@ -169,7 +169,7 @@ class TeamsFilterModule extends CoreModule {
         this.girlsData.forEach((girl, index) => {
             const {name, element, role, rarity, class: girl_class, equips, skill_tiers, grade, graded, level, level_cap} = girl
             const is_blessed = this.blessings?.current?.blessings?.some(({key, value}) => 
-                (girl?.[key] === value) || (key === 'rarity' && value === 'common' && girl?.[key] === 'starting')) || false
+                (key.includes('colors') ? girl?.[key]?.includes(value) : girl?.[key] === value) || (key === 'rarity' && value === 'common' && girl?.[key] === 'starting')) || false
 
             let girlMaches = true
             girlMaches &= (name.search(new RegExp(filterName, 'i')) > -1)

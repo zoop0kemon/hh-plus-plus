@@ -71,7 +71,8 @@ class FightAVillainModule extends CoreModule {
         const mythicEventTrolls = Helpers.lsGet(lsKeys.MYTHIC_EVENT_VILLAINS) || []
         const girlDictionary = await Helpers.getGirlDictionary()
 
-        const {Hero: {infos: {questing: {id_world: currentWorld}}}} = window.shared ? window.shared : window
+        const queststatus = Helpers.lsGet(lsKeys.QUEST_STATUS)
+        const currentWorld = queststatus.adventures?.[1]?.questing?.id_world || 2
         const worldIcon = `${Helpers.getCDNHost()}/pictures/design/quest/ico-quest.png`
 
         const filteredVillainSet = villainsSet.filter(villain => villain.world <= currentWorld)
@@ -81,7 +82,7 @@ class FightAVillainModule extends CoreModule {
             const villainId = `${opponent ? opponent : world - 1}`
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
-            const villainWorld = Helpers.getHref(`/world/${world}`)
+            const villainWorld = Helpers.getHref(queststatus.current_adventure === 1 ? `/world/${world}` : '/adventures.html')
             const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId)
             const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId)
             const trollGirls = [...eventTrollGirls, ...mythicTrollGirls]

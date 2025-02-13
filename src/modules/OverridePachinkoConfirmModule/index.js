@@ -22,7 +22,7 @@ class OverridePachinkoConfirmModule extends CoreModule {
     run () {
         if (this.hasRun || !this.shouldRun()) {return}
 
-        //FIX LATTER
+        //Can't fix with code bundler change, disabling module
         if (!window.shared) {
             const override = () => {
                 if (window.HHPachinkoConfirm) {

@@ -9,6 +9,7 @@ import {
     LeagueInfoCollector,
     MarketInfoCollector,
     PathEventCollector,
+    QuestStatusCollector,
     SeasonStatsCollector,
     SidequestStatusCollector,
     TeamsCollector,
@@ -36,6 +37,7 @@ const runScript = () => {
     TimerCollector.collect()
     BoosterStatusCollector.collect()
     ClubStatusCollector.collect()
+    QuestStatusCollector.collect()
     SidequestStatusCollector.collect()
     PathEventCollector.collect()
 

@@ -180,6 +180,7 @@ export const villain = {
     jacksoncrew: 'Jacksons Crew',
     pandorawitch: 'Pandora Hexe',
     werebunnypolice: 'Wer-Kaninchen Polizei',
+    darthexcitor: 'Darth Erreger',
     fallback: 'Welt {{world}} Schurke',
 }
 
@@ -330,6 +331,9 @@ export const contestSummary = {
 export const villainBreadcrumbs = {
     town: 'Stadt',
     adventure: 'Abenteuer',
+    adventures: 'Abenteuer',
+    mainadventure: 'Hauptabenteuer',
+
     begincity: 'Vorspiel-Stadt',
     gemskingdom: 'Edelstein-Königreich',
     ninjavillage: 'Ninja Dorf',
@@ -348,6 +352,7 @@ export const villainBreadcrumbs = {
     weresquidisland: 'Wer-Tintenfisch-Insel',
     haremtournament: 'Das Haremturnier',
     gemskingdomprovince: 'Provinz Edelstein-Königreich',
+    playfullands: 'Die verspielten Lande',
 }
 
 export const blessingSpreadsheetLink = {

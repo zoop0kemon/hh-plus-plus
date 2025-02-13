@@ -166,6 +166,7 @@ export const villain = {
     jacksoncrew: 'Éq. de Jackson',
     pandorawitch: 'Sorcière Pandora',
     werebunnypolice: 'Police des Lapines-Garous',
+    darthexcitor: 'Excitateur Sombre',
     asaakira: 'Directrice Asa Akira',
     thehoodedheroine: 'L\'héroïne encapuchonnée',
     fallback: 'Monde {{world}} troll',
@@ -320,6 +321,9 @@ export const contestSummary = {
 export const villainBreadcrumbs = {
     town: 'Ville',
     adventure: 'Aventure',
+    adventures: 'Aventures',
+    mainadventure: 'La grande aventure',
+
     begincity: 'Ville du Prélude',
     gemskingdom: 'Royaume des Gemmes',
     ninjavillage: 'Village Ninja',
@@ -339,6 +343,7 @@ export const villainBreadcrumbs = {
     haremtournament: 'Le Tournoi de Harem',
     gemskingdomprovince: 'Province des Gemmes',
     nudecity: 'La Cité Nue',
+    playfullands: 'Les Terres Espiègles',
 
     begincitycxh: 'Préludeville',
     heroacademy: 'Académie des Héros',

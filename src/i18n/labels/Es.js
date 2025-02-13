@@ -183,6 +183,7 @@ export const villain = {
     pandorawitch: 'Pandora Bruja',
     werebunnypolice: 'Policía hombres-conejos',
     gross: 'Bruto',
+    darthexcitor: 'Darth Excitador',
     fallback: 'Mondo {{world}} nemico',
     event: 'Evento',
 }
@@ -335,6 +336,9 @@ export const contestSummary = {
 export const villainBreadcrumbs = {
     town: 'Cuidad',
     adventure: 'Aventura',
+    adventures: 'Aventuras',
+    mainadventure: 'Aventura Principal',
+
     begincity: 'Primera ciudad',
     gemskingdom: 'El Reino de las Gemas',
     ninjavillage: 'Aldea de los Ninjas',
@@ -354,6 +358,7 @@ export const villainBreadcrumbs = {
     haremtournament: 'El Torneo del Harem',
     gemskingdomprovince: 'Provincia del Reino de las Gemas',
     nudecity: 'Chudad Nudista',
+    playfullands: 'Las Tierras Juguetonas',
 }
 
 export const blessingSpreadsheetLink = {

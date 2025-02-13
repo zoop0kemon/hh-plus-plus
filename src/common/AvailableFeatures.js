@@ -6,6 +6,7 @@
 // Clubs - 15 girls
 // Labyrinth - 7 girls (all grades)
 
+import { lsKeys } from '../common/Constants'
 import Helpers from './Helpers'
 
 const countGirls = async (allGrades=false) => {
@@ -38,12 +39,12 @@ class AvailableFeatures {
     }
 
     get seasons () {
-        const {Hero: {infos: {questing: {id_quest, id_world}}}} = window.shared ? window.shared : window
+        const {id_quest, id_world} = Helpers.lsGet(lsKeys.QUEST_STATUS).adventures?.[1]?.questing || {}
         return id_world > 1 || id_quest > ((Helpers.isCxH() || Helpers.isTPSH() ||  Helpers.isGPSH()) ? 1030 : (Helpers.isPSH() ? 1060 : 4))
     }
 
     get pop () {
-        const {Hero: {infos: {questing: {id_world}}}} = window.shared ? window.shared : window
+        const {id_world} = Helpers.lsGet(lsKeys.QUEST_STATUS).adventures?.[1]?.questing || {}
         return !Helpers.isHoH() && ((Helpers.isHH() || Helpers.isGH()) ? id_world >= 4 : id_world >= 3)
     }
 

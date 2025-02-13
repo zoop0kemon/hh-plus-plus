@@ -195,11 +195,15 @@ class ResourceBarsModule extends CoreModule {
 
     addEnergyBarShortcut() {
         let shortcutLink
-        const {Hero: {infos: {questing: {current_url :questLink}}}} = window.shared ? window.shared : window
+        const questStatus = Helpers.lsGet(lsKeys.QUEST_STATUS)
+        const {current_adventure, adventures} = questStatus
+        const {questing: {current_url}} = adventures[current_adventure]
         const sidequestStatus = Helpers.lsGet(lsKeys.SIDEQUEST_STATUS)
 
-        if (questLink.includes('quest')) {
-            shortcutLink = questLink
+        if (current_url.includes('quest')) {
+            shortcutLink = current_url
+        } else if (Object.keys(adventures).some(adventure => parseInt(adventure) !== current_adventure && adventures[adventure].questing.current_url.includes('quest'))) {
+            shortcutLink = '/adventures.html'
         } else if (sidequestStatus && sidequestStatus.energySpendAvailable && sidequestStatus.continueLink) {
             shortcutLink = sidequestStatus.continueLink
         } else if (sidequestStatus && sidequestStatus.energySpendAvailable) {

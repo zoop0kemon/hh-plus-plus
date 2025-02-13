@@ -369,6 +369,9 @@ export const contestSummary = {
 export const villainBreadcrumbs = {
     town: 'Città',
     adventure: 'Avventura',
+    adventures: 'Avventure',
+    mainadventure: 'Main adventure',
+
     begincity: 'Città dell\'inizio',
     gemskingdom: 'Il reame delle gemme',
     ninjavillage: 'Villaggio dei ninja',
@@ -388,6 +391,7 @@ export const villainBreadcrumbs = {
     haremtournament: 'Il Torneo dell\'Harem',
     gemskingdomprovince: 'Provincia del Regno delle Gemme',
     nudecity: 'Città Nuda',
+    playfullands: 'Le Terre Giocose',
 }
 
 export const blessingSpreadsheetLink = {

@@ -390,7 +390,7 @@ class HaremInfoModule extends CoreModule {
             if ($existingLink.length) {
                 $existingLink.attr('href', wikiLink)
             } else {
-                $girl.find('.middle_part h3').wrap(`<div class="WikiLink"><a href="${wikiLink}" target="_blank"></a></div>`)
+                $girl.find('.girl_infos_area h3').wrap(`<div class="WikiLink"><a href="${wikiLink}" target="_blank"></a></div>`)
             }
         } else {
             const $existingLink = $girl.find('.WikiLinkDialogbox > a')

@@ -24,9 +24,7 @@ class SeasonStatsCollector {
 
     static migrate () {
         const seasonStats = Helpers.lsGetRaw(lsKeys.SEASON_STATS)
-        if (seasonStats) {
-            return
-        }
+        if (seasonStats) {return}
 
         const legacySeasonStats = Helpers.lsGetRaw('SeasonStats')
         if (legacySeasonStats) {

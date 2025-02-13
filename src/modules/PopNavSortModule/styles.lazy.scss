@@ -2,11 +2,11 @@
 
 .pop-quick-nav {
     display: flex;
-    justify-content: space-between;
-    width: 303px;
+    justify-content: space-evenly;
+    width: 320px;
+    height: 60px;
     position: absolute;
     bottom: 3px;
-    right: 15px;
 
     @media #{$mediaMobile} {
         width: 316px;
@@ -15,9 +15,11 @@
     }
 
     #pop & .back_button {
+        position: relative;
+        top: 0px;
         width: 40px;
         height: 40px;
-        margin-left: 0px;
+        margin: 0px;
     }
 
     &-prev,

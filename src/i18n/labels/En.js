@@ -173,6 +173,7 @@ export const villain = {
     auga: 'Auga',
     gross: 'Gross',
     harriet: 'Harriet',
+    darthexcitor: 'Darth Excitor',
     edward: 'Edward',
     edernas: 'Edernas',
     maro: 'Maro',
@@ -215,6 +216,7 @@ export const villain = {
     jimmydurano: 'Jimmy Durano',
     luccamazzi: 'Lucca Mazzi',
     andrewstark: 'Andrew Stark',
+    seanandbryce: 'Sean Duran & Bryce Evans',
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -222,6 +224,9 @@ export const villain = {
 export const villainBreadcrumbs = {
     town: 'Town',
     adventure: 'Adventure',
+    adventures: 'Adventures',
+    mainadventure: 'Main Adventure',
+
     begincity: 'Begin City',
     gemskingdom: 'Gems Kingdom',
     ninjavillage: 'Ninja Village',
@@ -241,6 +246,7 @@ export const villainBreadcrumbs = {
     haremtournament: 'The Harem Tournament',
     gemskingdomprovince: 'Gems Kingdom Province',
     nudecity: 'Nude City',
+    playfullands: 'The Playful Lands',
 
     begincitycxh: 'Begin City',
     heroacademy: 'Hero Academy',
@@ -284,6 +290,7 @@ export const villainBreadcrumbs = {
     boysarebad: 'Boys Are Bad',
     yeehawgpsh: 'Yee Haw!',
     dreamvalleynot: 'Dream Valley Not',
+    superfuckinghero: 'Zero To A Super-fucking-hero',
 }
 
 export const market = {
