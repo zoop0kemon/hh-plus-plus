@@ -25,6 +25,8 @@ img[src*="/pictures/pantheon/"],
 img[src*="/img/quests/"],
 img[src*="/leagues/"],
 img[src*="/images/members/"],
+video[src*="/pictures/"],
+#sliding-popups .crosspromo_banner,
 #common-popups #news_details_popup .news_page_content .news_page_pic,
 #common-popups #scene_popup,
 #common-popups #no_HC .product-background.integrated,
@@ -36,6 +38,7 @@ img[src*="/images/members/"],
 
 #common-popups #popup_news .news_thumb .news_thumb_pic,
 #common-popups #no_HC .bundle-offer-container.treasure-bg,
-#common-popups #no_HC .mc-card-container .rewards-container {
+#common-popups #no_HC .mc-card-container .rewards-container,
+#common-popups #no_HC .bundle-container .bundle-offer-container.custom-background {
     background-image: none !important;
 }

@@ -21,6 +21,7 @@ export const HH = [
     'nudecity',
     '',
     'playfullands',
+    'camelot',
 ]
 
 export const GH = HH
@@ -40,6 +41,7 @@ export const CxH = [
     'dickmannoir',
     'goodbadsexy',
     'cockraiser',
+    'websgonewild',
 ]
 
 export const PSH = [
@@ -67,6 +69,9 @@ export const PSH = [
     '',
     '',
     'showdownstrip',
+    '',
+    '',
+    'bumfuckwhere',
 ]
 
 export const TPSH = [
@@ -82,6 +87,8 @@ export const TPSH = [
     'ukhun',
     '',
     'showgirls',
+    '',
+    'joyride',
 ]
 
 export const GPSH = [
@@ -97,4 +104,6 @@ export const GPSH = [
     '',
     'dreamvalleynot',
     'superfuckinghero',
+    '',
+    'gameon',
 ]

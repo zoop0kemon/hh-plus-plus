@@ -181,7 +181,35 @@ export const villain = {
     pandorawitch: 'Pandora Hexe',
     werebunnypolice: 'Wer-Kaninchen Polizei',
     darthexcitor: 'Darth Erreger',
+
     fallback: 'Welt {{world}} Schurke',
+}
+
+export const villainBreadcrumbs = {
+    town: 'Stadt',
+    adventure: 'Abenteuer',
+    adventures: 'Abenteuer',
+    mainadventure: 'Hauptabenteuer',
+
+    begincity: 'Vorspiel-Stadt',
+    gemskingdom: 'Edelstein-Königreich',
+    ninjavillage: 'Ninja Dorf',
+    invadedkingdom: 'Überfallenes Königreich',
+    juysea: 'Das feuchte Meer',
+    admittance: 'Einlass der Toten',
+    magicforest: 'Magischer Wald',
+    hamelintown: 'Die Stadt Hameln',
+    plainofrituals: 'Ebene der Rituale',
+    heroesuniversity: 'Helden Universität',
+    ninjasacredlands: 'Heilige Lande der Ninja',
+    splatters: 'Spritzer-Archipel',
+    digisekai: 'Digisekai',
+    stairway: 'Himmelstreppe',
+    training: 'Trainingsdimension',
+    weresquidisland: 'Wer-Tintenfisch-Insel',
+    haremtournament: 'Das Haremturnier',
+    gemskingdomprovince: 'Provinz Edelstein-Königreich',
+    playfullands: 'Die verspielten Lande',
 }
 
 export const market = {
@@ -291,6 +319,7 @@ export const champions = {
     participants: 'Teilnehmer: {{participants}}/{{members}}',
     clubChampDuration: '{{duration}} seit Rundenbeginn',
 }
+
 export const resourceBars = {
     popsIn: 'PoPs in {{time}}',
     popsReady: 'PoPs bereit',
@@ -326,33 +355,6 @@ export const pachinkoNames = {
 export const contestSummary = {
     totalRewards: 'Gesamtzahl der gespeicherten Belohnungen ({{contests}} Wettbewerbe):',
     contestsWarning: 'Wettbewerbe verfallen nach 21 Tagen!',
-}
-
-export const villainBreadcrumbs = {
-    town: 'Stadt',
-    adventure: 'Abenteuer',
-    adventures: 'Abenteuer',
-    mainadventure: 'Hauptabenteuer',
-
-    begincity: 'Vorspiel-Stadt',
-    gemskingdom: 'Edelstein-Königreich',
-    ninjavillage: 'Ninja Dorf',
-    invadedkingdom: 'Überfallenes Königreich',
-    juysea: 'Das feuchte Meer',
-    admittance: 'Einlass der Toten',
-    magicforest: 'Magischer Wald',
-    hamelintown: 'Die Stadt Hameln',
-    plainofrituals: 'Ebene der Rituale',
-    heroesuniversity: 'Helden Universität',
-    ninjasacredlands: 'Heilige Lande der Ninja',
-    splatters: 'Spritzer-Archipel',
-    digisekai: 'Digisekai',
-    stairway: 'Himmelstreppe',
-    training: 'Trainingsdimension',
-    weresquidisland: 'Wer-Tintenfisch-Insel',
-    haremtournament: 'Das Haremturnier',
-    gemskingdomprovince: 'Provinz Edelstein-Königreich',
-    playfullands: 'Die verspielten Lande',
 }
 
 export const blessingSpreadsheetLink = {

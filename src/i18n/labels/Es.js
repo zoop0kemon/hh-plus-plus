@@ -184,8 +184,37 @@ export const villain = {
     werebunnypolice: 'Policía hombres-conejos',
     gross: 'Bruto',
     darthexcitor: 'Darth Excitador',
+
     fallback: 'Mondo {{world}} nemico',
     event: 'Evento',
+}
+
+export const villainBreadcrumbs = {
+    town: 'Cuidad',
+    adventure: 'Aventura',
+    adventures: 'Aventuras',
+    mainadventure: 'Aventura Principal',
+
+    begincity: 'Primera ciudad',
+    gemskingdom: 'El Reino de las Gemas',
+    ninjavillage: 'Aldea de los Ninjas',
+    invadedkingdom: 'El Reino Invadido',
+    juysea: 'El mar del Jugo',
+    admittance: 'Admisión de los muertos',
+    magicforest: 'Bosque mágico',
+    hamelintown: 'Ciudad de Hamelín',
+    plainofrituals: 'Llanura de los rituales',
+    heroesuniversity: 'Universidad de Héroes',
+    ninjasacredlands: 'Tierra sagrada Ninja',
+    splatters: 'Salpicaduras del archipiélago',
+    digisekai: 'Digisekai',
+    stairway: 'Escalera al cielo',
+    training: 'Training Dimension',
+    weresquidisland: 'Isla WereSquid',
+    haremtournament: 'El Torneo del Harem',
+    gemskingdomprovince: 'Provincia del Reino de las Gemas',
+    nudecity: 'Chudad Nudista',
+    playfullands: 'Las Tierras Juguetonas',
 }
 
 export const market = {
@@ -331,34 +360,6 @@ export const pachinkoNames = {
 export const contestSummary = {
     totalRewards: 'Recompensas totales guardadas ({{contests}} Competiciones):',
     contestsWarning: '¡Los Competiciones caducan después de 21 días!'
-}
-
-export const villainBreadcrumbs = {
-    town: 'Cuidad',
-    adventure: 'Aventura',
-    adventures: 'Aventuras',
-    mainadventure: 'Aventura Principal',
-
-    begincity: 'Primera ciudad',
-    gemskingdom: 'El Reino de las Gemas',
-    ninjavillage: 'Aldea de los Ninjas',
-    invadedkingdom: 'El Reino Invadido',
-    juysea: 'El mar del Jugo',
-    admittance: 'Admisión de los muertos',
-    magicforest: 'Bosque mágico',
-    hamelintown: 'Ciudad de Hamelín',
-    plainofrituals: 'Llanura de los rituales',
-    heroesuniversity: 'Universidad de Héroes',
-    ninjasacredlands: 'Tierra sagrada Ninja',
-    splatters: 'Salpicaduras del archipiélago',
-    digisekai: 'Digisekai',
-    stairway: 'Escalera al cielo',
-    training: 'Training Dimension',
-    weresquidisland: 'Isla WereSquid',
-    haremtournament: 'El Torneo del Harem',
-    gemskingdomprovince: 'Provincia del Reino de las Gemas',
-    nudecity: 'Chudad Nudista',
-    playfullands: 'Las Tierras Juguetonas',
 }
 
 export const blessingSpreadsheetLink = {

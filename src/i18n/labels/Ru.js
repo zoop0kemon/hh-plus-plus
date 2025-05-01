@@ -166,8 +166,30 @@ export const villain = {
     nike: 'Найк',
     sake: 'Сейк', //TODO No official name yet
     werebunnypolice: 'Кроличья полиция', //TODO No official name yet
+
     fallback: 'Злодей мира {{world}}',
     event: 'Сейчас',
+}
+
+export const villainBreadcrumbs = {
+    town: 'Город',
+    adventure: 'Похождения',
+    begincity: 'Стартовый город',
+    gemskingdom: 'Королевство самоцветов',
+    ninjavillage: 'Деревня ниндзя',
+    invadedkingdom: 'Осажденное королевство',
+    juysea: 'Жуевое море',
+    admittance: 'Царство мертвых',
+    magicforest: 'Волшебный лес',
+    hamelintown: 'Гамельн',
+    plainofrituals: 'Земля ритуалов',
+    heroesuniversity: 'Геройский университет',
+    ninjasacredlands: 'Священные земли ниндзя',
+    splatters: 'Влажный Архипелаг',
+    digisekai: 'Цифромир',
+    stairway: 'Небесная лестница',
+    training: 'Training Dimension',
+    weresquidisland: 'WereSquid Island',
 }
 
 export const market = {
@@ -311,27 +333,6 @@ export const pachinkoNames = {
 export const contestSummary = {
     totalRewards: 'Всего Сохраненных Наград ({{contests}} Соревнований):',
     contestsWarning: 'Награды соревнований исчезают через 21 день!',
-}
-
-export const villainBreadcrumbs = {
-    town: 'Город',
-    adventure: 'Похождения',
-    begincity: 'Стартовый город',
-    gemskingdom: 'Королевство самоцветов',
-    ninjavillage: 'Деревня ниндзя',
-    invadedkingdom: 'Осажденное королевство',
-    juysea: 'Жуевое море',
-    admittance: 'Царство мертвых',
-    magicforest: 'Волшебный лес',
-    hamelintown: 'Гамельн',
-    plainofrituals: 'Земля ритуалов',
-    heroesuniversity: 'Геройский университет',
-    ninjasacredlands: 'Священные земли ниндзя',
-    splatters: 'Влажный Архипелаг',
-    digisekai: 'Цифромир',
-    stairway: 'Небесная лестница',
-    training: 'Training Dimension',
-    weresquidisland: 'WereSquid Island',
 }
 
 export const blessingSpreadsheetLink = {

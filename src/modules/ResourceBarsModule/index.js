@@ -202,7 +202,7 @@ class ResourceBarsModule extends CoreModule {
 
         if (current_url.includes('quest')) {
             shortcutLink = current_url
-        } else if (Object.keys(adventures).some(adventure => parseInt(adventure) !== current_adventure && adventures[adventure].questing.current_url.includes('quest'))) {
+        } else if (Object.keys(adventures).some(adventure => parseInt(adventure) !== current_adventure && adventures[adventure]?.questing?.current_url?.includes('quest'))) {
             shortcutLink = '/adventures.html'
         } else if (sidequestStatus && sidequestStatus.energySpendAvailable && sidequestStatus.continueLink) {
             shortcutLink = sidequestStatus.continueLink

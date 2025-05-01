@@ -464,6 +464,7 @@ export default {
             }]
         },
         {
+            key: 'soju',
             world: 15,
             girls: {
                 1: ['612527302', '167231135', '560979916', '784911160', '549524850', '184523411'],
@@ -472,6 +473,18 @@ export default {
             },
             gems: [{
                 element: 'light',
+                amount: 25,
+            }]
+        },
+        {
+            world: 16,
+            girls: {
+                1: ['164866290', '696124016', '841591253'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
                 amount: 25,
             }]
         },
@@ -635,9 +648,10 @@ export default {
             items: ['XP4']
         },
         {
+            key: 'blueballgremlin',
             world: 13,
             girls: {
-                1: [],
+                1: ['986074436', '151807422', '993438296'],
                 2: [],
                 3: []
             },
@@ -646,6 +660,18 @@ export default {
                 amount: 20,
             }],
             items: ['K4']
+        },
+        {
+            world: 14,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 25,
+            }]
         },
     ],
     PSH: [
@@ -853,10 +879,11 @@ export default {
             }]
         },
         {
-            opponent: 16,
-            world: 25,
+            key: 'monicamattos',
+            opponent: 17,
+            world: 26,
             girls: {
-                1: [],
+                1: ['409433993', '438706084', '673600948'],
                 2: [],
                 3: []
             },
@@ -864,7 +891,20 @@ export default {
                 element: 'psychic',
                 amount: 25,
             }]
-        }
+        },
+        {
+            opponent: 19,
+            world: 28,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 25,
+            }]
+        },
     ],
     HoH: [
         {
@@ -930,7 +970,7 @@ export default {
                 element: 'stone',
                 amount: 15,
             }]
-        },
+        }
     ],
     TPSH: [
         {
@@ -1059,10 +1099,11 @@ export default {
             }]
         },
         {
+            key: 'officerjolie',
             opponent: 9,
-            world: 12,
+            world: 13,
             girls: {
-                1: [],
+                1: ['642536124', '544798094', '905871499'],
                 2: [],
                 3: []
             },
@@ -1070,7 +1111,21 @@ export default {
                 element: 'fire',
                 amount: 20,
             }]
-        }
+        },
+        {
+            opponent: 10,
+            world: 15,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'nature',
+                amount: 20,
+            }],
+            items: ['K4']
+        },
     ],
     GPSH: [
         {
@@ -1155,10 +1210,11 @@ export default {
             }],
         },
         {
+            key : 'trojanpierceparis',
             opponent: 6,
-            world: 12,
+            world: 13,
             girls: {
-                1: [],
+                1: ['268000414', '809099695'],
                 2: [],
                 3: []
             },
@@ -1166,6 +1222,19 @@ export default {
                 element: 'light',
                 amount: 20,
             }],
-        }
+        },
+        {
+            opponent: 7,
+            world: 14,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 20,
+            }],
+        },
     ]
 }

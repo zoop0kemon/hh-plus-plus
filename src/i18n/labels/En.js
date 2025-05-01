@@ -1,4 +1,5 @@
 import Helpers from '../../common/Helpers'
+
 const gameConfigs = {
     HH: {
         girl: 'girl',
@@ -174,11 +175,14 @@ export const villain = {
     gross: 'Gross',
     harriet: 'Harriet',
     darthexcitor: 'Darth Excitor',
+
     edward: 'Edward',
     edernas: 'Edernas',
     maro: 'Maro',
     icaruswarlock: 'Icarus Warlock',
     sol: 'Sol',
+    soju: 'Soju',
+
     bodyhack: 'BodyHack',
     greygolem: 'Grey Golem',
     nymph: 'The Nymph',
@@ -190,6 +194,8 @@ export const villain = {
     dklong: 'D’Klong',
     virtueman: 'Virtue Man',
     asmodea: 'Asmodea',
+    blueballgremlin: 'Blueball Gremlin',
+
     asaakira: 'Headmistress Asa Akira',
     sammyjayne: 'Sammy Jayne',
     ivywinters: 'Ivy Winters',
@@ -204,6 +210,8 @@ export const villain = {
     bellarose: 'Bella Rose',
     paigetaylor: 'Paige Taylor',
     thehoodedheroine: 'The Hooded Heroine',
+    monicamattos: 'Monica Mattos',
+
     arieldemure: 'Ariel Demure',
     emmarose: 'Emma Rose',
     nataliestone: 'Natalie Stone',
@@ -212,11 +220,15 @@ export const villain = {
     mistressvenom: 'Mistress Venom',
     ceoramona: 'CEO Ramona',
     mamabee: 'Mama Bee',
+    officerjolie: 'Officer Jolie',
+
     tristanhunter: 'Tristan Hunter',
     jimmydurano: 'Jimmy Durano',
     luccamazzi: 'Lucca Mazzi',
     andrewstark: 'Andrew Stark',
     seanandbryce: 'Sean Duran & Bryce Evans',
+    trojanpierceparis: 'Trojan Pierce Paris',
+
     fallback: 'World {{world}} villain',
     event: 'Event',
 }
@@ -247,6 +259,7 @@ export const villainBreadcrumbs = {
     gemskingdomprovince: 'Gems Kingdom Province',
     nudecity: 'Nude City',
     playfullands: 'The Playful Lands',
+    camelot: 'Camelot',
 
     begincitycxh: 'Begin City',
     heroacademy: 'Hero Academy',
@@ -260,6 +273,7 @@ export const villainBreadcrumbs = {
     dickmannoir: 'Dickman Noir',
     goodbadsexy: 'The Good, The Bad and the Sexy',
     cockraiser: 'Cockraiser',
+    websgonewild: 'Webs Gone Wild',
 
     fukwell: 'Fukwell University',
     eurodick: 'Eurodick',
@@ -275,6 +289,7 @@ export const villainBreadcrumbs = {
     bythebook: 'By the Book',
     vegasbaby: 'Vegas, Baby!',
     showdownstrip: 'Showdown on the Strip',
+    bumfuckwhere: 'Bum Fuck Where?',
 
     bigdville: 'Big D\'Ville',
     dreamtown: 'Dream Town',
@@ -284,6 +299,7 @@ export const villainBreadcrumbs = {
     campcock: 'Camp Cock',
     ukhun: 'UK, Hun?',
     showgirls: 'Showgirls',
+    joyride: 'Joyride',
 
     tropicalbeginnings: 'Tropical Beginnings',
     spotlight: 'Spotlight',
@@ -291,6 +307,7 @@ export const villainBreadcrumbs = {
     yeehawgpsh: 'Yee Haw!',
     dreamvalleynot: 'Dream Valley Not',
     superfuckinghero: 'Zero To A Super-fucking-hero',
+    gameon: 'Game On',
 }
 
 export const market = {
