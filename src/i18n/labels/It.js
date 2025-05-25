@@ -163,6 +163,7 @@ export const config = {
     leagueQuickNav: 'Navigazione rapida tra avversari Lega',
     labyrinth: 'Informazioni sul labirinto',
     labyrinth_fixPower: `Normalizza la potenza ${gameConfig.delleragazze} mostrata`,
+    raid: 'info sui Raid dell\'Amore',
 }
 export const stConfig = {
     missionsBackground: 'Cambia lo sfondo delle missioni',

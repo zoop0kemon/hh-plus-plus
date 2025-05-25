@@ -61,6 +61,7 @@ export const lsKeys = {
     EVENT_TIME:                 lsKey('EventTime'),
     MYTHIC_EVENT_VILLAINS:      lsKey('MythicEventVillains'),
     MYTHIC_EVENT_TIME:          lsKey('MythicEventTime'),
+    RAIDS:                      lsKey('Raids'),
     SEASON_END_TIME:            lsKey('SeasonEndTime'),
     SEASON_STATS:               lsKey('SeasonStats'),
     OLD_SEASON_STATS:           lsKey('OldSeasonStats'),

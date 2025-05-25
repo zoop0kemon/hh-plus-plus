@@ -46,6 +46,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 const cant_claim = season_has_pass ? 0 : 1
 
                 this.hideClaimedRewards({
+                    wait_for: '.season-timer',
                     scroll_area: '.rewards_container_seasons',
                     tier: '.rewards_pair',
                     tiers_unlocked_var: 'season_tier',

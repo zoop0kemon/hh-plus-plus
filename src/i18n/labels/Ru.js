@@ -107,6 +107,7 @@ export const config = {
     upgradeQuickNav: 'Быстрая навигация на экране апгрейдов',
     leaderboardClubmateIndicators: 'Выделять членов клуба в списках игроков',
     leaderboardProfilePopups: 'Ссылки на профили в списках игроков',
+    raid: 'Информация о Любовном Рейде',
 }
 export const stConfig = {
     missionsBackground: 'Изменить фон миссий',
@@ -174,6 +175,7 @@ export const villain = {
 export const villainBreadcrumbs = {
     town: 'Город',
     adventure: 'Похождения',
+
     begincity: 'Стартовый город',
     gemskingdom: 'Королевство самоцветов',
     ninjavillage: 'Деревня ниндзя',
@@ -188,8 +190,6 @@ export const villainBreadcrumbs = {
     splatters: 'Влажный Архипелаг',
     digisekai: 'Цифромир',
     stairway: 'Небесная лестница',
-    training: 'Training Dimension',
-    weresquidisland: 'WereSquid Island',
 }
 
 export const market = {
@@ -237,11 +237,6 @@ export const harem = {
     marketRestock: 'Рынок обновится в {{time}} или на {{level}} уровне',
 }
 
-export const simFight = {
-    guaranteed: 'Гарантированно',
-    impossible: 'Невозможно',
-}
-
 export const league = {
     stayInTop: 'Чтобы <em><u>остаться в топ {{top}}</u></em>, требуется минимум <em>{{points}}</em> очков',
     notInTop: 'Чтобы <em><u>оказаться в топ {{top}}</u></em>, требуется минимум <em>{{points}}</em> очков',
@@ -267,6 +262,11 @@ export const league = {
     opponents: 'Противников',
     leaguePoints: 'Очков',
     avg: 'В среднем',
+}
+
+export const simFight = {
+    guaranteed: 'Гарантированно',
+    impossible: 'Невозможно',
 }
 
 export const teamsFilter = {

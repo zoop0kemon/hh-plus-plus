@@ -59,6 +59,8 @@ class HomeScreenOldishModule extends CoreModule {
             }
         }
         $leaderboard.addClass('position-leaderboard')
+
+        $('.event-widget .event-thumbnail .event-timer.bar-wrapper').addClass('hh-scroll')
     }
 
     wrapPotionPathButtons () {

@@ -1,0 +1,152 @@
+#love-raids {
+    .raid-card {
+        .raid-card-header {
+            .raid-name {
+                z-index: 2;
+                
+                .type_icon, .subtype_icon {
+                    display: inline-block;
+                    width: 24px;
+                    height: 24px;
+                    margin-left: 0.25rem;
+                }
+
+                .subtype_icon {
+                    background: #696969;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: white;
+                }
+            }
+
+            .raid-timer .raid-duration {
+                padding-left: 0.5rem;
+            }
+
+            .graded {
+                position: absolute;
+                left: 0.5rem;
+                top: -2px;
+                z-index: 1;
+
+                g {
+                    display: inline-block;
+                    width: 24px;
+                    height: 24px;
+                    background: var(--grade-star) center no-repeat;
+                    background-size: contain;
+                    margin: -2px;
+                }
+            }
+        }
+
+        .raid-content {
+            .girl-name>a {
+                text-decoration: none;
+                color: unset;
+            }
+
+            .eye {
+                display: none;
+                position: absolute;
+                bottom: 0.25rem;
+                left: 1rem;
+                width: 4rem;
+                height: 4rem;
+                cursor: pointer;
+
+                img {
+                    width: 4rem;
+                    height: 4rem;
+                }
+            }
+        }
+
+        &.expanded {
+            .raid-card-header {
+                .graded {
+                    left: 2.5rem;
+                }
+            }
+
+            .raid-content {
+                .eye {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .raid-card:not(.expanded) {
+        .raid-content .info-box {
+            display: block;
+            z-index: 2;
+            top: 4.5rem;
+            text-shadow: 1px 1px 0 #000000, -1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000;
+
+            .girl-name, .objective, .shards-container>a {
+                display: none;
+            }
+
+            .shards-container {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+
+                .progress-container {
+                    width: 10rem;
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .shards-remaining-container {
+                font-size: 0.8rem;
+
+                .shards-remaining {
+                    margin: 0;
+                    color: #FFB827;
+                    
+                    .number {
+                        margin-left: 0.25rem;
+                        color: white;
+                    }
+                }
+
+                .shards-next-availability {
+                    justify-content: center;
+                    width: 100%;
+
+                    p {
+                        color: #FFB827;
+
+                        span {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+        &.multiple-girl .raid-content .info-box {
+            .classic-girl:nth-of-type(1) .shards-container {
+                justify-content: flex-start;
+            }
+            .classic-girl:nth-of-type(2) .shards-container {
+                justify-content: flex-end;
+                position: absolute;
+                top: 0.5rem;
+            }
+        }
+
+        &.upcoming {
+            filter: opacity(0.75);
+        }
+        &.gotten {
+            filter: grayscale(1);
+        }
+        &.gotten.upcoming {
+            filter: opacity(0.6) grayscale(1);
+        }
+    }
+}

@@ -25,13 +25,9 @@ const SC_PER_AFF = 417
 const SC_PER_XP = 200
 const SALARY_TIMES = [30, 90, 270, 420, 420, 420, 420]
 
-const getGemCostFromAwakeningLevel = (awakeningLevel, rarity) => {
+const getGemCostFromLevelCap = (level_cap, rarity) => {
     const {awakening_requirements} = window
-    let gems = 0
-    if (awakeningLevel < awakening_requirements.length) {
-        gems = awakening_requirements.slice(awakeningLevel).reduce((sum, {cost}) => sum += (cost*GEM_COST_MULTIPLIERS[rarity]), 0)
-    }
-    return gems
+    return awakening_requirements.slice((level_cap-250)/50 + 1).reduce((sum, {cost}) => sum += (cost*GEM_COST_MULTIPLIERS[rarity]), 0)
 }
 
 class HaremInfoModule extends CoreModule {
@@ -125,7 +121,7 @@ class HaremInfoModule extends CoreModule {
                     }
                     aggregates.xpToMax += Math.max(GirlXP[rarity][GIRL_MAX_LEVEL - 2] - (xp || 0), 0)
                     aggregates.xpToCap += Math.max(GirlXP[rarity][level_cap - 2] - (xp || 0), 0)
-                    aggregates.gems[element] += getGemCostFromAwakeningLevel((level_cap-250)/50, rarity)
+                    aggregates.gems[element] += getGemCostFromLevelCap(level_cap, rarity)
                 }
             } else if (shards === 100) {
                 console.log(`Error: missing info for ${girl.name}`)

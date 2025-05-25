@@ -323,6 +323,11 @@ class GirlDictionaryCollector {
                 if (!girl_rewards) {return}
                 const girls = girl_rewards.map(({girl_data, is_owned}) => Object.assign({is_owned}, girl_data))
                 collectFromGirlList(girls, {trusted: false})
+            } else if (Helpers.isCurrentPage('love-raids')) {
+                const girls = love_raids.filter(({status, announcement_type_name}) =>  status === 'ongoing' || announcement_type_name === 'full').map(({girl_data}) => girl_data)
+                if (girls.length) {
+                    collectFromGirlList(girls, {trusted: false})
+                }
             }
             // SM, ME, and Lab market girl data and shard progress
             if ((Helpers.isCurrentPage('event') && Helpers.hasSearch('tab=sm_event')) || ['seasonal', 'labyrinth.html'].some(page => Helpers.isCurrentPage(page))) {

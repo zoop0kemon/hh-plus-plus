@@ -128,7 +128,7 @@ export const config = {
     leagueQuickNav: 'Navegación rápida del oponente de la liga',
     labyrinth: 'Información del laberinto',
     labyrinth_fixPower: `Normalizar el poder de visualización ${gameConfig.delachica}`,
-
+    raid: 'Informacion de Incursión del Amor',
 }
 export const stConfig = {
     missionsBackground: 'Cambiar el fondo de las misiones',

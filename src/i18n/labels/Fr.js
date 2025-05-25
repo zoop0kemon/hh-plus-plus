@@ -114,6 +114,7 @@ export const config = {
     leagueQuickNav: 'Navigation rapide entre adversaires de ligue',
     labyrinth: 'Informations du Labyrinthe',
     labyrinth_fixPower: `Normaliser le pouvoir des ${gameConfig.fille}s`,
+    raid: 'Info sur les Raids de l\'Amour',
 }
 export const stConfig = {
     missionsBackground: 'Change l\'arrière-plan des missions',

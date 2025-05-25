@@ -59,16 +59,20 @@ class FightAVillainModule extends CoreModule {
     }
 
     injectCSSVars () {
+        const {GT} = window
         Sheet.registerVar('troll-menu-font-weight', Helpers.isCxH() ? '800' : '400')
         Sheet.registerVar('girl-ico-tick', `url("${Helpers.getCDNHost()}/clubs/ic_Tick.png")`)
         Sheet.registerVar('E', `"${this.label('event')[0]}"`)
+        Sheet.registerVar('R', `"${GT.design.raid[0]}"`)
     }
 
     async buildMenu () {
+        const {server_now_ts} = window
         const villainsSet = VILLAINS[Helpers.getGameKey()]
 
         const eventTrolls = Helpers.lsGet(lsKeys.EVENT_VILLAINS) || []
         const mythicEventTrolls = Helpers.lsGet(lsKeys.MYTHIC_EVENT_VILLAINS) || []
+        const raids = (Helpers.lsGet(lsKeys.RAIDS) || []).filter(({type, start, end}) => type === 'troll' && server_now_ts >= start && server_now_ts < end)
         const girlDictionary = await Helpers.getGirlDictionary()
 
         const queststatus = Helpers.lsGet(lsKeys.QUEST_STATUS)
@@ -83,23 +87,23 @@ class FightAVillainModule extends CoreModule {
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
             const villainWorld = Helpers.getHref(queststatus.current_adventure === 1 ? `/world/${world}` : '/adventures.html')
-            const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId)
-            const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId)
-            const trollGirls = [...eventTrollGirls, ...mythicTrollGirls]
+            const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})
+            const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})
+            const raidsTrollGrils = raids.filter(({subtype}) => `${subtype}` === villainId).map(({id_girl}) => {return {id: `${id_girl}`, source: 'raid'}})
+            const event_girls = [...eventTrollGirls, ...mythicTrollGirls, ...raidsTrollGrils]
             let allGirlsObtained = true
             let highest_rarity = 0
-            const event_girls = []
-            trollGirls.forEach(({id, rarity}) => {
-                event_girls.push({id, rarity})
+            event_girls.forEach(({id}) => {
                 const dictGirl = girlDictionary.get(id)
                 const owned = dictGirl ? dictGirl.shards === 100 : false
                 if (!owned) {
+                    const rarity = dictGirl?.rarity || 'legendary'
                     highest_rarity = Math.max(highest_rarity, RARITIES.indexOf(rarity))
                     allGirlsObtained = false
                 }
             })
 
-            const type = trollGirls.length && !allGirlsObtained ? `eventTroll ${RARITIES[highest_rarity]}` : 'regular'
+            const type = event_girls.length && !allGirlsObtained ? `eventTroll ${RARITIES[highest_rarity]}` : 'regular'
             const $villain = $(`<a class="menu-villain ${type}" href="${Helpers.getHref(`/troll-pre-battle.html?id_opponent=${villainId}`)}"></a>`)
 
             const $villainTopRow = $('<div class="menu-villain-top"></div>')
@@ -142,15 +146,16 @@ class FightAVillainModule extends CoreModule {
                     $villainBottomRow.append(`<div class="girl_ico tier${tier}${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span>${shards}</div>` : '' }</div>`)
                 })
             })
-            event_girls.forEach(({id, rarity}) => {
+            event_girls.forEach(({id, source}) => {
                 const girl = girlDictionary.get(id)
                 const name = girl?.name || '????'
+                const rarity = girl?.rarity || 'legendary'
                 const shards = girl?.shards !== undefined ? girl.shards : '?'
 
                 const girlIcon = `${Helpers.getCDNHost()}/pictures/girls/${id}/ico0-300x.webp`
 
                 const showShards = shards === '?' || shards < 100
-                $villainBottomRow.append(`<div class="girl_ico event${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span>${shards}</div>` : '' }</div>`)
+                $villainBottomRow.append(`<div class="girl_ico ${source}${showShards ? '' : ' obtained'}" rarity="${rarity}"><img src="${girlIcon}"/>${showShards ? `<div class="shard-count" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span>${shards}</div>` : '' }</div>`)
             })
 
             if (allGirlsObtained) {

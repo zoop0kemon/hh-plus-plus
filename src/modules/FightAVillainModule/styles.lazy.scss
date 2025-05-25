@@ -193,6 +193,9 @@
                     &.event::before {
                         content: var(--E);
                     }
+                    &.raid::before {
+                        content: var(--R);
+                    }
 
                     &.obtained {
                         border-color: #75b400;

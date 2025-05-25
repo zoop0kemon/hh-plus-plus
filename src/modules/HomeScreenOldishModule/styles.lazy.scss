@@ -175,7 +175,7 @@
                     .mega-event {
                         position: absolute;
                         right: 0;
-                        top: 237px;
+                        top: 260px;
                         width: 13rem;
                     }
                 }
@@ -203,12 +203,33 @@
                         }
                     }
 
-                    .event-widget {
+                    .raids {
                         position: absolute;
                         right: 0;
                         top: 32px;
+                        width: 227px;
                         @media #{$mediaMobile} {
                             top: 86px;
+                        }
+                    }
+
+                    .event-widget {
+                        position: absolute;
+                        right: 0;
+                        top: 96px;
+                        @media #{$mediaMobile} {
+                            top: 86px;
+                        }
+
+                        .event-timer.bar-wrapper {
+                            max-height: 10rem;
+                            min-width: 227px;
+
+                            .over {
+                                left: 0px;
+                                padding-right: 1px;
+                                padding-left: 15px;
+                            }
                         }
                     }
                 }

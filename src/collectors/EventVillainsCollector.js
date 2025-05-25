@@ -11,6 +11,9 @@ class EventVillainsCollector {
             if (Helpers.hasSearch('tab=mythic_event')) {
                 EventVillainsCollector.collectFromEvent(lsKeys.MYTHIC_EVENT_TIME, lsKeys.MYTHIC_EVENT_VILLAINS)
             }
+            if (Helpers.isCurrentPage('love-raids')) {
+                EventVillainsCollector.collectFromRaids()
+            }
         })
     }
 
@@ -19,13 +22,11 @@ class EventVillainsCollector {
         const eventEndTime = parseInt(Helpers.lsGetRaw(lsKeys.EVENT_TIME)) || 0
         const mythicEventEndTime = parseInt(Helpers.lsGetRaw(lsKeys.MYTHIC_EVENT_TIME)) || 0
 
-        const now = server_now_ts
-        if (now > eventEndTime) {
+        if (server_now_ts > eventEndTime) {
             Helpers.lsRm(lsKeys.EVENT_VILLAINS)
             Helpers.lsRm(lsKeys.EVENT_TIME)
         }
-
-        if (now > mythicEventEndTime) {
+        if (server_now_ts > mythicEventEndTime) {
             Helpers.lsRm(lsKeys.MYTHIC_EVENT_VILLAINS)
             Helpers.lsRm(lsKeys.MYTHIC_EVENT_TIME)
         }
@@ -38,7 +39,7 @@ class EventVillainsCollector {
 
         const eventTrolls = []
         event_girls.forEach(girl => {
-            const {id_girl: id, source, source_list, rarity} = girl
+            const {id_girl, source, source_list} = girl
             const cur_source = source_list?.event_troll?.find(event => event.group.id == id_event) || source
             if (cur_source.name !== 'event_troll') {return}
 
@@ -46,10 +47,26 @@ class EventVillainsCollector {
             const matches = sourceUrl.match(/id_opponent=([0-9]+)/)
             if (matches) {
                 const troll = matches[1]
-                eventTrolls.push({id: `${id}`, troll, rarity})
+                eventTrolls.push({id: `${id_girl}`, troll})
             }
         })
         Helpers.lsSet(eventVillainsKey, eventTrolls)
+    }
+
+    static collectFromRaids() {
+        const {server_now_ts} = window
+
+        const raids = love_raids.map(raid => {
+            return {
+                id_raid: raid.id_raid,
+                id_girl: raid.id_girl,
+                start: server_now_ts + (raid?.seconds_until_event_start || 0),
+                end: server_now_ts + (raid?.seconds_until_event_end || (raid.seconds_until_event_start + raid.event_duration_seconds)),
+                type: raid.raid_module_type,
+                subtype: raid?.raid_module_pk || 0
+            }
+        })
+        Helpers.lsSet(lsKeys.RAIDS, raids)
     }
 }
 
