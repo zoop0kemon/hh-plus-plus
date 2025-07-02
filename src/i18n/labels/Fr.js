@@ -203,6 +203,7 @@ export const villainBreadcrumbs = {
     gemskingdomprovince: 'Province des Gemmes',
     nudecity: 'La Cité Nue',
     playfullands: 'Les Terres Espiègles',
+    backinaction: 'De retour sur le terrain',
 
     begincitycxh: 'Préludeville',
     heroacademy: 'Académie des Héros',

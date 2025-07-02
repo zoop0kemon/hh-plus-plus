@@ -16,10 +16,11 @@ class QuestStatusCollector {
                     if (Helpers.isCurrentPage('adventures.html')) {
                         const {adventures_data} = window
                         queststatus.adventures = queststatus?.adventures || {}
-                        adventures_data.forEach(({id_adventure, id_world_first, id_world_last}) => {
+                        adventures_data.forEach(({id_adventure, name, id_world_first, id_world_last}) => {
                             queststatus.adventures[id_adventure] = queststatus.adventures?.[id_adventure] || {}
                             const worlds = queststatus.adventures[id_adventure]?.worlds || []
                             queststatus.adventures[id_adventure].worlds = [...new Set([id_world_first, id_world_last, ...worlds])]
+                            queststatus.adventures[id_adventure].name = name
                         })
                     }
                     // get the rest of the world IDs

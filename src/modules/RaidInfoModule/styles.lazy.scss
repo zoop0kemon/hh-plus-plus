@@ -65,6 +65,10 @@
         }
 
         &.expanded {
+            &.grey-overlay {
+                filter: none;
+            }
+
             .raid-card-header {
                 .graded {
                     left: 2.5rem;
@@ -104,6 +108,10 @@
             .shards-remaining-container {
                 font-size: 0.8rem;
 
+                .bonus-increase {
+                    display: none;
+                }
+
                 .shards-remaining {
                     margin: 0;
                     color: #FFB827;
@@ -142,10 +150,7 @@
         &.upcoming {
             filter: opacity(0.75);
         }
-        &.gotten {
-            filter: grayscale(1);
-        }
-        &.gotten.upcoming {
+        &.grey-overlay.upcoming {
             filter: opacity(0.6) grayscale(1);
         }
     }

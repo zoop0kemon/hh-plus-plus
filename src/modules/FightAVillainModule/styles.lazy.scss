@@ -40,6 +40,7 @@
         border-color: #cccccc42;
         background-color: #080808f5;
         pointer-events: all;
+        max-height: 35rem;
 
         &.width-1 {
             grid-template-columns: 1fr;

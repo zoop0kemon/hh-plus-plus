@@ -76,17 +76,16 @@ class FightAVillainModule extends CoreModule {
         const girlDictionary = await Helpers.getGirlDictionary()
 
         const queststatus = Helpers.lsGet(lsKeys.QUEST_STATUS)
-        const currentWorld = queststatus.adventures?.[1]?.questing?.id_world || 2
         const worldIcon = `${Helpers.getCDNHost()}/pictures/design/quest/ico-quest.png`
 
-        const filteredVillainSet = villainsSet.filter(villain => villain.world <= currentWorld)
-        const $menu = $(`<div class="script-fight-a-villain-menu width-${Math.min(4, filteredVillainSet.length)}"></div>`)
+        const filteredVillainSet = villainsSet.filter(villain => villain.world <= (queststatus.adventures?.[villain?.adventure || 1]?.questing?.id_world || 2))
+        const $menu = $(`<div class="script-fight-a-villain-menu hh-scroll width-${Math.min(4, filteredVillainSet.length)}"></div>`)
 
-        filteredVillainSet.forEach(({key, girls, opponent, world, gems, items, v}) => {
+        filteredVillainSet.forEach(({key, girls, opponent, world, gems, items, v, adventure}) => {
             const villainId = `${opponent ? opponent : world - 1}`
             const villainName = this.label(key)
             const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
-            const villainWorld = Helpers.getHref(queststatus.current_adventure === 1 ? `/world/${world}` : '/adventures.html')
+            const villainWorld = Helpers.getHref(queststatus.current_adventure === (adventure || 1) ? `/world/${world}` : '/adventures.html')
             const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})
             const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})
             const raidsTrollGrils = raids.filter(({subtype}) => `${subtype}` === villainId).map(({id_girl}) => {return {id: `${id_girl}`, source: 'raid'}})

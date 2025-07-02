@@ -176,6 +176,7 @@ export const villain = {
     gross: 'Gross',
     harriet: 'Harriet',
     darthexcitor: 'Darth Excitor',
+    arthur: 'Arthur',
 
     edward: 'Edward',
     edernas: 'Edernas',
@@ -260,6 +261,7 @@ export const villainBreadcrumbs = {
     gemskingdomprovince: 'Gems Kingdom Province',
     nudecity: 'Nude City',
     playfullands: 'The Playful Lands',
+    backinaction: 'Back in Action',
     camelot: 'Camelot',
 
     begincitycxh: 'Begin City',

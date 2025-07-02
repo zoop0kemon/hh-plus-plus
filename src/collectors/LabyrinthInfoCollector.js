@@ -45,8 +45,9 @@ class LabyrinthInfoCollector {
                     const {identifier, rarity, bonus} = relic
                     const relic_data = {identifier, rarity, bonus}
                     if (relic.girl) {
-                        const {id_girl, remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}}, caracs, blessed_caracs, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = relic.girl
+                        const {id_girl, remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}, role_data: role_data_temp}, caracs, blessed_attributes, blessed_caracs_pvp4, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = relic.girl
                         const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+                        const role_data = role_data_temp?.id ? {name: role_data_temp.name, id: role_data_temp.id} : []
 
                         relic_data.girl = {
                             id_girl,
@@ -54,7 +55,8 @@ class LabyrinthInfoCollector {
                             member_girl: {
                                 level,
                                 caracs,
-                                blessed_caracs,
+                                blessed_attributes,
+                                blessed_caracs_pvp4,
                                 battle_caracs,
                                 graded2,
                                 ico,
@@ -63,7 +65,8 @@ class LabyrinthInfoCollector {
                                     class: g_class,
                                     rarity,
                                     name,
-                                    element_data: {type}
+                                    element_data: {type},
+                                    role_data
                                 }
                             }
                         }
@@ -119,13 +122,15 @@ class LabyrinthInfoCollector {
                         if (availableGirls) {
                             const girl = availableGirls.find(girl => girl.id_girl == id_girl)
                             if (girl) {
-                                const {remaining_ego, level, battle_caracs, graded2, ico, class: g_class, rarity, name, element_data: {type}} = girl
-                                const {member_girl: {caracs, blessed_caracs, skill_tiers_info}} = relic_girl
+                                const {remaining_ego, level, battle_caracs, graded2, ico, class: g_class, rarity, name, element_data: {type}, role_data: role_data_temp} = girl
+                                const {member_girl: {caracs, blessed_attributes, blessed_caracs_pvp4, skill_tiers_info}} = relic_girl
+                                const role_data = role_data_temp?.id ? {name: role_data_temp.name, id: role_data_temp.id} : []
 
                                 relic_girl.member_girl = {
                                     level,
                                     caracs,
-                                    blessed_caracs,
+                                    blessed_attributes,
+                                    blessed_caracs_pvp4,
                                     battle_caracs,
                                     graded2,
                                     ico,
@@ -134,7 +139,8 @@ class LabyrinthInfoCollector {
                                         class: g_class,
                                         rarity,
                                         name,
-                                        element_data: {type}
+                                        element_data: {type},
+                                        role_data
                                     }
                                 }
                                 relic_girl.remaining_ego_percent = parseInt(remaining_ego)
@@ -143,13 +149,15 @@ class LabyrinthInfoCollector {
                             }
                         } else if (girl_squad) {
                             const girl = girl_squad.find(girl => girl.id_girl == id_girl)
-                            const {remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}}, caracs, blessed_caracs, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = girl
+                            const {remaining_ego_percent, member_girl: {level, girl: {class: g_class, rarity, name, element_data: {type}, role_data: role_data_temp}, caracs, blessed_attributes, blessed_caracs_pvp4, battle_caracs, graded2, ico, skill_tiers_info: skill_tiers_temp}} = girl
                             const skill_tiers_info = [{}, ...Object.values(skill_tiers_temp).slice(-1)]
+                            const role_data = role_data_temp?.id ? {name: role_data_temp.name, id: role_data_temp.id} : []
 
                             relic_girl.member_girl = {
                                 level,
                                 caracs,
-                                blessed_caracs,
+                                blessed_attributes,
+                                blessed_caracs_pvp4,
                                 battle_caracs,
                                 graded2,
                                 ico,
@@ -158,7 +166,8 @@ class LabyrinthInfoCollector {
                                     class: g_class,
                                     rarity,
                                     name,
-                                    element_data: {type}
+                                    element_data: {type},
+                                    role_data
                                 }
                             }
                             relic_girl.remaining_ego_percent = remaining_ego_percent

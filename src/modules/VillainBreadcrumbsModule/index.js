@@ -35,13 +35,15 @@ class VillainBreadcrumbsModule extends CoreModule {
             const searchParams = new URLSearchParams(window.location.search)
             const villainId = searchParams.get('id_opponent')
             const villain = gameVillains.find(({opponent, world}) =>  `${(opponent ? opponent : world-1)}` === villainId)
-            const {has_parallel_adventures, current_adventure} = Helpers.lsGet(lsKeys.QUEST_STATUS)
+            const {has_parallel_adventures, current_adventure, adventures} = Helpers.lsGet(lsKeys.QUEST_STATUS)
+            const villain_adventure = villain?.adventure || 1
+            const adventure_name = adventures?.[villain_adventure]?.name || this.label('mainadventure')
 
-            const breadcumbLink = (href, text) => `<a class="back" href="${Helpers.getHref(current_adventure === 1 || href === '/home.html' ? href : '/adventures.html')}">${text}<span class="mapArrowBack_flat_icn"></span></a>`
+            const breadcumbLink = (href, text) => `<a class="back" href="${Helpers.getHref(current_adventure === villain_adventure || href === '/home.html' ? href : '/adventures.html')}">${text}<span class="mapArrowBack_flat_icn"></span></a>`
 
             const adventureParts = has_parallel_adventures ? [
                 breadcumbLink('/adventures.html', this.label('adventures')),
-                breadcumbLink('/map.html', this.label('mainadventure'))
+                breadcumbLink('/map.html', adventure_name)
             ] : [
                 breadcumbLink('/map.html', this.label('adventure'))
             ]

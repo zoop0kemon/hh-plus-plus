@@ -211,6 +211,7 @@ export const villainBreadcrumbs = {
     haremtournament: 'Das Haremturnier',
     gemskingdomprovince: 'Provinz Edelstein-Königreich',
     playfullands: 'Die verspielten Lande',
+    backinaction: 'Wieder in Aktion',
 }
 
 export const market = {

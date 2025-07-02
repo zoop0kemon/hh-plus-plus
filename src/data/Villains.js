@@ -264,8 +264,8 @@ export default {
             }]
         },
         {
-            opponent: 20,
-            world: 22,
+            opponent: 21,
+            world: 23,
             girls: {
                 1: [],
                 2: [],
@@ -274,6 +274,41 @@ export default {
             gems: [{
                 element: 'sun',
                 amount: 25,
+            }]
+        },
+        {
+            key: 'arthur',
+            adventure: 2,
+            opponent: 20,
+            world: 22,
+            girls: {
+                1: ['851831359', '666677364', '831625343'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'fire',
+                amount: 15
+            }, {
+                element: 'sun',
+                amount: 15
+            }]
+        },
+        {
+            adventure: 2,
+            opponent: 22,
+            world: 24,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'darkness',
+                amount: 15,
+            }, {
+                element: 'light',
+                amount: 15,
             }]
         },
     ],

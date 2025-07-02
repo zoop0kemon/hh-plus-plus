@@ -215,6 +215,7 @@ export const villainBreadcrumbs = {
     gemskingdomprovince: 'Provincia del Reino de las Gemas',
     nudecity: 'Chudad Nudista',
     playfullands: 'Las Tierras Juguetonas',
+    backinaction: 'De Vuelta en Acción',
 }
 
 export const market = {

@@ -21,10 +21,11 @@
     font-size: 16px;
 
     #seasons_tab_title & {
-        margin-left: 54px;
+        position: absolute;
+        margin-left: 2rem;
     }
 
     .battle_hero & {
-        margin-left: 15px;
+        margin-left: 1rem;
     }
 }
