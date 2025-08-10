@@ -175,7 +175,7 @@
                     .mega-event {
                         position: absolute;
                         right: 0;
-                        top: 260px;
+                        top: 17rem;
                         width: 13rem;
                     }
                 }
@@ -213,10 +213,20 @@
                         }
                     }
 
+                    .world-boss {
+                        position: absolute;
+                        right: 0;
+                        top: 13.5rem;
+                        width: 227px;
+                        @media #{$mediaMobile} {
+                            top: 86px;
+                        }
+                    }
+
                     .event-widget {
                         position: absolute;
                         right: 0;
-                        top: 96px;
+                        top: 6rem;
                         @media #{$mediaMobile} {
                             top: 86px;
                         }
@@ -231,6 +241,12 @@
                                 padding-left: 15px;
                             }
                         }
+                    }
+                }
+
+                .event-widget-container:has(.world-boss) {
+                    .event-widget .event-timer.bar-wrapper {
+                        max-height: 7rem;
                     }
                 }
             }

@@ -230,6 +230,7 @@ export const villain = {
     andrewstark: 'Andrew Stark',
     seanandbryce: 'Sean Duran & Bryce Evans',
     trojanpierceparis: 'Trojan Pierce Paris',
+    ryanrose: 'Ryan Rose',
 
     fallback: 'World {{world}} villain',
     event: 'Event',
@@ -311,6 +312,7 @@ export const villainBreadcrumbs = {
     dreamvalleynot: 'Dream Valley Not',
     superfuckinghero: 'Zero To A Super-fucking-hero',
     gameon: 'Game On',
+    dickridersbrigade: 'The Dickriders Brigade',
 }
 
 export const market = {

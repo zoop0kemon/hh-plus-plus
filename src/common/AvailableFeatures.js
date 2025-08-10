@@ -28,7 +28,7 @@ const countGirls = async (allGrades=false) => {
 
 class AvailableFeatures {
     get pantheon () {
-        if (Helpers.isHoH() || Helpers.isTPSH() || Helpers.isGPSH()) {return false}
+        if (Helpers.isHoH()) {return false}
         const {Hero: {infos: {level}}} = window.shared ? window.shared : window
         return level >= 15
     }

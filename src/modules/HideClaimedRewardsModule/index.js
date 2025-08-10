@@ -65,7 +65,7 @@ class HideClaimedRewardsModule extends CoreModule {
                         return claimable_tiers
                     }
                 })
-            } else if (Helpers.isCurrentPage('event.html')) {
+            } else if (Helpers.isCurrentPage('event.html') && !Helpers.isCurrentPage('world-boss-event')) {
                 const {current_event: {can_participate, type}} = window
                 if (can_participate) {
                     if (type === 'path_event') {

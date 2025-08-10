@@ -30,7 +30,7 @@ class TeamsFilterModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team', 'labyrinth-pool-select', 'labyrinth.html'].some(page => Helpers.isCurrentPage(page))
+        return ['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team', 'labyrinth-pool-select', 'labyrinth.html', 'edit-world-boss-team'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -41,10 +41,15 @@ class TeamsFilterModule extends CoreModule {
         Helpers.defer(() => {
             this.injectCSSVars()
 
-            this.isLabyrinth = Helpers.isCurrentPage('labyrinth')
+            this.isLabyrinth = Helpers.isCurrentPage('labyrinth') || Helpers.isCurrentPage('world-boss')
             if (this.isLabyrinth) {
                 const RELIC_KEYS = Object.keys(RELIC_BONUSES)
-                this.relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)).map(relic => Object.assign(relic, RELIC_BONUSES[relic.identifier])) || []
+                if (Helpers.isCurrentPage('labyrinth')) {
+                    this.relics = Helpers.lsGet(lsKeys.LABYRINTH_RELICS)?.filter(({identifier}) => RELIC_KEYS.includes(identifier)).map(relic => Object.assign(relic, RELIC_BONUSES[relic.identifier])) || []
+                } else {
+                    //const {event_data: {relic_picked}} = window
+                    this.relics = []
+                }
             }
             this.isLabyrinthMain = Helpers.isCurrentPage('labyrinth.html')
             const selector = Helpers.isCurrentPage('team') ? 'h3.panel-title' : (this.isLabyrinthMain ? '.squad-container' : '#filter_girls')

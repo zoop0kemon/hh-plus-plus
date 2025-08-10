@@ -1245,7 +1245,7 @@ export default {
             }],
         },
         {
-            key : 'trojanpierceparis',
+            key: 'trojanpierceparis',
             opponent: 6,
             world: 13,
             girls: {
@@ -1259,15 +1259,29 @@ export default {
             }],
         },
         {
+            key: 'ryanrose',
             opponent: 7,
-            world: 14,
+            world: 16,
+            girls: {
+                1: ['578185725', '582322108', '695550243'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 20,
+            }],
+        },
+        {
+            opponent: 8,
+            world: 18,
             girls: {
                 1: [],
                 2: [],
                 3: []
             },
             gems: [{
-                element: 'psychic',
+                element: 'water',
                 amount: 20,
             }],
         },

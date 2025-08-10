@@ -18,7 +18,7 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
     Object.values(girl_list).forEach((girl) => {
         const {id_girl, name} = girl
         if (id_girl && name) {
-            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values, caracs} = girl
+            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values, caracs, preview, grade_skins_data} = girl
             const has_girl = could_own && (own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100))
 
             const girl_data = { // Data for owned or unowned girls
@@ -52,6 +52,10 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
                     girl_data.base_caracs = base_caracs
                 }
             }
+            // const skins_data = preview?.grade_skins_data || grade_skins_data
+            // if (skins_data && skins_data.length && 'shards_count' in skins_data[0]) {
+            //     console.log(skins_data)
+            // }
             if (has_girl && trusted) { // player mutable
                 const {fav_graded, graded, affection, xp, level, level_cap, awakening_level, salary, date_added, armor, skill_tiers_info, skills, skill_trait} = girl
                 const cur_grade = graded ? parseInt(graded, 10) : (graded2 ? $(graded2).filter('g:not(.grey):not(.green)').length : undefined)
@@ -278,8 +282,11 @@ class GirlDictionaryCollector {
                 Helpers.onAjaxResponse(/action=show_specific_girl_grade/i, updateFavPose)
                 Helpers.onAjaxResponse(/action=girl_equipment_(equip|unequip)/i, updateEquipsInfo)
             } else if (Helpers.isCurrentPage('event')) {
-                const {event_girls} = window
-                collectFromGirlList(event_girls, {trusted: false})
+                const {event_girls, event_girl} = window
+                const girls = event_girls || event_girl || []
+                if (girls.length) {
+                    collectFromGirlList(girls, {trusted: false})
+                }
             } else if (Helpers.isCurrentPage('clubs')) {
                 const {club_champion_data} = window
                 if (club_champion_data && club_champion_data.reward) {

@@ -21,7 +21,7 @@ class EventGirlTicksStyleTweak extends STModule {
     }
 
     shouldRun () {
-        return Helpers.isCurrentPage('event.html')
+        return Helpers.isCurrentPage('event.html') && !Helpers.isCurrentPage('world-boss-event')
     }
 
     run () {
