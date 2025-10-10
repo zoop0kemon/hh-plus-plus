@@ -8,7 +8,6 @@ import labyrinthIcon from '../../assets/labyrinth.svg'
 import styles from './styles.lazy.scss'
 import AvailableFeatures from '../../common/AvailableFeatures'
 import Sheet from '../../common/Sheet'
-import TooltipManager from '../../common/TooltipManager'
 
 const {$} = Helpers
 
@@ -61,7 +60,6 @@ class HomeScreenModule extends CoreModule {
             this.injectCSSVars()
             this.addTimers()
             this.forceActivitiesTab()
-            this.manageSalaryTimers()
             this.addReplyTimer()
             this.addShortcuts()
 
@@ -209,44 +207,6 @@ class HomeScreenModule extends CoreModule {
         const text = `${payTimes.length > 10 ? '…' : ''}<table><tbody>${sortedPayTimes.slice(0, 10).sort((a, b) => b - a).map(time => `<tr><td>${GT.design.more_in.replace('+1', `+${I18n.nThousand(aggregated[time])} <span class="hudSC_mix_icn"></span>`)} </td><td>${format_time_short(time)}</td></tr>`).join('')}</tbody></table>`
 
         return {aggregated, collectableNow, text}
-    }
-
-    manageSalaryTimers() {
-        const {GirlSalaryManager} = window.shared ? window.shared : window
-        const {GT} = window
-
-        const handleTooltip = () => {
-            const aggregateSalaries = this.aggregateSalaries()
-            if (!aggregateSalaries) {return}
-            const {text} = aggregateSalaries
-
-            const wrappedText = `<div class="script-salary-summary">${text}</div>`
-
-            if (!this.salaryTimerHacked && GirlSalaryManager.updateHomepageTimer) {
-                const existingUpdate = GirlSalaryManager.updateHomepageTimer.bind(GirlSalaryManager)
-                GirlSalaryManager.updateHomepageTimer = () => {
-                    const $container = $('.script-salary-summary')
-                    if ($container.length) {
-                        const aggregateSalaries = this.aggregateSalaries()
-                        if (aggregateSalaries) {
-                            const {text} = aggregateSalaries
-                            $container.html(text)
-                        } else {
-                            $container.html(GT.design.full)
-                        }
-                    }
-                    return existingUpdate()
-                }
-
-                this.salaryTimerHacked = true
-            }
-
-            return {title: '', body: wrappedText}
-        }
-
-        $('#collect_all').append('<span class="script-event-handler-hack"></span>')
-
-        TooltipManager.initTooltipType('#collect_all, #collect_all .script-event-handler-hack', handleTooltip)
     }
 
     addLeaguePos() {
