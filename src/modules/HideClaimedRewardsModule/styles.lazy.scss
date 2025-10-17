@@ -47,6 +47,17 @@
     .rewards_seasons_row &.rewards_pair {
         display: none;
     }
+
+    #world-boss-event
+        .tabs-section
+        #milestones_tab_container
+        .middle-container
+        .tiers-section
+        .progress-bar-section
+        .progress-bar-tiers
+        > &.tier {
+        display: none;
+    }
 }
 
 .no-transition {

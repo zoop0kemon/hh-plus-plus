@@ -16,6 +16,20 @@
             }
         }
 
+        .harem-container {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            flex-direction: column-reverse;
+            width: 8.125rem;
+            align-items: center;
+
+            .collect-button {
+                position: unset;
+                padding-bottom: 8px;
+            }
+        }
+
         .position-leaderboard {
             position: absolute;
             width: 8.125rem;
@@ -33,24 +47,21 @@
                 height: 50px;
             }
         }
+
         [rel="activities"] {
             position: absolute;
             width: 8.125rem;
             top: 366px;
             left: 602px;
         }
+
         [rel="shop"] {
             position: absolute;
             width: 8.125rem;
             top: 257px;
             left: 649px;
         }
-        [rel="harem"] {
-            position: absolute;
-            width: 8.125rem;
-            bottom: 81px;
-            right: 31px;
-        }
+
         [rel="pachinko"],
         .feature-locked[feature-name="pachinko"] {
             position: absolute;

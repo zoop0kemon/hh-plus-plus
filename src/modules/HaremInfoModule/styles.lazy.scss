@@ -300,28 +300,52 @@
         }
     }
 
+    #harem_left div.girls_list {
+        height: 23.25rem;
+
+        @media #{$mediaMobile} {
+            height: 22rem;
+        }
+    }
+
     #harem_left .buttons_container {
+        width: 80%;
+        align-self: center;
         justify-content: center;
         gap: 1rem;
 
         #collect_all_container {
-            min-width: 125px;
+            width: unset;
+            min-width: unset;
             margin: unset;
 
-            @media #{$mediaMobile} {
-                width: 11rem;
+            #collect_all {
+                @media #{$mediaMobile} {
+                    padding: 10px 20px;
+                }
+            }
 
-                #collect_nothing {
+            #collect_nothing {
+                width: 120px;
+                font-size: 16px;
+                line-height: 1.5;
+
+                @media #{$mediaMobile} {
                     line-height: 1.25;
                 }
             }
         }
 
         #unequip_all_container {
+            width: unset;
             min-width: unset;
-            width: 80px;
             margin: unset;
             line-height: 1.25;
+
+            #unequip_all {
+                padding: 0.5rem;
+                max-width: 82px;
+            }
         }
     }
 }

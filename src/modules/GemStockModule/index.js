@@ -65,15 +65,26 @@ class GemStockModule extends CoreModule {
             Helpers.onAjaxResponse(/action=get_girl&/i, (response) => {
                 if (response.girl.is_owned) {
                     // wait for #harem_right to be built/updated and then attach
-                    const observer = new MutationObserver(() => {
+                    const haremObserver = new MutationObserver(() => {
                         if (!$('#gems-and-token-container .gemStock').length) {
+                            $('#gems-and-token-container #gems-amount').text(I18n.nThousand(+$('#gems-and-token-container #gems-amount').text()))
                             $('#gems-and-token-container').prepend($gemStock)
-                            observer.disconnect()
+                            haremObserver.disconnect()
                         }
                     })
-
-                    observer.observe($('#harem_right')[0], {childList: true, subtree: true})
+                    haremObserver.observe($('#harem_right')[0], {childList: true, subtree: true})
                 }
+            })
+
+            // Update for when harem view is toggled between grid and list
+            Helpers.doWhenSelectorAvailable('#harem_left .girls_list', () => {
+                const viewObserver = new MutationObserver(() => {
+                    if (!$('#gems-and-token-container .gemStock').length && !$('#harem_right .middle_part.missing_girl').length) {
+                        $('#gems-and-token-container #gems-amount').text(I18n.nThousand(+$('#gems-and-token-container #gems-amount').text()))
+                        $('#gems-and-token-container').prepend($gemStock)
+                    }
+                })
+                viewObserver.observe($('#harem_left .girls_list')[0], {attributes: true})
             })
         })
 

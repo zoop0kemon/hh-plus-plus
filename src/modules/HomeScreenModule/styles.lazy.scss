@@ -190,6 +190,11 @@
     }
 }
 
+.hh_tooltip_new:has(.collect-container),
+.hh_tooltip_new:has(.collect-income-value) {
+    display: none;
+}
+
 #collect_all {
     position: relative;
     z-index: 1;
@@ -206,6 +211,25 @@
 
     &[disabled] .script-event-handler-hack {
         display: block;
+    }
+
+    &.max-salary {
+        box-shadow: 0px 0px 6px 6px #ccff40;
+        background-image: linear-gradient(0deg, #3db236, #96c120);
+    }
+
+    span.soft_currency_icn::after {
+        content: attr(to-collect);
+        font-size: 10px;
+        color: #fff;
+        text-shadow:
+            1px  1px 0 #000,
+            -1px  1px 0 #000,
+            -1px -1px 0 #000,
+            1px -1px 0 #000;
+        position: absolute;
+        bottom: 0px;
+        justify-self: anchor-center;
     }
 }
 

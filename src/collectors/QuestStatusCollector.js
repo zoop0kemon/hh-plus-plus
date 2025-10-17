@@ -25,7 +25,7 @@ class QuestStatusCollector {
                     }
                     // get the rest of the world IDs
                     if (Helpers.isCurrentPage('map.html') && queststatus?.adventures) {
-                        const worlds = $('.ico-world img:first-child').map((_, world) => parseInt($(world).attr('src').match(/head(\d+)/)[1])).get()
+                        const worlds = $('.ico-world img:first-child').map((_, world) => parseInt($(world).attr('src').match(/gallery\/66\/\d+x\/(\d+)-/)[1])).get()
                         Object.values(queststatus.adventures).forEach(adventure => {
                             if (worlds.some(world => adventure.worlds.includes(world))) {
                                 adventure.worlds = worlds

@@ -182,7 +182,7 @@ class HomeScreenModule extends CoreModule {
     aggregateSalaries() {
         const {format_time_short} = window.shared ? window.shared.timer : window
         const {GirlSalaryManager} = window.shared ? window.shared : window
-        const {GT} = window
+        const {GT, salary_collect} = window
         const {girlsMap} = GirlSalaryManager
 
         const aggregated = {}
@@ -201,23 +201,29 @@ class HomeScreenModule extends CoreModule {
         })
 
         const payTimes = Object.keys(aggregated)
+        const maxCollectTime = payTimes.length ? payTimes[payTimes.length - 1] : 0
+        let text = ''
 
-        if (!payTimes.length) {return}
+        if (payTimes.length) {
+            const sortedPayTimes = payTimes.sort((a, b) => a - b)
 
-        const sortedPayTimes = payTimes.sort((a, b) => a - b)
+            text += `${payTimes.length > 10 ? '…' : ''}<table><tbody>${sortedPayTimes.slice(0, 10).sort((a, b) => b - a).map(time => `<tr><td>${GT.design.more_in.replace('+1', `+${I18n.nThousand(aggregated[time])} <span class="hudSC_mix_icn"></span>`)} </td><td>${format_time_short(time)}</td></tr>`).join('')}</tbody></table>`
+        }
+        if (salary_collect > 0) {
+            text += `${payTimes.length ? '<hr>' : ''}<h5>${GT.design.harem_collect} +${I18n.nThousand(salary_collect)} <span class="hudSC_mix_icn"></span></h5>`
+        }
 
-        const text = `${payTimes.length > 10 ? '…' : ''}<table><tbody>${sortedPayTimes.slice(0, 10).sort((a, b) => b - a).map(time => `<tr><td>${GT.design.more_in.replace('+1', `+${I18n.nThousand(aggregated[time])} <span class="hudSC_mix_icn"></span>`)} </td><td>${format_time_short(time)}</td></tr>`).join('')}</tbody></table>`
-
-        return {aggregated, collectableNow, text}
+        return {text, maxCollectTime}
     }
 
     manageSalaryTimers() {
         const {GirlSalaryManager} = window.shared ? window.shared : window
-        const {GT} = window
+        const {salary_collect} = window
+        const aggregateSalaries = this.aggregateSalaries()
+        const {maxCollectTime} = aggregateSalaries
 
         const handleTooltip = () => {
             const aggregateSalaries = this.aggregateSalaries()
-            if (!aggregateSalaries) {return}
             const {text} = aggregateSalaries
 
             const wrappedText = `<div class="script-salary-summary">${text}</div>`
@@ -228,12 +234,8 @@ class HomeScreenModule extends CoreModule {
                     const $container = $('.script-salary-summary')
                     if ($container.length) {
                         const aggregateSalaries = this.aggregateSalaries()
-                        if (aggregateSalaries) {
-                            const {text} = aggregateSalaries
-                            $container.html(text)
-                        } else {
-                            $container.html(GT.design.full)
-                        }
+                        const {text} = aggregateSalaries
+                        $container.html(text)
                     }
                     return existingUpdate()
                 }
@@ -245,6 +247,12 @@ class HomeScreenModule extends CoreModule {
         }
 
         $('#collect_all').append('<span class="script-event-handler-hack"></span>')
+        if (salary_collect > 0) {
+            $('#collect_all span.soft_currency_icn').attr('to-collect',  `${I18n.nRounding(salary_collect, 1, 0)}`)
+        }
+        setTimeout(() => {
+            $('#collect_all').addClass('max-salary')
+        }, maxCollectTime * 1000)
 
         TooltipManager.initTooltipType('#collect_all, #collect_all .script-event-handler-hack', handleTooltip)
     }

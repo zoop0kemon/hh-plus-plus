@@ -9,10 +9,6 @@
     transform: scale(1.25);
     margin-right: 1.5rem;
 
-    @media #{$mediaMobile} {
-        margin-top: 36px;
-    }
-
     &-table img {
         height: 25px;
         width: 25px;

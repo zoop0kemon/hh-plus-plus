@@ -1,6 +1,9 @@
 import STModule from '../STModule'
 import Helpers from '../../common/Helpers'
 import I18n from '../../i18n'
+import Sheet from '../../common/Sheet'
+
+import exchangeIcon from '../../assets/exchange.svg'
 
 import styles from './styles.lazy.scss'
 
@@ -21,6 +24,17 @@ class CompactResourceSummaryStyleTweak extends STModule {
 
     shouldRun () {
         return true
+    }
+
+    run () {
+        super.run()
+        Helpers.defer(() => {
+            this.injectCSSVars()
+        })
+    }
+
+    injectCSSVars() {
+        Sheet.registerVar('exchange-icon', `url('${exchangeIcon}')`)
     }
 
     runExtra () {
@@ -50,7 +64,9 @@ class CompactResourceSummaryStyleTweak extends STModule {
                             }
                         })
                         $('.hero-currency:has(.ticket_icn)').after('<div class="line-break" style="order: -1"></div>')
-                        $('.hero-currency').last().after('<div class="line-break"></div>')
+                        // Move and minify scroll exchange button
+                        $('#hero-scroll-currencies').siblings('p').wrap(`<div id='hero-scroll-currencies-title'></div>`)
+                        $('#hero-scroll-currencies #scrolls-exchange').attr('class', 'round_blue_button').html('<span class="exchange_icn"></span>').appendTo('#hero-scroll-currencies-title')
 
                         let total_gems = 0
                         Object.values(response.gems).forEach((gem, index) => {

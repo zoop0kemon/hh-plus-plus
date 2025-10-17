@@ -52,10 +52,13 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
                     girl_data.base_caracs = base_caracs
                 }
             }
-            // const skins_data = preview?.grade_skins_data || grade_skins_data
-            // if (skins_data && skins_data.length && 'shards_count' in skins_data[0]) {
-            //     console.log(skins_data)
-            // }
+            const skins_data = preview?.grade_skins_data || grade_skins_data
+            if (skins_data && skins_data.length && 'shards_count' in skins_data[0]) {
+                girl_data.skins = skins_data.map(({id_girl_grade_skin, num_order, girl_grade_num, grade_skin_name, shards_count, is_selected}) => {
+                    return {id_girl_grade_skin, num_order, girl_grade_num, grade_skin_name, shards_count, is_selected}
+                })
+                // console.log(girl_data.skins)
+            }
             if (has_girl && trusted) { // player mutable
                 const {fav_graded, graded, affection, xp, level, level_cap, awakening_level, salary, date_added, armor, skill_tiers_info, skills, skill_trait} = girl
                 const cur_grade = graded ? parseInt(graded, 10) : (graded2 ? $(graded2).filter('g:not(.grey):not(.green)').length : undefined)

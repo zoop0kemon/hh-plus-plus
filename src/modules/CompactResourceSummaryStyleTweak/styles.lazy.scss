@@ -1,10 +1,15 @@
 @import "../../common/constants.scss";
 
 #common-popups #hero_resources_popup {
+    .popup-title {
+        padding-bottom: 0rem;
+    }
+
     .hero-resources-container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        grid-gap: 0.5rem 3rem;
+        grid-gap: 0rem 1rem;
+        padding-top: 0.25rem;
 
         .hero-energies-container {
             grid-column-start: 1;
@@ -26,7 +31,7 @@
 
         .hero-currencies-container {
             grid-column-start: 1;
-            grid-column-end: 7;
+            grid-column-end: 8;
 
             .hero-currency:has(.hudHC_mix_icn, .hudSC_mix_icn, .frames_icn, .ticket_icn) {
                 order: -1;
@@ -35,13 +40,35 @@
             .hero-currency:has(span[class^="scrolls_"]) {
                 order: 2;
             }
+
+            #hero-scroll-currencies-title {
+                justify-content: center;
+                column-gap: 1rem;
+
+                #scrolls-exchange {
+                    width: 1.5rem;
+                    height: 1.5rem;
+
+                    .exchange_icn {
+                        display: block;
+                        width: 1rem;
+                        height: 1rem;
+                        background-image: var(--exchange-icon);
+                        background-size: 1rem;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        margin: 0;
+                        padding: 0;
+                    }
+                }
+            }
         }
 
         .hero-progressions-container {
-            grid-column-start: 7;
+            grid-column-start: 8;
             grid-column-end: 11;
             grid-row-start: 2;
-            grid-row-end: 3;
+            grid-row-end: 4;
         }
 
         
@@ -79,7 +106,7 @@
 
         .hero-currencies,
         .hero-progressions {
-            column-gap: 2rem;
+            column-gap: 1rem;
 
             .line-break {
                 width: 100%;

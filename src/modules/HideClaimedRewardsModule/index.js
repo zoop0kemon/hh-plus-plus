@@ -18,7 +18,7 @@ class HideClaimedRewardsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal', 'member-progression'].some(page => Helpers.isCurrentPage(page))
+        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal', 'member-progression', 'world-boss-event'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -31,7 +31,10 @@ class HideClaimedRewardsModule extends CoreModule {
                 this.hideClaimedRewards({
                     scroll_area: '.potions-paths-progress-bar-tiers',
                     tier: '.potions-paths-tier',
-                    tiers_unlocked_var: 'currentTier',
+                    get_tiers_unlocked: () => {
+                        const {currentTier} = window
+                        return parseInt(currentTier)
+                    },
                     is_vertical: true,
                     progress_bar: '.potions-paths-progress-bar .potions-paths-progress-bar-current',
                     girl: '.girl-preview .avatar, .girl-preview .animated-girl-display',
@@ -49,7 +52,10 @@ class HideClaimedRewardsModule extends CoreModule {
                     wait_for: '.season-timer',
                     scroll_area: '.rewards_container_seasons',
                     tier: '.rewards_pair',
-                    tiers_unlocked_var: 'season_tier',
+                    get_tiers_unlocked: () => { // not needed since no progress bar
+                        const {season_tier} = window
+                        return parseInt(season_tier)
+                    },
                     girl: '#girls_holder .girl_block, #girls_holder .animated-girl-display',
                     hide: () => {
                         const claimable_tiers = []
@@ -72,7 +78,10 @@ class HideClaimedRewardsModule extends CoreModule {
                         this.hideClaimedRewards({
                             scroll_area: '.scroll-area.poa',
                             tier: '.nc-poa-reward-pair',
-                            tiers_unlocked_var: 'next_tier', // off by one, but not needed since no progress bar
+                            get_tiers_unlocked: () => { // not needed since no progress bar
+                                const {next_tier} = window
+                                return parseInt(next_tier) - 1
+                            },
                             girl: '#poa-content .girls .girl-avatar, #poa-content .girls .animated-girl-display',
                             hide: () => {
                                 const claimable_tiers = []
@@ -93,7 +102,10 @@ class HideClaimedRewardsModule extends CoreModule {
                         this.hideClaimedRewards({
                             scroll_area: '.player-progression-container',
                             tier: '.tier-container',
-                            tiers_unlocked_var: 'current_tier',
+                            get_tiers_unlocked: () => {
+                                const {current_tier} = window
+                                return parseInt(current_tier)
+                            },
                             progress_bar: '.dp-progress-bar .dp-progress-bar-current',
                             girl: '.right-container [class*="girl-avatar"]',
                             hide: () => {
@@ -107,7 +119,10 @@ class HideClaimedRewardsModule extends CoreModule {
                 this.hideClaimedRewards({
                     scroll_area: '.mega-progress-bar-section',
                     tier: '.mega-tier-container',
-                    tiers_unlocked_var: 'mega_current_tier',
+                    get_tiers_unlocked: () => {
+                        const {mega_current_tier} = window
+                        return parseInt(mega_current_tier)
+                    },
                     progress_bar: '.mega-progress-bar .mega-progress-bar-current',
                     girl: '.girls-reward-container .avatar, .girls-reward-container .animated-girl-display',
                     hide: () => {
@@ -120,7 +135,10 @@ class HideClaimedRewardsModule extends CoreModule {
                     wait_for: '.info_text_container',
                     scroll_area: '.tiers-container',
                     tier: '.tier',
-                    tiers_unlocked_var: 'current_tier',
+                    get_tiers_unlocked: () => {
+                        const {current_tier} = window
+                        return parseInt(current_tier)
+                    },
                     progress_bar: '.progress-bar .progress-bar-current',
                     girl: '.page-girl',
                     hide: () => {
@@ -128,13 +146,42 @@ class HideClaimedRewardsModule extends CoreModule {
                         return $('.tier.unclaimed').toArray()
                     }
                 })
+            } else if (Helpers.isCurrentPage('world-boss-event')) {
+                Helpers.doWhenSelectorAvailable('#milestones_tab_container', () => {
+                    const setupHide = () => {
+                        this.hideClaimedRewards({
+                            wait_for: '#milestones_tab_container .player-points',
+                            scroll_area: '.progress-bar-tiers',
+                            tier: '.tier',
+                            get_tiers_unlocked: () => {
+                                const {event_data: {event_progression: {tier}}} = window
+                                return parseInt(tier)
+                            },
+                            is_vertical: true,
+                            progress_bar: '.progress-bar .progress-bar-current',
+                            girl: '#milestones_tab_container .girl.avatar, #milestones_tab_container .animated-girl-display',
+                            hide: () => {
+                                $('.tier:not(.unclaimed):has(.claimed-slot)').addClass('script-hide-claimed')
+                                return $('.tier.unclaimed').toArray()
+                            }
+                        })
+                    }
+
+                    if ($('#milestones_tab_container .player-points').length) {
+                        setupHide()
+                    }
+                    const observer = new MutationObserver(() => {
+                        setupHide()
+                    })
+                    observer.observe($('#milestones_tab_container')[0], {attributes: true, attributeFilter: ['style']})
+                })
             }
         })
 
         this.hasRun = true
     }
 
-    hideClaimedRewards ({wait_for, scroll_area, tier, tiers_unlocked_var, is_vertical, progress_bar, girl, hide}) {
+    hideClaimedRewards ({wait_for, scroll_area, tier, get_tiers_unlocked, is_vertical, progress_bar, girl, hide}) {
         Helpers.doWhenSelectorAvailable(wait_for ? wait_for : '.timer', () => {
             let hidden = false
             let claimable = []
@@ -157,7 +204,7 @@ class HideClaimedRewardsModule extends CoreModule {
                 $('.script-hide-claimed').removeClass('script-hide-claimed')
                 if ($progressBar) {
                     $progressBar.addClass('no-transition')
-                    const tiers_unlocked = parseInt(window[tiers_unlocked_var])
+                    const tiers_unlocked = get_tiers_unlocked()
                     const offset = tiers_unlocked ? (is_horizontal ? $(tier)[tiers_unlocked-1].offsetLeft : $(tier)[tiers_unlocked-1].offsetTop) : -tier_size/2
                     $progressBar.css(is_horizontal ? 'width' : 'height', offset + tier_size/2)
                     $progressBar[0].offsetHeight

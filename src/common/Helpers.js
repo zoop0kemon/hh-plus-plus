@@ -273,14 +273,16 @@ class Helpers {
         name = name.replaceAll('’', '')
         let wikiLink
 
-        if (Helpers.isGH()) {
-            wikiLink = `https://harem-battle.club/wiki/Gay-Harem/GH:${name}`
-        } else if (Helpers.isHH()) {
+        if (Helpers.isHH()) {
             if (lang === 'en') {
                 wikiLink = `https://harem-battle.club/wiki/Harem-Heroes/HH:${name}`
             } else {
                 wikiLink = `http://hentaiheroes.go.yj.fr/?id=${id}`
             }
+        } else if (Helpers.isGH()) {
+            wikiLink = `https://harem-battle.club/wiki/Gay-Harem/GH:${name}`
+        } else if (Helpers.isGPSH()) {
+            wikiLink = `https://harem-battle.club/wiki/Gay-Pornstar-Harem/GPSH:${name}`
         }
         // undefined if doesn't have a wiki, will include link to the spreadsheet elsewhere
         return wikiLink
