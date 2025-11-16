@@ -928,6 +928,20 @@ export default {
             }]
         },
         {
+            key: 'catycampbell',
+            opponent: 18,
+            world: 27,
+            girls: {
+                1: ['248370930', '257485641', '381828319'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 25,
+            }]
+        },
+        {
             opponent: 19,
             world: 28,
             girls: {
@@ -936,7 +950,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'water',
+                element: 'fire',
                 amount: 25,
             }]
         },
@@ -1148,10 +1162,11 @@ export default {
             }]
         },
         {
+            key: 'arielinwonderland',
             opponent: 10,
-            world: 15,
+            world: 14,
             girls: {
-                1: [],
+                1: ['696761717', '985172897', '792492906'],
                 2: [],
                 3: []
             },
@@ -1160,6 +1175,20 @@ export default {
                 amount: 20,
             }],
             items: ['K4']
+        },
+        {
+            opponent: 11,
+            world: 15,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'stone',
+                amount: 20,
+            }],
+            items: ['XP4']
         },
     ],
     GPSH: [
@@ -1273,7 +1302,21 @@ export default {
             }],
         },
         {
+            key: 'polprince',
             opponent: 8,
+            world: 17,
+            girls: {
+                1: ['316283043', '856464976', '619419056'],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'water',
+                amount: 20,
+            }],
+        },
+        {
+            opponent: 9,
             world: 18,
             girls: {
                 1: [],
@@ -1281,7 +1324,7 @@ export default {
                 3: []
             },
             gems: [{
-                element: 'water',
+                element: 'fire',
                 amount: 20,
             }],
         },

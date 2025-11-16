@@ -233,6 +233,7 @@ export const villainBreadcrumbs = {
     vegasbaby: 'Vegas, bébé !',
     showdownstrip: 'Face à face sur le Strip',
     bumfuckwhere: 'Par où la bougrerie ?',
+    thexxxfiles: 'XXX Files',
 }
 
 export const market = {

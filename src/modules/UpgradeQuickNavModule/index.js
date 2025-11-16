@@ -320,7 +320,7 @@ class UpgradeQuickNavModule extends CoreModule {
         totalHTML += Snippets.selectInput({
             id: 'filter-role',
             label: GT.design.girl_role,
-            options: [4,10,9,3].map(option => ({label: GT.design[`girl_role_${option}_name`], value: `${option}`})),
+            options: [4,10,9,3,1,2,5,6].map(option => ({label: GT.design[`girl_role_${option}_name`], value: `${option}`})),
             className: 'script-filter-role',
             value: filters.role || 'all'
         })

@@ -213,6 +213,7 @@ export const villain = {
     paigetaylor: 'Paige Taylor',
     thehoodedheroine: 'The Hooded Heroine',
     monicamattos: 'Monica Mattos',
+    catycampbell: 'Caty Campbell',
 
     arieldemure: 'Ariel Demure',
     emmarose: 'Emma Rose',
@@ -223,6 +224,7 @@ export const villain = {
     ceoramona: 'CEO Ramona',
     mamabee: 'Mama Bee',
     officerjolie: 'Officer Jolie',
+    arielinwonderland: 'Ariel in Wonderland',
 
     tristanhunter: 'Tristan Hunter',
     jimmydurano: 'Jimmy Durano',
@@ -231,6 +233,7 @@ export const villain = {
     seanandbryce: 'Sean Duran & Bryce Evans',
     trojanpierceparis: 'Trojan Pierce Paris',
     ryanrose: 'Ryan Rose',
+    polprince: 'Pol Prince',
 
     fallback: 'World {{world}} villain',
     event: 'Event',
@@ -294,6 +297,7 @@ export const villainBreadcrumbs = {
     vegasbaby: 'Vegas, Baby!',
     showdownstrip: 'Showdown on the Strip',
     bumfuckwhere: 'Bum Fuck Where?',
+    thexxxfiles: 'The XXX Files',
 
     bigdville: 'Big D\'Ville',
     dreamtown: 'Dream Town',
@@ -304,6 +308,7 @@ export const villainBreadcrumbs = {
     ukhun: 'UK, Hun?',
     showgirls: 'Showgirls',
     joyride: 'Joyride',
+    arielswonderland: 'Ariel\'s Wonderland',
 
     tropicalbeginnings: 'Tropical Beginnings',
     spotlight: 'Spotlight',
@@ -313,6 +318,7 @@ export const villainBreadcrumbs = {
     superfuckinghero: 'Zero To A Super-fucking-hero',
     gameon: 'Game On',
     dickridersbrigade: 'The Dickriders Brigade',
+    humpfiction: 'Hump Fiction',
 }
 
 export const market = {

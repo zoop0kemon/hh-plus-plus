@@ -246,6 +246,7 @@ class HomeScreenModule extends CoreModule {
             return {title: '', body: wrappedText}
         }
 
+        $('#collect_all_container').removeAttr('salary-tooltip')
         $('#collect_all').append('<span class="script-event-handler-hack"></span>')
         if (salary_collect > 0) {
             $('#collect_all span.soft_currency_icn').attr('to-collect',  `${I18n.nRounding(salary_collect, 1, 0)}`)

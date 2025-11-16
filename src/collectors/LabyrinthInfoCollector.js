@@ -111,6 +111,18 @@ class LabyrinthInfoCollector {
                         }
                     }
                 })
+                // Sweep floor
+                Helpers.onAjaxResponse(/action=sweep_laby_floor/i, (response) => {
+                    const {relics} = response
+                    const relics_data = Helpers.lsGet(lsKeys.LABYRINTH_RELICS) || []
+
+                    if (relics) {
+                        relics.forEach((relic) => {
+                            relics_data.push(trimRelicData(relic))
+                        })
+                        Helpers.lsSet(lsKeys.LABYRINTH_RELICS, relics_data.sort(relicSort))
+                    }
+                })
             }
             // update girl info for relics
             if (Helpers.isCurrentPage('edit-labyrinth-team') || Helpers.isCurrentPage('labyrinth.html')) {

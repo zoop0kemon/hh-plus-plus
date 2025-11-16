@@ -219,6 +219,7 @@
     }
 
     span.soft_currency_icn::after {
+        display: block;
         content: attr(to-collect);
         font-size: 10px;
         color: #fff;
@@ -229,7 +230,7 @@
             1px -1px 0 #000;
         position: absolute;
         bottom: 0px;
-        justify-self: anchor-center;
+        justify-self: center;
     }
 }
 

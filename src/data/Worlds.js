@@ -72,6 +72,7 @@ export const PSH = [
     '',
     '',
     'bumfuckwhere',
+    'thexxxfiles',
 ]
 
 export const TPSH = [
@@ -89,6 +90,7 @@ export const TPSH = [
     'showgirls',
     '',
     'joyride',
+    'arielswonderland',
 ]
 
 export const GPSH = [
@@ -109,4 +111,5 @@ export const GPSH = [
     '',
     '',
     'dickridersbrigade',
+    'humpfiction',
 ]
