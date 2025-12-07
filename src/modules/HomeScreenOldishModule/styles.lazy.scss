@@ -30,21 +30,22 @@
             }
         }
 
-        .position-leaderboard {
+        .position-pvp-arena {
             position: absolute;
             width: 8.125rem;
-            top: 86px;
+            top: 64px;
             left: 253px;
             flex-direction: column-reverse;
             width: 8.125rem;
             align-items: center;
-            &.quest-container {
-                top: 28px;
-            }
             .script-league-pos {
                 padding-left: 0;
                 padding-bottom: 8px;
                 height: 50px;
+            }
+            .script-home-shortcut-container {
+                padding-left: 0;
+                padding-bottom: 8px;
             }
         }
 
@@ -70,7 +71,7 @@
             left: 58px;
         }
 
-        .position-sex-god-path {
+        .position-god-path {
             position: absolute;
             left: 612px;
             top: 56px;

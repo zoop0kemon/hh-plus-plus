@@ -12,20 +12,24 @@ const CHANGES = [
         after: 'map',
     },
     {
-        rel: 'leaderboard',
+        rel: 'pvp-arena',
         after: 'activities',
     },
     {
-        rel: 'shop',
-        after: 'leaderboard',
+        rel: 'god-path',
+        after: 'pvp-arena',
     },
     {
-        rel: 'god-path',
-        after: 'shop',
+        rel: 'shop',
+        after: 'god-path',
     },
     {
         rel: 'clubs',
-        after: 'god-path',
+        after: 'shop',
+    },
+    {
+        rel: 'pachinko',
+        after: 'clubs',
     }
 ]
 

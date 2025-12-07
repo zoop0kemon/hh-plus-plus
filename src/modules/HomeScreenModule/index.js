@@ -74,9 +74,12 @@ class HomeScreenModule extends CoreModule {
     }
 
     injectCSSVars() {
+        Sheet.registerVar('champions-icon', `url("${Helpers.getCDNHost()}/design/menu/ic_champions.svg")`)
         Sheet.registerVar('pantheon-icon', `url("${pantheonIcon}")`)
         Sheet.registerVar('labyrinth-icon', `url("${labyrinthIcon}")`)
-        Sheet.registerVar('champions-icon', `url("${Helpers.getCDNHost()}/design/menu/ic_champions.svg")`)
+
+        Sheet.registerVar('leagues-icon', `url("${Helpers.getCDNHost()}/design/menu/leaderboard.svg")`)
+        Sheet.registerVar('seasons-icon', `url("${Helpers.getCDNHost()}/design/menu/seasons.svg")`)
     }
 
     setNotification(type, notification) {
@@ -136,6 +139,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     async addShortcuts() {
+        const {GT} = window
         const shortcutHtml = (className, href, title, iconClass) => `<a class="round_blue_button script-home-shortcut script-home-shortcut-${className}" href="${Helpers.getHref(href)}" tooltip hh_title="${title}"><div class="${iconClass}"></div></a>`
 
         // Club champ
@@ -148,30 +152,47 @@ class HomeScreenModule extends CoreModule {
             $('a[rel="clubs"]').wrap($wrapper).after($clubShortcuts)
         }
 
-        const {pantheon} = AvailableFeatures
+        const {pantheon, leagues, seasons} = AvailableFeatures
         const champs = await AvailableFeatures.champs()
         const labyrinth = await AvailableFeatures.labyrinth()
 
         if (champs || pantheon || labyrinth) {
-            const {GT} = window
-            const $godShortcuts = $('<div class="script-home-shortcut-container"></div>')
+            const $pveShortcuts = $('<div class="script-home-shortcut-container"></div>')
             if (champs) {
-                $godShortcuts.append(shortcutHtml('champs', '/champions-map.html', GT.design.Champions, 'champions_flat_icn'))
+                $pveShortcuts.append(shortcutHtml('champs', '/champions-map.html', GT.design.Champions, 'champions_flat_icn'))
             }
             if (pantheon) {
-                $godShortcuts.append(shortcutHtml('pantheon', '/pantheon.html', GT.design.pantheon, 'pantheon_flat_icn'))
+                $pveShortcuts.append(shortcutHtml('pantheon', '/pantheon.html', GT.design.pantheon, 'pantheon_flat_icn'))
             }
             if (labyrinth) {
-                $godShortcuts.append(shortcutHtml('labyrinth', '/labyrinth-entrance.html', GT.design.labyrinth, 'labyrinth_flat_icn'))
+                $pveShortcuts.append(shortcutHtml('labyrinth', '/labyrinth-entrance.html', GT.design.labyrinth, 'labyrinth_flat_icn'))
             }
 
             const $wrapper = $('<div class="quest-container"></div>')
-            const $sexGodPath = $('a[rel="god-path"]')
-            if ($sexGodPath.hasClass('position-sex-god-path')) { // position class for legacy home screen module, class moved here because of async delay
-                $sexGodPath.removeClass('position-sex-god-path')
-                $wrapper.addClass('position-sex-god-path')
+            const $pvePath = $('a[rel="god-path"]')
+            if ($pvePath.hasClass('position-god-path')) { // position class for legacy home screen module, class moved here because of async delay
+                $pvePath.removeClass('position-god-path')
+                $wrapper.addClass('position-god-path')
             }
-            $sexGodPath.wrap($wrapper).after($godShortcuts)
+            $pvePath.wrap($wrapper).after($pveShortcuts)
+        }
+
+        if (leagues || seasons) {
+            const $pvpShortcuts = $('<div class="script-home-shortcut-container"></div>')
+            if (leagues) {
+                $pvpShortcuts.append(shortcutHtml('leagues', '/leagues.html', GT.design.leagues, 'leagues_flat_icn'))
+            }
+            if (seasons) {
+                $pvpShortcuts.append(shortcutHtml('seasons', '/season.html', GT.design.Seasons, 'seasons_flat_icn'))
+            }
+
+            const $wrapper = $('<div class="quest-container"></div>')
+            const $pvpPath = $('a[rel="pvp-arena"]')
+            if ($pvpPath.hasClass('position-pvp-arena')) { // position class for legacy home screen module, class moved here because of async delay
+                $pvpPath.removeClass('position-pvp-arena')
+                $wrapper.addClass('position-pvp-arena')
+            }
+            $pvpPath.wrap($wrapper).after($pvpShortcuts)
         }
     }
 
@@ -247,7 +268,15 @@ class HomeScreenModule extends CoreModule {
         }
 
         $('#collect_all_container').removeAttr('salary-tooltip')
+        const observer = new MutationObserver(() => {
+            const attr = $('#collect_all_container').attr('salary-tooltip')
+            if (typeof attr !== 'undefined' && attr !== false) {
+                $('#collect_all_container').removeAttr('salary-tooltip')
+            }
+        })
+        observer.observe($('.collect-button')[0], {childList: true})
         $('#collect_all').append('<span class="script-event-handler-hack"></span>')
+
         if (salary_collect > 0) {
             $('#collect_all span.soft_currency_icn').attr('to-collect',  `${I18n.nRounding(salary_collect, 1, 0)}`)
         }
@@ -259,6 +288,7 @@ class HomeScreenModule extends CoreModule {
     }
 
     addLeaguePos() {
+        // NEEDS rewrite if readded
         const $leaguePos = $('<div class="script-league-pos"></div>')
         $('[rel=leaderboard]').wrap('<div class="quest-container"></div>').after($leaguePos)
 

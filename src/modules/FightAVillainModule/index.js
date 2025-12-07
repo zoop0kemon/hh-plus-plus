@@ -117,9 +117,7 @@ class FightAVillainModule extends CoreModule {
                 })
             }
             if (items) {
-                items.forEach(item => {
-                    $villainDrops.append(`<img class="menu-villain-drop" src="${Helpers.getCDNHost()}/pictures/items/${item}.png" />`)
-                })
+                $villainDrops.append(`<img class="menu-villain-drop" src="${Helpers.getCDNHost()}/${items}.png" />`)
             }
             $villainNameAndDrops.append($villainDrops)
             $villainTopRow.append($villainNameAndDrops)

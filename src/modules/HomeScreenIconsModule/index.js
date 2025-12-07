@@ -13,7 +13,7 @@ const FEATURE_ICONS = {
     activities: '/design/menu/missions.svg',
     shop: '/design/menu/shop.svg',
     pachinko: '/pictures/design/menu/pachinko.svg',
-    leaderboard: '/design/menu/leaderboard.svg',
+    'pvp-arena': '/design/menu/leaderboard.svg',
     clubs: '/pictures/design/clubs.svg',
 }
 

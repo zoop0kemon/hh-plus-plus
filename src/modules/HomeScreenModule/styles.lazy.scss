@@ -58,10 +58,6 @@
         }
     }
 
-    & > a[rel="leaderboard"] {
-        height: 167px;
-    }
-
     & > a[rel="god-path"] .position {
         @media #{$mediaMobile} {
             top: 84px;
@@ -69,17 +65,29 @@
     }
 
     .main-container .left-side-container {
+        .quest-container {
+            width: 15.5rem;
+
+            @media #{$mediaMobile} {
+                width: 17rem;
+            }
+        }
+
         .script-home-shortcut-container,
         .script-league-pos {
             display: flex;
             flex-direction: row;
             justify-content: space-evenly;
-            width: 5.875rem;
-            padding-left: 8px;
+            width: 7.375rem;
+            padding-left: 12px;
             height: auto;
             margin-top: auto;
             margin-bottom: auto;
             align-items: center;
+
+            @media #{$mediaMobile} {
+                width: 8.75rem;
+            }
 
             a {
                 z-index: 6;
@@ -113,13 +121,18 @@
 .champions_flat_icn {
     background-image: var(--champions-icon);
 }
-
 .pantheon_flat_icn {
     background-image: var(--pantheon-icon);
 }
-
 .labyrinth_flat_icn {
     background-image: var(--labyrinth-icon);
+}
+
+.leagues_flat_icn {
+    background-image: var(--leagues-icon);
+}
+.seasons_flat_icn {
+    background-image: var(--seasons-icon);
 }
 
 .script-home-shortcut-container {
@@ -138,20 +151,18 @@
 .script-home-shortcut {
     width: 30px;
     height: 30px;
-    margin-left: 3px;
-    margin-right: 3px;
 
     @media #{$mediaMobile} {
         width: 40px;
         height: 40px;
-        margin-left: 4px;
-        margin-right: 4px;
     }
 
     .clubChampions_flat_icn,
     .champions_flat_icn,
     .pantheon_flat_icn,
-    .labyrinth_flat_icn {
+    .labyrinth_flat_icn,
+    .leagues_flat_icn,
+    .seasons_flat_icn {
         height: 16px;
         width: 16px;
         background-size: contain;

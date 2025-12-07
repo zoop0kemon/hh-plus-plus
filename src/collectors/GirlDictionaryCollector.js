@@ -124,7 +124,15 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
 const collectFromRewards = async (rewards) => {
     if (rewards && rewards.data && !rewards.data.draft && rewards.data.shards) {
         girlDictionary = await Helpers.getGirlDictionary()
-        rewards.data.shards.forEach(({id_girl, value}) => {
+        rewards.data.shards.forEach(({id_girl, value, previous_value}) => {
+            /*const girl_old = girlDictionary.get(`${id_girl}`)
+            // update skin shards, very janky
+            if (girl_old.shards === 100 && girl_old.skins?.length) {
+                const current_skin = girl_old.skins.findIndex(({num_order}) => num_order === girl_old.skins.length)
+                const new_skin_shards = Math.min(girl_old.skins[current_skin].shards_count + (value - previous_value), 33)
+                console.log(girl_old.skins)
+                console.log(current_skin, new_skin_shards)
+            }*/
             upsert(id_girl, {shards: Math.min(value, 100)})
         })
         Helpers.setGirlDictionary(girlDictionary)

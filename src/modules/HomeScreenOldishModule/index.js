@@ -40,7 +40,7 @@ class HomeScreenOldishModule extends CoreModule {
         if (!$sexGodPath.length) {
             $sexGodPath = $('[rel=god-path]')
         }
-        $sexGodPath.addClass('position-sex-god-path')
+        $sexGodPath.addClass('position-god-path')
 
         let $clubs = $('.quest-container:has([rel=clubs])')
         if (!$clubs.length) {
@@ -51,14 +51,14 @@ class HomeScreenOldishModule extends CoreModule {
         }
         $clubs.addClass('position-clubs')
 
-        let $leaderboard = $('.quest-container:has([rel=leaderboard])')
-        if (!$leaderboard.length) {
-            $leaderboard = $('[rel=leaderboard]')
-            if (!$leaderboard.length) {
-                $leaderboard = $('.feature-locked[feature-name=leagues]')
+        let $pvparena = $('.quest-container:has([rel=pvp-arena])')
+        if (!$pvparena.length) {
+            $pvparena = $('[rel=pvp-arena]')
+            if (!$pvparena.length) {
+                $pvparena = $('.feature-locked[feature-name=leagues]')
             }
         }
-        $leaderboard.addClass('position-leaderboard')
+        $pvparena.addClass('position-pvp-arena')
 
         $('.event-widget .event-thumbnail .event-timer.bar-wrapper').addClass('hh-scroll')
     }

@@ -14,7 +14,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'ninjaspy',
@@ -30,7 +31,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'gruntt',
@@ -46,7 +48,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'edwarda',
@@ -62,7 +65,8 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'donatien',
@@ -75,7 +79,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'silvanus',
@@ -88,7 +93,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'bremen',
@@ -101,7 +107,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'finalmecia',
@@ -114,7 +121,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 20,
-            }]
+            }],
+            items: 'pachinko/o_e1'
         },
         {
             key: 'rokosensei',
@@ -127,7 +135,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 20
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'karole',
@@ -141,7 +150,7 @@ export default {
                 element: 'nature',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'jacksoncrew',
@@ -155,7 +164,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }],
-            items: ['XP4']
+            items: 'pictures/items/XP4'
         },
         {
             key: 'pandorawitch',
@@ -169,7 +178,7 @@ export default {
                 element: 'sun',
                 amount: 20
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'nike',
@@ -182,7 +191,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 25,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'sake',
@@ -195,7 +205,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'werebunnypolice',
@@ -208,7 +219,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'auga',
@@ -221,7 +233,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'gross',
@@ -234,7 +247,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'harriet',
@@ -247,7 +261,8 @@ export default {
             gems: [{
                 element: 'nature',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'darthexcitor',
@@ -261,7 +276,8 @@ export default {
             gems: [{
                 element: 'stone',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             opponent: 21,
@@ -292,7 +308,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             adventure: 2,
@@ -309,7 +326,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
     ],
     GH: [
@@ -328,7 +346,8 @@ export default {
             {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'ninjaspy',
@@ -344,7 +363,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'gruntt',
@@ -360,7 +380,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'edward',
@@ -376,7 +397,8 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'donatien',
@@ -389,7 +411,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'silvanus',
@@ -402,7 +425,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'bremen',
@@ -415,7 +439,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'edernas',
@@ -428,7 +453,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 20,
-            }]
+            }],
+            items: 'pachinko/o_e1'
         },
         {
             key: 'rokosensei',
@@ -441,7 +467,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 20
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'maro',
@@ -455,7 +482,7 @@ export default {
                 element: 'nature',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'jacksoncrew',
@@ -469,7 +496,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }],
-            items: ['XP4']
+            items: 'pictures/items/XP4'
         },
         {
             key: 'icaruswarlock',
@@ -483,7 +510,7 @@ export default {
                 element: 'sun',
                 amount: 20
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'sol',
@@ -496,7 +523,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 25,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'soju',
@@ -509,7 +537,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             world: 16,
@@ -521,7 +550,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
     ],
     CxH: [
@@ -539,7 +569,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'greygolem',
@@ -555,7 +586,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'nymph',
@@ -571,7 +603,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'athicus',
@@ -587,7 +620,8 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'jockstrap',
@@ -600,7 +634,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'cockatrice',
@@ -613,7 +648,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'pomelo',
@@ -626,7 +662,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'alexa',
@@ -639,7 +676,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 20,
-            }]
+            }],
+            items: 'pachinko/o_e1'
         },
         {
             key: 'dklong',
@@ -652,7 +690,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'virtueman',
@@ -666,7 +705,7 @@ export default {
                 element: 'nature',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'asmodea',
@@ -680,7 +719,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }],
-            items: ['XP4']
+            items: 'pictures/items/XP4'
         },
         {
             key: 'blueballgremlin',
@@ -694,7 +733,7 @@ export default {
                 element: 'sun',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             world: 14,
@@ -706,7 +745,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 25,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
     ],
     PSH: [
@@ -724,7 +764,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'sammyjayne',
@@ -740,7 +781,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'ivywinters',
@@ -756,7 +798,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'sophiajade',
@@ -773,6 +816,7 @@ export default {
                 element: 'stone',
                 amount: 15,
             }],
+            items: 'pachinko/o_eq1',
             v: 1
         },
         {
@@ -786,7 +830,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'alyssareece',
@@ -799,7 +844,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'kellykline',
@@ -812,7 +858,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'jamiebrooks',
@@ -825,7 +872,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 20,
-            }]
+            }],
+            items: 'pachinko/o_e1'
         },
         {
             key: 'jordankingsley',
@@ -838,7 +886,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'sierrasinn',
@@ -853,7 +902,7 @@ export default {
                 element: 'nature',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'jasminejae',
@@ -868,7 +917,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }],
-            items: ['XP4']
+            items: 'pictures/items/XP4'
         },
         {
             key: 'bellarose',
@@ -883,7 +932,7 @@ export default {
                 element: 'sun',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             key: 'paigetaylor',
@@ -897,7 +946,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 25,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'thehoodedheroine',
@@ -911,7 +961,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'monicamattos',
@@ -925,7 +976,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'catycampbell',
@@ -939,7 +991,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             opponent: 19,
@@ -952,7 +1005,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 25,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
     ],
     HoH: [
@@ -970,7 +1024,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'ninjaspy',
@@ -986,7 +1041,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'gruntt',
@@ -1002,7 +1058,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'edwarda',
@@ -1018,7 +1075,8 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         }
     ],
     TPSH: [
@@ -1030,16 +1088,14 @@ export default {
                 2: [],
                 3: []
             },
-            gems: [
-                {
-                    element: 'fire',
-                    amount: 15
-                },
-                {
-                    element: 'sun',
-                    amount: 15
-                }
-            ]
+            gems: [{
+                element: 'fire',
+                amount: 15
+            }, {
+                element: 'sun',
+                amount: 15
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'emmarose',
@@ -1055,7 +1111,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'nataliestone',
@@ -1072,7 +1129,8 @@ export default {
             }, {
                 element: 'water',
                 amount: 15,
-            }]
+            }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'janieblade',
@@ -1089,7 +1147,8 @@ export default {
             }, {
                 element: 'stone',
                 amount: 15,
-            }]
+            }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'nikkinort',
@@ -1103,7 +1162,8 @@ export default {
             gems: [{
                 element: 'darkness',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'mistressvenom',
@@ -1117,7 +1177,8 @@ export default {
             gems: [{
                 element: 'light',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'ceoramona',
@@ -1131,7 +1192,8 @@ export default {
             gems: [{
                 element: 'psychic',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'mamabee',
@@ -1145,7 +1207,8 @@ export default {
             gems: [{
                 element: 'water',
                 amount: 20,
-            }]
+            }],
+            items: 'pachinko/o_e1'
         },
         {
             key: 'officerjolie',
@@ -1159,7 +1222,8 @@ export default {
             gems: [{
                 element: 'fire',
                 amount: 20,
-            }]
+            }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'arielinwonderland',
@@ -1174,7 +1238,7 @@ export default {
                 element: 'nature',
                 amount: 20,
             }],
-            items: ['K4']
+            items: 'pictures/items/K4'
         },
         {
             opponent: 11,
@@ -1188,7 +1252,7 @@ export default {
                 element: 'stone',
                 amount: 20,
             }],
-            items: ['XP4']
+            items: 'pictures/items/XP4'
         },
     ],
     GPSH: [
@@ -1206,7 +1270,8 @@ export default {
             }, {
                 element: 'sun',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/design/ic_energy_quest'
         },
         {
             key: 'jimmydurano',
@@ -1223,7 +1288,8 @@ export default {
             }, {
                 element: 'light',
                 amount: 15
-            }]
+            }],
+            items: 'pictures/items/XP4'
         },
         {
             key: 'luccamazzi',
@@ -1241,6 +1307,7 @@ export default {
                 element: 'water',
                 amount: 15
             }],
+            items: 'pictures/items/K4'
         },
         {
             key: 'andrewstark',
@@ -1258,6 +1325,7 @@ export default {
                 element: 'stone',
                 amount: 15
             }],
+            items: 'pachinko/o_eq1'
         },
         {
             key: 'seanandbryce',
@@ -1272,6 +1340,7 @@ export default {
                 element: 'darkness',
                 amount: 20,
             }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
         {
             key: 'trojanpierceparis',
@@ -1286,6 +1355,7 @@ export default {
                 element: 'light',
                 amount: 20,
             }],
+            items: 'pictures/design/ic_kiss'
         },
         {
             key: 'ryanrose',
@@ -1300,6 +1370,7 @@ export default {
                 element: 'psychic',
                 amount: 20,
             }],
+            items: 'pictures/items/B4'
         },
         {
             key: 'polprince',
@@ -1314,6 +1385,7 @@ export default {
                 element: 'water',
                 amount: 20,
             }],
+            items: 'pachinko/o_e1'
         },
         {
             opponent: 9,
@@ -1327,6 +1399,7 @@ export default {
                 element: 'fire',
                 amount: 20,
             }],
+            items: 'pictures/design/girl_skills/epic_resource'
         },
     ]
 }
