@@ -50,9 +50,6 @@ class LabyrinthInfoModule extends CoreModule {
             this.addGirlIcons()
             this.addGirlOrder()
             this.addRelicsMenu()
-            if (Helpers.isCurrentPage('labyrinth-battle')) {
-                this.fasterSkipButton()
-            }
             if (Helpers.isCurrentPage('labyrinth.html')) {
                 this.addSeasonTimer()
             }
@@ -438,18 +435,6 @@ class LabyrinthInfoModule extends CoreModule {
                 $('.boss-bang-panel, .buttons-container.back-button').after($relic_panel)
             })
         }
-    }
-
-    // TODO show end state of battle
-    fasterSkipButton () {
-        Helpers.onAjaxResponse(/action=do_battles_labyrinth/i, (response) => {
-            Helpers.doWhenSelectorAvailable('#new-battle-skip-btn', () => {
-                // $('#new-battle-skip-btn').click(() => {
-                    // TODO show end state of battle
-                // })
-                $('#new-battle-skip-btn').show()
-            })
-        })
     }
 
     addSeasonTimer () {

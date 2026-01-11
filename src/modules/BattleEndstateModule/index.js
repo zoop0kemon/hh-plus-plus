@@ -156,6 +156,15 @@ class BattleEndstateModule extends CoreModule {
             $('#new-battle-skip-btn').show()
         })
 
+        Helpers.onAjaxResponse(/action=do_battles_(labyrinth|world_boss|penta_drill)/i, (response) => {
+            Helpers.doWhenSelectorAvailable('#new-battle-skip-btn, .skip-buttons-container', () => {
+                // $('#new-battle-skip-btn').click(() => {
+                    // TODO show end state of battle
+                // })
+                $('#new-battle-skip-btn, .skip-buttons-container').show()
+            })
+        })
+
         this.hasRun = true
     }
 }

@@ -309,6 +309,10 @@ class GirlDictionaryCollector {
                         collectFromGirlList([girl_data], {trusted: false})
                     }
                 }
+            } else if (Helpers.isCurrentPage('penta-drill-pre-battle')) {
+                const {opponent_fighter: {team}} = window
+                const girls = team.flatMap(team => team.girls.map(({girl}) => girl))
+                collectFromGirlList(girls, {trusted: false, could_own: false, base_stats: true})
             } else if (Helpers.isCurrentPage('pre-battle')) {
                 const {opponent_fighter} = window
                 const {team} = opponent_fighter.player || opponent_fighter

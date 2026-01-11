@@ -62,7 +62,7 @@ class HomeScreenModule extends CoreModule {
             this.addTimers()
             this.forceActivitiesTab()
             this.manageSalaryTimers()
-            this.addReplyTimer()
+            // this.addReplyTimer()
             this.addShortcuts()
 
             // if (leaguePos) {
@@ -80,6 +80,7 @@ class HomeScreenModule extends CoreModule {
 
         Sheet.registerVar('leagues-icon', `url("${Helpers.getCDNHost()}/design/menu/leaderboard.svg")`)
         Sheet.registerVar('seasons-icon', `url("${Helpers.getCDNHost()}/design/menu/seasons.svg")`)
+        Sheet.registerVar('penta-drill-icon', `url("${Helpers.getCDNHost()}/penta_drill/penta_drill.png")`)
     }
 
     setNotification(type, notification) {
@@ -155,6 +156,7 @@ class HomeScreenModule extends CoreModule {
         const {pantheon, leagues, seasons} = AvailableFeatures
         const champs = await AvailableFeatures.champs()
         const labyrinth = await AvailableFeatures.labyrinth()
+        const pentaDrill = await AvailableFeatures.pentaDrill()
 
         if (champs || pantheon || labyrinth) {
             const $pveShortcuts = $('<div class="script-home-shortcut-container"></div>')
@@ -177,13 +179,16 @@ class HomeScreenModule extends CoreModule {
             $pvePath.wrap($wrapper).after($pveShortcuts)
         }
 
-        if (leagues || seasons) {
+        if (leagues || seasons || pentaDrill) {
             const $pvpShortcuts = $('<div class="script-home-shortcut-container"></div>')
             if (leagues) {
                 $pvpShortcuts.append(shortcutHtml('leagues', '/leagues.html', GT.design.leagues, 'leagues_flat_icn'))
             }
             if (seasons) {
                 $pvpShortcuts.append(shortcutHtml('seasons', '/season.html', GT.design.Seasons, 'seasons_flat_icn'))
+            }
+            if (pentaDrill) {
+                $pvpShortcuts.append(shortcutHtml('pentadrill', '/penta-drill.html', GT.design.penta_drill, 'penta_drill_flat_icn'))
             }
 
             const $wrapper = $('<div class="quest-container"></div>')
@@ -338,12 +343,12 @@ class HomeScreenModule extends CoreModule {
         if (!$messenger.length) {return}
         const {Hero} = window.shared ? window.shared : window
         const {energies: {reply}} = Hero
-        if (!reply) { return }
+        if (!reply) {return}
 
         const type = 'reply'
-        const { amount, max_regen_amount, seconds_per_point, next_refresh_ts } = reply
+        const {amount, max_regen_amount, seconds_per_point, next_refresh_ts} = reply
 
-        const $replyTimer = Helpers.$(makeEnergyBarHTML({ type: 'reply', iconClass: 'messenger_reply_currency_icn', currentVal: amount, max: max_regen_amount, timeForSinglePoint: seconds_per_point, timeOnLoad: next_refresh_ts }))
+        const $replyTimer = Helpers.$(makeEnergyBarHTML({type: 'reply', iconClass: 'messenger_reply_currency_icn', currentVal: amount, max: max_regen_amount, timeForSinglePoint: seconds_per_point, timeOnLoad: next_refresh_ts}))
 
         $messenger.append($replyTimer)
 

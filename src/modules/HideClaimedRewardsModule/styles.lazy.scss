@@ -58,6 +58,10 @@
         > &.tier {
         display: none;
     }
+
+    .rewards_penta_drill_row &.rewards_pair {
+        display: none;
+    }
 }
 
 .no-transition {
@@ -66,4 +70,9 @@
 
 .rewards_seasons_row {
     width: max-content !important;
+}
+
+.penta-drill-container #girls_holder {
+    z-index: unset;
+    width: 30%;
 }

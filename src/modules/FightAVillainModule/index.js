@@ -81,10 +81,10 @@ class FightAVillainModule extends CoreModule {
         const filteredVillainSet = villainsSet.filter(villain => villain.world <= (queststatus.adventures?.[villain?.adventure || 1]?.questing?.id_world || 2))
         const $menu = $(`<div class="script-fight-a-villain-menu hh-scroll width-${Math.min(4, filteredVillainSet.length)}"></div>`)
 
-        filteredVillainSet.forEach(({key, girls, opponent, world, gems, items, v, adventure}) => {
+        filteredVillainSet.forEach(({key, girls, opponent, world, gems, items, v, ico, adventure}) => {
             const villainId = `${opponent ? opponent : world - 1}`
             const villainName = this.label(key)
-            const villainIcon = `${Helpers.getCDNHost()}/pictures/trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`
+            const villainIcon = `${Helpers.getCDNHost()}/pictures/${ico ? `gallery/50/230x/${ico}.png` : `trolls/${villainId}/ico1.png${v ? `?v=${v}` : ''}`}`
             const villainWorld = Helpers.getHref(queststatus.current_adventure === (adventure || 1) ? `/world/${world}` : '/adventures.html')
             const eventTrollGirls = eventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})
             const mythicTrollGirls = mythicEventTrolls.filter(({troll}) => troll === villainId).map(({id}) => {return {id, source: 'event'}})

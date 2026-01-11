@@ -48,6 +48,10 @@ class AvailableFeatures {
         return !Helpers.isHoH() && ((Helpers.isHH() || Helpers.isGH()) ? id_world >= 4 : id_world >= 3)
     }
 
+    get messenger () {
+        return Helpers.isHH()
+    }
+
     async champs () {
         if (Helpers.isHoH()) {return false}
         return await countGirls() >= 10
@@ -59,6 +63,11 @@ class AvailableFeatures {
     }
 
     async labyrinth () {
+        if (Helpers.isHoH()) {return false}
+        return await countGirls(true) >= 7
+    }
+
+    async pentaDrill () {
         if (Helpers.isHoH()) {return false}
         return await countGirls(true) >= 7
     }

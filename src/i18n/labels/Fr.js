@@ -218,6 +218,7 @@ export const villainBreadcrumbs = {
     goodbadsexy: 'Le Bon, la Brute et l\'Apollon',
     cockraiser: 'La BDH',
     websgonewild: 'Du fil à retordre',
+    fucktasticfourgasm: 'Quatre Fentes-astiquent',
 
     fukwell: 'Université de Belbaise',
     eurodick: 'Eurobite',

@@ -30,7 +30,7 @@ class TeamsFilterModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team', 'labyrinth-pool-select', 'labyrinth.html', 'edit-world-boss-team'].some(page => Helpers.isCurrentPage(page))
+        return ['edit-team', 'add-boss-bang-team', 'edit-labyrinth-team', 'labyrinth-pool-select', 'labyrinth.html', 'edit-world-boss-team', 'edit-penta-drill-team'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -41,7 +41,7 @@ class TeamsFilterModule extends CoreModule {
         Helpers.defer(() => {
             this.injectCSSVars()
 
-            this.isLabyrinth = Helpers.isCurrentPage('labyrinth') || Helpers.isCurrentPage('world-boss')
+            this.isLabyrinth = Helpers.isCurrentPage('labyrinth') || Helpers.isCurrentPage('world-boss') || Helpers.isCurrentPage('penta-drill')
             if (this.isLabyrinth) {
                 const RELIC_KEYS = Object.keys(RELIC_BONUSES)
                 if (Helpers.isCurrentPage('labyrinth')) {

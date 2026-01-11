@@ -177,6 +177,7 @@ export const villain = {
     harriet: 'Harriet',
     darthexcitor: 'Darth Excitor',
     arthur: 'Arthur',
+    venamkharney: 'Venam Kharney',
 
     edward: 'Edward',
     edernas: 'Edernas',
@@ -197,6 +198,7 @@ export const villain = {
     virtueman: 'Virtue Man',
     asmodea: 'Asmodea',
     blueballgremlin: 'Blueball Gremlin',
+    oblivia: 'Oblivia',
 
     asaakira: 'Headmistress Asa Akira',
     sammyjayne: 'Sammy Jayne',
@@ -267,6 +269,7 @@ export const villainBreadcrumbs = {
     playfullands: 'The Playful Lands',
     backinaction: 'Back in Action',
     camelot: 'Camelot',
+    postnutclarity: 'Post-Nut Clarity',
 
     begincitycxh: 'Begin City',
     heroacademy: 'Hero Academy',
@@ -281,6 +284,7 @@ export const villainBreadcrumbs = {
     goodbadsexy: 'The Good, The Bad and the Sexy',
     cockraiser: 'Cockraiser',
     websgonewild: 'Webs Gone Wild',
+    fucktasticfourgasm: 'Fucktastic Fourgasm',
 
     fukwell: 'Fukwell University',
     eurodick: 'Eurodick',

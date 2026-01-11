@@ -430,7 +430,9 @@ body > div#contains_all > header > div.energy_counter {
         z-index: 36;
 
         &.hudKiss_mix_icn,
-        &.hudWorship_mix_icn {
+        &.hudWorship_mix_icn,
+        &.hudPenta_drill_mix_icn,
+        &.energy_reply_icn {
             height: 20px;
             width: 20px;
             background-size: contain;
@@ -456,11 +458,17 @@ body > div#contains_all > header > div.energy_counter {
         &.hudWorship_mix_icn {
             left: 2px;
         }
+        &.hudPenta_drill_mix_icn {
+            left: -123px;
+            top: 23px;
+        }
     }
 
     &[type="kiss"],
     &[type="challenge"],
-    &[type="worship"] {
+    &[type="worship"],
+    &[type="drill"],
+    &[type="reply"] {
         .bar-wrapper {
             width: 114px;
             height: 16px;
@@ -506,18 +514,21 @@ body > div#contains_all > header > div.energy_counter {
             margin-top: 6px;
         }
     }
-
     &[type="worship"] {
         .bar-wrapper {
             margin-left: 11px;
         }
     }
-
-    &[type="challenge"] {
+    &[type="challenge"],
+    &[type="drill"] {
         .bar-wrapper {
             margin-left: -114px;
             margin-top: 24px;
         }
+    }
+    
+    &[type="reply"] {
+        display: none;
     }
 }
 
@@ -526,7 +537,8 @@ body > div#contains_all > header > div.script-bar-spacer {
 
     &[type="kiss"],
     &[type="challenge"],
-    &[type="worship"] {
+    &[type="worship"],
+    &[type="drill"] {
         width: 114px;
         height: 15px;
     }
@@ -540,9 +552,14 @@ body > div#contains_all > header > div.script-bar-spacer {
         margin-left: 11px;
     }
 
-    &[type="challenge"] {
+    &[type="challenge"],
+    &[type="drill"] {
         margin-left: -114px;
         margin-top: 24px;
+    }
+
+    &[type="reply"] {
+        margin: 0px;
     }
 }
 
@@ -660,7 +677,8 @@ body > div#contains_all > nav > [rel="open"] {
                     top: 9px;
                     left: 6px;
                 }
-                &.hudChallenge_mix_icn {
+                &.hudChallenge_mix_icn,
+                &.hudPenta_drill_mix_icn {
                     left: -119px;
                     top: 40px;
                 }
@@ -676,7 +694,9 @@ body > div#contains_all > nav > [rel="open"] {
 
             &[type="kiss"],
             &[type="challenge"],
-            &[type="worship"] {
+            &[type="worship"],
+            &[type="drill"],
+            &[type="reply"] {
                 .bar-wrapper {
                     height: 26px;
 
@@ -708,7 +728,8 @@ body > div#contains_all > nav > [rel="open"] {
                 }
             }
 
-            &[type="challenge"] {
+            &[type="challenge"],
+            &[type="drill"] {
                 .bar-wrapper {
                     margin-top: 36px;
                 }

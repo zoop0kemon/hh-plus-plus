@@ -134,6 +134,9 @@
 .seasons_flat_icn {
     background-image: var(--seasons-icon);
 }
+.penta_drill_flat_icn {
+    background-image: var(--penta-drill-icon);
+}
 
 .script-home-shortcut-container {
     display: flex;
@@ -162,7 +165,8 @@
     .pantheon_flat_icn,
     .labyrinth_flat_icn,
     .leagues_flat_icn,
-    .seasons_flat_icn {
+    .seasons_flat_icn,
+    .penta_drill_flat_icn {
         height: 16px;
         width: 16px;
         background-size: contain;

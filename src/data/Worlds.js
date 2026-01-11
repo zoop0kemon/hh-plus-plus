@@ -22,6 +22,7 @@ export const HH = [
     'backinaction',
     'playfullands',
     'camelot',
+    'postnutclarity',
 ]
 
 export const GH = HH
@@ -42,6 +43,7 @@ export const CxH = [
     'goodbadsexy',
     'cockraiser',
     'websgonewild',
+    'fucktasticfourgasm',
 ]
 
 export const PSH = [

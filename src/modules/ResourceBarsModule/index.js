@@ -68,12 +68,19 @@ class ResourceBarsModule extends CoreModule {
             this.betterXP()
             this.betterMoney()
             this.initTooltips()
-            const energyBarSelector = Helpers.isCurrentPage('season-arena') ? '#season_battle_user_block_kiss_energy' : '.energy_counter[type="fight"] .energy_counter_icon'
+            let energyBarSelector = '.energy_counter[type="fight"] .energy_counter_icon'
+            if (Helpers.isCurrentPage('season-arena')) {
+                energyBarSelector = '#season_battle_user_block_kiss_energy'
+            } else if (Helpers.isCurrentPage('leagues.html')) {
+                energyBarSelector = '.challenge_points.energy_counter'
+            } else if (Helpers.isCurrentPage('penta-drill-arena')) {
+                energyBarSelector = '.drill-energy-container #drill_energy'
+            }
             Helpers.doWhenSelectorAvailable(energyBarSelector, () => {
                 this.addEnergyBarShortcut()
                 this.addAdditionalBars()
             })
-            this.addPoPTimer()
+            // this.addPoPTimer()
             this.addBoosterStatus()
             this.overrideGlitter()
 
@@ -111,7 +118,8 @@ class ResourceBarsModule extends CoreModule {
             kiss: 'hudKiss_mix_icn',
             challenge: 'hudChallenge_mix_icn, .energy_counter .energy_challenge_icn',
             worship: 'hudWorship_mix_icn',
-            reply: 'energy_reply_icn'
+            reply: 'energy_reply_icn',
+            drill: 'hudPenta_drill_mix_icn'
         }
 
         Object.entries(types).forEach(([type, icon]) => {
@@ -222,12 +230,14 @@ class ResourceBarsModule extends CoreModule {
             {type: 'kiss', feature: 'seasons', iconClass: 'hudKiss_mix_icn', shortcutLink: '/season-arena.html'},
             {type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html'},
             {type: 'worship', feature: 'pantheon', iconClass: 'hudWorship_mix_icn', shortcutLink: '/pantheon.html'},
+            {type: 'reply', feature: 'messenger', iconClass: 'energy_reply_icn', shortcutLink: '/messenger.html'},
+            {type: 'drill', feature: 'pantheon', iconClass: 'hudPenta_drill_mix_icn', shortcutLink: '/penta-drill-arena.html'},
         ]
 
         let $elemToAppendAfter = $('header .energy_counter[type=fight]')
 
         barTypes.forEach(({type, feature, iconClass, shortcutLink}) => {
-            if (!AvailableFeatures[feature] || !Hero.energies[type]) {
+            if (!Hero.energies[type] || !AvailableFeatures[feature]) {
                 const $dummySpacer = $(`<div class="script-bar-spacer" type="${type}" id="canvas_${type}_energy"></div>`)
                 $elemToAppendAfter.after($dummySpacer)
                 $elemToAppendAfter = $dummySpacer

@@ -280,8 +280,8 @@ export default {
             items: 'pictures/design/ic_kiss'
         },
         {
-            opponent: 21,
-            world: 23,
+            opponent: 22,
+            world: 24,
             girls: {
                 1: [],
                 2: [],
@@ -312,11 +312,12 @@ export default {
             items: 'pictures/design/ic_energy_quest'
         },
         {
+            key: 'venamkharney',
             adventure: 2,
-            opponent: 22,
-            world: 24,
+            opponent: 21,
+            world: 23,
             girls: {
-                1: [],
+                1: ['855205805', '124967437', '755350195'],
                 2: [],
                 3: []
             },
@@ -327,7 +328,26 @@ export default {
                 element: 'light',
                 amount: 15,
             }],
-            items: 'pictures/items/XP4'
+            items: 'pictures/items/XP4',
+            ico: '21001-8b34e1074ae0fe3d71c986690d413f98'
+        },
+        {
+            adventure: 2,
+            opponent: 23,
+            world: 25,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'psychic',
+                amount: 15,
+            }, {
+                element: 'water',
+                amount: 15,
+            }],
+            items: 'pictures/items/K4'
         },
     ],
     GH: [
@@ -736,9 +756,10 @@ export default {
             items: 'pictures/items/K4'
         },
         {
+            key: 'oblivia',
             world: 14,
             girls: {
-                1: [],
+                1: ['629181593', '686202051', '107847932'],
                 2: [],
                 3: []
             },
@@ -747,6 +768,19 @@ export default {
                 amount: 25,
             }],
             items: 'pachinko/o_eq1'
+        },
+        {
+            world: 15,
+            girls: {
+                1: [],
+                2: [],
+                3: []
+            },
+            gems: [{
+                element: 'light',
+                amount: 25,
+            }],
+            items: 'pictures/design/ic_kiss'
         },
     ],
     PSH: [

@@ -18,7 +18,7 @@ class HideClaimedRewardsModule extends CoreModule {
     }
 
     shouldRun () {
-        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal', 'member-progression', 'world-boss-event'].some(page => Helpers.isCurrentPage(page))
+        return ['path-of-valor', 'path-of-glory', 'season.html', 'event.html', 'seasonal', 'member-progression', 'world-boss-event', 'penta-drill.html'].some(page => Helpers.isCurrentPage(page))
     }
 
     run () {
@@ -174,6 +174,21 @@ class HideClaimedRewardsModule extends CoreModule {
                         setupHide()
                     })
                     observer.observe($('#milestones_tab_container')[0], {attributes: true, attributeFilter: ['style']})
+                })
+            } else if (Helpers.isCurrentPage('penta-drill.html')) {
+                this.hideClaimedRewards({
+                    wait_for: '.penta-drill-timer',
+                    scroll_area: '#rewards_container',
+                    tier: '.rewards_pair',
+                    get_tiers_unlocked: () => {
+                        const {penta_drill_data: {progression: {tier}}} = window
+                        return parseInt(tier)
+                    },
+                    girl: '#girls_holder .girl_block, #girls_holder .animated-girl-display',
+                    hide: () => {
+                        $('.rewards_pair:has(.reward_claimed):not(:has(.btn_claim))').addClass('script-hide-claimed')
+                        return $('.rewards_pair:has([rel="claim"])').toArray()
+                    }
                 })
             }
         })
