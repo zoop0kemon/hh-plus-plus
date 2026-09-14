@@ -32,7 +32,7 @@ class League {
 
         if (!normalisedElements) {
             normalisedElements = []
-            const teamElementCounts = SimHelpers.countElementsInTeam([0,1,2,3,4,5,6].map(key => playerTeam.girls[key].element_data.type))
+            const teamElementCounts = SimHelpers.countElementsInTeam(SimHelpers.getTeamElementTypes(playerTeam))
             Object.entries(teamElementCounts).forEach(([type, count]) => {
                 if (count >= 3) {
                     normalisedElements.push({type})

@@ -112,8 +112,35 @@ class SimHelpers {
         return 0.3*ownHarmony/(ownHarmony+otherHarmony)
     }
 
+    static getTeamElementTypes(team) {
+        // Mirrors how League reads the opponent team: a slot can be empty and a
+        // girl can arrive without her element data. Indexing all seven slots
+        // blindly threw on a short team, and it did so inside the branch that
+        // only runs when the game did not send theme_elements, so the data was
+        // already known to be incomplete at that point.
+        if (!team || !Array.isArray(team.girls)) {
+            return []
+        }
+
+        return [0,1,2,3,4,5,6]
+            .map(slot => team.girls[slot]?.element_data?.type)
+            .filter(type => typeof type === 'string')
+    }
+
     static getSkillPercentage(team, id) {
-        return 1 + (team.girls.map(e => e.skills[id]?.skill.percentage_value ?? 0).reduce((a, b) => a+b, 0) / 100);
+        if (!team || !Array.isArray(team.girls)) {
+            return 1
+        }
+
+        // The optional chain used to start at skills[id], so a girl arriving
+        // without a skills object threw before the ?? could apply. A girl who is
+        // missing simply adds nothing, which is what the ?? 0 already meant for
+        // a girl missing this one skill.
+        const total = team.girls
+            .map(girl => girl?.skills?.[id]?.skill?.percentage_value ?? 0)
+            .reduce((a, b) => a+b, 0)
+
+        return 1 + (total / 100)
     }
 }
 
